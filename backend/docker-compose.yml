@@ -1,0 +1,9 @@
+services:
+  solvy-api:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+    volumes:
+      - .:/app
