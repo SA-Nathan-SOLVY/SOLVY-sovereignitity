@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLVY - Solutions Valued You | Economic Liberation Platform</title>
-    <meta name="description" content="Practice economic sovereignty every day. The SOLVY Card is your tool for financial independence through cooperative ownership and data sovereignty.">
+    <title>Evergreen Beauty Lounge - Licensed Texas Cosmetology Services</title>
+    <meta name="description" content="Evergreen Beauty Lounge - Licensed Texas cosmetology services. Veteran-owned, professional beauty services. Accept payments via SOLVY Card.">
     
     <style>
         * {
@@ -15,628 +15,394 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #1e293b 100%);
-            color: #ffffff;
             line-height: 1.6;
-            overflow-x: hidden;
+            color: #333;
         }
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.3) 0%, transparent 50%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 1400px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .hero-text {
-            text-align: left;
-        }
-
-        .hero-image-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-image {
-            width: 100%;
-            max-width: 600px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-logo-image {
-            width: 400px;
-            max-width: 100%;
-            margin-bottom: 2rem;
-        }
-
-        .card-showcase {
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c5f7c 0%, #4a7c8f 100%);
+            color: white;
+            padding: 3rem 2rem;
             text-align: center;
-            margin-bottom: 2rem;
-            animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .solvy-card-image {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(147, 51, 234, 0.6),
-                        0 0 40px rgba(147, 51, 234, 0.3);
-            transition: all 0.3s;
-        }
-
-        .solvy-card-image:hover {
-            transform: scale(1.05) rotateY(5deg);
-            box-shadow: 0 30px 80px rgba(147, 51, 234, 0.8),
-                        0 0 60px rgba(147, 51, 234, 0.5);
-        }
-
-        .card-label {
-            margin-top: 1rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #3b82f6;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-logo {
-            font-size: 4rem;
-            font-weight: bold;
-            background: linear-gradient(to right, #fff, #9333ea, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        .hero-tagline {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 300;
-        }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .hero-description {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 3rem;
-            line-height: 1.8;
-        }
-
-        .hero-cta {
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            gap: 1.5rem;
+            align-items: center;
             justify-content: center;
+            gap: 2rem;
             flex-wrap: wrap;
         }
 
-        .btn {
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .header-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-text p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .badge::before {
+            content: "⭐ ";
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .services-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c5f7c;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: #2c5f7c;
+        }
+
+        /* Payment CTA */
+        .payment-cta {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .payment-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn-payment {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1.25rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .btn-payment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Reign Products Section */
+        .reign-section {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .reign-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .reign-section h2::before {
+            content: "🌸 ";
+        }
+
+        .reign-description {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .reign-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto 3rem;
+        }
+
+        .reign-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .reign-feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .reign-feature-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .reign-feature-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .btn-reign {
+            display: inline-block;
+            background: white;
+            color: #8e44ad;
             padding: 1rem 3rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
             transition: all 0.3s;
-            display: inline-block;
         }
 
-        .btn-primary {
-            background: linear-gradient(to right, #9333ea, #2563eb);
-            color: #fff;
+        .btn-reign:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-primary:hover {
-            background: linear-gradient(to right, #a855f7, #3b82f6);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(147, 51, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            border: 2px solid #fff;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        /* Contact Section */
+        .contact-section {
             padding: 4rem 2rem;
+            background: #f8f9fa;
         }
 
-        /* Section */
-        .section {
-            margin-bottom: 6rem;
-        }
-
-        .section-title {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .contact-section h2 {
             text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c5f7c;
         }
 
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-bottom: 4rem;
-        }
-
-        /* Features Grid */
-        .features-grid {
+        .contact-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            margin-top: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        @media (max-width: 1024px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            text-align: center;
-            transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-icon img {
-            width: 120px;
-            height: auto;
-            margin-bottom: 1rem;
-        }
-
-        .feature-icon.card-icon img {
-            width: 200px;
+        .contact-card {
+            background: white;
+            padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .feature-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #3b82f6;
-        }
-
-        .feature-card p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        /* Roadmap */
-        .roadmap {
-            position: relative;
-            padding: 4rem 0;
-        }
-
-        .roadmap-item {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 3rem;
-            margin-bottom: 2rem;
-            border-left: 5px solid #9333ea;
-            transition: all 0.3s;
-        }
-
-        .roadmap-item:hover {
-            transform: translateX(10px);
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .roadmap-phase {
-            display: inline-block;
-            background: linear-gradient(to right, #9333ea, #2563eb);
-            color: #fff;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: bold;
+        .contact-icon {
+            font-size: 2.5rem;
             margin-bottom: 1rem;
         }
 
-        .roadmap-item h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .roadmap-item ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .roadmap-item li {
-            padding: 0.5rem 0;
-            padding-left: 2rem;
-            position: relative;
-        }
-
-        .roadmap-item li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #10B981;
-            font-weight: bold;
+        .contact-card h3 {
             font-size: 1.3rem;
+            color: #2c5f7c;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card a {
+            color: #8e44ad;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .contact-card a:hover {
+            text-decoration: underline;
         }
 
         /* Footer */
         footer {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 4rem 2rem;
+            background: #2c5f7c;
+            color: white;
+            padding: 2rem;
             text-align: center;
         }
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: #3b82f6;
-        }
-
-        .footer-social {
-            margin: 2rem 0;
-        }
-
-        .footer-social a {
-            color: #fff;
-            font-size: 2rem;
-            margin: 0 1rem;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .footer-social a:hover {
-            color: #3b82f6;
-            transform: scale(1.2);
+        footer p {
+            margin: 0.5rem 0;
+            opacity: 0.9;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero-logo {
-                font-size: 3rem;
+            .header-text h1 {
+                font-size: 1.75rem;
             }
 
-            .hero-tagline {
-                font-size: 1.8rem;
+            .logo {
+                width: 80px;
+                height: 80px;
             }
 
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .section-title {
+            .services-section h2,
+            .payment-cta h2,
+            .reign-section h2,
+            .contact-section h2 {
                 font-size: 2rem;
             }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Scroll reveal */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div id="navigation-placeholder"></div>
-
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <img src="fulllogo.png" alt="SOLVY - Solutions Valued You" class="hero-logo-image">
-                <div class="hero-logo">SOLVY</div>
-                <h1 class="hero-tagline">SOLUTIONS VALUED YOU</h1>
-                <p class="hero-subtitle">America's FIRST P2P Payment Ecosystem</p>
-                <p class="hero-description">
-                    Practice economic sovereignty every day. Through data ownership, cooperative banking, and community wealth-building, 
-                    we're creating the complete infrastructure for true financial independence.
-                </p>
-                <p class="hero-description">
-                    <strong>Your Journey:</strong> Start with the SOLVY Card → Progress to self-employment → 
-                    Achieve data sovereignty → Build autonomous income
-                </p>
-                <div class="hero-cta">
-                    <a href="https://shop.ebl.beauty" class="btn btn-primary">Get Your SOLVY Card →</a>
-                    <a href="decidey-ngo.html" class="btn btn-secondary">Learn About SOVEREIGNITITY™</a>
-                </div>
+    <!-- Header with Logo Bookends -->
+    <header>
+        <div class="header-content">
+            <img src="ebl-logo.png" alt="EBL Logo" class="logo">
+            <div class="header-text">
+                <h1>Evergreen Beauty Lounge</h1>
+                <p>Licensed Texas Cosmetology Services</p>
+                <div class="badge">Licensed Professional • Veteran-Owned</div>
             </div>
-            <div class="hero-image-container">
-                <div class="card-showcase">
-                    <img src="SOLVYCard.png" alt="SOLVY Card - Virtual & Physical" class="solvy-card-image">
-                    <p class="card-label">Virtual & Physical Card</p>
-                </div>
-                <img src="hero_payment_image.webp" alt="Woman using SOLVY Card at POS terminal" class="hero-image" style="margin-top: 2rem;">
+            <img src="ebl-logo.png" alt="EBL Logo" class="logo">
+        </div>
+    </header>
+
+    <!-- Services Section (Simplified) -->
+    <section class="services-section">
+        <h2>Professional Beauty Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">💅</div>
+                <h3>Nail Services</h3>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">💇</div>
+                <h3>Hair Services</h3>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">✨</div>
+                <h3>Spa Services</h3>
             </div>
         </div>
     </section>
 
-    <div class="container">
-        <section class="section fade-in">
-            <h2 class="section-title">Why SOLVY?</h2>
-            <p class="section-subtitle">Building pathways to economic opportunity for everyone</p>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <img src="/home/ubuntu/solvy-platform/solvy-crown-icon.png" alt="SOLVY Crown">
-                    </div>
-                    <h3>Data Sovereignty</h3>
-                    <p>Your data becomes YOUR property. Finally get paid for what's already being collected. Control your digital identity on your terms.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h3>Cooperative Ownership</h3>
-                    <p>Members profit together. When one succeeds, the entire community benefits through shared ownership and cooperative wealth building.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon card-icon">
-                        <img src="/home/ubuntu/solvy-platform/SOLVYCard.png" alt="SOLVY Card">
-                    </div>
-                    <h3>SOLVY Card</h3>
-                    <p>Your entry point to economic sovereignty. Virtual & physical debit card with NFC, AI-powered tax assistance for self-employed members.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Global Remittance</h3>
-                    <p>Zero-fee family remittances connecting diaspora communities worldwide through Web3 infrastructure.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎓</div>
-                    <h3>Financial Literacy</h3>
-                    <p>IBC/BYOB strategies, tax optimization, and proven wealth-building techniques through DECIDEY NGO education.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Transparent Governance</h3>
-                    <p>MAN (Mandatory Audit Network) ensures integrity and transparency. Every voice counts, every owner profits.</p>
-                </div>
-            </div>
-        </section>
+    <!-- Payment CTA -->
+    <section class="payment-cta">
+        <h2>👑 Pay with SOLVY Card</h2>
+        <p>Privacy-first contactless payments • NFC enabled</p>
+        <a href="payment.html" class="btn-payment">Make a Payment →</a>
+    </section>
 
-        <section id="roadmap" class="section fade-in">
-            <h2 class="section-title">Development Roadmap</h2>
-            <p class="section-subtitle">Building the future of economic sovereignty through strategic phases</p>
-            
-            <div class="roadmap">
-                <div class="roadmap-item">
-                    <span class="roadmap-phase">Phase 1: MVP Foundation</span>
-                    <h3>2025 Q1-Q2 (Current)</h3>
-                    <ul>
-                        <li>EBL Services integration</li>
-                        <li>SOLVY Card deployment</li>
-                        <li>AI Tax Assistant</li>
-                        <li>Data monetization engine</li>
-                    </ul>
-                </div>
-
-                <div class="roadmap-item">
-                    <span class="roadmap-phase">Phase 2: Education & Expansion</span>
-                    <h3>2025 Q3-Q4</h3>
-                    <ul>
-                        <li>DECIDEY NGO education platform</li>
-                        <li>Sovereignty education campaigns</li>
-                        <li>Community network building</li>
-                        <li>Regional partnerships</li>
-                    </ul>
-                </div>
-
-                <div class="roadmap-item">
-                    <span class="roadmap-phase">Phase 3: Banking Infrastructure</span>
-                    <h3>2026 Q1-Q2</h3>
-                    <ul>
-                        <li>IBC/BYOB banking education</li>
-                        <li>LIFE/MOLI program launch</li>
-                        <li>Cooperative bank infrastructure</li>
-                        <li>Policy loan system</li>
-                    </ul>
-                </div>
-
-                <div class="roadmap-item">
-                    <span class="roadmap-phase">Phase 4: Global Network</span>
-                    <h3>2026 Q3+</h3>
-                    <ul>
-                        <li>Global remittance network</li>
-                        <li>Multi-currency support</li>
-                        <li>International partnerships</li>
-                        <li>Economic sovereignty achievement</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="ecosystem" class="section fade-in">
-            <h2 class="section-title">Complete Sovereignty Ecosystem</h2>
-            <p class="section-subtitle">Your pathway from economic dependency to complete autonomy</p>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">👑</div>
-                    <h3>SOVEREIGNITITY™</h3>
-                    <p><strong>MVP - Core Platform</strong></p>
-                    <p>Self-sovereign identity meets economic empowerment. The core platform enabling complete economic autonomy through data ownership and sovereign banking.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎓</div>
-                    <h3>DECIDEY NGO</h3>
-                    <p><strong>Planned - Education</strong></p>
-                    <p>Economic sovereignty education and awareness. Educational foundation teaching sovereignty principles and preparing people for their liberation journey.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h3>MAN Network</h3>
-                    <p><strong>Vision - Community</strong></p>
-                    <p>Mandatory Audit Network. Community-driven transparency and governance ensuring integrity of all SOLVY ecosystem operations.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="section fade-in">
-            <div style="text-align: center; background: rgba(0, 0, 0, 0.3); border-radius: 20px; padding: 4rem 2rem;">
-                <h2 class="section-title">Ready to Practice SOVEREIGNITITY™?</h2>
-                <p class="section-subtitle">Join thousands building economic independence through cooperative ownership</p>
-                <div class="hero-cta">
-                    <a href="https://shop.ebl.beauty" class="btn btn-primary">Get Your SOLVY Card</a>
-                    <a href="decidey-ngo.html" class="btn btn-secondary">Learn More</a>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <footer>
-        <div class="footer-content">
-            <h3 style="font-size: 2rem; margin-bottom: 1rem;">SOLVY - Solutions Valued You</h3>
-            <p style="font-size: 1.2rem; opacity: 0.9;">Practice economic sovereignty every day</p>
-            
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="decidey-ngo.html">DECIDEY NGO</a>
-                <a href="communities.html">Communities</a>
-                <a href="remittance.html">Remittance</a>
-                <a href="solvy-card.html">SOLVY Card</a>
-            </div>
-            
-            <div class="footer-social">
-                <a href="https://www.facebook.com/SANathanLLC/" target="_blank" title="Facebook">📘</a>
-            </div>
-            
-            <p style="margin-top: 3rem; font-size: 1.1rem;">
-                <strong>Founded by SA Nathan, Service Member Veteran</strong><br>
-                Continuing the legacy of Marcus Garvey, MLK, and Malcolm X in the digital age
-            </p>
-            
-            <p style="margin-top: 2rem; opacity: 0.6;">
-                © 2025 SOLVY Platform. All rights reserved.<br>
-                Contact: sanathan@ebl.beauty | (775) 636-3656 | Fort Worth, TX
-            </p>
+    <!-- Reign Products Section -->
+    <section class="reign-section">
+        <h2>Now Offering Reign Menstrual Health Products</h2>
+        <div class="reign-description">
+            <p>Evergreen Beauty Lounge is a licensed distributor of Reign premium graphene-infused menstrual pads. Experience superior comfort, protection, and eco-friendly innovation.</p>
         </div>
-    </footer>
 
-    <script src="navigation.js"></script>
-    <script>
-        // Scroll reveal animation
-        const fadeElements = document.querySelectorAll('.fade-in');
-        
-        const fadeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        fadeElements.forEach(el => fadeObserver.observe(el));
-    </script>
+        <div class="reign-features">
+            <div class="reign-feature">
+                <div class="reign-feature-value">100%</div>
+                <div class="reign-feature-label">Premium Quality</div>
+            </div>
+
+            <div class="reign-feature">
+                <div class="reign-feature-icon">♻️</div>
+                <div class="reign-feature-label">Eco-Friendly</div>
+            </div>
+
+            <div class="reign-feature">
+                <div class="reign-feature-icon">🌸</div>
+                <div class="reign-feature-label">Women's Health</div>
+            </div>
+        </div>
+
+        <a href="https://ebl.jewelpads.com" class="btn-reign" target="_blank">Shop Reign Products →</a>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <h2>Get in Touch</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <h3>Phone</h3>
+                <a href="tel:+19294295994">(929) 429-5994</a>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">💬</div>
+                <h3>Text</h3>
+                <a href="sms:+19294295994">(929) 429-5994</a>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h3>Email</h3>
+                <a href="mailto:eva@ebl.beauty">eva@ebl.beauty</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Evergreen Beauty Lounge</strong></p>
+        <p>Licensed Texas Cosmetology Services • Veteran-Owned</p>
+        <p>A proud client of S.A. Nathan LLC • Pilot partner of SOLVY Card</p>
+        <p style="margin-top: 1rem; opacity: 0.7;">© 2025 Evergreen Beauty Lounge. All rights reserved.</p>
+    </footer>
 </body>
 </html>
