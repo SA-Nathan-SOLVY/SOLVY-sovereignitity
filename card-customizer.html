@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Card Customizer - Design Your Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #9333ea, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Card Preview Section */
+        .preview-section {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .preview-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            padding: 2rem;
+        }
+
+        /* Card Styles */
+        .solvy-card {
+            position: relative;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .solvy-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Horizontal Layout */
+        .solvy-card.horizontal {
+            width: 420px;
+            height: 265px;
+        }
+
+        /* Vertical Layout */
+        .solvy-card.vertical {
+            width: 265px;
+            height: 420px;
+        }
+
+        /* Card Elements */
+        .card-logo {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1e293b;
+            font-size: 0.8rem;
+        }
+
+        .card-nfc {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .card-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            opacity: 0.15;
+            font-weight: bold;
+            color: white;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .card-business-name {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .horizontal .card-business-name {
+            bottom: 5.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+        }
+
+        .vertical .card-business-name {
+            bottom: 8rem;
+            left: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .card-holder-name {
+            position: absolute;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .horizontal .card-holder-name {
+            bottom: 3.5rem;
+            left: 1.5rem;
+        }
+
+        .vertical .card-holder-name {
+            bottom: 5.5rem;
+            left: 1.5rem;
+        }
+
+        .card-tagline {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-number {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Courier New', monospace;
+        }
+
+        .card-network-logo {
+            position: absolute;
+            background: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .horizontal .card-network-logo {
+            bottom: 3.5rem;
+            right: 1.5rem;
+        }
+
+        .vertical .card-network-logo {
+            bottom: 3.5rem;
+            right: 1.5rem;
+        }
+
+        .card-network-logo.mastercard {
+            color: #EB001B;
+        }
+
+        .card-network-logo.visa {
+            color: #1A1F71;
+        }
+
+        /* Customization Panel */
+        .customization-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .panel-section {
+            margin-bottom: 2rem;
+        }
+
+        .panel-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #9333ea;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #9333ea;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Color Palette */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .color-option {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .color-option:hover {
+            transform: scale(1.05);
+        }
+
+        .color-option.active {
+            border-color: white;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .color-option::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            white-space: nowrap;
+            opacity: 0.7;
+        }
+
+        /* Layout Options */
+        .layout-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .layout-option {
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .layout-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .layout-option.active {
+            border-color: #9333ea;
+            background: rgba(147, 51, 234, 0.2);
+        }
+
+        .layout-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Network Options */
+        .network-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .network-option {
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .network-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .network-option.active {
+            border-color: #9333ea;
+            background: rgba(147, 51, 234, 0.2);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #3b82f6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Code Output */
+        .code-output {
+            background: #1e293b;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .code-output.show {
+            display: block;
+        }
+
+        .code-output h4 {
+            margin-bottom: 1rem;
+            color: #9333ea;
+        }
+
+        .code-output pre {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            color: #10b981;
+        }
+
+        .copy-btn {
+            float: right;
+            padding: 0.5rem 1rem;
+            background: #9333ea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .copy-btn:hover {
+            background: #7c3aed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👑 SOLVY Card Customizer</h1>
+            <p class="subtitle">Design Your Member Card - Your Brand, Our Infrastructure</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Card Preview -->
+            <div class="preview-section">
+                <h2 class="preview-title">Live Preview</h2>
+                <div class="card-container">
+                    <div class="solvy-card horizontal" id="cardPreview" style="background: linear-gradient(135deg, #a855f7, #7c3aed, #6d28d9);">
+                        <div class="card-logo" id="cardLogo">LOGO</div>
+                        <div class="card-nfc">📡</div>
+                        <div class="card-watermark">S</div>
+                        <div class="card-business-name" id="cardBusinessName">Your Business Name</div>
+                        <div class="card-holder-name" id="cardHolderName">Your Name</div>
+                        <div class="card-tagline">Solutions Valued You</div>
+                        <div class="card-number">•••• 0000</div>
+                        <div class="card-network-logo mastercard" id="cardNetwork">MC</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customization Panel -->
+            <div class="customization-panel">
+                <div class="panel-section">
+                    <h3>📝 Card Information</h3>
+                    <div class="form-group">
+                        <label for="businessName">Business Name</label>
+                        <input type="text" id="businessName" placeholder="Evergreen Beauty Lounge" maxlength="30">
+                    </div>
+                    <div class="form-group">
+                        <label for="holderName">Cardholder Name</label>
+                        <input type="text" id="holderName" placeholder="Evergreen Nathan" maxlength="25">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>🎨 Background Color</h3>
+                    <div class="color-palette">
+                        <div class="color-option active" data-color="purple" data-gradient="linear-gradient(135deg, #a855f7, #7c3aed, #6d28d9)" data-name="Purple" style="background: linear-gradient(135deg, #a855f7, #7c3aed, #6d28d9);"></div>
+                        <div class="color-option" data-color="blue" data-gradient="linear-gradient(135deg, #3b82f6, #2563eb, #1e40af)" data-name="Blue" style="background: linear-gradient(135deg, #3b82f6, #2563eb, #1e40af);"></div>
+                        <div class="color-option" data-color="green" data-gradient="linear-gradient(135deg, #10b981, #059669, #047857)" data-name="Green" style="background: linear-gradient(135deg, #10b981, #059669, #047857);"></div>
+                        <div class="color-option" data-color="orange" data-gradient="linear-gradient(135deg, #f97316, #ea580c, #c2410c)" data-name="Orange" style="background: linear-gradient(135deg, #f97316, #ea580c, #c2410c);"></div>
+                        <div class="color-option" data-color="pink" data-gradient="linear-gradient(135deg, #ec4899, #db2777, #be185d)" data-name="Pink" style="background: linear-gradient(135deg, #ec4899, #db2777, #be185d);"></div>
+                        <div class="color-option" data-color="black" data-gradient="linear-gradient(135deg, #1f2937, #111827, #000000)" data-name="Black" style="background: linear-gradient(135deg, #1f2937, #111827, #000000);"></div>
+                        <div class="color-option" data-color="teal" data-gradient="linear-gradient(135deg, #14b8a6, #0d9488, #0f766e)" data-name="Teal" style="background: linear-gradient(135deg, #14b8a6, #0d9488, #0f766e);"></div>
+                        <div class="color-option" data-color="red" data-gradient="linear-gradient(135deg, #ef4444, #dc2626, #b91c1c)" data-name="Red" style="background: linear-gradient(135deg, #ef4444, #dc2626, #b91c1c);"></div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>📐 Card Orientation</h3>
+                    <div class="layout-options">
+                        <div class="layout-option active" data-layout="horizontal">
+                            <div class="layout-icon">▬</div>
+                            <div>Horizontal</div>
+                        </div>
+                        <div class="layout-option" data-layout="vertical">
+                            <div class="layout-icon">▮</div>
+                            <div>Vertical</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>💳 Payment Network</h3>
+                    <div class="network-options">
+                        <div class="network-option active" data-network="mastercard">
+                            <div>Mastercard</div>
+                        </div>
+                        <div class="network-option" data-network="visa">
+                            <div>Visa</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="resetCard()">Reset</button>
+                    <button class="btn btn-primary" onclick="generateCode()">Generate Code</button>
+                </div>
+
+                <div class="code-output" id="codeOutput">
+                    <h4>CSS Code <button class="copy-btn" onclick="copyCode()">Copy</button></h4>
+                    <pre id="cssCode"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Card state
+        let cardConfig = {
+            businessName: 'Your Business Name',
+            holderName: 'Your Name',
+            color: 'purple',
+            gradient: 'linear-gradient(135deg, #a855f7, #7c3aed, #6d28d9)',
+            layout: 'horizontal',
+            network: 'mastercard'
+        };
+
+        // Update card preview
+        function updateCard() {
+            const card = document.getElementById('cardPreview');
+            const businessName = document.getElementById('cardBusinessName');
+            const holderName = document.getElementById('cardHolderName');
+            const network = document.getElementById('cardNetwork');
+
+            // Update background
+            card.style.background = cardConfig.gradient;
+
+            // Update layout
+            card.className = `solvy-card ${cardConfig.layout}`;
+
+            // Update text
+            businessName.textContent = cardConfig.businessName || 'Your Business Name';
+            holderName.textContent = cardConfig.holderName || 'Your Name';
+
+            // Update network logo
+            if (cardConfig.network === 'mastercard') {
+                network.textContent = 'MC';
+                network.className = 'card-network-logo mastercard';
+            } else {
+                network.textContent = 'VISA';
+                network.className = 'card-network-logo visa';
+            }
+        }
+
+        // Event listeners
+        document.getElementById('businessName').addEventListener('input', (e) => {
+            cardConfig.businessName = e.target.value;
+            updateCard();
+        });
+
+        document.getElementById('holderName').addEventListener('input', (e) => {
+            cardConfig.holderName = e.target.value;
+            updateCard();
+        });
+
+        // Color selection
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                cardConfig.color = this.dataset.color;
+                cardConfig.gradient = this.dataset.gradient;
+                updateCard();
+            });
+        });
+
+        // Layout selection
+        document.querySelectorAll('.layout-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.layout-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                cardConfig.layout = this.dataset.layout;
+                updateCard();
+            });
+        });
+
+        // Network selection
+        document.querySelectorAll('.network-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.network-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                cardConfig.network = this.dataset.network;
+                updateCard();
+            });
+        });
+
+        // Reset card
+        function resetCard() {
+            cardConfig = {
+                businessName: 'Your Business Name',
+                holderName: 'Your Name',
+                color: 'purple',
+                gradient: 'linear-gradient(135deg, #a855f7, #7c3aed, #6d28d9)',
+                layout: 'horizontal',
+                network: 'mastercard'
+            };
+            document.getElementById('businessName').value = '';
+            document.getElementById('holderName').value = '';
+            document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+            document.querySelector('.color-option[data-color="purple"]').classList.add('active');
+            document.querySelectorAll('.layout-option').forEach(o => o.classList.remove('active'));
+            document.querySelector('.layout-option[data-layout="horizontal"]').classList.add('active');
+            document.querySelectorAll('.network-option').forEach(o => o.classList.remove('active'));
+            document.querySelector('.network-option[data-network="mastercard"]').classList.add('active');
+            document.getElementById('codeOutput').classList.remove('show');
+            updateCard();
+        }
+
+        // Generate CSS code
+        function generateCode() {
+            const code = `/* SOLVY Card - ${cardConfig.businessName} */
+.solvy-card {
+    background: ${cardConfig.gradient};
+    ${cardConfig.layout === 'horizontal' ? 'width: 420px; height: 265px;' : 'width: 265px; height: 420px;'}
+    border-radius: 16px;
+    position: relative;
+    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Card Configuration */
+Business Name: ${cardConfig.businessName}
+Cardholder: ${cardConfig.holderName}
+Color: ${cardConfig.color}
+Layout: ${cardConfig.layout}
+Network: ${cardConfig.network}`;
+
+            document.getElementById('cssCode').textContent = code;
+            document.getElementById('codeOutput').classList.add('show');
+        }
+
+        // Copy code
+        function copyCode() {
+            const code = document.getElementById('cssCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy', 2000);
+            });
+        }
+    </script>
+</body>
+</html>
