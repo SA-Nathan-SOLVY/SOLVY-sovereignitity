@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import UnifiedNav from './UnifiedNav'
 
 function App() {
   const [currentCard, setCurrentCard] = useState(0)
@@ -21,26 +22,8 @@ function App() {
 
   return (
     <div className="app">
-      {/* Navigation */}
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="nav-logo">
-            <img src="/solvy-crown-icon.png" alt="SOLVY" className="logo-image" />
-            <span className="logo-text">SOLVY</span>
-          </div>
-          <div className="nav-links">
-            <a href="#home">Home</a>
-            <a href="#card">SOLVY Card</a>
-            <a href="#sovereignitity">SOVEREIGNITITY™</a>
-            <a href="https://ebl.beauty" target="_blank" rel="noopener">EBL Pilot</a>
-            <a href="#decidey">DECIDEY NGO</a>
-            <a href="#remittance">Remittance</a>
-          </div>
-          <div className="nav-cta">
-            <button className="btn-primary">Get Your Card</button>
-          </div>
-        </div>
-      </nav>
+      {/* Unified Navigation */}
+      <UnifiedNav currentPage="nitty" />
 
       {/* Hero Section */}
       <section className="hero" id="home">
