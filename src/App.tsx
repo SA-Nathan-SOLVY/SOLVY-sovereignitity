@@ -25,7 +25,7 @@ function App() {
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-logo">
-            <span className="crown-icon">👑</span>
+            <img src="/solvy-crown-icon.png" alt="SOLVY" className="logo-image" />
             <span className="logo-text">SOLVY</span>
           </div>
           <div className="nav-links">
@@ -279,9 +279,7 @@ function App() {
         <div className="container">
           <div className="footer-content">
             <div className="footer-brand">
-              <span className="crown-icon">👑</span>
-              <span className="logo-text">SOLVY</span>
-              <p>Solutions Valued You</p>
+              <img src="/solvy-logo.png" alt="SOLVY - Solutions Valued You" className="footer-logo" />
             </div>
             <div className="footer-links">
               <div className="footer-column">

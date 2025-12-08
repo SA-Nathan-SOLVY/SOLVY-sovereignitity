@@ -46,6 +46,11 @@ body {
   font-weight: bold;
 }
 
+.logo-image {
+  height: 40px;
+  width: auto;
+}
+
 .crown-icon {
   font-size: 1.8rem;
 }
@@ -525,6 +530,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.footer-logo {
+  max-width: 200px;
+  height: auto;
 }
 
 .footer-brand p {
