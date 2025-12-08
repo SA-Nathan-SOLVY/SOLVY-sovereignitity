@@ -9,8 +9,7 @@ function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
     <nav className="unified-navbar">
       <div className="unified-nav-container">
         <a href="https://nitty.ebl.beauty" className="unified-nav-logo">
-          <img src="/solvy-crown-icon.png" alt="SOLVY" className="unified-logo-image" />
-          <span className="unified-logo-text">SOLVY</span>
+          <img src="/SolvyLogo-1024.png" alt="SOLVY" className="unified-logo-image" />
         </a>
         
         <div className="unified-nav-links">
@@ -33,7 +32,13 @@ function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
             EBL Pilot
           </a>
           <a href="#sovereignitity">SOVEREIGNITITY™</a>
-          <a href="#remittance">Remittance</a>
+          <div className="nav-dropdown">
+            <a href="#remittance" className="dropdown-toggle">Remittance ▼</a>
+            <div className="dropdown-menu">
+              <a href="https://remittance.ebl.beauty">Global Network</a>
+              <a href="https://nitty.ebl.beauty#remittance">Overview</a>
+            </div>
+          </div>
         </div>
         
         <div className="unified-nav-cta">
