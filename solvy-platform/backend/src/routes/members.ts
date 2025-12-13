@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { memberStore, CreateMemberInput } from '../models/Member'
+import { emailService } from '../services/emailService'
 import Stripe from 'stripe'
 
 const router = Router()
@@ -60,6 +61,19 @@ router.post('/signup', async (req: Request, res: Response) => {
     })
 
     const updatedMember = await memberStore.findById(member.id)
+
+    // Send welcome email
+    try {
+      await emailService.sendWelcomeEmail({
+        to: email,
+        firstName,
+        lastName
+      })
+      console.log('Welcome email sent to:', email)
+    } catch (emailError) {
+      console.error('Failed to send welcome email:', emailError)
+      // Don't fail signup if email fails
+    }
 
     res.status(201).json({
       success: true,
