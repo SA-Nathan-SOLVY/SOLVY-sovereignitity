@@ -127,7 +127,7 @@ See [shop-ebl-backend/README.md](shop-ebl-backend/README.md) for detailed backen
 ### Payment Processing
 
 - **Stripe Integration**: Secure payment processing
-- **MailCow Notifications**: Email alerts to Eva for customer contact
+- **Resend email integration**: Email alerts to Eva for customer contact (send/receive emails)
 - **Phone Capture**: Connect customers with service provider
 - **No Data Storage**: Customer data managed by Stripe (security first)
 
