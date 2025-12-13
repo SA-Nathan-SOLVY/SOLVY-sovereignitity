@@ -35,6 +35,7 @@ function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
           <a href="https://remittance.ebl.beauty">Remittance</a>
           <a href="https://decidey.ebl.beauty/sps-upload">SPS Upload</a>
           <a href="https://decidey.ebl.beauty/man.html">MAN</a>
+          <a href="https://sites.google.com/view/uplift-ascend-partnership-ebl/home" target="_blank" style={{ color: '#fbbf24', fontWeight: 600 }}>Uplift Ascend</a>
         </div>
         
         <div className="unified-nav-cta">
