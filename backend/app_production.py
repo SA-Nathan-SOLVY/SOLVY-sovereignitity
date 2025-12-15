@@ -8,6 +8,21 @@ sys.path.insert(0, str(backend_dir))
 
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
+import stripe 
+
+# === OPENBAO SECRET LOADING ===
+# Load Stripe API key from OpenBao Agent file or fallback to environment variable
+try:
+    with open('/vault/secrets/stripe_api_key', 'r') as f:
+        stripe.api_key = f.read().strip()
+        print("✅ Stripe API key loaded successfully from OpenBao")
+except FileNotFoundError:
+    # Fallback to environment variable for development without OpenBao
+    stripe.api_key = os.getenv('STRIPE_SECRET_KEY', '')
+    if stripe.api_key:
+        print("⚠️  Stripe API key loaded from environment variable (OpenBao not detected)")
+    else:
+        print("❌ WARNING: No Stripe API key found in OpenBao or environment variables")
 
 # Create Flask app
 app = Flask(__name__)

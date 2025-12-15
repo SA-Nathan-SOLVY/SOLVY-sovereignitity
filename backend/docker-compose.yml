@@ -1,9 +1,34 @@
+
 services:
   solvy-api:
     build: .
     ports:
       - "5001:5001"
-    environment:
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+    # Important: We removed the STRIPE_SECRET_KEY environment variable
     volumes:
       - .:/app
+      # This volume allows the agent to pass the secret to your app
+      - ./secrets:/vault/secrets:ro
+    # The sleep gives the agent time to fetch the secret before app starts
+    command: ["sh", "-c", "sleep 3 && gunicorn app_production:app --bind 0.0.0.0:5001"]
+    depends_on:
+      - bao-agent
+
+  bao-agent:
+    image: openbao/openbao:latest
+    container_name: bao-agent
+    volumes:
+      # Mount the agent config file we created
+      - ./bao-agent-config.hcl:/etc/bao/bao-agent-config.hcl:ro
+      # Mount the shared secrets directory
+      - ./secrets:/vault/secrets:rw
+      # Mount the authentication files (role-id and secret-id)
+      - ./role-id:/etc/bao/role-id:ro
+      - ./secret-id:/etc/bao/secret-id:ro
+    environment:
+      # Tell the agent where to find your OpenBao dev server
+      BAO_ADDR: "http://host.docker.internal:8200"
+    # Command to run the agent with our config
+    command: ["agent", "-config=/etc/bao/bao-agent-config.hcl", "-log-level=info"]
+    # Restart policy helps if the agent has temporary connection issues
+    restart: on-failure:3
