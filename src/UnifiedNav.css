@@ -179,3 +179,103 @@
     font-size: 0.9rem;
   }
 }
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1002;
+}
+
+.hamburger {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #ffffff;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  background: #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger::before {
+  transform: translateY(-8px);
+}
+
+.hamburger::after {
+  transform: translateY(8px);
+}
+
+/* Hamburger Animation */
+.hamburger.open {
+  background: transparent;
+}
+
+.hamburger.open::before {
+  transform: rotate(45deg);
+}
+
+.hamburger.open::after {
+  transform: rotate(-45deg);
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 1024px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .unified-nav-links {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 72px; /* Height of the navbar */
+    right: -100%;
+    width: 100%;
+    height: calc(100vh - 72px); /* Full height minus navbar */
+    background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    transition: right 0.3s ease-in-out;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 999; /* Below the navbar (z-index 1000) */
+    overflow-y: auto; /* Allow scrolling if menu is tall */
+  }
+
+  .unified-nav-links.mobile-open {
+    right: 0;
+  }
+
+  .unified-nav-links a {
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .unified-nav-links a:last-child {
+    border-bottom: none;
+  }
+
+  .unified-nav-links a.active::after {
+    display: none;
+  }
+
+  .unified-nav-cta {
+    display: none; /* Hide CTA in header on mobile, it's usually in hero */
+  }
+}

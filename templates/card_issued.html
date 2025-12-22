@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Card is Ready</title>
+  <style>
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f5; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; margin-top: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    /* Uniform Deep Navy Header */
+    .header { background-color: #0B172A; padding: 0; text-align: center; }
+    .main-logo { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    .content { padding: 40px 30px; color: #334155; line-height: 1.6; }
+    .h1 { color: #4c1d95; font-size: 24px; margin-bottom: 20px; font-weight: 700; }
+    .button { display: inline-block; background-color: #fbbf24; color: #4c1d95; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 20px; }
+    .footer { background-color: #f8fafc; padding: 20px 30px; border-top: 1px solid #e2e8f0; }
+    .footer-logos { display: table; width: 100%; margin-bottom: 20px; }
+    .footer-left { display: table-cell; text-align: left; vertical-align: middle; }
+    .footer-right { display: table-cell; text-align: right; vertical-align: middle; }
+    .footer-logo-img { height: 50px; width: auto; }
+    .copyright { text-align: center; font-size: 12px; color: #64748b; margin-top: 20px; }
+    .card-preview { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 12px; padding: 20px; color: white; margin: 20px 0; text-align: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://nitty.ebl.beauty/fulllogo.png" alt="SOLVY - Solution Valued You" class="main-logo">
+    </div>
+    <div class="content">
+      <h1 class="h1">Your SOLVY Card is Ready</h1>
+      <p>Dear {{name}},</p>
+      <p>Congratulations! Your digital SOLVY Card has been issued.</p>
+      <p>This card is your entry point to the <strong>SOVEREIGNITITY™</strong> journey.</p>
+      
+      <div class="card-preview">
+        <div style="font-size: 18px; letter-spacing: 2px; margin-bottom: 10px;">SOLVY</div>
+        <div style="font-size: 24px; margin: 20px 0;">•••• •••• •••• {{last4}}</div>
+        <div style="font-size: 14px; opacity: 0.8;">{{name}}</div>
+      </div>
+
+      <p><strong>Next Steps:</strong></p>
+      <ul>
+        <li>Add it to your digital wallet (Apple Pay / Google Pay).</li>
+        <li>Your physical card is being prepared for shipment.</li>
+        <li>You can view your full card details securely in the dashboard.</li>
+      </ul>
+      <a href="https://decidey.ebl.beauty/cards" class="button">View Card Details</a>
+    </div>
+    <div class="footer">
+      <div class="footer-logos">
+        <div class="footer-left">
+          <!-- Crown S Logo (Left) -->
+          <img src="https://nitty.ebl.beauty/SolvyLogo-1024.png" alt="SOLVY Crown" class="footer-logo-img">
+        </div>
+        <div class="footer-right">
+          <!-- EBL Pink Circle Logo (Right) -->
+          <img src="https://nitty.ebl.beauty/E-dotlogocopy.png" alt="Evergreen Beauty Lounge" class="footer-logo-img">
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Evergreen Beauty Lounge / SOLVY. All rights reserved.</p>
+        <p>If you did not request this card, please contact support immediately.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
