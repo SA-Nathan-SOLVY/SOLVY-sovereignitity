@@ -3,14 +3,9 @@ import { WaitlistForm } from '../components/WaitlistForm'
 
 function Decidey() {
   return (
-    <div className="app">
+    <div className="min-h-screen bg-[#0B172A] text-white">
       <UnifiedNav currentPage="decidey" />
-      <div style={{ 
-        minHeight: '100vh', 
-        background: '#1a2332',
-        color: 'white',
-        paddingTop: '80px'
-      }}>
+      <div className="pt-20">
         <div className="container mx-auto px-4 py-12" style={{ maxWidth: '1200px' }}>
           
           {/* Header */}
