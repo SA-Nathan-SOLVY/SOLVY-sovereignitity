@@ -15,7 +15,7 @@ export default function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
   const navLinks = [
     { href: '/solvy-card', label: 'SOLVY Card', active: window.location.pathname === '/solvy-card' },
     { href: '/sps-presentation', label: 'SPS Joint Venture', active: window.location.pathname === '/sps-presentation' },
-    { href: 'https://ebl.beauty', label: 'EBL Pilot', active: currentPage === 'ebl' },
+    { href: 'https://ebl.beauty', label: 'EBL Pilot', active: currentPage === 'ebl', target: '_blank', rel: 'noopener noreferrer' },
     // MAN Dropdown Logic Handled Separately in Render
     { href: 'https://sites.google.com/view/uplift-ascend-partnership-ebl/home', label: 'Local Community Projects', active: false, style: { color: '#fbbf24' } },
   ];
@@ -71,11 +71,11 @@ export default function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
                 onMouseLeave={() => setIsManOpen(false)}
               >
                 <div className="py-2">
-                  <a href="https://decidey.ebl.beauty/man.html" className="block px-4 py-3 text-sm text-slate-300 hover:bg-purple-500/20 hover:text-white transition-colors">
-                    Transparency Report
-                  </a>
                   <a href="/communications" className="block px-4 py-3 text-sm text-slate-300 hover:bg-purple-500/20 hover:text-white transition-colors">
                     Communications Center
+                  </a>
+                  <a href="/sps-presentation" className="block px-4 py-3 text-sm text-slate-300 hover:bg-purple-500/20 hover:text-white transition-colors">
+                    SPS Modernized Content
                   </a>
                 </div>
               </div>
@@ -127,11 +127,11 @@ export default function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
             {/* MAN Mobile Dropdown Items */}
             <div className="space-y-1 pt-2 border-t border-slate-800/50">
               <div className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">MAN Ecosystem</div>
-              <a href="https://decidey.ebl.beauty/man.html" className="block px-4 py-3 rounded-lg text-base font-medium text-slate-200 hover:text-white hover:bg-slate-800">
-                Transparency Report
-              </a>
               <a href="/communications" className="block px-4 py-3 rounded-lg text-base font-medium text-slate-200 hover:text-white hover:bg-slate-800">
                 Communications Center
+              </a>
+              <a href="/sps-presentation" className="block px-4 py-3 rounded-lg text-base font-medium text-slate-200 hover:text-white hover:bg-slate-800">
+                SPS Modernized Content
               </a>
             </div>
 
