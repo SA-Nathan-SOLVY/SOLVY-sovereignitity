@@ -85,7 +85,7 @@ export default function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
           {/* CTA Button (Desktop) */}
           <div className="hidden lg:block">
             <a 
-              href="https://nitty.ebl.beauty/signup.html" 
+              href="/request-card" 
               className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2.5 rounded-lg font-bold hover:shadow-lg hover:shadow-purple-500/30 transition-all hover:-translate-y-0.5"
             >
               Get Your Card
@@ -137,7 +137,7 @@ export default function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
 
             <div className="pt-4 mt-4 border-t border-slate-800">
               <a 
-                href="https://nitty.ebl.beauty/signup.html" 
+                href="/request-card" 
                 className="block w-full text-center bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-bold"
               >
                 Get Your Card
