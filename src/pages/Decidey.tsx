@@ -1,143 +1,70 @@
 import UnifiedNav from '../UnifiedNav'
 import { WaitlistForm } from '../components/WaitlistForm'
+import { Facebook, Youtube, BookOpen, Users, Shield, ArrowUpRight } from 'lucide-react'
 
 function Decidey() {
   return (
     <div className="min-h-screen bg-[#0B172A] text-white">
       <UnifiedNav currentPage="decidey" />
       <div className="pt-20">
-        <div className="container mx-auto px-4 py-12" style={{ maxWidth: '1200px' }}>
+        <div className="container mx-auto px-4 py-12 max-w-7xl">
           
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 style={{ 
-              fontSize: '4rem', 
-              fontWeight: 'bold', 
-              marginBottom: '0.5rem',
-              background: 'linear-gradient(135deg, #a78bfa 0%, #ec4899 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
+            <h1 className="text-6xl font-bold mb-2 bg-gradient-to-br from-purple-400 to-pink-500 bg-clip-text text-transparent">
               DECIDEY NGO
             </h1>
-            <p style={{ 
-              fontSize: '1.5rem', 
-              color: '#a78bfa',
-              fontStyle: 'italic',
-              marginBottom: '1rem'
-            }}>
+            <p className="text-2xl text-purple-400 italic mb-4">
               /dee-see-day/
             </p>
-            <p style={{ 
-              fontSize: '1.25rem', 
-              color: '#cbd5e1',
-              maxWidth: '900px',
-              margin: '0 auto',
-              lineHeight: '1.8'
-            }}>
+            <p className="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
               <strong>D</strong>ecentralized <strong>E</strong>mpowerment <strong>C</strong>ontrol <strong>I</strong>dentity <strong>D</strong>ata <strong>E</strong>conomy of <strong>Y</strong>ours
             </p>
           </div>
 
           {/* Mission Statement */}
-          <div
-            style={{
-              background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)',
-              borderRadius: '16px',
-              padding: '3rem',
-              border: '2px solid rgba(139, 92, 246, 0.4)',
-              marginBottom: '4rem'
-            }}
-          >
-              <h2 style={{ 
-              fontSize: '2rem', 
-              fontWeight: 'bold', 
-              marginBottom: '1.5rem',
-              color: 'white',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem'
-            }}>
-              <span style={{ fontSize: '32px' }}>🛡️</span>
+          <div className="bg-gradient-to-br from-purple-600/20 to-pink-500/20 rounded-2xl p-12 border-2 border-purple-500/40 mb-16">
+            <h2 className="text-3xl font-bold mb-6 text-white flex items-center gap-4">
+              <Shield className="w-8 h-8 text-purple-400" />
               Our Mission
             </h2>
-            <p style={{ 
-              fontSize: '1.25rem', 
-              color: '#cbd5e1',
-              lineHeight: '1.8',
-              marginBottom: '1.5rem'
-            }}>
+            <p className="text-xl text-slate-300 leading-relaxed mb-6">
               Breaking systemic barriers through education and digital rights advocacy. Continuing the legacy of Marcus Garvey, MLK, and Malcolm X in the modern era of economic sovereignty and data ownership.
             </p>
-            <p style={{ 
-              fontSize: '1.25rem', 
-              color: '#cbd5e1',
-              lineHeight: '1.8'
-            }}>
+            <p className="text-xl text-slate-300 leading-relaxed">
               DECIDEY NGO empowers communities to achieve true financial independence through cooperative ownership, self-sovereign identity, and control over their digital economy.
             </p>
           </div>
 
           {/* Three Pillars */}
-          <div
-            style={{ marginBottom: '4rem' }}
-          >
-            <h2 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: 'bold', 
-              marginBottom: '2rem',
-              textAlign: 'center',
-              color: 'white'
-            }}>
+          <div className="mb-16">
+            <h2 className="text-4xl font-bold mb-8 text-center text-white">
               Our Three Pillars
             </h2>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-              gap: '2rem' 
-            }}>
-                {[
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
                 {
-                  icon: '📚',
+                  icon: <BookOpen className="w-12 h-12 text-purple-400" />,
                   title: 'Education',
                   description: 'Teaching financial literacy, cooperative economics, and digital sovereignty to empower communities with knowledge and tools for economic independence.'
                 },
                 {
-                  icon: '👥',
+                  icon: <Users className="w-12 h-12 text-pink-400" />,
                   title: 'Advocacy',
                   description: 'Fighting for digital rights, data ownership, and economic justice. Amplifying voices of marginalized communities in the Web3 revolution.'
                 },
                 {
-                  icon: '🛡️',
+                  icon: <Shield className="w-12 h-12 text-blue-400" />,
                   title: 'Digital Rights',
                   description: 'Protecting self-sovereign identity, ensuring data privacy, and building systems that serve people, not corporations.'
                 }
               ].map((pillar, idx) => (
-                <div key={idx} style={{
-                  background: 'rgba(139, 92, 246, 0.15)',
-                  borderRadius: '12px',
-                  padding: '2rem',
-                  border: '1px solid rgba(139, 92, 246, 0.3)',
-                  transition: 'transform 0.3s ease'
-                }}>
-                  <div style={{ 
-                    fontSize: '48px',
-                    marginBottom: '1rem' 
-                  }}>{pillar.icon}</div>
-                  <h3 style={{ 
-                    fontSize: '1.75rem', 
-                    fontWeight: 'bold', 
-                    marginBottom: '1rem',
-                    color: 'white'
-                  }}>
+                <div key={idx} className="bg-purple-500/15 rounded-xl p-8 border border-purple-500/30 hover:scale-105 transition-transform duration-300">
+                  <div className="mb-4">{pillar.icon}</div>
+                  <h3 className="text-2xl font-bold mb-4 text-white">
                     {pillar.title}
                   </h3>
-                  <p style={{ 
-                    fontSize: '1.1rem', 
-                    color: '#cbd5e1',
-                    lineHeight: '1.6'
-                  }}>
+                  <p className="text-lg text-slate-300 leading-relaxed">
                     {pillar.description}
                   </p>
                 </div>
@@ -146,28 +73,11 @@ function Decidey() {
           </div>
 
           {/* Legacy Section */}
-          <div
-            style={{
-              background: 'rgba(34, 197, 94, 0.15)',
-              borderRadius: '16px',
-              padding: '3rem',
-              border: '2px solid rgba(34, 197, 94, 0.3)',
-              marginBottom: '4rem'
-            }}
-          >
-            <h2 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: 'bold', 
-              marginBottom: '2rem',
-              color: 'white'
-            }}>
+          <div className="bg-green-500/15 rounded-2xl p-12 border-2 border-green-500/30 mb-16">
+            <h2 className="text-4xl font-bold mb-8 text-white">
               Continuing the Legacy
             </h2>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-              gap: '2rem' 
-            }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
                   name: 'Marcus Garvey',
@@ -182,25 +92,11 @@ function Decidey() {
                   legacy: 'Self-determination and building independent economic systems'
                 }
               ].map((leader, idx) => (
-                <div key={idx} style={{
-                  padding: '1.5rem',
-                  background: 'rgba(34, 197, 94, 0.1)',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(34, 197, 94, 0.2)'
-                }}>
-                  <h3 style={{ 
-                    fontSize: '1.5rem', 
-                    fontWeight: 'bold', 
-                    marginBottom: '0.75rem',
-                    color: '#4ade80'
-                  }}>
+                <div key={idx} className="p-6 bg-green-500/10 rounded-lg border border-green-500/20">
+                  <h3 className="text-2xl font-bold mb-3 text-green-400">
                     {leader.name}
                   </h3>
-                  <p style={{ 
-                    fontSize: '1.1rem', 
-                    color: '#cbd5e1',
-                    lineHeight: '1.6'
-                  }}>
+                  <p className="text-lg text-slate-300 leading-relaxed">
                     {leader.legacy}
                   </p>
                 </div>
@@ -209,139 +105,56 @@ function Decidey() {
           </div>
 
           {/* Connect Section */}
-          <div
-            style={{
-              background: 'rgba(59, 130, 246, 0.15)',
-              borderRadius: '16px',
-              padding: '3rem',
-              border: '2px solid rgba(59, 130, 246, 0.3)',
-              marginBottom: '4rem'
-            }}
-          >
-            <h2 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: 'bold', 
-              marginBottom: '2rem',
-              color: 'white'
-            }}>
+          <div className="bg-blue-500/15 rounded-2xl p-12 border-2 border-blue-500/30 mb-16">
+            <h2 className="text-4xl font-bold mb-8 text-white">
               Connect with SA Nathan
             </h2>
-            <div style={{ 
-              display: 'flex', 
-              flexDirection: 'column',
-              gap: '1.5rem' 
-            }}>
+            <div className="flex flex-col gap-6">
               <a 
                 href="https://www.facebook.com/sanathan.solvy" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  padding: '1.5rem',
-                  background: 'rgba(59, 130, 246, 0.2)',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(59, 130, 246, 0.4)',
-                  textDecoration: 'none',
-                  color: 'white',
-                  transition: 'transform 0.3s ease, background 0.3s ease'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = 'translateX(10px)'
-                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.3)'
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = 'translateX(0)'
-                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)'
-                }}
+                className="flex items-center gap-4 p-6 bg-blue-500/20 rounded-xl border border-blue-500/40 text-white hover:translate-x-2 hover:bg-blue-500/30 transition-all duration-300 group"
               >
-                <span style={{ fontSize: '32px' }}>📘</span>
+                <Facebook className="w-8 h-8 text-blue-400" />
                 <div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: '600' }}>Facebook</div>
-                  <div style={{ fontSize: '1rem', color: '#cbd5e1' }}>@sanathan.solvy</div>
+                  <div className="text-xl font-semibold">Facebook</div>
+                  <div className="text-base text-slate-300">@sanathan.solvy</div>
                 </div>
-                <span style={{ fontSize: '20px', marginLeft: 'auto' }}>↗</span>
+                <ArrowUpRight className="w-6 h-6 ml-auto text-blue-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </a>
 
-              <div style={{
-                padding: '2rem',
-                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.15) 100%)',
-                borderRadius: '16px',
-                border: '2px solid rgba(239, 68, 68, 0.4)'
-              }}>
-                <div style={{ 
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  marginBottom: '1.5rem'
-                }}>
-                  <span style={{ fontSize: '48px' }}>📺</span>
+              <div className="p-8 bg-gradient-to-br from-red-500/20 to-red-600/15 rounded-2xl border-2 border-red-500/40">
+                <div className="flex items-center gap-4 mb-6">
+                  <Youtube className="w-12 h-12 text-red-500" />
                   <div>
-                    <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'white' }}>YouTube 2024 Recap</div>
-                    <div style={{ fontSize: '1.1rem', color: '#fca5a5' }}>SA Nathan's Learning Journey</div>
+                    <div className="text-3xl font-bold text-white">YouTube 2024 Recap</div>
+                    <div className="text-lg text-red-300">SA Nathan's Learning Journey</div>
                   </div>
                 </div>
                 
-                <div style={{
-                  background: 'rgba(0, 0, 0, 0.3)',
-                  borderRadius: '12px',
-                  padding: '2rem',
-                  marginBottom: '1.5rem',
-                  border: '1px solid rgba(239, 68, 68, 0.3)'
-                }}>
-                  <h3 style={{ 
-                    fontSize: '2rem', 
-                    fontWeight: 'bold', 
-                    marginBottom: '1rem',
-                    color: '#fbbf24',
-                    textAlign: 'center'
-                  }}>
+                <div className="bg-black/30 rounded-xl p-8 mb-6 border border-red-500/30">
+                  <h3 className="text-3xl font-bold mb-4 text-yellow-400 text-center">
                     Financial
                   </h3>
-                  <p style={{ 
-                    fontSize: '1.25rem', 
-                    color: '#e5e7eb',
-                    lineHeight: '1.8',
-                    textAlign: 'center',
-                    marginBottom: '2rem'
-                  }}>
+                  <p className="text-xl text-slate-200 leading-relaxed text-center mb-8">
                     You've been learning about smart investing and financial strategies to build wealth
                   </p>
                   
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                    gap: '1rem'
-                  }}>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {[
-                      { topic: 'personal finance', gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' },
-                      { topic: 'investment strategies', gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' },
-                      { topic: 'economic trends', gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }
+                      { topic: 'personal finance', gradient: 'from-yellow-400 to-amber-500' },
+                      { topic: 'investment strategies', gradient: 'from-blue-500 to-blue-600' },
+                      { topic: 'economic trends', gradient: 'from-emerald-500 to-emerald-600' }
                     ].map((item, idx) => (
-                      <div key={idx} style={{
-                        background: item.gradient,
-                        borderRadius: '8px',
-                        padding: '1rem',
-                        textAlign: 'center',
-                        fontWeight: '600',
-                        fontSize: '1.1rem',
-                        color: 'white',
-                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)'
-                      }}>
+                      <div key={idx} className={`bg-gradient-to-br ${item.gradient} rounded-lg p-4 text-center font-semibold text-lg text-white shadow-lg`}>
                         {item.topic}
                       </div>
                     ))}
                   </div>
                 </div>
                 
-                <p style={{ 
-                  fontSize: '1rem', 
-                  color: '#cbd5e1',
-                  lineHeight: '1.6',
-                  textAlign: 'center',
-                  fontStyle: 'italic'
-                }}>
+                <p className="text-base text-slate-300 leading-relaxed text-center italic">
                   This learning journey directly informs DECIDEY NGO's mission to teach financial literacy and economic sovereignty to underserved communities.
                 </p>
               </div>
@@ -349,31 +162,12 @@ function Decidey() {
           </div>
 
           {/* Waitlist Section */}
-          <div
-            id="waitlist"
-            style={{
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)',
-              borderRadius: '16px',
-              padding: '3rem',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              marginBottom: '4rem'
-            }}
-          >
+          <div id="waitlist" className="bg-gradient-to-br from-white/5 to-white/2 rounded-2xl p-12 border border-white/10 mb-16">
             <div className="text-center mb-8">
-              <h2 style={{ 
-                fontSize: '2.5rem', 
-                fontWeight: 'bold', 
-                marginBottom: '1rem',
-                color: 'white'
-              }}>
+              <h2 className="text-4xl font-bold mb-4 text-white">
                 Join the Movement
               </h2>
-              <p style={{ 
-                fontSize: '1.25rem', 
-                color: '#cbd5e1',
-                maxWidth: '600px',
-                margin: '0 auto'
-              }}>
+              <p className="text-xl text-slate-300 max-w-2xl mx-auto">
                 Be the first to know when we launch. Early members get special perks.
               </p>
             </div>
@@ -381,27 +175,11 @@ function Decidey() {
           </div>
 
           {/* Research Resources */}
-          <div
-            style={{
-              background: 'rgba(168, 85, 247, 0.15)',
-              borderRadius: '16px',
-              padding: '3rem',
-              border: '2px solid rgba(168, 85, 247, 0.3)'
-            }}
-          >
-            <h2 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: 'bold', 
-              marginBottom: '2rem',
-              color: 'white'
-            }}>
+          <div className="bg-purple-500/15 rounded-2xl p-12 border-2 border-purple-500/30">
+            <h2 className="text-4xl font-bold mb-8 text-white">
               Research & Resources
             </h2>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-              gap: '1.5rem' 
-            }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
                   title: 'Cooperative Economics',
@@ -419,47 +197,17 @@ function Decidey() {
                   topics: ['Reparations', 'Wealth gap', 'Financial literacy']
                 }
               ].map((resource, idx) => (
-                <div key={idx} style={{
-                  padding: '1.5rem',
-                  background: 'rgba(168, 85, 247, 0.1)',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(168, 85, 247, 0.3)'
-                }}>
-                  <h3 style={{ 
-                    fontSize: '1.5rem', 
-                    fontWeight: 'bold', 
-                    marginBottom: '0.75rem',
-                    color: '#a78bfa'
-                  }}>
+                <div key={idx} className="p-6 bg-purple-500/10 rounded-xl border border-purple-500/30">
+                  <h3 className="text-2xl font-bold mb-3 text-purple-400">
                     {resource.title}
                   </h3>
-                  <p style={{ 
-                    fontSize: '1rem', 
-                    color: '#cbd5e1',
-                    marginBottom: '1rem',
-                    lineHeight: '1.6'
-                  }}>
+                  <p className="text-base text-slate-300 mb-4 leading-relaxed">
                     {resource.description}
                   </p>
-                  <ul style={{ 
-                    listStyle: 'none', 
-                    padding: 0,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.5rem'
-                  }}>
+                  <ul className="space-y-2">
                     {resource.topics.map((topic, tidx) => (
-                      <li key={tidx} style={{ 
-                        fontSize: '0.95rem',
-                        color: '#94a3b8',
-                        paddingLeft: '1.5rem',
-                        position: 'relative'
-                      }}>
-                        <span style={{
-                          position: 'absolute',
-                          left: 0,
-                          color: '#4ade80'
-                        }}>✓</span>
+                      <li key={tidx} className="text-sm text-slate-400 pl-6 relative">
+                        <span className="absolute left-0 text-green-400">✓</span>
                         {topic}
                       </li>
                     ))}

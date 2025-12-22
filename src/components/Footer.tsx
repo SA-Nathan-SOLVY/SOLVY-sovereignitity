@@ -18,10 +18,10 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-4 text-[#fbbf24]">Ecosystem</h3>
             <ul className="space-y-2 text-slate-400">
-              <li><a href="https://nitty.ebl.beauty" className="hover:text-white transition-colors">SOLVY Card</a></li>
-              <li><a href="https://decidey.ebl.beauty" className="hover:text-white transition-colors">DECIDEY NGO</a></li>
-              <li><a href="https://ebl.beauty" className="hover:text-white transition-colors">EBL Pilot</a></li>
-              <li><a href="https://remittance.ebl.beauty" className="hover:text-white transition-colors">Global Remittance</a></li>
+              <li><a href="/solvy-card" className="hover:text-white transition-colors">SOLVY Card</a></li>
+              <li><a href="/" className="hover:text-white transition-colors">DECIDEY NGO</a></li>
+              <li><a href="https://ebl.beauty" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">EBL Pilot</a></li>
+              <li><a href="/communications" className="hover:text-white transition-colors">Communications</a></li>
             </ul>
           </div>
           
