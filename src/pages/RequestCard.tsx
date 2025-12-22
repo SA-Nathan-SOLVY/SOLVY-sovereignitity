@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import UnifiedNav from '../UnifiedNav';
-import { CheckCircle, CreditCard, Shield, Lock } from 'lucide-react';
+import { CheckCircle, CreditCard, Shield, Lock, Loader2 } from 'lucide-react';
 
 export default function RequestCard() {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
@@ -21,6 +21,7 @@ export default function RequestCard() {
     idNumber: '',
     agreed: false
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const cards = [
@@ -68,7 +69,7 @@ export default function RequestCard() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCard) {
       alert('Please select a card design first.');
@@ -78,46 +79,89 @@ export default function RequestCard() {
       alert('Please agree to the Terms of Service.');
       return;
     }
-    // Simulate API call
-    setSubmitted(true);
-    window.scrollTo(0, 0);
+
+    setIsSubmitting(true);
+
+    try {
+      // If physical card is selected, initiate Stripe Checkout
+      if (physicalCard) {
+        const response = await fetch('/api/stripe/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            name: `${formData.firstName} ${formData.lastName}`,
+            physicalCard: true
+          })
+        });
+        
+        const { url } = await response.json();
+        if (url) {
+          window.location.href = url;
+          return;
+        }
+      }
+
+      // Simulate API delay for non-payment flow
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      setSubmitted(true);
+      window.scrollTo(0, 0);
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
     return (
       <div className="min-h-screen bg-slate-900 text-white">
         <UnifiedNav />
-        <div className="flex flex-col items-center justify-center min-h-[80vh] px-4 text-center">
-          <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-6 animate-bounce">
-            <CheckCircle className="w-10 h-10 text-green-400" />
+        <div className="flex flex-col items-center justify-center min-h-[80vh] px-4 text-center animate-fade-in">
+          <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mb-8 animate-bounce">
+            <CheckCircle className="w-12 h-12 text-green-400" />
           </div>
-          <h1 className="text-4xl font-bold mb-4">Welcome to the Movement!</h1>
-          <p className="text-xl text-slate-400 max-w-lg mb-8">
-            Thank you, {formData.firstName}. Your request for the <span className="text-purple-400 font-semibold">{cards.find(c => c.id === selectedCard)?.name}</span> has been received.
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
+            Application Received!
+          </h1>
+          <p className="text-xl text-slate-300 max-w-lg mb-10 leading-relaxed">
+            Welcome to the movement, <span className="text-white font-semibold">{formData.firstName}</span>. Your request for the <span className="text-purple-400 font-semibold">{cards.find(c => c.id === selectedCard)?.name}</span> is being processed.
           </p>
-          <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 max-w-md w-full mb-8 text-left">
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-              <CreditCard className="w-5 h-5 text-blue-400" /> Next Steps
+          
+          <div className="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 max-w-md w-full mb-10 text-left shadow-xl">
+            <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-slate-700 pb-4">
+              <CreditCard className="w-5 h-5 text-blue-400" /> Application Status
             </h3>
-            <ul className="space-y-3 text-slate-300 text-sm">
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-green-400 mt-0.5" />
-                <span>Identity verification in progress (usually instant)</span>
+            <ul className="space-y-4 text-slate-300">
+              <li className="flex items-start gap-3">
+                <div className="mt-1"><CheckCircle className="w-5 h-5 text-green-400" /></div>
+                <div>
+                  <span className="font-semibold text-white">Identity Verification</span>
+                  <p className="text-xs text-slate-400 mt-0.5">In progress (usually instant)</p>
+                </div>
               </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-green-400 mt-0.5" />
-                <span>Virtual card details will be emailed securely</span>
+              <li className="flex items-start gap-3">
+                <div className="mt-1"><CheckCircle className="w-5 h-5 text-green-400" /></div>
+                <div>
+                  <span className="font-semibold text-white">Virtual Card Issuance</span>
+                  <p className="text-xs text-slate-400 mt-0.5">Details will be emailed securely</p>
+                </div>
               </li>
               {physicalCard && (
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400 mt-0.5" />
-                  <span>Physical card shipping to {formData.city}, {formData.state} (7-10 days)</span>
+                <li className="flex items-start gap-3">
+                  <div className="mt-1"><CheckCircle className="w-5 h-5 text-green-400" /></div>
+                  <div>
+                    <span className="font-semibold text-white">Physical Card Shipping</span>
+                    <p className="text-xs text-slate-400 mt-0.5">Shipping to {formData.city}, {formData.state} (7-10 days)</p>
+                  </div>
                 </li>
               )}
             </ul>
           </div>
-          <a href="/" className="bg-purple-600 hover:bg-purple-500 text-white px-8 py-3 rounded-xl font-medium transition-all">
-            Return Home
+          
+          <a href="/" className="bg-purple-600 hover:bg-purple-500 text-white px-10 py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-purple-500/25">
+            Return to Dashboard
           </a>
         </div>
       </div>
@@ -138,7 +182,15 @@ export default function RequestCard() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-12">
+        <form onSubmit={handleSubmit} className="space-y-12 relative">
+          {isSubmitting && (
+            <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center rounded-3xl">
+              <Loader2 className="w-16 h-16 text-purple-500 animate-spin mb-4" />
+              <p className="text-xl font-bold text-white">Processing Application...</p>
+              <p className="text-slate-400 mt-2">Please do not close this window.</p>
+            </div>
+          )}
+
           {/* Step 1: Select Card */}
           <div className="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-6 md:p-8">
             <div className="flex items-center gap-4 mb-6">
@@ -430,15 +482,24 @@ export default function RequestCard() {
 
             <button
               type="submit"
-              disabled={!selectedCard || !formData.agreed}
+              disabled={!selectedCard || !formData.agreed || isSubmitting}
               className={`w-full md:w-auto md:min-w-[300px] flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-lg font-bold transition-all duration-300 ${
-                selectedCard && formData.agreed
+                selectedCard && formData.agreed && !isSubmitting
                   ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-lg hover:shadow-purple-500/40 hover:-translate-y-1' 
                   : 'bg-slate-800 text-slate-500 cursor-not-allowed'
               }`}
             >
-              <Shield className="w-5 h-5" />
-              Complete Signup & Get My Card
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <Shield className="w-5 h-5" />
+                  Complete Signup & Get My Card
+                </>
+              )}
             </button>
           </div>
         </form>
