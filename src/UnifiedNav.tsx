@@ -107,7 +107,7 @@ export default function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-20 left-0 w-full bg-slate-900/98 border-b border-slate-800 shadow-xl animate-in slide-in-from-top-5">
+        <div className="lg:hidden fixed inset-0 top-20 z-50 bg-slate-900/98 backdrop-blur-xl border-t border-slate-800 overflow-y-auto animate-in slide-in-from-top-5">
           <div className="px-4 pt-2 pb-6 space-y-2">
             {navLinks.map((link) => (
               <a

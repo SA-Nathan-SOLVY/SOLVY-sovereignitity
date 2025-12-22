@@ -11,7 +11,7 @@ function Decidey() {
           
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-6xl font-bold mb-2 bg-gradient-to-br from-purple-400 to-pink-500 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-6xl font-bold mb-2 bg-gradient-to-br from-purple-400 to-pink-500 bg-clip-text text-transparent">
               DECIDEY NGO
             </h1>
             <p className="text-2xl text-purple-400 italic mb-4">
@@ -23,7 +23,7 @@ function Decidey() {
           </div>
 
           {/* Mission Statement */}
-          <div className="bg-gradient-to-br from-purple-600/20 to-pink-500/20 rounded-2xl p-12 border-2 border-purple-500/40 mb-16">
+          <div className="bg-gradient-to-br from-purple-600/20 to-pink-500/20 rounded-2xl p-6 md:p-12 border-2 border-purple-500/40 mb-12 md:mb-16">
             <h2 className="text-3xl font-bold mb-6 text-white flex items-center gap-4">
               <Shield className="w-8 h-8 text-purple-400" />
               Our Mission
@@ -73,7 +73,7 @@ function Decidey() {
           </div>
 
           {/* Legacy Section */}
-          <div className="bg-green-500/15 rounded-2xl p-12 border-2 border-green-500/30 mb-16">
+          <div className="bg-green-500/15 rounded-2xl p-6 md:p-12 border-2 border-green-500/30 mb-12 md:mb-16">
             <h2 className="text-4xl font-bold mb-8 text-white">
               Continuing the Legacy
             </h2>
@@ -105,7 +105,7 @@ function Decidey() {
           </div>
 
           {/* Connect Section */}
-          <div className="bg-blue-500/15 rounded-2xl p-12 border-2 border-blue-500/30 mb-16">
+          <div className="bg-blue-500/15 rounded-2xl p-6 md:p-12 border-2 border-blue-500/30 mb-12 md:mb-16">
             <h2 className="text-4xl font-bold mb-8 text-white">
               Connect with SA Nathan
             </h2>
@@ -162,7 +162,7 @@ function Decidey() {
           </div>
 
           {/* Waitlist Section */}
-          <div id="waitlist" className="bg-gradient-to-br from-white/5 to-white/2 rounded-2xl p-12 border border-white/10 mb-16">
+          <div id="waitlist" className="bg-gradient-to-br from-white/5 to-white/2 rounded-2xl p-6 md:p-12 border border-white/10 mb-12 md:mb-16">
             <div className="text-center mb-8">
               <h2 className="text-4xl font-bold mb-4 text-white">
                 Join the Movement
@@ -175,7 +175,7 @@ function Decidey() {
           </div>
 
           {/* Research Resources */}
-          <div className="bg-purple-500/15 rounded-2xl p-12 border-2 border-purple-500/30">
+          <div className="bg-purple-500/15 rounded-2xl p-6 md:p-12 border-2 border-purple-500/30">
             <h2 className="text-4xl font-bold mb-8 text-white">
               Research & Resources
             </h2>
