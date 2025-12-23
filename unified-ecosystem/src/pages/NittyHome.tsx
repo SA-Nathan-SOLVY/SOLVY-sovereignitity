@@ -9,6 +9,29 @@ function NittyHome() {
   const [showNfcDemo, setShowNfcDemo] = useState(false)
   const [privacyMode, setPrivacyMode] = useState(false)
   const [p2pConnected, setP2pConnected] = useState(true)
+  const [cardColor, setCardColor] = useState('#1a1a2e')
+  const [customLogo, setCustomLogo] = useState<string | null>(null)
+  const [showCustomization, setShowCustomization] = useState(false)
+
+  const colorOptions = [
+    { name: 'Royal Purple', value: '#1a1a2e' },
+    { name: 'Deep Blue', value: '#0d1b3e' },
+    { name: 'Forest Green', value: '#0d2818' },
+    { name: 'Burgundy', value: '#2d1a1a' },
+    { name: 'Midnight Black', value: '#0a0a0a' },
+    { name: 'Ocean Teal', value: '#0d2b2b' },
+  ]
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setCustomLogo(e.target?.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
   
   const cards = [
     { name: 'SOLVY Business Card - Mastercard', image: '/SOV.png', type: 'Business', network: 'Mastercard' },
@@ -57,8 +80,20 @@ function NittyHome() {
 
             <div className="vc-main">
               <div className="vc-card-container">
-                <div className={`vc-card ${showNfcDemo ? 'nfc-active' : ''}`}>
+                <div 
+                  className={`vc-card ${showNfcDemo ? 'nfc-active' : ''}`}
+                  style={{ 
+                    '--card-color': cardColor,
+                    boxShadow: `0 20px 60px ${cardColor}66, 0 0 40px ${cardColor}33`
+                  } as React.CSSProperties}
+                >
+                  <div className="card-color-overlay" style={{ backgroundColor: cardColor }}></div>
                   <img src={cards[currentCard].image} alt={cards[currentCard].name} />
+                  {customLogo && (
+                    <div className="custom-logo-overlay">
+                      <img src={customLogo} alt="Your logo" />
+                    </div>
+                  )}
                   {showNfcDemo && (
                     <div className="nfc-animation">
                       <div className="nfc-wave"></div>
@@ -78,6 +113,50 @@ function NittyHome() {
                 <button onClick={handleNfcDemo} className="nfc-demo-btn">
                   📱 Tap to Pay Demo
                 </button>
+
+                <button onClick={() => setShowCustomization(!showCustomization)} className="customize-btn">
+                  🎨 Customize Card
+                </button>
+
+                {showCustomization && (
+                  <div className="customization-panel">
+                    <h4>Personalize Your Card</h4>
+                    <p className="customize-note">Crown background stays for SOLVY branding</p>
+                    
+                    <div className="color-selection">
+                      <label>Card Color Theme</label>
+                      <div className="color-options">
+                        {colorOptions.map((color) => (
+                          <button
+                            key={color.value}
+                            className={`color-swatch ${cardColor === color.value ? 'selected' : ''}`}
+                            style={{ backgroundColor: color.value }}
+                            onClick={() => setCardColor(color.value)}
+                            title={color.name}
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="logo-upload">
+                      <label>Upload Your Logo</label>
+                      <div className="upload-area">
+                        {customLogo ? (
+                          <div className="logo-preview">
+                            <img src={customLogo} alt="Custom logo" />
+                            <button onClick={() => setCustomLogo(null)} className="remove-logo">✕</button>
+                          </div>
+                        ) : (
+                          <label className="upload-btn">
+                            <input type="file" accept="image/*" onChange={handleLogoUpload} hidden />
+                            📤 Choose Logo
+                          </label>
+                        )}
+                      </div>
+                      <p className="upload-hint">PNG or JPG, max 2MB</p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="vc-balance-container">

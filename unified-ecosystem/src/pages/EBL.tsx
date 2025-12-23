@@ -14,8 +14,11 @@ function EBL() {
       {/* Hero Section */}
       <section className="ebl-hero">
         <div className="ebl-hero-content">
-          <img src="/fulllogo.png" alt="EBL Logo" className="ebl-hero-logo" />
-          <h1>Evergreen Beauty Lounge</h1>
+          <div className="ebl-title-bookend">
+            <img src="/ebl-logo.png" alt="EBL Logo" className="ebl-bookend-logo" />
+            <h1>Evergreen Beauty Lounge</h1>
+            <img src="/ebl-logo.png" alt="EBL Logo" className="ebl-bookend-logo" />
+          </div>
           <p className="ebl-tagline">Licensed Texas Cosmetology Services</p>
           <div className="ebl-badge">Licensed Professional • Veteran-Owned • SOLVY Pilot Partner #1</div>
           <p className="ebl-proof-statement">

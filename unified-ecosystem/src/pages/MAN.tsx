@@ -7,6 +7,19 @@ function MAN() {
   const [emailSubject, setEmailSubject] = useState('')
   const [emailBody, setEmailBody] = useState('')
   const [sendStatus, setSendStatus] = useState('')
+  const [selectedEmail, setSelectedEmail] = useState<number | null>(null)
+  const [inboxFilter, setInboxFilter] = useState('all')
+
+  const emails = [
+    { id: 1, from: 'Eva Martinez', subject: 'Welcome to SOLVY Cooperative!', preview: 'Thank you for joining our community. Your application has been approved...', time: '2 min ago', unread: true, category: 'system' },
+    { id: 2, from: 'SOLVY Support', subject: 'Your SOLVY Card Has Shipped', preview: 'Great news! Your SOLVY Card is on its way. Expected delivery in 3-5 business days...', time: '1 hour ago', unread: true, category: 'system' },
+    { id: 3, from: 'Evergreen Beauty Lounge', subject: 'Appointment Confirmation - Dec 28', preview: 'Your appointment has been confirmed for December 28th at 2:00 PM...', time: '3 hours ago', unread: false, category: 'business' },
+    { id: 4, from: 'SOLVY Treasury', subject: 'Q4 Profit Sharing Statement', preview: 'As a cooperative owner, here is your quarterly profit sharing statement...', time: 'Yesterday', unread: false, category: 'financial' },
+    { id: 5, from: 'SPS Joint Venture', subject: 'Inventory Update - Week 52', preview: 'Weekly inventory report is now available. 23 items processed this week...', time: 'Dec 20', unread: false, category: 'business' },
+    { id: 6, from: 'SOLVY Network', subject: 'New Member Referral Bonus', preview: 'You earned a referral bonus! $25 has been credited to your account...', time: 'Dec 18', unread: false, category: 'financial' },
+  ]
+
+  const filteredEmails = inboxFilter === 'all' ? emails : emails.filter(e => e.category === inboxFilter)
 
   const handleSendEmail = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -111,7 +124,7 @@ function MAN() {
               <h3>📱 Channels</h3>
               <p>Multi-channel communication</p>
               <ul>
-                <li>Email (Resend)</li>
+                <li>Email</li>
                 <li>SMS Notifications</li>
                 <li>In-App Messages</li>
                 <li>Push Notifications</li>
@@ -124,102 +137,130 @@ function MAN() {
       {/* Email Center */}
       <section className="man-email" id="email">
         <div className="container">
-          <h2>Email Center (Resend)</h2>
-          <p>Modern email infrastructure powered by Resend for reliable delivery</p>
+          <h2>Email Center</h2>
+          <p>Your unified inbox for all cooperative communications</p>
 
-          <div className="email-section">
-            <div className="email-compose">
-              <h3>Compose Email</h3>
-              <form onSubmit={handleSendEmail}>
-                <div className="form-group">
-                  <label>To</label>
-                  <input 
-                    type="email" 
-                    placeholder="member@email.com or select segment"
-                    value={emailTo}
-                    onChange={(e) => setEmailTo(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Subject</label>
-                  <input 
-                    type="text" 
-                    placeholder="Email subject"
-                    value={emailSubject}
-                    onChange={(e) => setEmailSubject(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Message</label>
-                  <textarea 
-                    placeholder="Write your message..."
-                    rows={6}
-                    value={emailBody}
-                    onChange={(e) => setEmailBody(e.target.value)}
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn-send" disabled={sendStatus === 'sending'}>
-                  {sendStatus === 'sending' ? 'Sending...' : 'Send Email'}
+          <div className="inbox-container">
+            <div className="inbox-sidebar">
+              <button className="compose-btn" onClick={() => setSelectedEmail(-1)}>
+                ✏️ Compose
+              </button>
+              <div className="inbox-folders">
+                <button className={`folder-btn ${inboxFilter === 'all' ? 'active' : ''}`} onClick={() => setInboxFilter('all')}>
+                  📥 All Mail <span className="count">{emails.length}</span>
                 </button>
-                {sendStatus === 'success' && (
-                  <p className="send-success">✓ Email sent successfully!</p>
-                )}
-              </form>
+                <button className={`folder-btn ${inboxFilter === 'system' ? 'active' : ''}`} onClick={() => setInboxFilter('system')}>
+                  🔔 System <span className="count">{emails.filter(e => e.category === 'system').length}</span>
+                </button>
+                <button className={`folder-btn ${inboxFilter === 'business' ? 'active' : ''}`} onClick={() => setInboxFilter('business')}>
+                  💼 Business <span className="count">{emails.filter(e => e.category === 'business').length}</span>
+                </button>
+                <button className={`folder-btn ${inboxFilter === 'financial' ? 'active' : ''}`} onClick={() => setInboxFilter('financial')}>
+                  💰 Financial <span className="count">{emails.filter(e => e.category === 'financial').length}</span>
+                </button>
+              </div>
+              <div className="inbox-stats">
+                <div className="stat-item">
+                  <span className="stat-num">{emails.filter(e => e.unread).length}</span>
+                  <span className="stat-label">Unread</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-num">{emails.length}</span>
+                  <span className="stat-label">Total</span>
+                </div>
+              </div>
             </div>
 
-            <div className="email-templates">
-              <h3>Quick Templates</h3>
-              <div className="template-list">
-                <button className="template-btn" onClick={() => {
-                  setEmailSubject('Welcome to SOLVY Cooperative!')
-                  setEmailBody('Welcome to the SOLVY cooperative family! Your card application has been approved...')
-                }}>
-                  Welcome Email
-                </button>
-                <button className="template-btn" onClick={() => {
-                  setEmailSubject('Your SOLVY Card Has Shipped')
-                  setEmailBody('Great news! Your SOLVY Card is on its way...')
-                }}>
-                  Card Shipped
-                </button>
-                <button className="template-btn" onClick={() => {
-                  setEmailSubject('Quarterly Profit Sharing Statement')
-                  setEmailBody('As a cooperative owner, here is your quarterly profit sharing statement...')
-                }}>
-                  Profit Sharing
-                </button>
-                <button className="template-btn" onClick={() => {
-                  setEmailSubject('Payment Receipt from EBL')
-                  setEmailBody('Thank you for your payment at Evergreen Beauty Lounge...')
-                }}>
-                  Payment Receipt
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="resend-features">
-            <h3>Powered by Resend</h3>
-            <div className="feature-grid">
-              <div className="feature-item">
-                <span className="feature-icon">⚡</span>
-                <span>Fast Delivery</span>
-              </div>
-              <div className="feature-item">
-                <span className="feature-icon">📈</span>
-                <span>Analytics</span>
-              </div>
-              <div className="feature-item">
-                <span className="feature-icon">🔒</span>
-                <span>Secure</span>
-              </div>
-              <div className="feature-item">
-                <span className="feature-icon">✅</span>
-                <span>Deliverability</span>
-              </div>
+            <div className="inbox-main">
+              {selectedEmail === -1 ? (
+                <div className="compose-view">
+                  <h3>New Message</h3>
+                  <form onSubmit={handleSendEmail}>
+                    <div className="form-group">
+                      <label>To</label>
+                      <input 
+                        type="email" 
+                        placeholder="member@email.com"
+                        value={emailTo}
+                        onChange={(e) => setEmailTo(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Subject</label>
+                      <input 
+                        type="text" 
+                        placeholder="Email subject"
+                        value={emailSubject}
+                        onChange={(e) => setEmailSubject(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Message</label>
+                      <textarea 
+                        placeholder="Write your message..."
+                        rows={8}
+                        value={emailBody}
+                        onChange={(e) => setEmailBody(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="compose-actions">
+                      <button type="submit" className="btn-send" disabled={sendStatus === 'sending'}>
+                        {sendStatus === 'sending' ? 'Sending...' : 'Send'}
+                      </button>
+                      <button type="button" className="btn-cancel" onClick={() => setSelectedEmail(null)}>Cancel</button>
+                    </div>
+                    {sendStatus === 'success' && <p className="send-success">✓ Sent!</p>}
+                  </form>
+                </div>
+              ) : selectedEmail !== null ? (
+                <div className="email-view">
+                  <button className="back-btn" onClick={() => setSelectedEmail(null)}>← Back to Inbox</button>
+                  {(() => {
+                    const email = emails.find(e => e.id === selectedEmail)
+                    if (!email) return null
+                    return (
+                      <>
+                        <div className="email-header">
+                          <h3>{email.subject}</h3>
+                          <div className="email-meta">
+                            <span className="email-from">From: {email.from}</span>
+                            <span className="email-time">{email.time}</span>
+                          </div>
+                        </div>
+                        <div className="email-body">
+                          <p>{email.preview}</p>
+                          <p>This is the full email content that would be displayed here. The cooperative keeps you informed about all important updates, transactions, and community activities.</p>
+                        </div>
+                        <div className="email-actions">
+                          <button className="action-btn">↩️ Reply</button>
+                          <button className="action-btn">↪️ Forward</button>
+                          <button className="action-btn">🗑️ Delete</button>
+                        </div>
+                      </>
+                    )
+                  })()}
+                </div>
+              ) : (
+                <div className="email-list">
+                  {filteredEmails.map(email => (
+                    <div 
+                      key={email.id} 
+                      className={`email-item ${email.unread ? 'unread' : ''}`}
+                      onClick={() => setSelectedEmail(email.id)}
+                    >
+                      <div className="email-sender">{email.from}</div>
+                      <div className="email-content">
+                        <div className="email-subject">{email.subject}</div>
+                        <div className="email-preview">{email.preview}</div>
+                      </div>
+                      <div className="email-time">{email.time}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
