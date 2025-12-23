@@ -11,11 +11,17 @@ This is a multi-project monorepo containing the SOLVY SOVEREIGNITITY economic li
 - `shop-ebl-backend/` - Node.js API backend
 
 ## Key Pages
-- **SOLVY Card** (`/`) - Main landing, membership application, KYC/AML compliance
-- **Evergreen Beauty Lounge** (`/ebl`) - Eva's business, SOLVY Pilot Partner #1, proof of concept
+- **SOLVY Card** (`/`) - Main landing with 4-card carousel, NFC tap demo, virtual card view with customization (color themes + logo upload), P2P privacy mode
+- **Evergreen Beauty Lounge** (`/ebl`) - Eva's business with logo bookends, SOLVY Pilot Partner #1, proof of concept
 - **SPS Joint Venture** (`/sps`) - Pilot Partner #2, reverse inventory tracking with Excel/CSV upload
-- **MAN** (`/man`) - Member Action Network, operations dashboard, Resend email integration
+- **MAN** (`/man`) - Member Action Network, operations dashboard, modernized email inbox center
 - **DECIDEY NGO** - Education site link
+
+## Features
+- **Virtual Card View**: After member approval, shows card with NFC tap-to-pay demo, transaction history, P2P toggle
+- **Military-Grade Privacy**: Balance auto-hides when P2P network is detached
+- **Card Customization**: 6 color themes + custom logo upload (Crown background preserved for SOLVY branding)
+- **Email Center**: Modern inbox UI with folders (All/System/Business/Financial), compose, email view with actions
 
 ## Running the Project
 The main frontend runs on port 5000 using Vite dev server:
