@@ -35,5 +35,5 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "static"
-build = ["npm", "run", "build"]
+build = ["bash", "-c", "cd unified-ecosystem && npm run build"]
 publicDir = "unified-ecosystem/dist"
