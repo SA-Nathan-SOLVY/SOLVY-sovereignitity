@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import './UnifiedNav.css'
 
 interface UnifiedNavProps {
-  currentPage?: 'solvy' | 'decidey' | 'ebl' | 'sps' | 'man' | 'admin'
+  currentPage?: 'solvy' | 'decidey' | 'ebl' | 'sps' | 'man' | 'admin' | 'remittance'
 }
 
 function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
