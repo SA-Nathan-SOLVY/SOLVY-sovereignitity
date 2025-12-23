@@ -15,7 +15,7 @@ This is a multi-project monorepo containing the SOLVY SOVEREIGNITITY economic li
 - **Evergreen Beauty Lounge** (`/ebl`) - Eva's business with logo bookends, SOLVY Pilot Partner #1, proof of concept
 - **SPS Joint Venture** (`/sps`) - Pilot Partner #2, reverse inventory tracking with Excel/CSV upload
 - **MAN** (`/man`) - Mandatory Audit Network, transparency hub for members, modernized email inbox center
-- **DECIDEY NGO** - Education site link
+- **DECIDEY NGO** (`/decidey`) - Education site with prelaunch activities, FB connection, YouTube educator network, response templates
 
 ## Features
 - **Virtual Card View**: After member approval, shows card with NFC tap-to-pay demo, transaction history, P2P toggle

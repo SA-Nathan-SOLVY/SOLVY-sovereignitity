@@ -144,6 +144,231 @@
   box-shadow: 0 10px 30px rgba(167, 139, 250, 0.3);
 }
 
+.section-intro {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #c4b5fd;
+  margin-bottom: 40px;
+}
+
+.prelaunch-section, .research-section, .templates-section {
+  padding: 80px 20px;
+}
+
+.prelaunch-section {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.prelaunch-section h2, .research-section h2, .templates-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.prelaunch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.prelaunch-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 30px;
+  transition: all 0.3s;
+}
+
+.prelaunch-card:hover {
+  transform: translateY(-5px);
+  border-color: #a78bfa;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.prelaunch-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.prelaunch-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #c4b5fd;
+}
+
+.prelaunch-card p {
+  color: #e0e7ff;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.prelaunch-link {
+  display: inline-block;
+  margin-top: 15px;
+  color: #a78bfa;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.prelaunch-link:hover {
+  color: #c4b5fd;
+}
+
+.research-section {
+  background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
+}
+
+.youtube-recap {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 40px;
+}
+
+.youtube-recap h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #c4b5fd;
+}
+
+.youtube-recap > p {
+  color: #e0e7ff;
+  margin-bottom: 30px;
+}
+
+.educator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.educator-category {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 10px;
+  border-left: 3px solid #a78bfa;
+}
+
+.educator-category h4 {
+  font-size: 1.1rem;
+  color: #a78bfa;
+  margin-bottom: 15px;
+}
+
+.educator-category ul {
+  list-style: none;
+  padding: 0;
+}
+
+.educator-category li {
+  padding: 8px 0;
+  color: #e0e7ff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.educator-category li:last-child {
+  border-bottom: none;
+}
+
+.facebook-feed {
+  text-align: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+}
+
+.facebook-feed h3 {
+  font-size: 1.5rem;
+  color: #c4b5fd;
+  margin-bottom: 15px;
+}
+
+.facebook-feed p {
+  max-width: 700px;
+  margin: 0 auto 25px;
+  color: #e0e7ff;
+  line-height: 1.7;
+}
+
+.templates-section {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.template-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 25px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.template-card:hover {
+  border-color: #a78bfa;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.template-card.selected {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.template-card h3 {
+  font-size: 1.2rem;
+  color: #c4b5fd;
+  margin-bottom: 10px;
+}
+
+.template-subject {
+  font-size: 0.9rem;
+  color: #a78bfa;
+  font-style: italic;
+}
+
+.template-content {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.template-content pre {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #e0e7ff;
+  line-height: 1.6;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.copy-btn {
+  margin-top: 15px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.copy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(16, 185, 129, 0.3);
+}
+
 @media (max-width: 768px) {
   .decidey-hero h1 {
     font-size: 2.5rem;
@@ -160,5 +385,13 @@
   .cta-buttons {
     flex-direction: column;
     align-items: center;
+  }
+  
+  .prelaunch-grid, .educator-grid, .templates-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .youtube-recap, .facebook-feed {
+    padding: 25px;
   }
 }
