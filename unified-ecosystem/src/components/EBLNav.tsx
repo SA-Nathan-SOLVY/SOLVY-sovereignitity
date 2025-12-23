@@ -42,7 +42,7 @@ function EBLNav({ currentPage = 'ebl' }: EBLNavProps) {
             <div className="dropdown-menu">
               <a href="/man">SOLVY Operations</a>
               <a href="/man#comms">Communications Center</a>
-              <a href="/man#email">Email Center (Resend)</a>
+              <a href="/man#email">Email Center</a>
             </div>
           </div>
         </div>
