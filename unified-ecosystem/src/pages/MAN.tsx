@@ -40,8 +40,8 @@ function MAN() {
       {/* Hero Section */}
       <section className="man-hero">
         <div className="container">
-          <h1>MAN - Member Action Network</h1>
-          <p className="man-tagline">SOLVY Operational Activity Hub</p>
+          <h1>MAN - Mandatory Audit Network</h1>
+          <p className="man-tagline">Transparency & Accountability for Members</p>
           <div className="man-badge">Operations Dashboard • Communications • Email Center</div>
         </div>
       </section>
@@ -269,8 +269,8 @@ function MAN() {
       {/* Footer */}
       <footer className="man-footer">
         <div className="container">
-          <p><strong>MAN - Member Action Network</strong></p>
-          <p>SOLVY Operational Hub</p>
+          <p><strong>MAN - Mandatory Audit Network</strong></p>
+          <p>Transparency & Accountability for SOLVY Members</p>
           <p>© 2025 SOLVY Platform. All rights reserved.</p>
         </div>
       </footer>

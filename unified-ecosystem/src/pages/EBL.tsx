@@ -136,8 +136,8 @@ function EBL() {
       {/* MAN Section */}
       <section className="ebl-man" id="man">
         <div className="container">
-          <h2>MAN - Member Action Network</h2>
-          <p>Stay connected with our community through integrated communications.</p>
+          <h2>MAN - Mandatory Audit Network</h2>
+          <p>Transparency and accountability through integrated communications.</p>
           
           <div className="man-sections">
             <div className="man-card" id="communications">
