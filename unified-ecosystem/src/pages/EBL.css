@@ -47,6 +47,15 @@
   padding: 0.75rem 1.5rem;
   border-radius: 50px;
   font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ebl-proof-statement {
+  font-size: 1.3rem;
+  color: #10b981;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 /* SOLVY Intro */

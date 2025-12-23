@@ -7,6 +7,8 @@ import NittyHome from './pages/NittyHome'
 import Decidey from './pages/Decidey'
 import Admin from './pages/Admin'
 import EBL from './pages/EBL'
+import SPS from './pages/SPS'
+import MAN from './pages/MAN'
 
 function App() {
   // Detect which subdomain we're on
@@ -24,12 +26,15 @@ function App() {
   } else if (hostname.includes('ebl') || hostname.includes('shop')) {
     return <EBL />
   } else {
-    // Default to nitty (main platform)
+    // Default routing for main platform
     return (
       <Router>
         <Routes>
           <Route path="/" element={<NittyHome />} />
           <Route path="/ebl" element={<EBL />} />
+          <Route path="/sps" element={<SPS />} />
+          <Route path="/man" element={<MAN />} />
+          <Route path="/decidey" element={<Decidey />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>

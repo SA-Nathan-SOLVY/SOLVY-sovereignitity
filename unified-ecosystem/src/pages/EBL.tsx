@@ -17,7 +17,10 @@ function EBL() {
           <img src="/fulllogo.png" alt="EBL Logo" className="ebl-hero-logo" />
           <h1>Evergreen Beauty Lounge</h1>
           <p className="ebl-tagline">Licensed Texas Cosmetology Services</p>
-          <div className="ebl-badge">Licensed Professional • Veteran-Owned</div>
+          <div className="ebl-badge">Licensed Professional • Veteran-Owned • SOLVY Pilot Partner #1</div>
+          <p className="ebl-proof-statement">
+            <strong>Eva's business is the proof.</strong> Real payments, real customers, real cooperative ownership in action.
+          </p>
         </div>
       </section>
 

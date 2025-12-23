@@ -22,7 +22,7 @@ function NittyHome() {
 
   return (
     <div className="app">
-      <UnifiedNav currentPage="nitty" />
+      <UnifiedNav currentPage="solvy" />
 
       {/* Hero Section */}
       <section className="hero" id="home">

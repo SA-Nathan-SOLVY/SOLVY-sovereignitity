@@ -1,6 +1,10 @@
 import './EBLNav.css'
 
-function EBLNav() {
+interface EBLNavProps {
+  currentPage?: 'solvy' | 'decidey' | 'ebl' | 'sps' | 'man'
+}
+
+function EBLNav({ currentPage = 'ebl' }: EBLNavProps) {
   return (
     <nav className="ebl-navbar">
       <div className="ebl-nav-container">
@@ -9,19 +13,28 @@ function EBLNav() {
         </a>
         
         <div className="ebl-nav-links">
-          <a href="/#card">SOLVY Card</a>
-          <a href="/" className="active">Evergreen Beauty Lounge</a>
-          <a href="#sps-joint-venture">SPS Joint Venture</a>
+          <a href="/" className={currentPage === 'solvy' ? 'active' : ''}>
+            SOLVY Card
+          </a>
+          <a href="/decidey" className={currentPage === 'decidey' ? 'active' : ''}>
+            DECIDEY NGO
+          </a>
+          <a href="/ebl" className={currentPage === 'ebl' ? 'active' : ''}>
+            Evergreen Beauty Lounge
+          </a>
+          <a href="/sps" className={currentPage === 'sps' ? 'active' : ''}>
+            SPS Joint Venture
+          </a>
           <div className="ebl-nav-dropdown">
-            <a href="#man" className="dropdown-toggle">MAN ▼</a>
+            <a href="/man" className={`dropdown-toggle ${currentPage === 'man' ? 'active' : ''}`}>
+              MAN ▼
+            </a>
             <div className="dropdown-menu">
-              <a href="#communications">Communications Center</a>
-              <a href="#email-center">Email Center</a>
+              <a href="/man">SOLVY Operations</a>
+              <a href="/man#comms">Communications Center</a>
+              <a href="/man#email">Email Center (Resend)</a>
             </div>
           </div>
-          <a href="https://sites.google.com/view/uplift-ascend-partnership-ebl/home" target="_blank" rel="noopener noreferrer">
-            Local Community Projects
-          </a>
         </div>
         
         <div className="ebl-nav-cta">
