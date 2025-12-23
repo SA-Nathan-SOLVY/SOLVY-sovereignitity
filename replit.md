@@ -20,7 +20,7 @@ This is a multi-project monorepo containing the SOLVY SOVEREIGNITITY economic li
 ## Features
 - **Virtual Card View**: After member approval, shows card with NFC tap-to-pay demo, transaction history, P2P toggle
 - **Military-Grade Privacy**: Balance auto-hides when P2P network is detached
-- **Card Customization**: 6 color themes + custom logo upload (Crown background preserved for SOLVY branding)
+- **Card Customization**: 6 color themes + custom logo upload (crown logo preserved in background)
 - **Email Center**: Modern inbox UI with folders (All/System/Business/Financial), compose, email view with actions
 
 ## Running the Project
@@ -45,3 +45,38 @@ cd unified-ecosystem && npm run dev
 
 ## Deployment
 Static deployment configured to build and serve from `unified-ecosystem/dist`
+
+---
+
+## Internal Business Model (Not Public)
+
+### Membership & Fees
+- SOLVY Card monthly fee: $9.99-$10
+- Vendor companies charge utilization fees
+- Member cooperative ownership benefits from profit accumulation over time, building capital collectively
+
+### Pilot Partners
+- **EBL (Pilot #1)**: 51% ownership requires 40-60k annual revenue source. Profits over threshold reinvested into business operations for growth.
+- **SPS (Pilot #2)**: Scaling demonstration for SOLVY Card across multiple businesses
+
+### Core Vision: SOVEREIGNITITY
+- Data Sovereignty = Data Autonomy + earning income from controlling and sharing personal data
+- MAN (Mandatory Audit Network) visualizes member activity and transparency
+- Membership growth goal: members transition to self-employment/small business ownership
+
+### Revenue Phase Transition
+When revenue phases through profitability:
+1. SOLVY Card onboarding experience transitions
+2. Collective membership evolves to SOVEREIGNITITY web3 presence
+3. Join blockchain network: **Guapcoin** (Tavonia Evans' project)
+
+### Guapcoin Integration Vision
+- American-based membership with parallel value to HR40 reparations bill (legislative pathway unlikely, but high visibility)
+- Strategic viewership: UN organizations, BRICS/NDB, SCO, African Union, DPAPPS
+- Sovereign-minded entities partnership network
+- Goal: Tie Guapcoin value to natural resources in Africa for diaspora populations
+- Ultimate objective: Join global societal hierarchy class of **OGCFC** (Organizers Group & Controllers of Financialized Capital)
+
+### Technical Notes
+- Crown logo always preserved in card background during color customization
+- Card customization UI simplified for users (no instructional text visible)

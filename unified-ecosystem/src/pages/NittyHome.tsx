@@ -121,7 +121,7 @@ function NittyHome() {
                 {showCustomization && (
                   <div className="customization-panel">
                     <h4>Personalize Your Card</h4>
-                    <p className="customize-note">Crown background stays for SOLVY branding</p>
+                    <p className="customize-note">Choose your color theme</p>
                     
                     <div className="color-selection">
                       <label>Card Color Theme</label>
