@@ -382,7 +382,7 @@ function NittyHome() {
       {/* EBL Pilot Section */}
       <section className="ebl-section">
         <div className="container">
-          <h2 className="section-title">💅 See It In Action</h2>
+          <h2 className="section-title"><img src="/ebl-logo.png" alt="EBL" className="section-title-logo" /> See It In Action <img src="/ebl-logo.png" alt="EBL" className="section-title-logo" /></h2>
           <p className="section-subtitle">Evergreen Beauty Lounge - Pilot Partner #1</p>
 
           <div className="ebl-content">
@@ -402,7 +402,7 @@ function NittyHome() {
       {/* DECIDEY NGO Section */}
       <section className="decidey-section">
         <div className="container">
-          <h2 className="section-title">📚 DECIDEY NGO</h2>
+          <h2 className="section-title"><img src="/solvy-crown-icon.png" alt="SOLVY" className="section-title-logo" /> DECIDEY NGO <img src="/solvy-crown-icon.png" alt="SOLVY" className="section-title-logo" /></h2>
           <p className="section-subtitle">Education • Advocacy • Digital Rights</p>
 
           <p>
@@ -416,7 +416,7 @@ function NittyHome() {
       {/* Card Application Section */}
       <section className="application-section" id="apply">
         <div className="container">
-          <h2 className="section-title">📋 Apply for Your SOLVY Card</h2>
+          <h2 className="section-title"><img src="/solvy-crown-icon.png" alt="SOLVY" className="section-title-logo" /> Apply for Your SOLVY Card <img src="/solvy-crown-icon.png" alt="SOLVY" className="section-title-logo" /></h2>
           <p className="section-subtitle">Regulatory Compliance • Secure Verification • Member Protection</p>
 
           <div className="kyc-aml-info">
