@@ -162,35 +162,6 @@ function NittyHome() {
         </div>
       </section>
 
-      {/* Global Remittance Section */}
-      <section className="remittance-section" id="remittance">
-        <div className="container">
-          <h2 className="section-title">🌍 Global Remittance</h2>
-          <p className="section-subtitle">SOLVY Card for Members Outside the US</p>
-
-          <p>
-            Send and receive money globally with SOLVY Card. Lower fees, faster transfers, and complete data sovereignty for international members.
-          </p>
-
-          <div className="remittance-features">
-            <div className="feature-item">
-              <div className="feature-icon">💸</div>
-              <div className="feature-text">Lower Fees</div>
-            </div>
-            <div className="feature-item">
-              <div className="feature-icon">⚡</div>
-              <div className="feature-text">Fast Transfers</div>
-            </div>
-            <div className="feature-item">
-              <div className="feature-icon">🔒</div>
-              <div className="feature-text">Secure & Private</div>
-            </div>
-          </div>
-
-          <a href="https://remittance.ebl.beauty" className="btn-secondary">Explore Global Network →</a>
-        </div>
-      </section>
-
       {/* Card Application Section */}
       <section className="application-section" id="apply">
         <div className="container">
@@ -280,7 +251,7 @@ function NittyHome() {
                 <a href="#card">SOLVY Card</a>
                 <a href="#sovereignitity">SOVEREIGNITITY™</a>
                 <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
-                <a href="#remittance">Remittance</a>
+                <a href="#apply">Apply for Card</a>
               </div>
               <div className="footer-column">
                 <h4>Company</h4>

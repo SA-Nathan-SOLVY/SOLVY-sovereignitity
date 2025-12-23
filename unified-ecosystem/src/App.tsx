@@ -3,7 +3,7 @@ import './App.css'
 
 // Pages
 import NittyHome from './pages/NittyHome'
-import Remittance from './pages/Remittance'
+// import Remittance from './pages/Remittance' // Archived
 import Decidey from './pages/Decidey'
 import Admin from './pages/Admin'
 import EBL from './pages/EBL'
@@ -13,9 +13,11 @@ function App() {
   const hostname = window.location.hostname
   
   // Route based on subdomain
-  if (hostname.includes('remittance')) {
-    return <Remittance />
-  } else if (hostname.includes('decidey')) {
+  // Remittance archived - hidden from navigation
+  // if (hostname.includes('remittance')) {
+  //   return <Remittance />
+  // }
+  if (hostname.includes('decidey')) {
     return <Decidey />
   } else if (hostname.includes('admin')) {
     return <Admin />

@@ -32,13 +32,6 @@ function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
             EBL Pilot
           </a>
           <a href="#sovereignitity">SOVEREIGNITITY™</a>
-          <div className="nav-dropdown">
-            <a href="#remittance" className="dropdown-toggle">Remittance ▼</a>
-            <div className="dropdown-menu">
-              <a href="https://remittance.ebl.beauty">Global Network</a>
-              <a href="https://nitty.ebl.beauty#remittance">Overview</a>
-            </div>
-          </div>
         </div>
         
         <div className="unified-nav-cta">
