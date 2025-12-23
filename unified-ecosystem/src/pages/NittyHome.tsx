@@ -1,16 +1,31 @@
 import { useState } from 'react'
 import UnifiedNav from '../components/UnifiedNav'
 import '../App.css'
+import './VirtualCard.css'
 
 function NittyHome() {
   const [currentCard, setCurrentCard] = useState(0)
+  const [isApproved, setIsApproved] = useState(false)
+  const [showNfcDemo, setShowNfcDemo] = useState(false)
+  const [privacyMode, setPrivacyMode] = useState(false)
+  const [p2pConnected, setP2pConnected] = useState(true)
   
   const cards = [
-    { name: 'SOLVY Business Card - Mastercard', image: '/SOV.png', type: 'Business' },
-    { name: 'SOLVY Business Card - Visa', image: '/SOV-visa.png', type: 'Business' },
-    { name: 'SOLVY Personal Card - Mastercard', image: '/SOV-personal-mc.png', type: 'Personal' },
-    { name: 'SOLVY Personal Card - Visa', image: '/SOV-personal-visa.png', type: 'Personal' }
+    { name: 'SOLVY Business Card - Mastercard', image: '/SOV.png', type: 'Business', network: 'Mastercard' },
+    { name: 'SOLVY Business Card - Visa', image: '/SOV-visa.png', type: 'Business', network: 'Visa' },
+    { name: 'SOLVY Personal Card - Mastercard', image: '/SOV-personal-mc.png', type: 'Personal', network: 'Mastercard' },
+    { name: 'SOLVY Personal Card - Visa', image: '/SOV-personal-visa.png', type: 'Personal', network: 'Visa' }
   ]
+
+  const mockTransactions = [
+    { id: 1, merchant: 'Evergreen Beauty Lounge', amount: -85.00, date: '2025-01-15', type: 'purchase' },
+    { id: 2, merchant: 'P2P Transfer from @marcus', amount: 150.00, date: '2025-01-14', type: 'p2p_in' },
+    { id: 3, merchant: 'Coffee Shop', amount: -6.50, date: '2025-01-14', type: 'purchase' },
+    { id: 4, merchant: 'P2P Transfer to @eva', amount: -45.00, date: '2025-01-13', type: 'p2p_out' },
+    { id: 5, merchant: 'Grocery Store', amount: -127.34, date: '2025-01-12', type: 'purchase' }
+  ]
+
+  const balance = 2847.52
 
   const nextCard = () => {
     setCurrentCard((prev) => (prev + 1) % cards.length)
@@ -18,6 +33,141 @@ function NittyHome() {
 
   const prevCard = () => {
     setCurrentCard((prev) => (prev - 1 + cards.length) % cards.length)
+  }
+
+  const handleNfcDemo = () => {
+    setShowNfcDemo(true)
+    setTimeout(() => setShowNfcDemo(false), 3000)
+  }
+
+  if (isApproved) {
+    return (
+      <div className="app">
+        <UnifiedNav currentPage="solvy" />
+        
+        <section className="virtual-card-section">
+          <div className="container">
+            <div className="vc-header">
+              <h2>Your SOLVY Card</h2>
+              <div className="vc-status">
+                <span className="status-dot active"></span>
+                Virtual Card Active
+              </div>
+            </div>
+
+            <div className="vc-main">
+              <div className="vc-card-container">
+                <div className={`vc-card ${showNfcDemo ? 'nfc-active' : ''}`}>
+                  <img src={cards[currentCard].image} alt={cards[currentCard].name} />
+                  {showNfcDemo && (
+                    <div className="nfc-animation">
+                      <div className="nfc-wave"></div>
+                      <div className="nfc-wave delay-1"></div>
+                      <div className="nfc-wave delay-2"></div>
+                      <div className="nfc-checkmark">Payment Authorized</div>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="vc-card-controls">
+                  <button onClick={prevCard} className="vc-nav-btn">◀</button>
+                  <span className="vc-card-info">{cards[currentCard].type} • {cards[currentCard].network}</span>
+                  <button onClick={nextCard} className="vc-nav-btn">▶</button>
+                </div>
+
+                <button onClick={handleNfcDemo} className="nfc-demo-btn">
+                  📱 Tap to Pay Demo
+                </button>
+              </div>
+
+              <div className="vc-balance-container">
+                <div className="vc-balance-header">
+                  <h3>Available Balance</h3>
+                  <div className="privacy-controls">
+                    <button 
+                      onClick={() => {
+                        const newConnected = !p2pConnected
+                        setP2pConnected(newConnected)
+                        if (!newConnected) {
+                          setPrivacyMode(true)
+                        } else {
+                          setPrivacyMode(false)
+                        }
+                      }}
+                      className={`p2p-toggle ${p2pConnected ? 'connected' : 'disconnected'}`}
+                    >
+                      {p2pConnected ? '🔗 P2P Connected' : '🔒 P2P Detached'}
+                    </button>
+                    {!p2pConnected && (
+                      <button 
+                        onClick={() => setPrivacyMode(!privacyMode)}
+                        className="privacy-toggle"
+                      >
+                        {privacyMode ? '👁️ Reveal' : '🛡️ Hide'}
+                      </button>
+                    )}
+                  </div>
+                </div>
+                
+                <div className={`vc-balance ${privacyMode && !p2pConnected ? 'hidden' : ''}`}>
+                  {privacyMode && !p2pConnected ? (
+                    <span className="balance-hidden">••••••</span>
+                  ) : (
+                    <span className="balance-amount">${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                  )}
+                </div>
+
+                {!p2pConnected && (
+                  <div className="military-grade-notice">
+                    🛡️ Military-Grade Privacy Mode Active
+                    <p>Balance hidden from P2P network. Your financial data is completely private.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="vc-actions">
+              <button className="vc-action-btn send">
+                <span className="action-icon">↗️</span>
+                Send Money
+              </button>
+              <button className="vc-action-btn receive">
+                <span className="action-icon">↙️</span>
+                Request Payment
+              </button>
+              <button className="vc-action-btn connect">
+                <span className="action-icon">🔗</span>
+                Connect Bank
+              </button>
+            </div>
+
+            <div className="vc-transactions">
+              <h3>Recent Transactions</h3>
+              <div className="transaction-list">
+                {mockTransactions.map(tx => (
+                  <div key={tx.id} className={`transaction-item ${tx.type}`}>
+                    <div className="tx-icon">
+                      {tx.type === 'p2p_in' ? '↙️' : tx.type === 'p2p_out' ? '↗️' : '🛒'}
+                    </div>
+                    <div className="tx-details">
+                      <span className="tx-merchant">{tx.merchant}</span>
+                      <span className="tx-date">{tx.date}</span>
+                    </div>
+                    <div className={`tx-amount ${tx.amount > 0 ? 'positive' : 'negative'}`}>
+                      {tx.amount > 0 ? '+' : ''}${Math.abs(tx.amount).toFixed(2)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button onClick={() => setIsApproved(false)} className="back-to-apply">
+              ← Back to Card Info
+            </button>
+          </div>
+        </section>
+      </div>
+    )
   }
 
   return (
@@ -49,15 +199,37 @@ function NittyHome() {
           <h2 className="section-title">👑 The SOLVY Card</h2>
           <p className="section-subtitle">Cooperative Ownership • Data Sovereignty • Member-First</p>
 
-          {/* Card Carousel */}
+          {/* Card Carousel with NFC Demo */}
           <div className="card-carousel">
             <button className="carousel-btn prev" onClick={prevCard}>‹</button>
             <div className="card-display">
-              <img src={cards[currentCard].image} alt={cards[currentCard].name} />
+              <div className={`card-wrapper ${showNfcDemo ? 'nfc-active' : ''}`}>
+                <img src={cards[currentCard].image} alt={cards[currentCard].name} />
+                {showNfcDemo && (
+                  <div className="nfc-overlay">
+                    <div className="nfc-waves">
+                      <div className="wave"></div>
+                      <div className="wave delay-1"></div>
+                      <div className="wave delay-2"></div>
+                    </div>
+                    <div className="nfc-status">Tap to Pay Active</div>
+                  </div>
+                )}
+              </div>
               <p className="card-name">{cards[currentCard].name}</p>
               <p className="card-type">{cards[currentCard].type} Card</p>
+              <button onClick={handleNfcDemo} className="nfc-demo-trigger">
+                📱 Demo NFC Tap-to-Pay
+              </button>
             </div>
             <button className="carousel-btn next" onClick={nextCard}>›</button>
+          </div>
+
+          <div className="demo-virtual-card">
+            <p>Already approved? Access your virtual card:</p>
+            <button onClick={() => setIsApproved(true)} className="btn-primary">
+              View My Virtual Card →
+            </button>
           </div>
 
           {/* 4 Key Points */}
