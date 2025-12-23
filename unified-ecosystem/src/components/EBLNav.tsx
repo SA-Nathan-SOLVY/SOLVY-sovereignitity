@@ -43,6 +43,7 @@ function EBLNav({ currentPage = 'ebl' }: EBLNavProps) {
               <a href="/man">SOLVY Operations</a>
               <a href="/man#comms">Communications Center</a>
               <a href="/man#email">Email Center</a>
+              <a href="/man#templates">Response Templates</a>
             </div>
           </div>
         </div>
