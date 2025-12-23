@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './EBLNav.css'
 
 interface EBLNavProps {
@@ -5,6 +6,8 @@ interface EBLNavProps {
 }
 
 function EBLNav({ currentPage = 'ebl' }: EBLNavProps) {
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+
   return (
     <nav className="ebl-navbar">
       <div className="ebl-nav-container">
@@ -25,10 +28,17 @@ function EBLNav({ currentPage = 'ebl' }: EBLNavProps) {
           <a href="/sps" className={currentPage === 'sps' ? 'active' : ''}>
             SPS Joint Venture
           </a>
-          <div className="ebl-nav-dropdown">
-            <a href="/man" className={`dropdown-toggle ${currentPage === 'man' ? 'active' : ''}`}>
+          <div 
+            className={`ebl-nav-dropdown ${dropdownOpen ? 'open' : ''}`}
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => setDropdownOpen(false)}
+          >
+            <button 
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className={`dropdown-toggle ${currentPage === 'man' ? 'active' : ''}`}
+            >
               MAN ▼
-            </a>
+            </button>
             <div className="dropdown-menu">
               <a href="/man">SOLVY Operations</a>
               <a href="/man#comms">Communications Center</a>

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './UnifiedNav.css'
 
 interface UnifiedNavProps {
@@ -5,6 +6,8 @@ interface UnifiedNavProps {
 }
 
 function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+
   return (
     <nav className="unified-navbar">
       <div className="unified-nav-container">
@@ -37,10 +40,17 @@ function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
           >
             SPS Joint Venture
           </a>
-          <div className="nav-dropdown">
-            <a href="/man" className={`dropdown-toggle ${currentPage === 'man' ? 'active' : ''}`}>
+          <div 
+            className={`nav-dropdown ${dropdownOpen ? 'open' : ''}`}
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => setDropdownOpen(false)}
+          >
+            <button 
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className={`dropdown-toggle ${currentPage === 'man' ? 'active' : ''}`}
+            >
               MAN ▼
-            </a>
+            </button>
             <div className="dropdown-menu">
               <a href="/man">SOLVY Operations</a>
               <a href="/man#comms">Communications Center</a>
