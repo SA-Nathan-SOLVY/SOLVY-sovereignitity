@@ -42,8 +42,8 @@ function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
         </div>
         
         <div className="unified-nav-cta">
-          <a href="https://nitty.ebl.beauty#card" className="unified-btn-primary">
-            Get Your Card
+          <a href="#apply" className="unified-btn-primary">
+            Apply for Card
           </a>
         </div>
       </div>

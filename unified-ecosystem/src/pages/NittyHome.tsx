@@ -191,12 +191,79 @@ function NittyHome() {
         </div>
       </section>
 
+      {/* Card Application Section */}
+      <section className="application-section" id="apply">
+        <div className="container">
+          <h2 className="section-title">📋 Apply for Your SOLVY Card</h2>
+          <p className="section-subtitle">Regulatory Compliance • Secure Verification • Member Protection</p>
+
+          <div className="kyc-aml-info">
+            <div className="compliance-intro">
+              <p>
+                As a regulated financial platform, SOLVY Card requires identity verification to protect our members 
+                and comply with federal regulations. This ensures the safety and integrity of our cooperative.
+              </p>
+            </div>
+
+            <div className="requirements-grid">
+              <div className="requirement-card">
+                <div className="requirement-icon">🪪</div>
+                <h3>KYC Verification</h3>
+                <p><strong>Know Your Customer</strong></p>
+                <ul>
+                  <li>Valid government-issued ID (Driver's License, Passport, or State ID)</li>
+                  <li>Proof of US residency</li>
+                  <li>Social Security Number</li>
+                  <li>Date of birth verification</li>
+                </ul>
+              </div>
+
+              <div className="requirement-card">
+                <div className="requirement-icon">🛡️</div>
+                <h3>AML Compliance</h3>
+                <p><strong>Anti-Money Laundering</strong></p>
+                <ul>
+                  <li>Source of funds declaration</li>
+                  <li>OFAC screening verification</li>
+                  <li>Transaction monitoring consent</li>
+                  <li>Beneficial ownership disclosure</li>
+                </ul>
+              </div>
+
+              <div className="requirement-card">
+                <div className="requirement-icon">📝</div>
+                <h3>Application Process</h3>
+                <p><strong>Simple Steps</strong></p>
+                <ul>
+                  <li>Complete online application (5-10 minutes)</li>
+                  <li>Upload verification documents</li>
+                  <li>Identity verification (1-3 business days)</li>
+                  <li>Receive your SOLVY Card</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="compliance-note">
+              <p>
+                <strong>🔒 Your Privacy Matters:</strong> All verification data is encrypted and used solely for regulatory compliance. 
+                Unlike traditional banks, we never sell your data to third parties.
+              </p>
+            </div>
+          </div>
+
+          <div className="cta-buttons">
+            <a href="#card-application-form" className="btn-primary">Apply Now - Start KYC</a>
+            <a href="#card" className="btn-secondary">Learn More About SOLVY Card</a>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="cta-section">
         <div className="container">
           <h2>Ready to Achieve Financial Sovereignty?</h2>
-          <p>Join the movement. Get your SOLVY Card and take control of your banking.</p>
-          <button className="btn-primary">Get Your Card</button>
+          <p>Join the movement. Complete your verification and get your SOLVY Card today.</p>
+          <a href="#apply" className="btn-primary">Apply for Your Card</a>
         </div>
       </section>
 
