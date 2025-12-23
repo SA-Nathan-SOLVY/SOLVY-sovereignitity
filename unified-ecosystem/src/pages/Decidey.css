@@ -62,6 +62,13 @@
   margin-bottom: 20px;
 }
 
+.program-logo-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(147, 51, 234, 0.4));
+}
+
 .program-card h3 {
   font-size: 1.5rem;
   margin-bottom: 15px;

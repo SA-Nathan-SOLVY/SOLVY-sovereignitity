@@ -48,7 +48,7 @@ function Decidey() {
             </div>
 
             <div className="program-card">
-              <div className="program-icon">🤝</div>
+              <div className="program-icon">🤝🏿🤝🏾🤝🏽</div>
               <h3>Community Organizing</h3>
               <p>
                 Building networks of economically empowered individuals who understand the power of collective ownership and cooperative wealth.
@@ -76,6 +76,22 @@ function Decidey() {
               <h3>Global Solidarity</h3>
               <p>
                 Connecting diaspora communities worldwide, fostering international cooperation, and building a global network of economic sovereignty.
+              </p>
+            </div>
+
+            <div className="program-card">
+              <div className="program-icon"><img src="/SolvyLogo-1024.png" alt="SOLVY" className="program-logo-icon" /></div>
+              <h3>MOLI - Member Owned Life Insurance</h3>
+              <p>
+                In the spirit of BOLI (Bank Owned Life Insurance), MOLI provides whole life insurance progression for valued cooperative members, building generational wealth.
+              </p>
+            </div>
+
+            <div className="program-card">
+              <div className="program-icon"><img src="/SolvyLogo-1024.png" alt="SOLVY" className="program-logo-icon" /></div>
+              <h3>SOVEREIGNITITY Bloc Building</h3>
+              <p>
+                Utilizing data identity ownership and autonomy to earn income as a communitized economic bloc. Your data, your power, your collective prosperity.
               </p>
             </div>
           </div>

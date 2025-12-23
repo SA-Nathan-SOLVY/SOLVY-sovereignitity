@@ -275,7 +275,7 @@ function NittyHome() {
       {/* The SOLVY Card Section */}
       <section className="solvy-card-section" id="card">
         <div className="container">
-          <h2 className="section-title">👑 The SOLVY Card</h2>
+          <h2 className="section-title"><img src="/SolvyLogo-1024.png" alt="SOLVY" className="section-title-logo" /> The SOLVY Card</h2>
           <p className="section-subtitle">Cooperative Ownership • Data Sovereignty • Member-First</p>
 
           {/* Card Carousel with NFC Demo */}
@@ -326,7 +326,7 @@ function NittyHome() {
             </div>
 
             <div className="key-point-card">
-              <div className="key-point-icon">🤝</div>
+              <div className="key-point-icon">🤝🏿🤝🏾🤝🏽</div>
               <h3>Cooperative Owned</h3>
               <p>Member-owned, not bank-owned. Every cardholder is a cooperative owner sharing in the platform's success.</p>
             </div>
