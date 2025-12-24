@@ -3,12 +3,13 @@ import './App.css'
 
 // Pages
 import NittyHome from './pages/NittyHome'
-// import Remittance from './pages/Remittance' // Archived
 import Decidey from './pages/Decidey'
 import Admin from './pages/Admin'
 import EBL from './pages/EBL'
 import SPS from './pages/SPS'
 import MAN from './pages/MAN'
+import FoundingMemberApply from './pages/FoundingMemberApply'
+import MemberSuccess from './pages/MemberSuccess'
 
 function App() {
   // Detect which subdomain we're on
@@ -35,6 +36,8 @@ function App() {
           <Route path="/sps" element={<SPS />} />
           <Route path="/man" element={<MAN />} />
           <Route path="/decidey" element={<Decidey />} />
+          <Route path="/apply" element={<FoundingMemberApply />} />
+          <Route path="/member-success" element={<MemberSuccess />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
