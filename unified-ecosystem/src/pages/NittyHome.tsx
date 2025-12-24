@@ -485,7 +485,7 @@ function NittyHome() {
         <div className="container">
           <h2>Ready to Achieve Financial Sovereignty?</h2>
           <p>Join the movement. Complete your verification and get your SOLVY Card today.</p>
-          <a href="#apply" className="btn-primary">Apply for Your Card</a>
+          <a href="/apply" className="btn-primary">Apply for Your Card</a>
         </div>
       </section>
 
@@ -502,7 +502,7 @@ function NittyHome() {
                 <a href="#card">SOLVY Card</a>
                 <a href="#sovereignitity">SOVEREIGNITITY™</a>
                 <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
-                <a href="#apply">Apply for Card</a>
+                <a href="/apply">Apply for Card</a>
               </div>
               <div className="footer-column">
                 <h4>Company</h4>
