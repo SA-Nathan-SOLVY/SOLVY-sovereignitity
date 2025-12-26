@@ -50,13 +50,17 @@ Static deployment configured to build and serve from `unified-ecosystem/dist`
 
 ## Internal Business Model (Not Public)
 
+### Banking & Payment Partners
+- **Stripe**: Primary payment processor - EBL currently accepting card payments via Stripe's app
+- **Unit.co**: Currently sandboxing for virtual debit card issuance (replaced Mercury due to approval timeline)
+
 ### Membership & Fees
 - SOLVY Card monthly fee: $9.99-$10
 - Vendor companies charge utilization fees
 - Member cooperative ownership benefits from profit accumulation over time, building capital collectively
 
 ### Pilot Partners
-- **EBL (Pilot #1)**: 51% ownership requires 40-60k annual revenue source. Profits over threshold reinvested into business operations for growth.
+- **EBL (Pilot #1)**: 51% ownership requires 40-60k annual revenue source. Profits over threshold reinvested into business operations for growth. Currently accepting payments via Stripe.
 - **SPS (Pilot #2)**: Scaling demonstration for SOLVY Card across multiple businesses
 
 ### Core Vision: SOVEREIGNITITY
