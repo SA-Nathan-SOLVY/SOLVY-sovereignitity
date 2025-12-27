@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import EBLNav from '../components/EBLNav'
+import UnifiedNav from '../components/UnifiedNav'
 import './MAN.css'
 
 function MAN() {
@@ -163,7 +163,7 @@ The SOLVY Team`
 
   return (
     <div className="man-app">
-      <EBLNav currentPage="man" />
+      <UnifiedNav currentPage="man" />
 
       {/* Hero Section */}
       <section className="man-hero">

@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import * as XLSX from 'xlsx'
-import EBLNav from '../components/EBLNav'
+import UnifiedNav from '../components/UnifiedNav'
 import './SPS.css'
 
 interface InventoryItem {
@@ -93,7 +93,7 @@ function SPS() {
 
   return (
     <div className="sps-app">
-      <EBLNav currentPage="sps" />
+      <UnifiedNav currentPage="sps" />
 
       {/* Hero Section */}
       <section className="sps-hero">
