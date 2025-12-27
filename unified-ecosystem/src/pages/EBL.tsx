@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { QRCodeSVG } from 'qrcode.react'
 import EBLNav from '../components/EBLNav'
 import './EBL.css'
 
@@ -211,6 +212,60 @@ function EBL() {
               Every transaction strengthens the cooperative and increases your ownership stake.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* QR Codes for Business Cards */}
+      <section className="ebl-qr-codes" id="qr-codes">
+        <div className="container">
+          <h2>Business Card QR Codes</h2>
+          <p className="qr-description">Scan these QR codes to visit our sites. Print-ready for business cards.</p>
+          
+          <div className="qr-grid">
+            <div className="qr-card">
+              <h3>SOLVY Web App</h3>
+              <div className="qr-image">
+                <QRCodeSVG 
+                  value="https://nitty.ebl.beauty"
+                  size={180}
+                  bgColor="#ffffff"
+                  fgColor="#000000"
+                  level="H"
+                />
+              </div>
+              <p className="qr-url">nitty.ebl.beauty</p>
+            </div>
+            
+            <div className="qr-card">
+              <h3>Evergreen Beauty Lounge</h3>
+              <div className="qr-image">
+                <QRCodeSVG 
+                  value="https://ebl.beauty"
+                  size={180}
+                  bgColor="#ffffff"
+                  fgColor="#000000"
+                  level="H"
+                />
+              </div>
+              <p className="qr-url">ebl.beauty</p>
+            </div>
+
+            <div className="qr-card">
+              <h3>Shop EBL (Payments)</h3>
+              <div className="qr-image">
+                <QRCodeSVG 
+                  value="https://shop.ebl.beauty"
+                  size={180}
+                  bgColor="#ffffff"
+                  fgColor="#000000"
+                  level="H"
+                />
+              </div>
+              <p className="qr-url">shop.ebl.beauty</p>
+            </div>
+          </div>
+          
+          <p className="print-note">Right-click on QR codes to save as image for printing on business cards.</p>
         </div>
       </section>
 
