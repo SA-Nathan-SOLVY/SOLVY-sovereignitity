@@ -251,17 +251,17 @@ function EBL() {
             </div>
 
             <div className="qr-card">
-              <h3>Shop EBL (Payments)</h3>
+              <h3>Reign/Jewelpads Shop</h3>
               <div className="qr-image">
                 <QRCodeSVG 
-                  value="https://shop.ebl.beauty"
+                  value="https://ebl.jewelpads.com"
                   size={180}
                   bgColor="#ffffff"
                   fgColor="#000000"
                   level="H"
                 />
               </div>
-              <p className="qr-url">shop.ebl.beauty</p>
+              <p className="qr-url">ebl.jewelpads.com</p>
             </div>
           </div>
           
