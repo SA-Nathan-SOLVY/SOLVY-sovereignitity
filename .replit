@@ -43,6 +43,7 @@ localPort = 5001
 externalPort = 3002
 
 [deployment]
-deploymentTarget = "static"
+deploymentTarget = "autoscale"
 build = ["npm", "run", "build", "--prefix", "unified-ecosystem"]
 publicDir = "unified-ecosystem/dist"
+run = ["npx", "serve", "-s", "unified-ecosystem/dist", "-l", "5000"]
