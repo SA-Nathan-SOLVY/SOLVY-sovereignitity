@@ -88,7 +88,7 @@ function EBL() {
         <div className="container">
           <h2>Reign Menstrual Health Products</h2>
           <p className="reign-description">
-            Premium sanitary napkins infused with Nobel Prize-winning Graphene technology
+            Premium sanitary napkins with antimicrobial technology
           </p>
           
           <div className="reign-videos">
