@@ -12,7 +12,8 @@ This is a multi-project monorepo containing the SOLVY SOVEREIGNITITY economic li
 
 ## Key Pages
 - **SOLVY Card** (`/`) - Main landing with 4-card carousel, NFC tap demo, virtual card view with customization (color themes + logo upload), P2P privacy mode
-- **Evergreen Beauty Lounge** (`/ebl`) - Eva's business with logo bookends, SOLVY Pilot Partner #1, proof of concept
+- **Banking Portal** (`/banking`) - Unit.co Ready-to-Launch embedded banking (accounts, cards, payees, transfers)
+- **Evergreen Beauty Lounge** (`/ebl`) - Eva's business with logo bookends, SOLVY Pilot Partner #1, proof of concept, QR codes for business cards
 - **SPS Joint Venture** (`/sps`) - Pilot Partner #2, reverse inventory tracking with Excel/CSV upload
 - **MAN** (`/man`) - Mandatory Audit Network, transparency hub for members, email inbox center, response templates for marketing
 - **DECIDEY NGO** (`/decidey`) - Education site with prelaunch activities, FB connection, YouTube educator network
@@ -52,7 +53,7 @@ Static deployment configured to build and serve from `unified-ecosystem/dist`
 
 ### Banking & Payment Partners
 - **Stripe**: Primary payment processor - EBL currently accepting card payments via Stripe's app
-- **Unit.co**: Currently sandboxing for virtual debit card issuance (replaced Mercury due to approval timeline)
+- **Unit.co**: Ready-to-Launch banking embedded at `/banking` - currently using sandbox demo token. For production, obtain JWT token from Unit.co after approval. Script loaded: `https://ui.s.unit.sh/release/latest/components-extended.js`
 
 ### Membership & Fees
 - SOLVY Card monthly fee: $9.99-$10
