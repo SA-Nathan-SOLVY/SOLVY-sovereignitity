@@ -4,6 +4,7 @@ import { Pool } from 'pg';
 import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync, getUncachableStripeClient, getStripePublishableKey } from './stripeClient';
 import { WebhookHandlers } from './webhookHandlers';
+import { setupAuth, registerAuthRoutes, authStorage } from './replit_integrations/auth';
 
 const app = express();
 const PORT = 3001;
@@ -33,6 +34,19 @@ async function initDatabase() {
       updated_at TIMESTAMP DEFAULT NOW()
     )
   `);
+  
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id VARCHAR PRIMARY KEY,
+      email VARCHAR UNIQUE,
+      first_name VARCHAR,
+      last_name VARCHAR,
+      profile_image_url VARCHAR,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    )
+  `);
+  
   console.log('Database tables ready');
 }
 
@@ -232,6 +246,10 @@ app.get('/api/founding-member/verify/:sessionId', async (req, res) => {
 
 async function start() {
   await initDatabase();
+  
+  await setupAuth(app);
+  registerAuthRoutes(app);
+  
   await initStripe();
 
   app.listen(PORT, '0.0.0.0', () => {

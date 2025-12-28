@@ -188,6 +188,32 @@
   transform: translateY(-2px);
 }
 
+.unified-btn-logout {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.9rem;
+}
+
+.unified-btn-logout:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.nav-user-greeting {
+  color: #14b8a6;
+  font-weight: 500;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
 /* Hamburger Button */
 .hamburger-btn {
   display: none;
@@ -306,6 +332,22 @@
   font-weight: 600;
   margin-top: 10px;
   background: transparent !important;
+}
+
+.mobile-logout {
+  border: 1px solid #ef4444 !important;
+  color: #ef4444 !important;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 10px;
+  background: transparent !important;
+}
+
+.mobile-user-greeting {
+  color: #14b8a6;
+  font-weight: 500;
+  padding: 10px 20px;
+  display: block;
 }
 
 /* Mobile Responsive */

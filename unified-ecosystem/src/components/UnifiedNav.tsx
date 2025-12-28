@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useAuth } from '../hooks/useAuth'
 import './UnifiedNav.css'
 
 interface UnifiedNavProps {
@@ -8,6 +9,7 @@ interface UnifiedNavProps {
 function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { user, isLoading, isAuthenticated } = useAuth()
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -83,12 +85,30 @@ function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
         </div>
         
         <div className="unified-nav-cta">
-          <a href="/apply" className="unified-btn-secondary">
-            Apply for Card
-          </a>
-          <a href="/banking" className="unified-btn-primary">
-            Open Banking
-          </a>
+          {!isLoading && (
+            <>
+              {isAuthenticated ? (
+                <>
+                  <span className="nav-user-greeting">Hi, {user?.firstName || 'Member'}</span>
+                  <a href="/banking" className="unified-btn-primary">
+                    Open Banking
+                  </a>
+                  <a href="/api/logout" className="unified-btn-logout">
+                    Logout
+                  </a>
+                </>
+              ) : (
+                <>
+                  <a href="/apply" className="unified-btn-secondary">
+                    Apply for Card
+                  </a>
+                  <a href="/api/login" className="unified-btn-primary">
+                    Member Login
+                  </a>
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
 
@@ -106,8 +126,22 @@ function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
         <a href="/man#email" onClick={closeMobileMenu}>Email Center</a>
         <a href="/man#templates" onClick={closeMobileMenu}>Response Templates</a>
         <div className="mobile-menu-divider"></div>
-        <a href="/apply" className="mobile-cta-secondary" onClick={closeMobileMenu}>Apply for Card</a>
-        <a href="/banking" className="mobile-cta" onClick={closeMobileMenu}>Open Banking</a>
+        {!isLoading && (
+          <>
+            {isAuthenticated ? (
+              <>
+                <span className="mobile-user-greeting">Hi, {user?.firstName || 'Member'}</span>
+                <a href="/banking" className="mobile-cta" onClick={closeMobileMenu}>Open Banking</a>
+                <a href="/api/logout" className="mobile-logout" onClick={closeMobileMenu}>Logout</a>
+              </>
+            ) : (
+              <>
+                <a href="/apply" className="mobile-cta-secondary" onClick={closeMobileMenu}>Apply for Card</a>
+                <a href="/api/login" className="mobile-cta" onClick={closeMobileMenu}>Member Login</a>
+              </>
+            )}
+          </>
+        )}
       </div>
     </nav>
   )
