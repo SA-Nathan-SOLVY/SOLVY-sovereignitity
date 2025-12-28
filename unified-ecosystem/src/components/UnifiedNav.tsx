@@ -83,6 +83,9 @@ function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
         </div>
         
         <div className="unified-nav-cta">
+          <a href="/apply" className="unified-btn-secondary">
+            Apply for Card
+          </a>
           <a href="/banking" className="unified-btn-primary">
             Open Banking
           </a>
@@ -103,6 +106,7 @@ function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
         <a href="/man#email" onClick={closeMobileMenu}>Email Center</a>
         <a href="/man#templates" onClick={closeMobileMenu}>Response Templates</a>
         <div className="mobile-menu-divider"></div>
+        <a href="/apply" className="mobile-cta-secondary" onClick={closeMobileMenu}>Apply for Card</a>
         <a href="/banking" className="mobile-cta" onClick={closeMobileMenu}>Open Banking</a>
       </div>
     </nav>
