@@ -23,6 +23,10 @@ This is a multi-project monorepo containing the SOLVY SOVEREIGNITITY economic li
 - **Military-Grade Privacy**: Balance auto-hides when P2P network is detached
 - **Card Customization**: 6 color themes + custom logo upload (crown logo preserved in background)
 - **Email Center**: Modern inbox UI with folders (All/System/Business/Financial), compose, email view with actions
+- **Member Authentication**: Replit OIDC login (Google/GitHub/email) with session management
+- **Dynamic Navigation**: 
+  - Guests see: "Apply for Card" + "Member Login"
+  - Authenticated members see: User greeting + "Open Banking" + "Logout"
 
 ## Running the Project
 The main frontend runs on port 5000 using Vite dev server:
