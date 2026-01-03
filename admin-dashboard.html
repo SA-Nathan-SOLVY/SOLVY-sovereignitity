@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SOLVY Platform</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #1e293b 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Login Screen */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-box h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .login-box p {
+            text-align: center;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(to right, #9333ea, #2563eb);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(to right, #a855f7, #3b82f6);
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dashboard-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #9333ea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+        }
+
+        .tickets-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .tickets-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #9333ea;
+        }
+
+        .ticket-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(to right, #9333ea, #2563eb);
+            border-color: #9333ea;
+        }
+
+        .ticket-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .ticket-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: 1.5rem;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .ticket-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .ticket-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-new {
+            background: #3B82F6;
+        }
+
+        .status-open {
+            background: #10B981;
+        }
+
+        .status-pending {
+            background: #F59E0B;
+        }
+
+        .status-closed {
+            background: #6B7280;
+        }
+
+        .ticket-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .ticket-meta {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .ticket-priority {
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .priority-high {
+            background: rgba(239, 68, 68, 0.3);
+            color: #EF4444;
+        }
+
+        .priority-medium {
+            background: rgba(245, 158, 11, 0.3);
+            color: #F59E0B;
+        }
+
+        .priority-low {
+            background: rgba(59, 130, 246, 0.3);
+            color: #3B82F6;
+        }
+
+        .btn-view {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(to right, #9333ea, #2563eb);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-view:hover {
+            background: linear-gradient(to right, #a855f7, #3b82f6);
+        }
+
+        @media (max-width: 768px) {
+            .ticket-item {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <h1>🔐 Admin Login</h1>
+            <p>SOLVY Platform Dashboard</p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+
+            <p style="margin-top: 2rem; font-size: 0.9rem; text-align: center;">
+                Demo credentials: admin / solvy2025
+            </p>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <div class="dashboard-header">
+            <h1>SOLVY Admin Dashboard</h1>
+            <button id="logoutBtn" class="btn-logout">Logout</button>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📧</div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Open Tickets</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">💳</div>
+                    <div class="stat-value">156</div>
+                    <div class="stat-label">Active SOLVY Cards</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🎓</div>
+                    <div class="stat-value">89</div>
+                    <div class="stat-label">DECIDEY Members</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value">$12.4K</div>
+                    <div class="stat-label">Monthly Revenue</div>
+                </div>
+            </div>
+
+            <div class="tickets-section">
+                <h2>Support Tickets</h2>
+
+                <div class="ticket-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="new">New</button>
+                    <button class="filter-btn" data-filter="open">Open</button>
+                    <button class="filter-btn" data-filter="pending">Pending</button>
+                    <button class="filter-btn" data-filter="closed">Closed</button>
+                </div>
+
+                <div class="ticket-list">
+                    <div class="ticket-item" data-status="new">
+                        <div class="ticket-status status-new"></div>
+                        <div class="ticket-info">
+                            <h3>SOLVY Card Activation Issue</h3>
+                            <div class="ticket-meta">
+                                From: john.doe@email.com | 2 hours ago | Ticket #1234
+                            </div>
+                        </div>
+                        <div class="ticket-priority priority-high">High</div>
+                        <button class="btn-view">View</button>
+                    </div>
+
+                    <div class="ticket-item" data-status="open">
+                        <div class="ticket-status status-open"></div>
+                        <div class="ticket-info">
+                            <h3>Question about DECIDEY NGO Education</h3>
+                            <div class="ticket-meta">
+                                From: sarah.smith@email.com | 5 hours ago | Ticket #1233
+                            </div>
+                        </div>
+                        <div class="ticket-priority priority-medium">Medium</div>
+                        <button class="btn-view">View</button>
+                    </div>
+
+                    <div class="ticket-item" data-status="pending">
+                        <div class="ticket-status status-pending"></div>
+                        <div class="ticket-info">
+                            <h3>Partnership Inquiry - Nigeria Remittance</h3>
+                            <div class="ticket-meta">
+                                From: partner@company.com | 1 day ago | Ticket #1232
+                            </div>
+                        </div>
+                        <div class="ticket-priority priority-high">High</div>
+                        <button class="btn-view">View</button>
+                    </div>
+
+                    <div class="ticket-item" data-status="open">
+                        <div class="ticket-status status-open"></div>
+                        <div class="ticket-info">
+                            <h3>Tax Assistant Feature Request</h3>
+                            <div class="ticket-meta">
+                                From: mike.jones@email.com | 1 day ago | Ticket #1231
+                            </div>
+                        </div>
+                        <div class="ticket-priority priority-low">Low</div>
+                        <button class="btn-view">View</button>
+                    </div>
+
+                    <div class="ticket-item" data-status="closed">
+                        <div class="ticket-status status-closed"></div>
+                        <div class="ticket-info">
+                            <h3>Account Setup Complete</h3>
+                            <div class="ticket-meta">
+                                From: lisa.brown@email.com | 2 days ago | Ticket #1230
+                            </div>
+                        </div>
+                        <div class="ticket-priority priority-low">Low</div>
+                        <button class="btn-view">View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: rgba(0, 0, 0, 0.3); border-radius: 15px; padding: 2rem;">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #9333ea;">Quick Actions</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <a href="operations-dashboard.html" style="padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 10px; text-decoration: none; color: #fff; transition: all 0.3s;">
+                            📊 Operations Dashboard
+                        </a>
+                        <a href="invoice-management.html" style="padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 10px; text-decoration: none; color: #fff; transition: all 0.3s;">
+                            💰 Invoice Management
+                        </a>
+                        <a href="email-config.html" style="padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 10px; text-decoration: none; color: #fff; transition: all 0.3s;">
+                            📧 Email Configuration
+                        </a>
+                        <a href="kimi-ai-setup.html" style="padding: 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 10px; text-decoration: none; color: #fff; transition: all 0.3s;">
+                            🤖 Kimi AI Setup
+                        </a>
+                    </div>
+                </div>
+
+                <div style="background: rgba(0, 0, 0, 0.3); border-radius: 15px; padding: 2rem;">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #9333ea;">Recent Activity</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.9rem;">
+                        <div style="padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <strong>New SOLVY Card signup</strong><br>
+                            <span style="opacity: 0.7;">5 minutes ago</span>
+                        </div>
+                        <div style="padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <strong>Support ticket resolved</strong><br>
+                            <span style="opacity: 0.7;">1 hour ago</span>
+                        </div>
+                        <div style="padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <strong>Partnership inquiry received</strong><br>
+                            <span style="opacity: 0.7;">3 hours ago</span>
+                        </div>
+                        <div>
+                            <strong>DECIDEY NGO enrollment</strong><br>
+                            <span style="opacity: 0.7;">5 hours ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Demo authentication
+            if (username === 'admin' && password === 'solvy2025') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').classList.add('active');
+                
+                // Store session
+                sessionStorage.setItem('adminLoggedIn', 'true');
+            } else {
+                alert('Invalid credentials. Try: admin / solvy2025');
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            sessionStorage.removeItem('adminLoggedIn');
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('loginForm').reset();
+        });
+
+        // Check if already logged in
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+        }
+
+        // Ticket filtering
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                
+                // Filter tickets
+                document.querySelectorAll('.ticket-item').forEach(ticket => {
+                    if (filter === 'all' || ticket.dataset.status === filter) {
+                        ticket.style.display = 'grid';
+                    } else {
+                        ticket.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

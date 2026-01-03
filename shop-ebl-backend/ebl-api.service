@@ -1,0 +1,18 @@
+[Unit]
+Description=EBL Shop Backend API
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/ebl-api
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=ebl-api
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,167 @@
+.banking-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%);
+  color: white;
+}
+
+.banking-hero {
+  padding: 120px 20px 40px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.2) 0%, transparent 100%);
+}
+
+.banking-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #7c3aed, #14b8a6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.banking-subtitle {
+  font-size: 1.2rem;
+  color: #a0a0b0;
+  margin-bottom: 24px;
+}
+
+.banking-badges {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.banking-badges .badge {
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(124, 58, 237, 0.4);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #c4b5fd;
+}
+
+.banking-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.unit-wrapper {
+  background: white;
+  border-radius: 16px;
+  min-height: 600px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #666;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e0e0e0;
+  border-top-color: #7c3aed;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.banking-info {
+  padding: 60px 20px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(124, 58, 237, 0.5);
+}
+
+.info-icon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+
+.info-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.info-card p {
+  color: #a0a0b0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.banking-notice {
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.banking-notice p {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  padding: 16px 24px;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 0.9rem;
+}
+
+.banking-notice strong {
+  color: #fbbf24;
+}
+
+unit-elements-white-label-app {
+  display: block;
+  width: 100%;
+  min-height: 600px;
+}
+
+@media (max-width: 768px) {
+  .banking-hero h1 {
+    font-size: 1.8rem;
+  }
+  
+  .banking-subtitle {
+    font-size: 1rem;
+  }
+  
+  .banking-badges {
+    gap: 8px;
+  }
+  
+  .banking-badges .badge {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}

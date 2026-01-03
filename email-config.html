@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Configuration Guide | SOLVY Platform</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .dashboard-header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #EC4899;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #EC4899;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #10B981;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.2);
+            border-left: 4px solid #3B82F6;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 4px solid #F59E0B;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 4px solid #10B981;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+            padding-left: 0;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 2rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #EC4899;
+            color: #fff;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        table th,
+        table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        table th {
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 1.5rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>📧 Email Configuration Guide</h1>
+        <a href="admin-dashboard.html" class="btn">← Back to Admin</a>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="section">
+            <h2>Overview</h2>
+            <p>
+                This guide will help you configure MailCow email server and Huginn automation for the SOLVY platform.
+                You'll set up email addresses, DNS records, and automated workflows for customer inquiries.
+            </p>
+
+            <div class="info-box">
+                <strong>📌 What You'll Set Up:</strong>
+                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>MailCow email server at mail.ebl.beauty</li>
+                    <li>Email addresses: eva@ebl.beauty, sanathan@ebl.beauty</li>
+                    <li>DNS records for email delivery</li>
+                    <li>Huginn automation for inquiry routing</li>
+                    <li>Integration with contact form and Kimi AI</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Part 1: MailCow Setup</h2>
+
+            <h3>Step 1: Access MailCow Admin</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Navigate to MailCow</strong>
+                    <div class="code-block">
+                        <code>https://mail.ebl.beauty</code>
+                    </div>
+                    <p>Login with your admin credentials</p>
+                </li>
+
+                <li>
+                    <strong>Create Mailboxes</strong>
+                    <p>Go to: Configuration → Mailboxes → Add Mailbox</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Purpose</th>
+                                <th>Quota</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>eva@ebl.beauty</td>
+                                <td>General inquiries (Mon-Fri, 9-5 CST)</td>
+                                <td>10 GB</td>
+                            </tr>
+                            <tr>
+                                <td>sanathan@ebl.beauty</td>
+                                <td>SMTP services & technical support</td>
+                                <td>10 GB</td>
+                            </tr>
+                            <tr>
+                                <td>support@ebl.beauty</td>
+                                <td>Automated support (Kimi AI)</td>
+                                <td>5 GB</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+
+                <li>
+                    <strong>Configure Aliases</strong>
+                    <p>Go to: Configuration → Routing → Aliases</p>
+                    <div class="code-block">
+                        <code>
+                        info@ebl.beauty → eva@ebl.beauty<br>
+                        contact@ebl.beauty → eva@ebl.beauty<br>
+                        tech@ebl.beauty → sanathan@ebl.beauty<br>
+                        admin@ebl.beauty → sanathan@ebl.beauty
+                        </code>
+                    </div>
+                </li>
+            </ol>
+
+            <h3>Step 2: DNS Configuration</h3>
+            <p>Add these DNS records to your domain registrar (e.g., Cloudflare, GoDaddy):</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MX</td>
+                        <td>@</td>
+                        <td>mail.ebl.beauty</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>mail</td>
+                        <td>[YOUR_SERVER_IP]</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>TXT</td>
+                        <td>@</td>
+                        <td>v=spf1 mx ~all</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>TXT</td>
+                        <td>_dmarc</td>
+                        <td>v=DMARC1; p=quarantine; rua=mailto:sanathan@ebl.beauty</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong> DNS changes can take 24-48 hours to propagate. Test email delivery after waiting.
+            </div>
+
+            <h3>Step 3: DKIM Setup</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Generate DKIM Key</strong>
+                    <p>In MailCow: Configuration → Configuration & Details → ARC/DKIM keys</p>
+                    <p>Click "Generate" for ebl.beauty domain</p>
+                </li>
+
+                <li>
+                    <strong>Add DKIM DNS Record</strong>
+                    <p>Copy the generated DKIM key and add as TXT record:</p>
+                    <div class="code-block">
+                        <code>
+                        Type: TXT<br>
+                        Name: dkim._domainkey<br>
+                        Value: [GENERATED_DKIM_KEY]
+                        </code>
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Verify DKIM</strong>
+                    <p>Use: <a href="https://mxtoolbox.com/dkim.aspx" target="_blank" style="color: #EC4899;">MXToolbox DKIM Checker</a></p>
+                </li>
+            </ol>
+
+            <div class="success-box">
+                <strong>✅ Verification:</strong> Send a test email from eva@ebl.beauty to your personal email. Check headers for SPF, DKIM, and DMARC pass.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Part 2: Huginn Automation Setup</h2>
+
+            <h3>Step 1: Install Huginn</h3>
+            <div class="code-block">
+                <code>
+                # On your server (alongside MailCow)<br>
+                docker pull huginn/huginn<br>
+                <br>
+                docker run -d \<br>
+                &nbsp;&nbsp;--name huginn \<br>
+                &nbsp;&nbsp;-p 3000:3000 \<br>
+                &nbsp;&nbsp;-e HUGINN_DATABASE_ADAPTER=mysql2 \<br>
+                &nbsp;&nbsp;-e HUGINN_DATABASE_HOST=mysql \<br>
+                &nbsp;&nbsp;-e INVITATION_CODE=solvy2025 \<br>
+                &nbsp;&nbsp;huginn/huginn
+                </code>
+            </div>
+
+            <div class="info-box">
+                <strong>📌 Access Huginn:</strong> http://your-server-ip:3000<br>
+                Default login: admin / password (change immediately!)
+            </div>
+
+            <h3>Step 2: Create Email Routing Agent</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Create IMAP Agent</strong>
+                    <p>Go to: Agents → New Agent → IMAP Folder Agent</p>
+                    <div class="code-block">
+                        <code>
+                        Name: "SOLVY Contact Form Monitor"<br>
+                        Host: mail.ebl.beauty<br>
+                        Port: 993<br>
+                        Username: support@ebl.beauty<br>
+                        Password: [YOUR_PASSWORD]<br>
+                        Folders: ["INBOX"]<br>
+                        SSL: true
+                        </code>
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Create Trigger Agent</strong>
+                    <p>Parse incoming emails and extract data:</p>
+                    <div class="code-block">
+                        <code>
+                        Name: "Email Parser"<br>
+                        Type: Trigger Agent<br>
+                        Rules:<br>
+                        - Extract subject, from, body<br>
+                        - Categorize by keywords (SOLVY Card, DECIDEY, Partnership, etc.)
+                        </code>
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Create Routing Agent</strong>
+                    <p>Route to appropriate team member or Kimi AI:</p>
+                    <div class="code-block">
+                        <code>
+                        If subject contains "SOLVY Card" → eva@ebl.beauty<br>
+                        If subject contains "Technical" → sanathan@ebl.beauty<br>
+                        If subject contains "Partnership" → sanathan@ebl.beauty<br>
+                        Else → Kimi AI (auto-response)
+                        </code>
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Create Notification Agent</strong>
+                    <p>Send notifications to team:</p>
+                    <div class="code-block">
+                        <code>
+                        Name: "Team Notification"<br>
+                        Type: Email Agent<br>
+                        To: eva@ebl.beauty, sanathan@ebl.beauty<br>
+                        Subject: "New Support Ticket: {{subject}}"<br>
+                        Body: "From: {{from}}\nCategory: {{category}}\n\n{{body}}"
+                        </code>
+                    </div>
+                </li>
+            </ol>
+
+            <h3>Step 3: Connect to Contact Form</h3>
+            <p>Update contact.html form submission to send to support@ebl.beauty:</p>
+            <div class="code-block">
+                <code>
+                // In contact.html JavaScript<br>
+                async function submitContactForm(formData) {<br>
+                &nbsp;&nbsp;const response = await fetch('/api/contact', {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;method: 'POST',<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;headers: { 'Content-Type': 'application/json' },<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;body: JSON.stringify({<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to: 'support@ebl.beauty',<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subject: `Contact Form: ${formData.subject}`,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body: `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;})<br>
+                &nbsp;&nbsp;});<br>
+                }
+                </code>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Part 3: Testing & Verification</h2>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Test Email Delivery</strong>
+                    <p>Send test emails to all configured addresses</p>
+                    <div class="success-box">
+                        ✅ eva@ebl.beauty receives<br>
+                        ✅ sanathan@ebl.beauty receives<br>
+                        ✅ Aliases forward correctly
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Test Contact Form</strong>
+                    <p>Submit a test inquiry through contact.html</p>
+                    <div class="success-box">
+                        ✅ Email arrives at support@ebl.beauty<br>
+                        ✅ Huginn processes and routes<br>
+                        ✅ Team receives notification
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Test Huginn Automation</strong>
+                    <p>Send emails with different keywords to verify routing</p>
+                    <div class="success-box">
+                        ✅ "SOLVY Card" → eva@ebl.beauty<br>
+                        ✅ "Technical" → sanathan@ebl.beauty<br>
+                        ✅ General → Kimi AI response
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Verify SPF/DKIM/DMARC</strong>
+                    <p>Use <a href="https://www.mail-tester.com/" target="_blank" style="color: #EC4899;">Mail-Tester.com</a></p>
+                    <div class="success-box">
+                        ✅ Score: 10/10<br>
+                        ✅ SPF: Pass<br>
+                        ✅ DKIM: Pass<br>
+                        ✅ DMARC: Pass
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Troubleshooting</h2>
+
+            <h3>Email Not Receiving</h3>
+            <ul style="padding-left: 1.5rem;">
+                <li>Check MX records are correct</li>
+                <li>Verify firewall allows ports 25, 465, 587, 993</li>
+                <li>Check MailCow logs: docker logs mailcowdockerized_postfix-mailcow_1</li>
+            </ul>
+
+            <h3>Emails Going to Spam</h3>
+            <ul style="padding-left: 1.5rem;">
+                <li>Verify SPF, DKIM, DMARC are configured</li>
+                <li>Check IP reputation at <a href="https://mxtoolbox.com/blacklists.aspx" target="_blank" style="color: #EC4899;">MXToolbox</a></li>
+                <li>Warm up your domain by sending gradually increasing volumes</li>
+            </ul>
+
+            <h3>Huginn Not Processing</h3>
+            <ul style="padding-left: 1.5rem;">
+                <li>Check Huginn logs: docker logs huginn</li>
+                <li>Verify IMAP credentials are correct</li>
+                <li>Ensure agents are enabled and running</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Next Steps</h2>
+            <p>Once email is configured, proceed to:</p>
+            <ul style="padding-left: 1.5rem; margin-top: 1rem;">
+                <li><a href="kimi-ai-setup.html" style="color: #EC4899;">Kimi AI Integration</a> - Connect 24/7 customer service</li>
+                <li><a href="operations-dashboard.html" style="color: #EC4899;">Operations Dashboard</a> - Monitor email delivery</li>
+                <li><a href="admin-dashboard.html" style="color: #EC4899;">Admin Dashboard</a> - Manage support tickets</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
