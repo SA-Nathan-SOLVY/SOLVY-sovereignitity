@@ -15,6 +15,7 @@ export default function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
   const navLinks = [
     { href: '/solvy-card', label: 'SOLVY Card', active: window.location.pathname === '/solvy-card' },
     { href: '/sps-presentation', label: 'SPS Joint Venture', active: window.location.pathname === '/sps-presentation' },
+    { href: '/data-dashboard', label: 'Data Engine Demo', active: window.location.pathname === '/data-dashboard' },
     { href: 'https://ebl.beauty', label: 'EBL Pilot', active: currentPage === 'ebl', target: '_blank', rel: 'noopener noreferrer' },
     // MAN Dropdown Logic Handled Separately in Render
     { href: 'https://sites.google.com/view/uplift-ascend-partnership-ebl/home', label: 'Local Community Projects', active: false, style: { color: '#fbbf24' } },
