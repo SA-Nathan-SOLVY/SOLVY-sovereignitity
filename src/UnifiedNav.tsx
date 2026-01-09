@@ -1,152 +1,85 @@
-import { useState } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { useState, useEffect } from 'react'
+import './UnifiedNav.css'
 
-interface UnifiedNavProps {
-  currentPage?: 'nitty' | 'decidey' | 'ebl' | 'home' | 'contact';
-}
+function UnifiedNav() {
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-export default function UnifiedNav({ currentPage = 'nitty' }: UnifiedNavProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isManOpen, setIsManOpen] = useState(false);
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [mobileMenuOpen])
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  // Simplified Navigation for MVP
-  const navLinks = [
-    { href: '/solvy-card', label: 'SOLVY Card', active: window.location.pathname === '/solvy-card' },
-    { href: '/sps-presentation', label: 'SPS Joint Venture', active: window.location.pathname === '/sps-presentation' },
-    { href: '/data-dashboard', label: 'Data Engine Demo', active: window.location.pathname === '/data-dashboard' },
-    { href: 'https://ebl.beauty', label: 'EBL Pilot', active: currentPage === 'ebl', target: '_blank', rel: 'noopener noreferrer' },
-    // MAN Dropdown Logic Handled Separately in Render
-    { href: 'https://sites.google.com/view/uplift-ascend-partnership-ebl/home', label: 'Local Community Projects', active: false, style: { color: '#fbbf24' } },
-  ];
+  const closeMobileMenu = () => setMobileMenuOpen(false)
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-slate-900/95 backdrop-blur-md border-b border-purple-500/30 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          
-          {/* Logo */}
-          <a href="https://nitty.ebl.beauty" className="flex-shrink-0 transition-transform hover:scale-105">
-            <img src="/fulllogo.png" alt="SOLVY" className="h-10 w-auto" />
-          </a>
+    <nav className="unified-navbar">
+      <div className="unified-nav-container">
+        <a href="/" className="unified-nav-logo">
+          <img src="/SolvyLogo-1024.png" alt="SOLVY" className="unified-logo-image" />
+        </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`text-sm font-medium transition-colors px-3 py-2 rounded-md relative group ${
-                  link.active 
-                    ? 'text-purple-400 bg-purple-500/10' 
-                    : 'text-slate-200 hover:text-purple-400 hover:bg-purple-500/10'
-                }`}
-                style={link.style}
-              >
-                {link.label}
-                {link.active && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></span>
-                )}
-              </a>
-            ))}
-
-            {/* MAN Dropdown */}
-            <div className="relative group">
-              <button 
-                className="flex items-center gap-1 text-slate-200 hover:text-purple-400 transition-colors font-medium text-sm px-3 py-2 rounded-md hover:bg-purple-500/10 focus:outline-none"
-                onClick={() => setIsManOpen(!isManOpen)}
-                onMouseEnter={() => setIsManOpen(true)}
-                onMouseLeave={() => setIsManOpen(false)}
-              >
-                MAN
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              
-              {/* Dropdown Menu */}
-              <div 
-                className={`absolute top-full left-0 mt-2 w-56 bg-slate-900 border border-purple-500/30 rounded-lg shadow-xl overflow-hidden transition-all duration-200 transform origin-top-left ${
-                  isManOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
-                }`}
-                onMouseEnter={() => setIsManOpen(true)}
-                onMouseLeave={() => setIsManOpen(false)}
-              >
-                <div className="py-2">
-                  <a href="/communications" className="block px-4 py-3 text-sm text-slate-300 hover:bg-purple-500/20 hover:text-white transition-colors">
-                    Communications Center
-                  </a>
-                  <a href="/sps-presentation" className="block px-4 py-3 text-sm text-slate-300 hover:bg-purple-500/20 hover:text-white transition-colors">
-                    SPS Modernized Content
-                  </a>
-                </div>
-              </div>
+        <button 
+          className="hamburger-btn" 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span className={`hamburger-line ${mobileMenuOpen ? 'open' : ''}`}></span>
+          <span className={`hamburger-line ${mobileMenuOpen ? 'open' : ''}`}></span>
+          <span className={`hamburger-line ${mobileMenuOpen ? 'open' : ''}`}></span>
+        </button>
+        
+        <div className="unified-nav-links">
+          <a href="/">SOLVY Card</a>
+          <a href="/banking">Banking</a>
+          <a href="/decidey">DECIDEY NGO</a>
+          <a href="https://ebl.beauty" target="_blank" rel="noopener noreferrer">EBL Pilot</a>
+          <a href="/sps-presentation">SPS Joint Venture</a>
+          <div 
+            className={`nav-dropdown ${dropdownOpen ? 'open' : ''}`}
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => setDropdownOpen(false)}
+          >
+            <button 
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="dropdown-toggle"
+            >
+              MAN ▼
+            </button>
+            <div className="dropdown-menu">
+              <a href="/communications">Communications Center</a>
+              <a href="/sps-presentation">SPS Modernized Content</a>
             </div>
           </div>
-
-          {/* CTA Button (Desktop) */}
-          <div className="hidden lg:block">
-            <a 
-              href="/request-card" 
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2.5 rounded-lg font-bold hover:shadow-lg hover:shadow-purple-500/30 transition-all hover:-translate-y-0.5"
-            >
-              Get Your Card
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden">
-            <button
-              onClick={toggleMenu}
-              className="p-2 rounded-md text-slate-200 hover:text-white hover:bg-slate-800 focus:outline-none"
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
+        </div>
+        
+        <div className="unified-nav-cta">
+          <a href="/request-card" className="unified-btn-secondary">
+            Apply for Card
+          </a>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-20 z-50 bg-slate-900/98 backdrop-blur-xl border-t border-slate-800 overflow-y-auto animate-in slide-in-from-top-5">
-          <div className="px-4 pt-2 pb-6 space-y-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`block px-4 py-3 rounded-lg text-base font-medium ${
-                  link.active 
-                    ? 'text-purple-400 bg-purple-500/10' 
-                    : 'text-slate-200 hover:text-white hover:bg-slate-800'
-                }`}
-                style={link.style}
-              >
-                {link.label}
-              </a>
-            ))}
-            
-            {/* MAN Mobile Dropdown Items */}
-            <div className="space-y-1 pt-2 border-t border-slate-800/50">
-              <div className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">MAN Ecosystem</div>
-              <a href="/communications" className="block px-4 py-3 rounded-lg text-base font-medium text-slate-200 hover:text-white hover:bg-slate-800">
-                Communications Center
-              </a>
-              <a href="/sps-presentation" className="block px-4 py-3 rounded-lg text-base font-medium text-slate-200 hover:text-white hover:bg-slate-800">
-                SPS Modernized Content
-              </a>
-            </div>
-
-            <div className="pt-4 mt-4 border-t border-slate-800">
-              <a 
-                href="/request-card" 
-                className="block w-full text-center bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-bold"
-              >
-                Get Your Card
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+      <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`} onClick={closeMobileMenu}></div>
+      <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+        <a href="/" onClick={closeMobileMenu}>SOLVY Card</a>
+        <a href="/banking" onClick={closeMobileMenu}>Banking</a>
+        <a href="/decidey" onClick={closeMobileMenu}>DECIDEY NGO</a>
+        <a href="https://ebl.beauty" target="_blank" rel="noopener noreferrer" onClick={closeMobileMenu}>EBL Pilot</a>
+        <a href="/sps-presentation" onClick={closeMobileMenu}>SPS Joint Venture</a>
+        <div className="mobile-menu-divider"></div>
+        <span className="mobile-menu-label">MAN - Mandatory Audit Network</span>
+        <a href="/communications" onClick={closeMobileMenu}>Communications Center</a>
+        <a href="/sps-presentation" onClick={closeMobileMenu}>SPS Modernized Content</a>
+        <div className="mobile-menu-divider"></div>
+        <a href="/request-card" className="mobile-cta" onClick={closeMobileMenu}>Apply for Card</a>
+      </div>
     </nav>
-  );
+   )
 }
+
+export default UnifiedNav
