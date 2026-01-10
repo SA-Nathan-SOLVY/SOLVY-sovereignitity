@@ -7,6 +7,8 @@ import SolvyCard from './pages/SolvyCard'
 import CommunicationsCenter from './pages/CommunicationsCenter'
 import RequestCard from './pages/RequestCard'
 import DataDashboard from './pages/DataDashboard'
+import Banking from './pages/Banking'
+import MemberDashboard from './pages/MemberDashboard'
 import './App.css'
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
         <Route path="/communications" element={<CommunicationsCenter />} />
         <Route path="/request-card" element={<RequestCard />} />
         <Route path="/data-dashboard" element={<DataDashboard />} />
+        <Route path="/banking" element={<Banking />} />
+        <Route path="/dashboard" element={<MemberDashboard />} />
       </Routes>
     </Router>
   )
