@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { calculateProfitShare } from '../lib/solvyCalculations'
+import { calculateProfitShare } from '../lib/solvyCalculations
 import SovereigntyAccelerator from '../components/SovereigntyAccelerator'
 import UnifiedNav from '../UnifiedNav'
 import '../dashboardStyles.css'

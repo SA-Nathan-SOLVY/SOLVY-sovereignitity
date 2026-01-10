@@ -1,0 +1,12 @@
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "n": "wRzheKRW9uC95PlH8BqZxuPLYQ64V2IyM-yGmmBMFqQO3vLIaFTj-dNGMvL7kKNFMI3YfiCzwva7HC4JPWS4da9IMEuq5RYIK1XN_hHmQe75FsWQu1ePEXXBEk1GUk4bNptQftCmqmdYaNjFNJxPDb48P6v4jE_8NCcjmCGRZUGZAi5ARxlj8J6GGXfppoUoWoHDxfTgmLjnFqBeCgpHrLTDtJ3Noorrsy0CxoAY4D1F3he8HqFsQ5dpH2RY0FapwPlEkD7bTxyTjt_mSb1xZiBL22Ej6XC_SarCW7MVUzXgefsYFrxw_EbfCXACXdqYtMUKzBCM9GlC2UbXhjuq5Q",
+      "e": "AQAB",
+      "kid": "solvy-sovereign-key-1",
+      "use": "sig",
+      "alg": "RS256"
+    }
+  ]
+}

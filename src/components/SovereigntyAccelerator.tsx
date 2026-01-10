@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { calculateSovereigntyAcceleration } from '../lib/solvyCalculations'
+import { calculateSovereigntyAcceleration } from '../lib/solvyCalculations
 
 const CONTRIBUTION_TIERS = [0.25, 0.50, 0.99]
 
