@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBL Payment - SOLVY Card</title>
+    <meta name="description" content="Pay Evergreen Beauty Lounge with SOLVY Card - Privacy-first contactless payments">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .payment-container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #2c5f7c;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* SOLVY Card Display */
+        .card-display {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .card-display img {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .card-display img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Payment Tabs */
+        .payment-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .tab:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .tab.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tab-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .tab-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-top: 0.3rem;
+        }
+
+        /* NFC Payment Interface */
+        .nfc-interface {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .nfc-interface.active {
+            display: block;
+        }
+
+        .nfc-animation {
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 30px rgba(102, 126, 234, 0);
+            }
+        }
+
+        .nfc-icon {
+            font-size: 5rem;
+            color: white;
+        }
+
+        .nfc-status {
+            font-size: 1.2rem;
+            color: #2c5f7c;
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        .nfc-instruction {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Traditional Payment Form */
+        .payment-form {
+            display: none;
+        }
+
+        .payment-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c5f7c;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-pay:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Security Badge */
+        .security-badge {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .security-badge p {
+            color: #666;
+            font-size: 0.85rem;
+            margin: 0.3rem 0;
+        }
+
+        .security-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .security-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Back Link */
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .payment-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .payment-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💳 EBL Payment</h1>
+            <p>Evergreen Beauty Lounge</p>
+        </div>
+
+        <!-- SOLVY Card Display -->
+        <div class="card-display">
+            <img src="solvy-card.png" alt="SOLVY Card - Evergreen Beauty Lounge">
+        </div>
+
+        <!-- Payment Method Tabs -->
+        <div class="payment-tabs">
+            <div class="tab active" data-method="nfc">
+                <div class="tab-icon">📱</div>
+                <div class="tab-label">SOLVY Card</div>
+                <div class="tab-badge">NFC</div>
+            </div>
+            <div class="tab" data-method="card">
+                <div class="tab-icon">💳</div>
+                <div class="tab-label">Card Payment</div>
+            </div>
+        </div>
+
+        <!-- NFC Payment Interface -->
+        <div class="nfc-interface active" id="nfc-interface">
+            <div class="nfc-animation">
+                <div class="nfc-icon">📱</div>
+            </div>
+            <div class="nfc-status">Ready for NFC Payment</div>
+            <div class="nfc-instruction">
+                <p><strong>Tap your phone to pay with SOLVY Card</strong></p>
+                <p style="margin-top: 1rem;">1. Open SOLVY app on your phone<br>
+                2. Hold phone near NFC reader<br>
+                3. Authorize payment with biometric<br>
+                4. Transaction complete!</p>
+                <p style="margin-top: 1.5rem; font-size: 0.85rem; color: #999;">
+                    🔒 Your PII is protected - only transaction details are shared
+                </p>
+            </div>
+        </div>
+
+        <!-- Traditional Card Payment Form -->
+        <div class="payment-form" id="payment-form">
+            <form id="card-payment-form">
+                <div class="form-group">
+                    <label for="amount">Payment Amount ($)</label>
+                    <input type="number" id="amount" name="amount" placeholder="0.00" step="0.01" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Service (Optional)</label>
+                    <select id="service" name="service">
+                        <option value="">Select service...</option>
+                        <option value="nails">Nail Services</option>
+                        <option value="hair">Hair Services</option>
+                        <option value="spa">Spa Services</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email for Receipt</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+
+                <button type="submit" class="btn-pay" id="pay-button">
+                    Process Payment
+                </button>
+
+                <p style="text-align: center; color: #666; font-size: 0.85rem; margin-top: 1rem;">
+                    Secure payment processing • Visa/Mastercard accepted
+                </p>
+            </form>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security-badge">
+            <div class="security-icons">
+                <span class="security-icon">🔒</span>
+                <span class="security-icon">✓</span>
+                <span class="security-icon">🛡️</span>
+            </div>
+            <p><strong>SOLVY Payment Partner</strong></p>
+            <p>Privacy-First • PII Protected • Secure Transactions</p>
+            <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+                Pilot partner of SOLVY Card cooperative payment system
+            </p>
+        </div>
+
+        <!-- Back Link -->
+        <div class="back-link">
+            <a href="/">← Back to EBL Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const nfcInterface = document.getElementById('nfc-interface');
+        const paymentForm = document.getElementById('payment-form');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const method = this.dataset.method;
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show appropriate interface
+                if (method === 'nfc') {
+                    nfcInterface.classList.add('active');
+                    paymentForm.classList.remove('active');
+                } else {
+                    nfcInterface.classList.remove('active');
+                    paymentForm.classList.add('active');
+                }
+            });
+        });
+
+        // Card payment form submission
+        document.getElementById('card-payment-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const amount = document.getElementById('amount').value;
+            const service = document.getElementById('service').value;
+            const email = document.getElementById('email').value;
+            const payButton = document.getElementById('pay-button');
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid payment amount.');
+                return;
+            }
+
+            payButton.disabled = true;
+            payButton.textContent = 'Processing...';
+
+            try {
+                // TODO: Implement backend payment processing
+                // For now, show contact message
+                alert(`Payment request received!\n\nAmount: $${amount}\nService: ${service || 'Not specified'}\nEmail: ${email}\n\nPlease contact Eva at (929) 429-5994 to complete your payment.\n\nSOLVY Card with full payment processing coming soon!`);
+                
+                // Reset form
+                this.reset();
+                
+            } catch (error) {
+                console.error('Payment error:', error);
+                alert('Payment processing error. Please contact us directly at (929) 429-5994.');
+            } finally {
+                payButton.disabled = false;
+                payButton.textContent = 'Process Payment';
+            }
+        });
+
+        // NFC simulation (for demo purposes)
+        const nfcAnimation = document.querySelector('.nfc-animation');
+        const nfcStatus = document.querySelector('.nfc-status');
+        
+        nfcAnimation.addEventListener('click', function() {
+            if (nfcInterface.classList.contains('active')) {
+                nfcStatus.textContent = 'Waiting for SOLVY Card...';
+                
+                setTimeout(() => {
+                    nfcStatus.textContent = 'Connection Established ✓';
+                    setTimeout(() => {
+                        nfcStatus.textContent = 'Payment Authorized ✓';
+                        setTimeout(() => {
+                            alert('SOLVY Card payment successful!\n\nThis is a demo. Full NFC payment functionality will be available when SOLVY Card launches.\n\nFor now, please use traditional card payment or contact Eva at (929) 429-5994.');
+                            nfcStatus.textContent = 'Ready for NFC Payment';
+                        }, 1000);
+                    }, 1000);
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

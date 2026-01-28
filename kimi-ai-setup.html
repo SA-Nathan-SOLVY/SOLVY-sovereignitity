@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kimi AI Integration Guide | SOLVY Platform</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .dashboard-header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #EC4899;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #EC4899;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #10B981;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.2);
+            border-left: 4px solid #3B82F6;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 4px solid #F59E0B;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 4px solid #10B981;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+            padding-left: 0;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 2rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #EC4899;
+            color: #fff;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .feature-card h4 {
+            margin-bottom: 0.5rem;
+            color: #EC4899;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>🤖 Kimi AI Integration Guide</h1>
+        <a href="admin-dashboard.html" class="btn">← Back to Admin</a>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="section">
+            <h2>Overview</h2>
+            <p>
+                Integrate Kimi AI to provide 24/7 automated customer service for the SOLVY platform. 
+                Kimi will handle initial inquiries, provide information about SOLVY Card, DECIDEY NGO, and remittance services, 
+                and escalate complex issues to human team members via MailCow + Huginn.
+            </p>
+
+            <div class="info-box">
+                <strong>🎯 What Kimi AI Will Do:</strong>
+                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li>Answer common questions about SOLVY services</li>
+                    <li>Guide users through SOLVY Card signup process</li>
+                    <li>Provide information about DECIDEY NGO education</li>
+                    <li>Explain remittance services and savings calculator</li>
+                    <li>Collect information for partnership inquiries</li>
+                    <li>Escalate complex issues to eva@ebl.beauty or sanathan@ebl.beauty</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Part 1: Kimi AI Setup</h2>
+
+            <h3>Step 1: Get Kimi AI API Access</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Sign Up for Kimi AI</strong>
+                    <p>Visit: <a href="https://kimi.moonshot.cn/" target="_blank" style="color: #EC4899;">https://kimi.moonshot.cn/</a></p>
+                    <p>Create an account and get API credentials</p>
+                </li>
+
+                <li>
+                    <strong>Get API Key</strong>
+                    <p>Navigate to API settings and generate your API key</p>
+                    <div class="code-block">
+                        <code>
+                        API Endpoint: https://api.moonshot.cn/v1<br>
+                        API Key: [YOUR_KIMI_API_KEY]
+                        </code>
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Store API Key Securely</strong>
+                    <p>Add to your environment variables:</p>
+                    <div class="code-block">
+                        <code>
+                        export KIMI_API_KEY="your_api_key_here"<br>
+                        export KIMI_API_ENDPOINT="https://api.moonshot.cn/v1"
+                        </code>
+                    </div>
+                </li>
+            </ol>
+
+            <h3>Step 2: Create Kimi AI Knowledge Base</h3>
+            <p>Train Kimi with SOLVY platform information:</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>SOLVY Card</h4>
+                    <p>Virtual debit card, $9.99/mo, AI tax assistant, data sovereignty, cooperative ownership</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4>DECIDEY NGO</h4>
+                    <p>Economic sovereignty education, IBC/BYOB banking, financial literacy, YouTube educators</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4>Remittance</h4>
+                    <p>Zero-fee family remittances (future), BRICS network, African diaspora focus, Web3 infrastructure</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4>Contact Info</h4>
+                    <p>eva@ebl.beauty (Mon-Fri 9-5 CST), sanathan@ebl.beauty (technical), (775) 636-3656</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <code>
+                # Upload knowledge base documents to Kimi<br>
+                curl -X POST https://api.moonshot.cn/v1/files \<br>
+                &nbsp;&nbsp;-H "Authorization: Bearer $KIMI_API_KEY" \<br>
+                &nbsp;&nbsp;-F "file=@solvy-knowledge-base.txt" \<br>
+                &nbsp;&nbsp;-F "purpose=file-extract"
+                </code>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Part 2: Integration with MailCow + Huginn</h2>
+
+            <h3>Step 1: Create Kimi AI Huginn Agent</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Create Webhook Agent</strong>
+                    <p>In Huginn: Agents → New Agent → Webhook Agent</p>
+                    <div class="code-block">
+                        <code>
+                        Name: "Kimi AI Webhook"<br>
+                        Path: kimi-ai-response<br>
+                        Secret: solvy_kimi_2025
+                        </code>
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Create HTTP Request Agent</strong>
+                    <p>Send inquiries to Kimi AI:</p>
+                    <div class="code-block">
+                        <code>
+                        Name: "Kimi AI Request"<br>
+                        URL: https://api.moonshot.cn/v1/chat/completions<br>
+                        Method: POST<br>
+                        Headers:<br>
+                        &nbsp;&nbsp;Authorization: Bearer {{KIMI_API_KEY}}<br>
+                        &nbsp;&nbsp;Content-Type: application/json<br>
+                        Payload:<br>
+                        {<br>
+                        &nbsp;&nbsp;"model": "moonshot-v1-8k",<br>
+                        &nbsp;&nbsp;"messages": [<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"role": "system",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": "You are a helpful assistant for SOLVY Platform..."<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"role": "user",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": "{{inquiry}}"<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;]<br>
+                        }
+                        </code>
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Create Response Router</strong>
+                    <p>Route Kimi responses:</p>
+                    <div class="code-block">
+                        <code>
+                        If Kimi can answer → Send email response<br>
+                        If Kimi needs human help → Create ticket for team<br>
+                        If urgent/complex → Notify sanathan@ebl.beauty immediately
+                        </code>
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Create Email Response Agent</strong>
+                    <p>Send Kimi's response to customer:</p>
+                    <div class="code-block">
+                        <code>
+                        Name: "Kimi Email Response"<br>
+                        Type: Email Agent<br>
+                        From: support@ebl.beauty<br>
+                        To: {{customer_email}}<br>
+                        Subject: "Re: {{original_subject}}"<br>
+                        Body: "{{kimi_response}}\n\n---\nSOLVY Platform Support\n24/7 AI-Powered Assistance"
+                        </code>
+                    </div>
+                </li>
+            </ol>
+
+            <h3>Step 2: Create Escalation Rules</h3>
+            <p>Define when to escalate to human team:</p>
+
+            <div class="code-block">
+                <code>
+                # Escalation triggers:<br>
+                - Customer explicitly requests human support<br>
+                - Kimi confidence score < 70%<br>
+                - Topic: billing disputes, account security, partnerships<br>
+                - Customer is frustrated (sentiment analysis)<br>
+                - More than 3 back-and-forth exchanges without resolution
+                </code>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Part 3: Website Integration</h2>
+
+            <h3>Add Live Chat Widget</h3>
+            <p>Add this code to all pages (before closing &lt;/body&gt; tag):</p>
+
+            <div class="code-block">
+                <code>
+                &lt;!-- Kimi AI Chat Widget --&gt;<br>
+                &lt;div id="kimi-chat-widget"&gt;&lt;/div&gt;<br>
+                &lt;script&gt;<br>
+                &nbsp;&nbsp;(function() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;const widget = document.createElement('div');<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;widget.id = 'kimi-chat-button';<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;widget.innerHTML = '💬';<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;widget.style.cssText = `<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position: fixed;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottom: 20px;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right: 20px;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: 60px;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height: 60px;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background: #EC4899;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border-radius: 50%;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display: flex;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;align-items: center;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;justify-content: center;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 30px;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cursor: pointer;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z-index: 9999;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;`;<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;widget.onclick = function() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Open Kimi chat interface<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window.open('/kimi-chat.html', 'KimiChat', 'width=400,height=600');<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;};<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;document.body.appendChild(widget);<br>
+                &nbsp;&nbsp;})();<br>
+                &lt;/script&gt;
+                </code>
+            </div>
+
+            <h3>Create Chat Interface (kimi-chat.html)</h3>
+            <p>Simple chat interface for Kimi AI:</p>
+
+            <div class="code-block">
+                <code>
+                &lt;!-- Chat interface with message history --&gt;<br>
+                &lt;div id="chat-messages"&gt;&lt;/div&gt;<br>
+                &lt;input type="text" id="user-input" placeholder="Ask me anything..."&gt;<br>
+                &lt;button onclick="sendMessage()"&gt;Send&lt;/button&gt;<br>
+                <br>
+                &lt;script&gt;<br>
+                async function sendMessage() {<br>
+                &nbsp;&nbsp;const input = document.getElementById('user-input').value;<br>
+                &nbsp;&nbsp;const response = await fetch('/api/kimi-chat', {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;method: 'POST',<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;headers: { 'Content-Type': 'application/json' },<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;body: JSON.stringify({ message: input })<br>
+                &nbsp;&nbsp;});<br>
+                &nbsp;&nbsp;const data = await response.json();<br>
+                &nbsp;&nbsp;displayMessage('user', input);<br>
+                &nbsp;&nbsp;displayMessage('kimi', data.response);<br>
+                }<br>
+                &lt;/script&gt;
+                </code>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Part 4: Testing & Monitoring</h2>
+
+            <ol class="step-list">
+                <li>
+                    <strong>Test Basic Queries</strong>
+                    <div class="success-box">
+                        ✅ "What is SOLVY Card?" → Accurate response<br>
+                        ✅ "How much does it cost?" → $9.99/mo pricing<br>
+                        ✅ "Tell me about DECIDEY NGO" → Education info
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Test Escalation</strong>
+                    <div class="success-box">
+                        ✅ "I need to speak to a human" → Creates ticket<br>
+                        ✅ Complex partnership inquiry → Routes to sanathan@<br>
+                        ✅ Billing issue → Escalates immediately
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Monitor Performance</strong>
+                    <p>Track in Operations Dashboard:</p>
+                    <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Response time (target: < 2 seconds)</li>
+                        <li>Resolution rate (target: > 70%)</li>
+                        <li>Escalation rate (target: < 30%)</li>
+                        <li>Customer satisfaction</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Continuous Improvement</strong>
+                    <p>Review Kimi conversations weekly and update knowledge base</p>
+                </li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Sample Kimi AI Prompts</h2>
+
+            <h3>System Prompt</h3>
+            <div class="code-block">
+                <code>
+                You are a helpful customer service assistant for SOLVY Platform, an economic sovereignty platform.<br>
+                <br>
+                Your role:<br>
+                - Answer questions about SOLVY Card, DECIDEY NGO, and remittance services<br>
+                - Be professional, empowering, and respectful<br>
+                - Use inclusive language that honors all paths to economic sovereignty<br>
+                - If you don't know something, say so and offer to connect them with a human team member<br>
+                - Never make up information about pricing, features, or availability<br>
+                <br>
+                Key information:<br>
+                - SOLVY Card: $9.99/mo virtual debit card with AI tax assistant<br>
+                - DECIDEY NGO: Free economic sovereignty education<br>
+                - Remittance: Zero-fee family transfers (coming soon)<br>
+                - Contact: eva@ebl.beauty (Mon-Fri 9-5 CST), sanathan@ebl.beauty (technical)<br>
+                - Phone: (775) 636-3656<br>
+                <br>
+                If customer needs human support, create a ticket and notify the team immediately.
+                </code>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Next Steps</h2>
+            <p>After completing Kimi AI setup:</p>
+            <ul style="padding-left: 1.5rem; margin-top: 1rem;">
+                <li><a href="operations-dashboard.html" style="color: #EC4899;">Monitor Kimi AI performance</a> in Operations Dashboard</li>
+                <li><a href="admin-dashboard.html" style="color: #EC4899;">Review escalated tickets</a> in Admin Dashboard</li>
+                <li>Train team on handling escalations from Kimi AI</li>
+                <li>Collect customer feedback on AI support quality</li>
+            </ul>
+
+            <div class="success-box" style="margin-top: 2rem;">
+                <strong>🎉 Congratulations!</strong> You now have 24/7 AI-powered customer service integrated with your email system and team workflows!
+            </div>
+        </div>
+    </div>
+</body>
+</html>

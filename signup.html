@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join SOLVY - Member Onboarding</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #1e293b 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            color: #9333ea;
+            text-align: center;
+        }
+        .onboarding-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        .step {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            background: rgba(147, 51, 234, 0.1);
+            border-radius: 10px;
+        }
+        .step-number {
+            background: #9333ea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+        .signup-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+        button {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified Navigation -->
+    <nav class="unified-navbar">
+      <div class="unified-nav-container">
+        <a href="https://nitty.ebl.beauty" class="unified-nav-logo">
+          <img src="/solvy-crown-icon.png" alt="SOLVY" class="unified-logo-image" />
+          <span class="unified-logo-text">SOLVY</span>
+        </a>
+        
+        <div class="unified-nav-links">
+          <a href="https://nitty.ebl.beauty">SOLVY Card</a>
+          <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
+          <a href="https://ebl.beauty">EBL Pilot</a>
+          <a href="https://admin.ebl.beauty">Admin</a>
+          <a href="/signup.html" class="active">Join SOLVY</a>
+        </div>
+        
+        <div class="unified-nav-cta">
+          <a href="#apply" class="unified-btn-primary">
+            Apply Now
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+        <h1>Join the SOLVY Cooperative</h1>
+        <p style="text-align: center; opacity: 0.9;">Become a member-owner of America's First P2P Payment Platform</p>
+        
+        <div class="onboarding-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Personal Checking</h3>
+                <p>Open your SOLVY Checking account</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Data Sovereignty</h3>
+                <p>Control your transaction data</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Income Earning</h3>
+                <p>Opt-in to earn from your data</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Business Account</h3>
+                <p>Upgrade to accept payments</p>
+            </div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <h3>Full Sovereignty</h3>
+                <p>Become a cooperative leader</p>
+            </div>
+        </div>
+        
+        <div class="signup-form" id="apply">
+            <h2>Apply for Membership</h2>
+            <form id="membership-form">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <input type="tel" placeholder="Phone Number" required>
+                
+                <select required>
+                    <option value="">Select Membership Type</option>
+                    <option value="personal">Personal Checking</option>
+                    <option value="business">Business Account</option>
+                </select>
+                
+                <select required>
+                    <option value="">How did you hear about SOLVY?</option>
+                    <option value="ebl">EBL Beauty Lounge</option>
+                    <option value="friend">Friend or Family</option>
+                    <option value="social">Social Media</option>
+                    <option value="search">Online Search</option>
+                </select>
+                
+                <p style="font-size: 0.9em; opacity: 0.8;">
+                    <input type="checkbox" required>
+                    I agree to the <a href="#" style="color: #3b82f6;">Terms of Service</a> and 
+                    <a href="#" style="color: #3b82f6;">Privacy Policy</a>
+                </p>
+                
+                <button type="submit">Submit Application</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 20px; font-size: 0.9em;">
+                Already a member? <a href="https://nitty.ebl.beauty" style="color: #3b82f6;">Access your dashboard</a>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('membership-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your application! A SOLVY representative will contact you within 24 hours to complete your membership onboarding.');
+        });
+    </script>
+    
+    <!-- Add unified nav styles if not already present -->
+    <style>
+    .unified-navbar {
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(147, 51, 234, 0.3);
+    }
+    .unified-nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+    }
+    .unified-nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .unified-logo-image { height: 40px; width: auto; }
+    .unified-logo-text {
+      background: linear-gradient(135deg, #9333ea, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .unified-nav-links {
+      display: flex;
+      gap: 2rem;
+      flex: 1;
+      justify-content: center;
+    }
+    .unified-nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
+    .unified-nav-links a:hover {
+      color: #9333ea;
+      background: rgba(147, 51, 234, 0.1);
+    }
+    .unified-nav-links a.active {
+      color: #9333ea;
+      background: rgba(147, 51, 234, 0.2);
+      font-weight: 600;
+    }
+    .unified-btn-primary {
+      background: linear-gradient(135deg, #9333ea, #7c3aed);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+    }
+    </style>
+</body>
+</html>

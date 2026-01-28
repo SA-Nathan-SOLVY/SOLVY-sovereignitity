@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    networks:
+      - solvy-network
+
+  # Keep existing services from /var/www/solvy
+  # (MailCow, Huggin will continue running)
+
+networks:
+  solvy-network:
+    driver: bridge

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evergreen Beauty Lounge - Licensed Texas Cosmetology Services</title>
+    <meta name="description" content="Evergreen Beauty Lounge - Licensed Texas cosmetology services. Veteran-owned, professional beauty services. Accept payments via SOLVY Card.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c5f7c 0%, #4a7c8f 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .header-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-text p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .badge::before {
+            content: "⭐ ";
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .services-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c5f7c;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: #2c5f7c;
+        }
+
+        /* Payment CTA */
+        .payment-cta {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .payment-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn-payment {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1.25rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .btn-payment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Reign Products Section */
+        .reign-section {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .reign-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .reign-section h2::before {
+            content: "🌸 ";
+        }
+
+        .reign-description {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .reign-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto 3rem;
+        }
+
+        .reign-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .reign-feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .reign-feature-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .reign-feature-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .btn-reign {
+            display: inline-block;
+            background: white;
+            color: #8e44ad;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-reign:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .contact-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c5f7c;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card h3 {
+            font-size: 1.3rem;
+            color: #2c5f7c;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card a {
+            color: #8e44ad;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c5f7c;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-text h1 {
+                font-size: 1.75rem;
+            }
+
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .services-section h2,
+            .payment-cta h2,
+            .reign-section h2,
+            .contact-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Logo Bookends -->
+    <header>
+        <div class="header-content">
+            <img src="ebl-logo.png" alt="EBL Logo" class="logo">
+            <div class="header-text">
+                <h1>Evergreen Beauty Lounge</h1>
+                <p>Licensed Texas Cosmetology Services</p>
+                <div class="badge">Licensed Professional • Veteran-Owned</div>
+            </div>
+            <img src="ebl-logo.png" alt="EBL Logo" class="logo">
+        </div>
+    </header>
+
+    <!-- Services Section (Simplified) -->
+    <section class="services-section">
+        <h2>Professional Beauty Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">💅</div>
+                <h3>Nail Services</h3>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">💇</div>
+                <h3>Hair Services</h3>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">✨</div>
+                <h3>Spa Services</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment CTA -->
+    <section class="payment-cta">
+        <h2>👑 Pay with SOLVY Card</h2>
+        <p>Privacy-first contactless payments • NFC enabled</p>
+        <a href="payment.html" class="btn-payment">Make a Payment →</a>
+    </section>
+
+    <!-- Reign Products Section -->
+    <section class="reign-section">
+        <h2>Now Offering Reign Menstrual Health Products</h2>
+        <div class="reign-description">
+            <p>Evergreen Beauty Lounge is a licensed distributor of Reign premium graphene-infused menstrual pads. Experience superior comfort, protection, and eco-friendly innovation.</p>
+        </div>
+
+        <div class="reign-features">
+            <div class="reign-feature">
+                <div class="reign-feature-value">100%</div>
+                <div class="reign-feature-label">Premium Quality</div>
+            </div>
+
+            <div class="reign-feature">
+                <div class="reign-feature-icon">♻️</div>
+                <div class="reign-feature-label">Eco-Friendly</div>
+            </div>
+
+            <div class="reign-feature">
+                <div class="reign-feature-icon">🌸</div>
+                <div class="reign-feature-label">Women's Health</div>
+            </div>
+        </div>
+
+        <a href="https://ebl.jewelpads.com" class="btn-reign" target="_blank">Shop Reign Products →</a>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <h2>Get in Touch</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <h3>Phone</h3>
+                <a href="tel:+19294295994">(929) 429-5994</a>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">💬</div>
+                <h3>Text</h3>
+                <a href="sms:+19294295994">(929) 429-5994</a>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h3>Email</h3>
+                <a href="mailto:eva@ebl.beauty">eva@ebl.beauty</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Evergreen Beauty Lounge</strong></p>
+        <p>Licensed Texas Cosmetology Services • Veteran-Owned</p>
+        <p>A proud client of S.A. Nathan LLC • Pilot partner of SOLVY Card</p>
+        <p style="margin-top: 1rem; opacity: 0.7;">© 2025 Evergreen Beauty Lounge. All rights reserved.</p>
+    </footer>
+</body>
+</html>

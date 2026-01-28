@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operations Dashboard | SOLVY Platform</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .dashboard-header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dashboard-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-online {
+            background: #10B981;
+        }
+
+        .status-warning {
+            background: #F59E0B;
+        }
+
+        .status-offline {
+            background: #EF4444;
+        }
+
+        .status-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .status-info p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .metrics-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .metrics-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #EC4899;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .metric-card {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #EC4899;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .metric-change {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .metric-up {
+            color: #10B981;
+        }
+
+        .metric-down {
+            color: #EF4444;
+        }
+
+        .chart-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #EC4899;
+        }
+
+        .chart-placeholder {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 3rem;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .logs-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .logs-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #EC4899;
+        }
+
+        .log-entry {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .log-time {
+            color: #3B82F6;
+        }
+
+        .log-level-info {
+            color: #10B981;
+        }
+
+        .log-level-warn {
+            color: #F59E0B;
+        }
+
+        .log-level-error {
+            color: #EF4444;
+        }
+
+        @media (max-width: 768px) {
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>📊 Operations Dashboard</h1>
+        <div class="header-actions">
+            <button class="btn" onclick="refreshData()">🔄 Refresh</button>
+            <a href="admin-dashboard.html" class="btn">← Back to Admin</a>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="status-grid">
+            <div class="status-card">
+                <div class="status-indicator status-online"></div>
+                <div class="status-info">
+                    <h3>SOLVY Platform</h3>
+                    <p>All systems operational</p>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-indicator status-online"></div>
+                <div class="status-info">
+                    <h3>EBL Services API</h3>
+                    <p>Healthy - 99.9% uptime</p>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-indicator status-online"></div>
+                <div class="status-info">
+                    <h3>MailCow (mail.ebl.beauty)</h3>
+                    <p>Online - Ready</p>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-indicator status-warning"></div>
+                <div class="status-info">
+                    <h3>Huginn Automation</h3>
+                    <p>Pending deployment</p>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-indicator status-warning"></div>
+                <div class="status-info">
+                    <h3>Kimi AI Service</h3>
+                    <p>Configuration in progress</p>
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-indicator status-online"></div>
+                <div class="status-info">
+                    <h3>Raspberry Pi 5 MAN</h3>
+                    <p>Monitoring active</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-section">
+            <h2>Real-Time Metrics</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">156</div>
+                    <div class="metric-label">Active Users</div>
+                    <div class="metric-change metric-up">↑ 12% this week</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">24</div>
+                    <div class="metric-label">Open Tickets</div>
+                    <div class="metric-change metric-down">↓ 3 from yesterday</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">99.8%</div>
+                    <div class="metric-label">API Uptime</div>
+                    <div class="metric-change metric-up">↑ 0.2% this month</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">142ms</div>
+                    <div class="metric-label">Avg Response Time</div>
+                    <div class="metric-change metric-up">↓ 15ms improvement</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">$12.4K</div>
+                    <div class="metric-label">Monthly Revenue</div>
+                    <div class="metric-change metric-up">↑ 18% vs last month</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+            <div class="chart-container">
+                <h3>System Performance (24h)</h3>
+                <div class="chart-placeholder">
+                    <p>📈 Grafana Dashboard Integration</p>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 1rem;">
+                        Connect to: http://raspberrypi5.local:3000<br>
+                        Dashboard: SOLVY MAN Network
+                    </p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>User Activity (7 days)</h3>
+                <div class="chart-placeholder">
+                    <p>👥 User Analytics</p>
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 1rem;">
+                        SOLVY Card activations, DECIDEY enrollments,<br>
+                        Contact form submissions
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="logs-section">
+            <h3>System Logs (Live)</h3>
+            <div id="logContainer">
+                <div class="log-entry">
+                    <span class="log-time">[2025-11-20 23:05:42]</span>
+                    <span class="log-level-info">[INFO]</span>
+                    SOLVY Card activation successful - User ID: 1234
+                </div>
+                <div class="log-entry">
+                    <span class="log-time">[2025-11-20 23:04:15]</span>
+                    <span class="log-level-info">[INFO]</span>
+                    Contact form submission received from john.doe@email.com
+                </div>
+                <div class="log-entry">
+                    <span class="log-time">[2025-11-20 23:03:28]</span>
+                    <span class="log-level-warn">[WARN]</span>
+                    Huginn agent not responding - retrying connection
+                </div>
+                <div class="log-entry">
+                    <span class="log-time">[2025-11-20 23:02:51]</span>
+                    <span class="log-level-info">[INFO]</span>
+                    DECIDEY NGO enrollment - New member: sarah.smith@email.com
+                </div>
+                <div class="log-entry">
+                    <span class="log-time">[2025-11-20 23:01:33]</span>
+                    <span class="log-level-info">[INFO]</span>
+                    API health check passed - All endpoints responding
+                </div>
+            </div>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.3); border-radius: 20px; padding: 2rem; margin-top: 2rem;">
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #EC4899;">Monitoring Integration</h3>
+            <p style="margin-bottom: 1rem;">
+                This dashboard integrates with your Raspberry Pi 5 MAN (Mandatory Audit Network) for real-time monitoring.
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">📊 Prometheus</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">
+                        Metrics collection and alerting<br>
+                        <a href="http://raspberrypi5.local:9090" target="_blank" style="color: #EC4899; text-decoration: none;">http://raspberrypi5.local:9090</a>
+                    </p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">📈 Grafana</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">
+                        Visualization dashboards<br>
+                        <a href="http://raspberrypi5.local:3000" target="_blank" style="color: #EC4899; text-decoration: none;">http://raspberrypi5.local:3000</a>
+                    </p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">🔍 Node Exporter</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">
+                        System metrics export<br>
+                        <a href="http://raspberrypi5.local:9100" target="_blank" style="color: #EC4899; text-decoration: none;">http://raspberrypi5.local:9100</a>
+                    </p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">📧 MailCow</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">
+                        Email server management<br>
+                        <a href="https://mail.ebl.beauty" target="_blank" style="color: #EC4899; text-decoration: none;">https://mail.ebl.beauty</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function refreshData() {
+            // Simulate data refresh
+            console.log('Refreshing dashboard data...');
+            
+            // In production, this would fetch real data from APIs
+            alert('Dashboard data refreshed!');
+        }
+
+        // Simulate live log updates
+        setInterval(() => {
+            const logContainer = document.getElementById('logContainer');
+            const now = new Date();
+            const timestamp = now.toISOString().replace('T', ' ').substring(0, 19);
+            
+            const logTypes = [
+                { level: 'INFO', message: 'API health check passed', class: 'log-level-info' },
+                { level: 'INFO', message: 'New SOLVY Card activation', class: 'log-level-info' },
+                { level: 'INFO', message: 'Contact form submission received', class: 'log-level-info' }
+            ];
+            
+            const randomLog = logTypes[Math.floor(Math.random() * logTypes.length)];
+            
+            const newLog = document.createElement('div');
+            newLog.className = 'log-entry';
+            newLog.innerHTML = `
+                <span class="log-time">[${timestamp}]</span>
+                <span class="${randomLog.class}">[${randomLog.level}]</span>
+                ${randomLog.message}
+            `;
+            
+            logContainer.insertBefore(newLog, logContainer.firstChild);
+            
+            // Keep only last 10 logs
+            while (logContainer.children.length > 10) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }, 30000); // Update every 30 seconds
+    </script>
+</body>
+</html>

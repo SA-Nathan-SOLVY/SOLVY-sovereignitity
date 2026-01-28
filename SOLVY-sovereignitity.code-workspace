@@ -1,0 +1,52 @@
+{
+  "folders": [
+    {
+      "name": "🏠 SOLVY SOVEREIGNITITY",
+      "path": "."
+    },
+    {
+      "name": "🛍️ Shop EBL Frontend",
+      "path": "shop-ebl-frontend"
+    },
+    {
+      "name": "⚙️ Shop EBL Backend",
+      "path": "shop-ebl-backend"
+    },
+    {
+      "name": "🎓 DECIDEY NGO",
+      "path": "decidey-ngo"
+    },
+    {
+      "name": "🌐 Sovereignitity Platform",
+      "path": "sovereignitity-platform"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "files.associations": {
+      "*.html": "html",
+      "*.js": "javascript",
+      "*.json": "jsonc",
+      "*.md": "markdown"
+    },
+    "files.exclude": {
+      "**/.git": true,
+      "**/node_modules": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/build": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "ms-vscode.vscode-node-azure-pack",
+      "stripe.vscode-stripe",
+      "github.vscode-github-actions"
+    ]
+  }
+}

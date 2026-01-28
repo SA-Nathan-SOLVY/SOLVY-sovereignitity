@@ -1,0 +1,30 @@
+{
+  "name": "ebl-shop-backend",
+  "version": "1.0.0",
+  "description": "Lightweight backend API for Evergreen Beauty Lounge payment app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "ebl",
+    "payment",
+    "api",
+    "stripe",
+    "solvy"
+  ],
+  "author": "Evergreen Beauty Lounge",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemailer": "^7.0.12",
+    "resend": "^6.6.0",
+    "stripe": "^14.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

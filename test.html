@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Platform Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #1e293b 100%);
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #9333ea;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: #10b981; }
+        .error { background: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ SOLVY Platform - Server Test</h1>
+        <p>This page confirms your SOLVY platform is serving HTML files correctly.</p>
+        
+        <div class="status success">
+            Server: ebl.beauty<br>
+            Status: ONLINE<br>
+            Time: <span id="time"></span>
+        </div>
+        
+        <h2>Available Pages:</h2>
+        <ul style="text-align: left; display: inline-block;">
+            <li><a href="/" style="color: #3b82f6;">Main Platform</a></li>
+            <li><a href="/solvy-card.html" style="color: #3b82f6;">SOLVY Card</a></li>
+            <li><a href="/card-customizer.html" style="color: #3b82f6;">Business Card Designer</a></li>
+            <li><a href="/personal-card-customizer.html" style="color: #3b82f6;">Personal Card Designer</a></li>
+            <li><a href="/payment.html" style="color: #3b82f6;">EBL Payment</a></li>
+        </ul>
+        
+        <p style="margin-top: 30px;">
+            <small>SOLVY SOVEREIGNITITY Platform - Cooperative Financial Ecosystem</small>
+        </p>
+    </div>
+    
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>
