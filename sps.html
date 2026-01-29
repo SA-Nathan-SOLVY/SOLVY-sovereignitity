@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPS Joint Venture - SOLVY Data Flywheel Partnership</title>
+    <meta name="description" content="SPS Joint Venture - SOLVY Card Pilot Partner #2. Reverse Inventory Tracking, Expense Reporting, and SOLVY Card Integration.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8b5cf6;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+        }
+
+        /* Slideshow Section */
+        .slideshow-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .slideshow-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #e2e8f0;
+        }
+
+        .slideshow-container {
+            background: rgba(30, 41, 59, 0.5);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .slide-viewer {
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .slide-viewer img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .slide-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .slide-controls button {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .slide-controls button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .slide-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+        }
+
+        .slide-title {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #8b5cf6;
+            margin-top: 1rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .features-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+
+        .features-section p {
+            text-align: center;
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(139, 92, 246, 0.6);
+        }
+
+        .feature-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+
+        .feature-card p {
+            color: #cbd5e1;
+            text-align: center;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #2563eb;
+            padding: 1rem 3rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .slide-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">SOLVY</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="solvy-card.html">SOLVY Card</a></li>
+                <li><a href="decidey-ngo.html">DECIDEY NGO</a></li>
+                <li><a href="sps.html">SPS Joint Venture</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>SPS Joint Venture</h1>
+        <p class="subtitle">SOLVY Card Pilot Partner #2</p>
+        <p class="description">Reverse Inventory Tracking • Expense Reporting • SOLVY Card Integration</p>
+    </section>
+
+    <!-- Slideshow Section -->
+    <section class="slideshow-section">
+        <h2>Data Flywheel Presentation</h2>
+        <div class="slideshow-container">
+            <div class="slide-viewer">
+                <img id="slide-image" src="sps-slides/slide-1.png" alt="Slide 1">
+            </div>
+            <div class="slide-controls">
+                <button id="prev-btn" onclick="changeSlide(-1)">← Previous</button>
+                <span class="slide-counter"><span id="current-slide">1</span> / 8</span>
+                <button id="next-btn" onclick="changeSlide(1)">Next →</button>
+            </div>
+            <div class="slide-title" id="slide-title">The Opportunity: Turning Data into Revenue</div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2>Scaling SOLVY Through Strategic Partnership</h2>
+        <p>SPS Joint Venture is our second pilot partner, demonstrating how SOLVY Card can scale across multiple businesses. By providing SPS customers with SOLVY Cards, we're creating a seamless ecosystem for purchase tracking and expense reporting.</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">💳</div>
+                <h3>SOLVY Cards for Customers</h3>
+                <p>Duplicate and scale SPS ability to track purchases with cooperative ownership benefits</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="icon">📊</div>
+                <h3>Purchase History Reports</h3>
+                <p>Automatic expense reporting from SOLVY Card transactions</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="icon">🔄</div>
+                <h3>Reverse Inventory</h3>
+                <p>Track what customers buy to anticipate supplier replenishment needs</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="icon">🤝</div>
+                <h3>Cooperative Ownership</h3>
+                <p>Every transaction builds customer ownership stake in the platform</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-box">
+            <h2>Partner with SPS Joint Venture</h2>
+            <p>Join our cooperative ecosystem and scale your business with SOLVY Card integration</p>
+            <a href="index.html#apply" class="cta-button">Apply for SOLVY Card →</a>
+        </div>
+    </section>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+        
+        const slideTitles = [
+            "The Opportunity: Turning Data into Revenue",
+            "The SOLVY Data Intelligence Engine",
+            "SOLVY Card: Extending SPS's Care Beyond the Warehouse",
+            "Value for SPS: Reverse Inventory Intelligence",
+            "A Cooperative Partnership Model",
+            "Our Proposed Pilot: Low Risk, High Insight",
+            "How It Fits: Seamless Data into Your Excel Workflow",
+            "The Team Behind the Vision"
+        ];
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            
+            updateSlide();
+        }
+
+        function updateSlide() {
+            document.getElementById('slide-image').src = `sps-slides/slide-${currentSlide}.png`;
+            document.getElementById('current-slide').textContent = currentSlide;
+            document.getElementById('slide-title').textContent = slideTitles[currentSlide - 1];
+            
+            document.getElementById('prev-btn').disabled = currentSlide === 1;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides;
+        }
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
