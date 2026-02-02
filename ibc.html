@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBC Practitioners - SOLVY Cooperative Neobank</title>
+    <meta name="description" content="Transform your Infinite Banking Concept practice with SOLVY - a cooperative neobank built on data sovereignty and transparent profit sharing.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #e5e7eb;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #a855f7 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #06b6d4;
+            border: 2px solid #06b6d4;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        /* Presentation Section */
+        .presentation-section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.125rem;
+            color: #d1d5db;
+            margin-bottom: 3rem;
+        }
+
+        .presentation-container {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(168, 139, 250, 0.3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .presentation-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 0.5rem;
+        }
+
+        .download-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .download-link a {
+            color: #06b6d4;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .download-link a:hover {
+            color: #0891b2;
+        }
+
+        /* Feature Cards */
+        .features-section {
+            padding: 4rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(168, 139, 250, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(168, 139, 250, 0.6);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .feature-card p {
+            color: #d1d5db;
+        }
+
+        /* Process Steps */
+        .process-section {
+            padding: 4rem 0;
+        }
+
+        .process-steps {
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .process-step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4 0%, #a855f7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .step-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .step-content p {
+            color: #d1d5db;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 4rem 0 6rem;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(168, 139, 250, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
+            border: 2px solid rgba(168, 139, 250, 0.3);
+            border-radius: 1.5rem;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .cta-box p {
+            font-size: 1.125rem;
+            color: #d1d5db;
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .presentation-container iframe {
+                height: 400px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-box h2 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Placeholder -->
+    <div id="navigation-placeholder"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>SOLVY for IBC Practitioners</h1>
+            <p>Transform your Infinite Banking Concept practice with a cooperative neobank built on the principles of data sovereignty and transparent profit sharing.</p>
+            <div class="cta-buttons">
+                <a href="signup.html" class="btn btn-primary">Apply for Your Card →</a>
+                <a href="mailto:team@ebl.beauty" class="btn btn-secondary">Contact Our Team</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Presentation Section -->
+    <section class="presentation-section">
+        <div class="container">
+            <h2 class="section-title">📊 Full Presentation</h2>
+            <p class="section-subtitle">Learn how SOVEREIGNITITY & SOLVY operationalizes the Infinite Banking Concept</p>
+            
+            <div class="presentation-container">
+                <iframe src="https://slides.manus.im/22M9F12WNSuTYxVzTiXUxM" title="SOVEREIGNITITY & SOLVY IBC Presentation" allow="fullscreen"></iframe>
+            </div>
+
+            <div class="download-link">
+                <a href="https://storage.example.com/ibc-presentation.pdf" download>📥 Download PDF Version</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why IBC Practitioners Choose SOLVY -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why IBC Practitioners Choose SOLVY</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3>Member Ownership</h3>
+                    <p>As a cooperative, SOLVY is owned by its members. Your interchange revenue flows back to you through our transparent 70/20/10 model.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Data Sovereignty</h3>
+                    <p>Your transaction data belongs to you. SOLVY's architecture ensures you maintain complete control over your financial information.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Transaction Intelligence</h3>
+                    <p>Real-time insights into your spending patterns help you optimize your IBC practice and maximize policy performance.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Cooperative Governance</h3>
+                    <p>One member, one vote. Shape the platform's future through democratic participation in the SOLVY Cooperative.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Privacy by Design</h3>
+                    <p>Built on principles of operational integrity and member sovereignty. Your financial privacy is our foundation.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3>Seamless Integration</h3>
+                    <p>Use your SOLVY Card anywhere Visa is accepted. No changes to your daily spending habits—just better outcomes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="process-section">
+        <div class="container">
+            <h2 class="section-title">How SOLVY Operationalizes IBC</h2>
+            
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Your Policy Funds Your Card</h3>
+                        <p>Borrow against your whole life insurance policy to fund your SOLVY Card. Maintain liquidity while your policy continues to grow.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Spend and Capture Interchange</h3>
+                        <p>Every transaction generates interchange revenue. With SOLVY's 70/20/10 model, you receive 70% of that revenue back.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Repay Your Policy Loan</h3>
+                        <p>Use your interchange revenue to accelerate policy loan repayment. Recapture interest and strengthen your banking system.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Compound Your Wealth</h3>
+                        <p>Your policy grows uninterrupted, you capture interchange revenue, and you maintain complete data sovereignty—the IBC dream realized.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box">
+                <h2>Ready to Transform Your IBC Practice?</h2>
+                <p>Join the cooperative neobank built by IBC practitioners, for IBC practitioners.</p>
+                <div class="cta-buttons">
+                    <a href="signup.html" class="btn btn-primary">Apply for Your Card →</a>
+                    <a href="mailto:team@ebl.beauty" class="btn btn-secondary">Schedule a Consultation</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Load Navigation -->
+    <script src="navigation.js"></script>
+</body>
+</html>

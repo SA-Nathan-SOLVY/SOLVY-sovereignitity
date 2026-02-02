@@ -230,8 +230,17 @@ const navigationHTML = `
                 </a>
                 <div class="solvy-dropdown-menu">
                     <a href="sovereignitity.html" class="solvy-dropdown-item">What is SOVEREIGNITITY™?</a>
-                    <a href="decidey-ngo.html" class="solvy-dropdown-item">DECIDEY NGO (Education)</a>
                     <a href="communities.html" class="solvy-dropdown-item">Communities We Serve</a>
+                </div>
+            </div>
+            
+            <div class="solvy-dropdown solvy-nav-item">
+                <a href="#" class="solvy-nav-link">
+                    DECIDEY NGO ▼
+                </a>
+                <div class="solvy-dropdown-menu">
+                    <a href="decidey-ngo.html" class="solvy-dropdown-item">DECIDEY Main Site</a>
+                    <a href="ibc.html" class="solvy-dropdown-item">IBC Practitioners</a>
                 </div>
             </div>
             
