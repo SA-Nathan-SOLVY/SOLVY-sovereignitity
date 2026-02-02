@@ -240,7 +240,7 @@ const navigationHTML = `
                 </a>
                 <div class="solvy-dropdown-menu">
                     <a href="decidey-ngo.html" class="solvy-dropdown-item">DECIDEY Main Site</a>
-                    <a href="ibc.html" class="solvy-dropdown-item">IBC Practitioners</a>
+                    <a href="ibc.html" class="solvy-dropdown-item">IBC/BYOB</a>
                 </div>
             </div>
             
