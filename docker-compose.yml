@@ -1,17 +1,7 @@
 version: '3.8'
-
 services:
-  solvy-api:
+  web:
     build: .
     ports:
-      - "5001:5001"
-    environment:
-      - STRIPE_SECRET_KEY=${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}
-      - FLASK_ENV=development
-    volumes:
-      - .:/app
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - "80:80"
+    restart: always

@@ -1,309 +1,126 @@
-# SOLVY Platform - Deployment Guide
+# SOLVY Platform Deployment Guide
 
-## 🎯 Overview
+## Overview
 
-Complete deployment guide for the SOLVY economic sovereignty platform with unified navigation, admin functions, and 24/7 AI customer service.
+This document provides instructions for deploying the SOLVY platform to various environments.
 
----
-
-## 📦 What's Included
-
-### **Public Pages** (6 files)
-- `index.html` - Home/Hero page
-- `decidey-ngo.html` - DECIDEY NGO education (softer tone)
-- `communities.html` - Communities we serve
-- `remittance.html` - Global remittance vision
-- `solvy-card.html` - SOLVY Card features & pricing
-- `contact.html` - Public contact form
-
-### **Admin Pages** (4 files)
-- `admin-dashboard.html` - Team dashboard with ticket system
-- `operations-dashboard.html` - Real-time monitoring
-- `invoice-management.html` - B2B payments & invoicing
-- `email-config.html` - MailCow + Huginn setup guide
-- `kimi-ai-setup.html` - 24/7 AI customer service guide
-
-### **Shared Components**
-- `navigation.js` - Unified navigation system (auto-loads on all pages)
-
----
-
-## 🚀 Deployment Options
-
-### **Option 1: Vercel (Recommended)**
-
-1. **Create GitHub Repository**
-   ```bash
-   cd ~/solvy-platform
-   git init
-   git add .
-   git commit -m "Initial SOLVY platform deployment"
-   git remote add origin https://github.com/SA-Nathan-SOLVY/solvy-platform.git
-   git push -u origin main
-   ```
-
-2. **Deploy to Vercel**
-   - Go to [vercel.com](https://vercel.com)
-   - Click "New Project"
-   - Import from GitHub: `SA-Nathan-SOLVY/solvy-platform`
-   - Framework: None (static site)
-   - Click "Deploy"
-
-3. **Configure Custom Domains**
-   In Vercel dashboard:
-   - `nitty.ebl.beauty` → index.html
-   - `decidey.ebl.beauty` → decidey-ngo.html
-   - `admin.ebl.beauty` → admin-dashboard.html
-
-### **Option 2: Netlify**
-
-1. **Create Netlify Site**
-   ```bash
-   # Install Netlify CLI
-   npm install -g netlify-cli
-   
-   # Deploy
-   cd ~/solvy-platform
-   netlify deploy --prod
-   ```
-
-2. **Configure Custom Domains**
-   In Netlify dashboard → Domain settings
-
-### **Option 3: Traditional Web Host (cPanel, etc.)**
-
-1. **Upload Files**
-   - FTP/SFTP all files to your web server
-   - Ensure `navigation.js` is in the same directory as HTML files
-
-2. **Configure Domains**
-   - Point `nitty.ebl.beauty` to `/public_html/`
-   - Point `decidey.ebl.beauty` to `/public_html/decidey-ngo.html`
-   - Point `admin.ebl.beauty` to `/public_html/admin-dashboard.html`
-
----
-
-## 🔧 Post-Deployment Configuration
-
-### **1. Update Navigation Links**
-
-Edit `navigation.js` and update domain URLs:
-
-```javascript
-// Change from relative paths to absolute URLs
-const baseURL = 'https://nitty.ebl.beauty';
-
-// Update all href values
-{ text: 'Home', href: `${baseURL}/` }
-{ text: 'DECIDEY NGO', href: `${baseURL}/decidey-ngo.html` }
-// etc.
-```
-
-### **2. Configure Email (MailCow + Huginn)**
-
-Follow the complete guide in `email-config.html`:
-
-1. Set up MailCow at `mail.ebl.beauty`
-2. Create mailboxes: `eva@ebl.beauty`, `sanathan@ebl.beauty`, `support@ebl.beauty`
-3. Configure DNS records (MX, SPF, DKIM, DMARC)
-4. Deploy Huginn for email automation
-5. Connect contact form to `support@ebl.beauty`
-
-**Estimated time:** 2-3 hours
-
-### **3. Set Up Kimi AI (24/7 Customer Service)**
-
-Follow the complete guide in `kimi-ai-setup.html`:
-
-1. Get Kimi AI API access
-2. Create knowledge base with SOLVY information
-3. Integrate with Huginn for email routing
-4. Add chat widget to all pages
-5. Test escalation rules
-
-**Estimated time:** 2-3 hours
-
-### **4. Configure Monitoring (Raspberry Pi 5 MAN)**
-
-Your Raspberry Pi 5 is already set up with Prometheus + Grafana:
-
-1. Update Prometheus targets in `/etc/prometheus/prometheus.yml`:
-   ```yaml
-   - job_name: 'solvy-platform'
-     static_configs:
-       - targets: ['nitty.ebl.beauty:443']
-   ```
-
-2. Restart Prometheus:
-   ```bash
-   sudo systemctl restart prometheus
-   ```
-
-3. Access Grafana dashboards from `operations-dashboard.html`
-
-### **5. Set Up Stripe for Invoice Management**
-
-1. Create Stripe account: [stripe.com](https://stripe.com)
-2. Get API keys from Stripe dashboard
-3. Add to environment variables:
-   ```bash
-   export STRIPE_SECRET_KEY="sk_live_..."
-   export STRIPE_PUBLISHABLE_KEY="pk_live_..."
-   ```
-4. Update `invoice-management.html` with Stripe integration
-
----
-
-## 🔐 Security Considerations
-
-### **Admin Dashboard Authentication**
-
-Current setup uses demo credentials (`admin / solvy2025`). **Change immediately!**
-
-**Option A: Add Real Authentication**
-```javascript
-// In admin-dashboard.html, replace demo auth with real backend
-const response = await fetch('/api/admin/login', {
-  method: 'POST',
-  body: JSON.stringify({ username, password })
-});
-```
-
-**Option B: Use Basic Auth (Quick)**
-```nginx
-# In Nginx config
-location /admin-dashboard.html {
-    auth_basic "Admin Access";
-    auth_basic_user_file /etc/nginx/.htpasswd;
-}
-```
-
-### **HTTPS/SSL**
-
-Ensure all domains use HTTPS:
-- Vercel/Netlify: Automatic
-- Traditional host: Get Let's Encrypt certificate
-
-### **API Keys**
-
-Store securely:
-- Kimi AI API key
-- Stripe API keys
-- MailCow credentials
-
-**Never commit to Git!** Use environment variables.
-
----
-
-## 📊 Domain Structure
+## Project Structure
 
 ```
-nitty.ebl.beauty (Main Site)
-├── / (index.html) - Home
-├── /decidey-ngo.html - DECIDEY NGO
-├── /communities.html - Communities
-├── /remittance.html - Remittance
-├── /solvy-card.html - SOLVY Card
-├── /contact.html - Contact Form
-└── /admin/ (Protected)
-    ├── /admin-dashboard.html - Team Dashboard
-    ├── /operations-dashboard.html - Operations
-    ├── /invoice-management.html - Invoicing
-    ├── /email-config.html - Email Setup Guide
-    └── /kimi-ai-setup.html - AI Setup Guide
-
-decidey.ebl.beauty → /decidey-ngo.html (alias)
-admin.ebl.beauty → /admin-dashboard.html (alias)
-shop.ebl.beauty → External (existing shop)
-mail.ebl.beauty → MailCow server
+solvy-platform/
+├── index.html                    # Main landing page (EBL)
+├── card/
+│   ├── solvy-card.html          # Card interface
+│   └── card-customizer.html     # Card customization
+├── sps-pilot/
+│   └── index.html               # SPS replenishment feed
+├── payment/
+│   └── payment.html             # Payment processing (coming soon)
+├── invoice/
+│   └── invoice-management.html  # Invoice management (coming soon)
+├── remittance/
+│   └── remittance.html          # Remittance (coming soon)
+├── community/
+│   └── communities.html         # Community (coming soon)
+├── decidey/
+│   └── decidey-ngo.html         # DECIDEY NGO (coming soon)
+├── operations/
+│   └── operations-dashboard.html # Operations (coming soon)
+├── docs/
+│   └── CARD-API-DOCUMENTATION.md
+├── assets/                      # Static assets (logos, images)
+├── Dockerfile                   # Docker configuration
+└── docker-compose.yml           # Docker Compose configuration
 ```
 
----
+## Deployment Options
 
-## ✅ Pre-Launch Checklist
+### Option 1: Docker (Recommended for Local/Server)
 
-### **Content**
-- [ ] All pages load correctly
-- [ ] Navigation works on all pages
-- [ ] Contact form submits successfully
-- [ ] All links work (no 404s)
-- [ ] Images load (if any added)
+```bash
+# Build and run
+docker-compose up -d
 
-### **Email**
-- [ ] MailCow is running at mail.ebl.beauty
-- [ ] DNS records configured (MX, SPF, DKIM, DMARC)
-- [ ] Test emails sent and received
-- [ ] Huginn automation working
-- [ ] Contact form emails route correctly
+# Access at http://localhost:8080
+```
 
-### **Admin**
-- [ ] Admin dashboard login works
-- [ ] Changed default password
-- [ ] Operations dashboard shows metrics
-- [ ] Invoice management functional
-- [ ] Stripe integration tested
+### Option 2: Static Hosting (Netlify, Vercel, Cloudflare Pages)
 
-### **AI Customer Service**
-- [ ] Kimi AI API key configured
-- [ ] Knowledge base uploaded
-- [ ] Chat widget appears on pages
-- [ ] Responses are accurate
-- [ ] Escalation rules work
+1. Upload the `solvy-platform` folder contents
+2. Configure build settings (none needed - static site)
+3. Deploy
 
-### **Monitoring**
-- [ ] Raspberry Pi 5 MAN operational
-- [ ] Prometheus collecting metrics
-- [ ] Grafana dashboards visible
-- [ ] Operations dashboard shows data
+### Option 3: Nginx Server
 
-### **Security**
-- [ ] All domains use HTTPS
-- [ ] Admin pages protected
-- [ ] API keys stored securely
-- [ ] No sensitive data in Git
+```bash
+# Copy files to nginx html directory
+sudo cp -r solvy-platform/* /var/www/html/
 
----
+# Ensure proper permissions
+sudo chown -R www-data:www-data /var/www/html/
+```
 
-## 🎯 Quick Start (5 Minutes)
+### Option 4: Replit
 
-**Just want to see it live?**
+The platform is currently hosted on Replit. To update:
 
-1. **Deploy to Vercel:**
-   ```bash
-   cd ~/solvy-platform
-   npx vercel --prod
-   ```
+1. Upload files to Replit
+2. Click "Run" or use the Deploy button
+3. Update environment variables if needed
 
-2. **Access your site:**
-   - Main site: `https://[your-vercel-url].vercel.app`
-   - Admin: `https://[your-vercel-url].vercel.app/admin-dashboard.html`
+## Environment Variables
 
-3. **Configure domains later** in Vercel dashboard
+No environment variables required for basic static deployment.
 
----
+For future API integration:
+- `API_BASE_URL` - Backend API endpoint
+- `STRIPE_PUBLIC_KEY` - Payment processing
+- `AUTH_DOMAIN` - Authentication provider
 
-## 📞 Support
+## Pre-Deployment Checklist
 
-**Questions during deployment?**
+- [ ] All HTML pages are complete
+- [ ] Assets are properly linked
+- [ ] Navigation works between pages
+- [ ] Mobile responsiveness tested
+- [ ] No broken links
 
-- **Technical:** sanathan@ebl.beauty
-- **General:** eva@ebl.beauty
-- **Phone:** (775) 636-3656
+## Post-Deployment Verification
 
----
+1. Visit main page: `/`
+2. Test navigation to all sections
+3. Verify all links work
+4. Test on mobile device
 
-## 🎉 Next Steps After Deployment
+## Custom Domain Setup
 
-1. **Test everything thoroughly**
-2. **Set up email (MailCow + Huginn)** - Follow `email-config.html`
-3. **Integrate Kimi AI** - Follow `kimi-ai-setup.html`
-4. **Configure Stripe** for invoice management
-5. **Monitor performance** via Operations Dashboard
-6. **Collect user feedback** and iterate
+### Netlify
+1. Go to Domain Settings
+2. Add custom domain
+3. Configure DNS records
 
----
+### Vercel
+1. Go to Project Settings > Domains
+2. Add domain
+3. Configure DNS
 
-**Founded by SA Nathan, Service Member Veteran**  
-*Continuing the legacy of Marcus Garvey, MLK, and Malcolm X in the digital age*
+### Traditional Server
+Configure nginx or Apache virtual host to point to the deployment directory.
 
-© 2025 SOLVY Platform. All rights reserved.
+## Maintenance
+
+### Updating Content
+
+1. Make changes to files locally
+2. Rebuild Docker container or
+3. Re-upload to hosting provider
+
+### Monitoring
+
+- Set up uptime monitoring (UptimeRobot, Pingdom)
+- Monitor error logs
+- Track performance metrics
+
+## Support
+
+For deployment assistance, contact: support@solvy.coop

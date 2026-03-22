@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Data Flywheel & SPS Partnership | DECIDEY NGO</title>
+    <meta name="description" content="Discover the SOLVY Data Flywheel and Strategic Partner System (SPS) for ecosystem collaborators.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border-radius: 10px;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #764ba2;
+            text-decoration: none;
+        }
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        .navbar-menu a {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .navbar-menu a:hover, .navbar-menu a.active { color: #764ba2; }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #764ba2;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+        .mobile-menu {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            flex-direction: column;
+            gap: 15px;
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .mobile-menu a:hover, .mobile-menu a.active { background: #f0f0f0; color: #764ba2; }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 { color: #764ba2; font-size: 2.5rem; margin-bottom: 10px; text-align: center; }
+        .subtitle { text-align: center; color: #666; font-size: 1.2rem; margin-bottom: 40px; }
+        
+        /* Hero Brochure Card */
+        .hero-brochure {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hero-brochure:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        .hero-brochure .icon { font-size: 3.5rem; margin-bottom: 20px; }
+        .hero-brochure h2 { font-size: 1.8rem; margin-bottom: 12px; color: white; }
+        .hero-brochure p { font-size: 1.05rem; opacity: 0.95; margin-bottom: 25px; }
+        .brochure-btn {
+            display: inline-block;
+            background: white;
+            color: #764ba2;
+            padding: 14px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .brochure-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+        
+        .alt-option { text-align: center; margin: 20px 0; color: #666; }
+        .alt-option a { color: #764ba2; text-decoration: none; font-weight: 500; }
+        .alt-option a:hover { text-decoration: underline; }
+        
+        /* PDF Modal */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .pdf-modal.active { display: flex; }
+        .pdf-modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .pdf-modal-header {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pdf-modal-header h3 { font-size: 1.1rem; margin: 0; }
+        .pdf-modal-actions { display: flex; gap: 15px; align-items: center; }
+        .pdf-modal-btn {
+            background: white;
+            color: #764ba2;
+            padding: 8px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+        }
+        .pdf-close {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            width: 35px; height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: none;
+        }
+        .pdf-iframe-container { flex: 1; position: relative; }
+        .pdf-iframe-container iframe { width: 100%; height: 100%; border: none; }
+        
+        .content-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        h2 { color: #764ba2; font-size: 2rem; margin-bottom: 20px; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .feature-card {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .feature-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+        .cta-section h2 { color: white; margin-bottom: 15px; }
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #764ba2;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+        .cta-button:hover { transform: translateY(-3px); }
+        
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .navbar-menu { display: none; }
+            .hamburger { display: flex; }
+            header { padding: 30px 20px; }
+            .hero-brochure { padding: 35px 25px; }
+            .content-section { padding: 25px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .pdf-modal-content { height: 95vh; border-radius: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="../index.html" class="navbar-brand">🏛️ SOVEREIGNITITY™</a>
+                <ul class="navbar-menu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../ibc/index.html">IBC</a></li>
+                    <li><a href="./index.html" class="active">SPS</a></li>
+                    <li><a href="mailto:team@ebl.beauty">Contact</a></li>
+                </ul>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="../index.html">Home</a>
+                <a href="../ibc/index.html">IBC Practitioners</a>
+                <a href="./index.html" class="active">Strategic Partners</a>
+                <a href="mailto:team@ebl.beauty">Contact</a>
+            </div>
+        </nav>
+
+        <header>
+            <h1>🤝 Strategic Partner System</h1>
+            <p class="subtitle">SOLVY Data Flywheel & SPS Partnership</p>
+            
+            <div class="hero-brochure" onclick="openPdfModal()">
+                <div class="icon">🔄</div>
+                <h2>The SOLVY Data Flywheel</h2>
+                <p>SPS Partnership Model for Ecosystem Collaborators</p>
+                <button class="brochure-btn">📖 Read the Brochure</button>
+            </div>
+            
+            <div class="alt-option">
+                Also available: <a href="../ibc/index.html">IBC Practitioners Brochure →</a>
+            </div>
+        </header>
+
+        <!-- PDF Modal -->
+        <div id="pdfModal" class="pdf-modal" onclick="closePdfModal(event)">
+            <div class="pdf-modal-content" onclick="event.stopPropagation()">
+                <div class="pdf-modal-header">
+                    <h3>🔄 The SOLVY Data Flywheel - SPS Partnership</h3>
+                    <div class="pdf-modal-actions">
+                        <a href="../brochures/solvy-data-flywheel.pdf" download class="pdf-modal-btn">⬇️ Download</a>
+                        <button class="pdf-close" onclick="closePdfModal(null)">&times;</button>
+                    </div>
+                </div>
+                <div class="pdf-iframe-container">
+                    <iframe src="../brochures/solvy-data-flywheel.pdf"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>The Data Flywheel Effect</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 30px;">
+                The SOLVY Data Flywheel creates a self-reinforcing ecosystem where every transaction, every partnership, 
+                and every member contributes to exponential growth.
+            </p>
+            <div class="features-grid">
+                <div class="feature-card"><h3>🔄 Self-Reinforcing Growth</h3><p>Each partnership accelerates the next.</p></div>
+                <div class="feature-card"><h3>📊 Data Sovereignty</h3><p>Members control their data.</p></div>
+                <div class="feature-card"><h3>🤝 Strategic Partnerships</h3><p>Aligned incentives for mutual prosperity.</p></div>
+                <div class="feature-card"><h3>⚡ Ecosystem Velocity</h3><p>Transaction volume generates value.</p></div>
+                <div class="feature-card"><h3>🎯 Aligned Incentives</h3><p>Revenue sharing benefits all stakeholders.</p></div>
+                <div class="feature-card"><h3>🌐 Network Effects</h3><p>Value compounds exponentially.</p></div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Partnership Opportunities</h2>
+            <div class="features-grid">
+                <div class="feature-card"><h3>Technology Partners</h3><p>Integrate with SOLVY's infrastructure.</p></div>
+                <div class="feature-card"><h3>Service Providers</h3><p>Provide value-added services worldwide.</p></div>
+                <div class="feature-card"><h3>Channel Partners</h3><p>Introduce businesses to the ecosystem.</p></div>
+                <div class="feature-card"><h3>Strategic Alliances</h3><p>Align with decentralized finance.</p></div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Join the SOLVY Ecosystem</h2>
+            <p>Become a strategic partner in the data flywheel revolution.</p>
+            <a href="mailto:team@ebl.beauty?subject=SPS%20Partnership%20Inquiry" class="cta-button">Become a Partner</a>
+            <a href="https://ebl.beauty" class="cta-button">Learn More</a>
+        </div>
+
+        <footer>
+            <p><strong>DECIDEY NGO</strong> — Economic Sovereignty Education</p>
+            <p>team@ebl.beauty | ebl.beauty (web 2) | solvy.chain (web 3)</p>
+        </footer>
+    </div>
+
+    <script>
+        function openPdfModal() {
+            document.getElementById('pdfModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closePdfModal(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('pdfModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') closePdfModal(null);
+        });
+    </script>
+</body>
+</html>

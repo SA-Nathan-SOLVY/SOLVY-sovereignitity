@@ -1,0 +1,89 @@
+version: "3.9"
+
+networks:
+  gitea:
+    external: false
+
+volumes:
+  gitea-data:
+    driver: local
+  postgres-data:
+    driver: local
+
+services:
+  # PostgreSQL Database for Gitea
+  db:
+    image: postgres:16-alpine
+    container_name: gitea-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-gitea_secret_password}
+      - POSTGRES_DB=gitea
+    networks:
+      - gitea
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gitea -d gitea"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Gitea Git Server
+  server:
+    image: gitea/gitea:latest
+    container_name: gitea-server
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=db:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=${POSTGRES_PASSWORD:-gitea_secret_password}
+      - GITEA__server__DOMAIN=${GITEA_DOMAIN:-localhost}
+      - GITEA__server__ROOT_URL=${GITEA_ROOT_URL:-http://localhost:3000/}
+      - GITEA__server__SSH_DOMAIN=${GITEA_SSH_DOMAIN:-localhost}
+      - GITEA__server__SSH_PORT=${GITEA_SSH_PORT:-2222}
+      - GITEA__server__START_SSH_SERVER=true
+      - GITEA__security__INSTALL_LOCK=true
+      - GITEA__server__DOMAIN=gitea.ebl.beauty
+      - GITEA__server__ROOT_URL=https://gitea.ebl.beauty/
+      - GITEA__server__SSH_DOMAIN=gitea.ebl.beauty
+      - GITEA__service__DISABLE_REGISTRATION=false
+      - GITEA__service__REQUIRE_SIGNIN_VIEW=false
+    restart: always
+    networks:
+      - gitea
+    volumes:
+      - gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Cloudflare Tunnel (Tunnelfy companion)
+  # This runs cloudflared to expose Gitea to the internet
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: gitea-tunnel
+    restart: always
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    networks:
+      - gitea
+    depends_on:
+      - server
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    profiles:
+      - tunnel  # Only start when explicitly requested with --profile tunnel

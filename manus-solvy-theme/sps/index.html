@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Data Flywheel & SPS Partnership | DECIDEY NGO</title>
+    <meta name="description" content="Discover the SOLVY Data Flywheel and Strategic Partner System (SPS) for ecosystem collaborators.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(236, 72, 153, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        .nav-logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ec4899, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            flex: 1;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .nav-links a:hover {
+            color: #ec4899;
+            background: rgba(236, 72, 153, 0.1);
+        }
+        .nav-links a.active {
+            color: #ec4899;
+            background: rgba(236, 72, 153, 0.2);
+            font-weight: 600;
+        }
+        .nav-cta {
+            display: flex;
+            gap: 1rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899, #9333ea);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(236, 72, 153, 0.5);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        .btn-secondary:hover {
+            background: rgba(236, 72, 153, 0.2);
+            border-color: #ec4899;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+        .mobile-menu {
+            display: none;
+            background: rgba(30, 41, 59, 0.98);
+            padding: 20px;
+            border-top: 1px solid rgba(236, 72, 153, 0.3);
+            flex-direction: column;
+            gap: 10px;
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            color: #fff;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .mobile-menu a:hover, .mobile-menu a.active {
+            background: rgba(236, 72, 153, 0.2);
+            color: #ec4899;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at top, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f472b6 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Brochure Card */
+        .brochure-card {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .brochure-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(236, 72, 153, 0.6);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.2);
+        }
+        .brochure-card .icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        .brochure-card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .brochure-card p {
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        .brochure-btn {
+            background: white;
+            color: #ec4899;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .brochure-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+        }
+
+        .alt-option {
+            color: #64748b;
+        }
+        .alt-option a {
+            color: #f472b6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .alt-option a:hover {
+            text-decoration: underline;
+        }
+
+        /* PDF Modal */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .pdf-modal.active { display: flex; }
+        .pdf-modal-content {
+            background: #1e293b;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        .pdf-modal-header {
+            background: linear-gradient(135deg, #ec4899 0%, #9333ea 100%);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pdf-modal-header h3 { font-size: 1.1rem; margin: 0; }
+        .pdf-modal-actions { display: flex; gap: 12px; align-items: center; }
+        .pdf-modal-btn {
+            background: white;
+            color: #ec4899;
+            padding: 8px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+        }
+        .pdf-close {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: none;
+        }
+        .pdf-iframe-container { flex: 1; position: relative; }
+        .pdf-iframe-container iframe { width: 100%; height: 100%; border: none; }
+
+        /* Content Section */
+        .content-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+        .content-section > p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .feature-card {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(147, 51, 234, 0.15) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            padding: 2rem;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            border-color: rgba(236, 72, 153, 0.5);
+            transform: translateY(-3px);
+        }
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f472b6;
+        }
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+            border-top: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        .cta-section h2 {
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f472b6 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .cta-section > p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            border-top: 1px solid rgba(236, 72, 153, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        footer p {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+        footer a {
+            color: #ec4899;
+            text-decoration: none;
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            h1 { font-size: 2.2rem; }
+        }
+        @media (max-width: 768px) {
+            .navbar { padding: 0.75rem 1rem; }
+            .hero { padding: 2rem 1rem; }
+            h1 { font-size: 1.8rem; }
+            .brochure-card { padding: 2rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .pdf-modal-content { height: 95vh; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="nav-logo-text">SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">SOLVY Card</a>
+                <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
+                <a href="https://ebl.beauty">Evergreen Beauty Lounge</a>
+                <a href="../ibc/index.html">IBC</a>
+                <a href="./index.html" class="active">SPS</a>
+            </div>
+            <div class="nav-cta">
+                <a href="#apply" class="btn-primary">Apply for Card</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="../index.html">SOLVY Card</a>
+            <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
+            <a href="https://ebl.beauty">Evergreen Beauty Lounge</a>
+            <a href="../ibc/index.html">IBC</a>
+            <a href="./index.html" class="active">SPS</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>🤝 Strategic Partner System</h1>
+            <p class="subtitle">SOLVY Data Flywheel & SPS Partnership</p>
+            
+            <div class="brochure-card" onclick="openPdfModal()">
+                <div class="icon">🔄</div>
+                <h2>The SOLVY Data Flywheel</h2>
+                <p>SPS Partnership Model for Ecosystem Collaborators</p>
+                <button class="brochure-btn">📖 Read the Brochure</button>
+            </div>
+            
+            <p class="alt-option">
+                Also available: <a href="../ibc/index.html">IBC Practitioners Brochure →</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- PDF Modal -->
+    <div id="pdfModal" class="pdf-modal" onclick="closePdfModal(event)">
+        <div class="pdf-modal-content" onclick="event.stopPropagation()">
+            <div class="pdf-modal-header">
+                <h3>🔄 The SOLVY Data Flywheel - SPS Partnership</h3>
+                <div class="pdf-modal-actions">
+                    <a href="../brochures/solvy-data-flywheel.pdf" download class="pdf-modal-btn">⬇️ Download</a>
+                    <button class="pdf-close" onclick="closePdfModal(null)">&times;</button>
+                </div>
+            </div>
+            <div class="pdf-iframe-container">
+                <iframe src="../brochures/solvy-data-flywheel.pdf"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <section class="content-section">
+        <h2>The Data Flywheel Effect</h2>
+        <p>The SOLVY Data Flywheel creates a self-reinforcing ecosystem where every transaction, every partnership, and every member contributes to exponential growth.</p>
+        <div class="features-grid">
+            <div class="feature-card"><h3>🔄 Self-Reinforcing Growth</h3><p>Each partnership accelerates the next, creating compounding network effects.</p></div>
+            <div class="feature-card"><h3>📊 Data Sovereignty</h3><p>Members control their data while contributing to collective intelligence.</p></div>
+            <div class="feature-card"><h3>🤝 Strategic Partnerships</h3><p>SPS creates aligned incentives for mutual prosperity.</p></div>
+            <div class="feature-card"><h3>⚡ Ecosystem Velocity</h3><p>Transaction volume generates more value for everyone.</p></div>
+            <div class="feature-card"><h3>🎯 Aligned Incentives</h3><p>Revenue sharing benefits all stakeholders.</p></div>
+            <div class="feature-card"><h3>🌐 Network Effects</h3><p>Value compounds exponentially with each new member.</p></div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <h2>Partnership Opportunities</h2>
+        <p>Join the SOLVY ecosystem as a strategic partner.</p>
+        <div class="features-grid">
+            <div class="feature-card"><h3>Technology Partners</h3><p>Integrate with SOLVY's infrastructure.</p></div>
+            <div class="feature-card"><h3>Service Providers</h3><p>Provide value-added services worldwide.</p></div>
+            <div class="feature-card"><h3>Channel Partners</h3><p>Introduce businesses to the ecosystem.</p></div>
+            <div class="feature-card"><h3>Strategic Alliances</h3><p>Align with decentralized finance.</p></div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>Join the SOLVY Ecosystem</h2>
+        <p>Become a strategic partner in the data flywheel revolution.</p>
+        <a href="mailto:team@ebl.beauty?subject=SPS%20Partnership%20Inquiry" class="btn-primary" style="margin-top: 1rem;">Become a Partner</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>DECIDEY NGO</strong> — Economic Sovereignty Education</p>
+        <p>team@ebl.beauty | <a href="https://ebl.beauty">ebl.beauty</a> | solvy.chain</p>
+    </footer>
+
+    <script>
+        function openPdfModal() {
+            document.getElementById('pdfModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closePdfModal(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('pdfModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') closePdfModal(null);
+        });
+    </script>
+</body>
+</html>

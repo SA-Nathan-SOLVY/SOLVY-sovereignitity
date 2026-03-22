@@ -1,0 +1,48 @@
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e0e7ff', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#6366f1', 'lineColor': '#6366f1', 'secondaryColor': '#f1f5f9', 'tertiaryColor': '#fff'}}}%%
+
+flowchart TB
+    subgraph VPS["🖥️ VPS (46.62.235.95)"]
+        direction TB
+        
+        subgraph Web["🌐 Websites"]
+            EBL["ebl.beauty<br/>├── / (brochure landing)<br/>├── /ibc/ (IBC practitioners)<br/>├── /sps/ (Strategic partners)<br/>└── /brochures/ (PDFs)"]
+            IBC["ibc.ebl.beauty<br/>(original IBC site)"]
+        end
+        
+        subgraph Git["🦊 Gitea (git.ebl.beauty)"]
+            REPO1["sovereignitity-site"]
+            REPO2["solvy-platform"]
+        end
+        
+        subgraph Services["⚙️ Services"]
+            NODE["Node.js App<br/>(port 3000)"]
+            MANUS["Manus Proxy<br/>(port 3002)"]
+            GITEA_SVC["Gitea<br/>(port 3003)"]
+        end
+    end
+    
+    subgraph External["🌎 External"]
+        CF["Cloudflare DNS<br/>+ SSL Proxy"]
+        Users["Users/Browsers"]
+        Sean["👤 Sean (SCRUM Master)"]
+        Pilot["🎯 Pilot Partners"]
+    end
+    
+    Users --> CF
+    CF --> EBL
+    CF --> IBC
+    CF --> GITEA_SVC
+    
+    Sean --> GITEA_SVC
+    Pilot --> EBL
+    
+    GITEA_SVC --> REPO1
+    GITEA_SVC --> REPO2
+    
+    style VPS fill:#f0f4f8,stroke:#64748b
+    style Web fill:#e0e7ff,stroke:#6366f1
+    style Git fill:#fce7f3,stroke:#ec4899
+    style Services fill:#f0fdf4,stroke:#22c55e
+    style External fill:#fff7ed,stroke:#f97316
+```

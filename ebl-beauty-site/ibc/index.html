@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY for IBC Practitioners | DECIDEY NGO</title>
+    <meta name="description" content="Discover how SOLVY operationalizes the Infinite Banking Concept (IBC) for business owners and IBC practitioners.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .navbar-brand {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4f46e5;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .navbar-brand:hover { color: #4338ca; }
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        .navbar-menu a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            padding: 8px 0;
+            position: relative;
+        }
+        .navbar-menu a:hover { color: #4f46e5; }
+        .navbar-menu a.active { color: #4f46e5; }
+        .navbar-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #4f46e5;
+            border-radius: 2px;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            gap: 5px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #64748b;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .mobile-menu a:hover { background: #f1f5f9; color: #4f46e5; }
+        .mobile-menu a.active { background: #eef2ff; color: #4f46e5; }
+        
+        /* Hero Section */
+        header {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        h1 {
+            color: #1e293b;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+        }
+        
+        /* Hero Brochure Card */
+        .hero-brochure {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(79, 70, 229, 0.2);
+            text-align: center;
+            max-width: 550px;
+            margin: 0 auto 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .hero-brochure:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(79, 70, 229, 0.3);
+        }
+        .hero-brochure .icon { font-size: 3.5rem; margin-bottom: 20px; }
+        .hero-brochure h2 { font-size: 1.8rem; margin-bottom: 12px; color: white; }
+        .hero-brochure p { font-size: 1.05rem; opacity: 0.95; margin-bottom: 25px; }
+        .brochure-btn {
+            display: inline-block;
+            background: white;
+            color: #4f46e5;
+            padding: 14px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .brochure-btn:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+        
+        .alt-option {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .alt-option a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .alt-option a:hover { text-decoration: underline; }
+        
+        /* PDF Modal */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .pdf-modal.active { display: flex; }
+        .pdf-modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        }
+        .pdf-modal-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pdf-modal-header h3 { font-size: 1.1rem; margin: 0; font-weight: 600; }
+        .pdf-modal-actions { display: flex; gap: 12px; align-items: center; }
+        .pdf-modal-btn {
+            background: white;
+            color: #4f46e5;
+            padding: 8px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .pdf-modal-btn:hover { transform: scale(1.05); }
+        .pdf-close {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: none;
+            transition: background 0.2s;
+        }
+        .pdf-close:hover { background: rgba(255,255,255,0.3); }
+        .pdf-iframe-container { flex: 1; position: relative; }
+        .pdf-iframe-container iframe { width: 100%; height: 100%; border: none; }
+        
+        .content-section {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+        }
+        h2 { color: #1e293b; font-size: 1.8rem; margin-bottom: 20px; font-weight: 700; }
+        .content-section > p { color: #64748b; font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px; }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+        .feature-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        .feature-card:hover {
+            border-color: #c7d2fe;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08);
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        .feature-card p { color: #64748b; line-height: 1.6; }
+        
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+        .cta-section h2 { color: white; margin-bottom: 15px; }
+        .cta-section > p { color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-bottom: 30px; }
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #4f46e5;
+            padding: 14px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding: 40px 20px;
+        }
+        footer p { margin-bottom: 8px; }
+        
+        @media (max-width: 768px) {
+            .navbar-menu { display: none; }
+            .hamburger { display: flex; }
+            
+            h1 { font-size: 1.8rem; }
+            header { padding: 40px 25px; }
+            .hero-brochure { padding: 35px 25px; }
+            .content-section { padding: 35px 25px; }
+            .features-grid { grid-template-columns: 1fr; }
+            
+            .pdf-modal-content { height: 95vh; border-radius: 12px; }
+            .pdf-modal-header { padding: 12px 16px; }
+            .pdf-modal-header h3 { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">
+                <span>🏛️</span>
+                <span>SOVEREIGNITITY™</span>
+            </a>
+            <ul class="navbar-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/ibc/" class="active">IBC Practitioners</a></li>
+                <li><a href="/sps/">Strategic Partners</a></li>
+                <li><a href="mailto:team@ebl.beauty">Contact</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="/">Home</a>
+            <a href="/ibc/" class="active">IBC Practitioners</a>
+            <a href="/sps/">Strategic Partners</a>
+            <a href="mailto:team@ebl.beauty">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>🏦 IBC/BYOB for Business Owners</h1>
+            <p class="subtitle">Infinite Banking Concept meets SOLVY Cooperative Neobank</p>
+            
+            <div class="hero-brochure" onclick="openPdfModal()">
+                <div class="icon">📊</div>
+                <h2>SOVEREIGNITITY: SOLVY</h2>
+                <p>A Cooperative Neobank for IBC Practitioners</p>
+                <button class="brochure-btn">📖 Read the Brochure</button>
+            </div>
+            
+            <div class="alt-option">
+                Also available: <a href="/sps/">SPS Partnership / Data Flywheel Brochure →</a>
+            </div>
+        </header>
+
+        <!-- PDF Modal -->
+        <div id="pdfModal" class="pdf-modal" onclick="closePdfModal(event)">
+            <div class="pdf-modal-content" onclick="event.stopPropagation()">
+                <div class="pdf-modal-header">
+                    <h3>📊 SOVEREIGNITITY: SOLVY - A Cooperative Neobank for IBC Practitioners</h3>
+                    <div class="pdf-modal-actions">
+                        <a href="/brochures/solvy-ibc-practitioners.pdf" download class="pdf-modal-btn">⬇️ Download</a>
+                        <button class="pdf-close" onclick="closePdfModal(null)">&times;</button>
+                    </div>
+                </div>
+                <div class="pdf-iframe-container">
+                    <iframe src="/brochures/solvy-ibc-practitioners.pdf"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Why IBC Practitioners Choose SOLVY</h2>
+            <p>
+                SOLVY transforms the Infinite Banking Concept from theory into daily practice. Our cooperative neobank 
+                captures interchange revenue from your business transactions and returns it to you through the 70/20/10 model—
+                enabling you to fund IBC policies, receive patronage dividends, and build generational wealth.
+            </p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>💰 Transparent Revenue Sharing</h3>
+                    <p>70% to members, 20% to operations, 10% to reserves. Every transaction builds your wealth.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🏛️ Member-Owned Cooperative</h3>
+                    <p>Democratic governance. You own the bank, not the other way around.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔐 Data Sovereignty</h3>
+                    <p>Your financial data belongs to you. We practice what we preach: SOVEREIGNITITY™.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📈 IBC Policy Funding</h3>
+                    <p>Interchange revenue flows directly into your IBC policies, accelerating wealth accumulation.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎯 Business Integration</h3>
+                    <p>Seamless debit card system for daily operations. Turn spending into wealth-building.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🤝 Community Support</h3>
+                    <p>Join a network of business owners and IBC practitioners building economic sovereignty together.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>How SOLVY Operationalizes IBC</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Step 1: Use SOLVY Card</h3>
+                    <p>Conduct your daily business transactions with the SOLVY debit card.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Step 2: Capture Interchange</h3>
+                    <p>Every swipe generates interchange revenue that traditional banks keep. We capture it for you.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Step 3: Allocate Transparently</h3>
+                    <p>70% returns to members through patronage dividends and IBC policy funding.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Step 4: Build Wealth</h3>
+                    <p>Your IBC policies grow faster. You control your economic destiny.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Practice SOVEREIGNITITY™?</h2>
+            <p>Join business owners and IBC practitioners taking control of their financial future.</p>
+            <a href="mailto:team@ebl.beauty?subject=SOLVY%20Card%20Application%20-%20IBC%20Practitioner" class="cta-button">Apply for SOLVY Card</a>
+            <a href="https://ebl.beauty" class="cta-button">Learn More</a>
+        </div>
+
+        <footer>
+            <p><strong>DECIDEY NGO</strong> — Economic Sovereignty Education</p>
+            <p>team@ebl.beauty | ebl.beauty (web 2) | solvy.chain (web 3)</p>
+        </footer>
+    </div>
+
+    <script>
+        function openPdfModal() {
+            document.getElementById('pdfModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closePdfModal(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('pdfModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') closePdfModal(null);
+        });
+    </script>
+</body>
+</html>

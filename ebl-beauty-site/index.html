@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOVEREIGNITITY™ by DECIDEY NGO | SOLVY Cooperative Neobank</title>
+    <meta name="description" content="SOLVY - A Cooperative Neobank for IBC Practitioners and Strategic Partners. Economic sovereignty through transparent revenue sharing.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .navbar-brand {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4f46e5;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .navbar-brand:hover { color: #4338ca; }
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        .navbar-menu a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            padding: 8px 0;
+            position: relative;
+        }
+        .navbar-menu a:hover { color: #4f46e5; }
+        .navbar-menu a.active { color: #4f46e5; }
+        .navbar-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #4f46e5;
+            border-radius: 2px;
+        }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            gap: 5px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #64748b;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .mobile-menu a:hover { background: #f1f5f9; color: #4f46e5; }
+        .mobile-menu a.active { background: #eef2ff; color: #4f46e5; }
+        
+        /* Hero Section */
+        .hero {
+            background: white;
+            padding: 80px 40px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .logo { 
+            font-size: 4rem; 
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 20px;
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border-radius: 20px;
+        }
+        h1 {
+            color: #1e293b;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .tagline {
+            color: #64748b;
+            font-size: 1.3rem;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        /* Choice Cards */
+        .choice-section { padding: 20px 0 60px; }
+        .choice-section h2 {
+            color: #1e293b;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .choice-card {
+            background: white;
+            color: #334155;
+            padding: 40px 35px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 10px 20px rgba(0,0,0,0.03);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+        }
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(79, 70, 229, 0.1);
+            border-color: #c7d2fe;
+        }
+        .choice-card .icon { 
+            font-size: 3rem; 
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border-radius: 16px;
+        }
+        .choice-card h3 { 
+            font-size: 1.4rem; 
+            margin-bottom: 12px; 
+            color: #1e293b;
+            font-weight: 700;
+        }
+        .choice-card p { 
+            font-size: 1rem; 
+            color: #64748b; 
+            margin-bottom: 25px; 
+            line-height: 1.6;
+        }
+        .choice-card .btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-top: auto;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .choice-card:hover .btn {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        /* About Section */
+        .about-section {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 50px;
+            margin: 40px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .about-section h2 {
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        .about-section p {
+            font-size: 1.15rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .stat-card .number { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-card .label { 
+            font-size: 0.9rem; 
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+        .cta-section h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .cta-section p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #4f46e5;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Brochures Section */
+        .brochures-section {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 50px;
+            margin: 40px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+        }
+        .brochures-section h2 {
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-align: center;
+        }
+        .brochures-section > p {
+            color: #64748b;
+            font-size: 1.1rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        .brochure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .brochure-card-dl {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 35px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .brochure-card-dl:hover {
+            border-color: #c7d2fe;
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.1);
+            transform: translateY(-3px);
+        }
+        .brochure-card-dl .icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 16px;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .brochure-card-dl h3 {
+            color: #1e293b;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .brochure-card-dl p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .brochure-card-dl .file-size {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+        .download-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+        }
+        .view-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: #4f46e5;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 2px solid #e2e8f0;
+            transition: all 0.2s;
+            margin-left: 10px;
+        }
+        .view-btn:hover {
+            border-color: #4f46e5;
+            background: #f5f3ff;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding: 50px 20px;
+        }
+        footer p { margin-bottom: 8px; }
+        footer .links { margin-top: 20px; }
+        footer .links a {
+            color: #4f46e5;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        footer .links a:hover { text-decoration: underline; }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .navbar-menu { display: none; }
+            .hamburger { display: flex; }
+            
+            h1 { font-size: 2rem; }
+            .tagline { font-size: 1.1rem; }
+            .hero { padding: 50px 25px; border-radius: 0 0 20px 20px; }
+            .logo { font-size: 3rem; padding: 15px; }
+            
+            .choice-grid { grid-template-columns: 1fr; gap: 20px; }
+            .choice-card { padding: 30px 25px; }
+            
+            .about-section { padding: 40px 25px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            .brochures-section { padding: 40px 25px; }
+            .brochure-card-dl { padding: 30px 25px; }
+            .brochure-card-dl .btn-group {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .brochure-card-dl .view-btn { margin-left: 0; }
+            
+            .cta-section { padding: 40px 25px; }}
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">
+                <span>🏛️</span>
+                <span>SOVEREIGNITITY™</span>
+            </a>
+            <ul class="navbar-menu">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/ibc/">IBC Practitioners</a></li>
+                <li><a href="/sps/">Strategic Partners</a></li>
+                <li><a href="mailto:team@ebl.beauty">Contact</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="/" class="active">Home</a>
+            <a href="/ibc/">IBC Practitioners</a>
+            <a href="/sps/">Strategic Partners</a>
+            <a href="mailto:team@ebl.beauty">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="logo">🏛️</div>
+            <h1>SOVEREIGNITITY™</h1>
+            <p class="tagline">
+                Economic sovereignty through cooperative banking<br>
+                A DECIDEY NGO Initiative
+            </p>
+            
+            <div class="choice-section">
+                <h2>I am interested in...</h2>
+                <div class="choice-grid">
+                    <a href="/ibc/" class="choice-card">
+                        <div class="icon">📊</div>
+                        <h3>IBC Practitioners</h3>
+                        <p>Learn how SOLVY operationalizes the Infinite Banking Concept for business owners.</p>
+                        <span class="btn">Explore IBC →</span>
+                    </a>
+                    
+                    <a href="/sps/" class="choice-card">
+                        <div class="icon">🤝</div>
+                        <h3>Strategic Partners</h3>
+                        <p>Discover the SOLVY Data Flywheel and SPS Partnership model.</p>
+                        <span class="btn">Explore SPS →</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- About Section -->
+        <div class="about-section">
+            <h2>What is SOLVY?</h2>
+            <p>
+                SOLVY is a cooperative neobank that captures interchange revenue from business transactions 
+                and returns it to members through our transparent 70/20/10 model. We transform the 
+                Infinite Banking Concept from theory into daily practice.
+            </p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="number">70%</div>
+                    <div class="label">To Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">20%</div>
+                    <div class="label">Operations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">10%</div>
+                    <div class="label">Reserves</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">∞</div>
+                    <div class="label">Sovereignty</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Downloadable Brochures Section -->
+        <div class="brochures-section" id="brochures">
+            <h2>📚 Downloadable Brochures</h2>
+            <p>Download our detailed brochures to learn more about SOLVY and share with your team.</p>
+            
+            <div class="brochure-grid">
+                <!-- IBC Brochure -->
+                <div class="brochure-card-dl">
+                    <div class="icon">📊</div>
+                    <h3>SOVEREIGNITITY: SOLVY</h3>
+                    <p>A Cooperative Neobank for IBC Practitioners</p>
+                    <span class="file-size">PDF • 35 MB</span>
+                    <div>
+                        <a href="/brochures/solvy-ibc-practitioners.pdf" download class="download-btn">
+                            ⬇️ Download
+                        </a>
+                        <a href="/brochures/solvy-ibc-practitioners.pdf" target="_blank" class="view-btn">
+                            👁️ View
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Data Flywheel Brochure -->
+                <div class="brochure-card-dl">
+                    <div class="icon">🤝</div>
+                    <h3>The SOLVY Data Flywheel</h3>
+                    <p>SPS Partnership Model for Ecosystem Collaborators</p>
+                    <span class="file-size">PDF • 58 MB</span>
+                    <div>
+                        <a href="/brochures/solvy-data-flywheel.pdf" download class="download-btn">
+                            ⬇️ Download
+                        </a>
+                        <a href="/brochures/solvy-data-flywheel.pdf" target="_blank" class="view-btn">
+                            👁️ View
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2>Ready to Begin Your Journey?</h2>
+            <p>Contact us to learn more about economic sovereignty</p>
+            <a href="mailto:team@ebl.beauty" class="cta-button">Contact Us</a>
+            <a href="https://ibc.ebl.beauty" class="cta-button">IBC Portal</a>
+        </div>
+        
+        <!-- Footer -->
+        <footer>
+            <p><strong>DECIDEY NGO</strong> — Economic Sovereignty Education</p>
+            <p>team@ebl.beauty | ebl.beauty (web 2) | solvy.chain (web 3)</p>
+            <div class="links">
+                <a href="/ibc/">IBC Practitioners</a>
+                <a href="/sps/">SPS Partnership</a>
+                <a href="https://ibc.ebl.beauty">IBC Portal</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        // Close menu when clicking a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu();
+            });
+        });
+    </script>
+</body>
+</html>

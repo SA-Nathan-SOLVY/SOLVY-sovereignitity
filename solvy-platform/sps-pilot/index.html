@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPS Replenishment Feed | SOLVY Pilot MVP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f172a;
+        }
+        .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.3);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        .nav-logo span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
+        }
+        .hero {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            text-align: center;
+        }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+            border: 1px solid rgba(147, 51, 234, 0.4);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: #a78bfa;
+            margin-bottom: 1rem;
+        }
+        .badge.mvp {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
+            border-color: rgba(34, 197, 94, 0.4);
+            color: #22c55e;
+            margin-left: 0.5rem;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .tagline {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .goal-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.1) 100%);
+            border-top: 1px solid rgba(34, 197, 94, 0.2);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+            text-align: center;
+        }
+        .goal-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #22c55e;
+        }
+        .goal-section > p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+        .goal-metric {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid #22c55e;
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            margin: 1rem;
+        }
+        .goal-metric h3 {
+            font-size: 3rem;
+            color: #22c55e;
+            font-weight: 800;
+        }
+        .goal-metric p {
+            color: #cbd5e1;
+        }
+        .feed-section {
+            padding: 4rem 2rem;
+            background: #0f172a;
+        }
+        .feed-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .feed-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .feed-header h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .feed-header p {
+            color: #94a3b8;
+        }
+        .feed-table {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .feed-table-header {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%);
+            padding: 1rem 1.5rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .feed-row {
+            padding: 1rem 1.5rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+            font-size: 0.9rem;
+        }
+        .feed-row:last-child {
+            border-bottom: none;
+        }
+        .sku-name { color: #fff; font-weight: 500; }
+        .qty-sold { color: #a78bfa; font-weight: 600; }
+        .alert { color: #fbbf24; font-weight: 600; }
+        .alert.critical { color: #ef4444; }
+        .status-ok { color: #22c55e; }
+        footer {
+            background: #0f172a;
+            border-top: 1px solid rgba(147, 51, 234, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        footer a { color: #a78bfa; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span>SPS Pilot</span>
+            </a>
+            <a href="../index.html" class="btn-primary">← Back to EBL</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div>
+            <span class="badge">🤝 Pilot Partner #2</span>
+            <span class="badge mvp">MVP</span>
+        </div>
+        <h1>SPS Replenishment Feed</h1>
+        <p class="subtitle">Reverse Inventory Tracking • Expense Reporting • SOLVY Card Integration</p>
+        <p class="tagline">The Opportunity: Turning Data into Revenue</p>
+    </section>
+
+    <section class="goal-section">
+        <h2>🎯 MVP Success Metric</h2>
+        <p>Prove that SOLVY's data feed saves SPS time and prevents stock-outs</p>
+        <div style="margin-top: 2rem;">
+            <div class="goal-metric">
+                <h3>5+</h3>
+                <p>Hours Saved Weekly</p>
+            </div>
+            <div class="goal-metric">
+                <h3>0</h3>
+                <p>Stock-Outs Prevented</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="feed-section">
+        <div class="feed-container">
+            <div class="feed-header">
+                <h2>📊 Weekly Replenishment Feed</h2>
+                <p>Aggregated from EBL SOLVY Card transactions • Last 7 Days</p>
+            </div>
+            <div class="feed-table">
+                <div class="feed-table-header">
+                    <span>SKU Name</span>
+                    <span>Qty Sold</span>
+                    <span>Current Stock</span>
+                    <span>Alert</span>
+                    <span>Action</span>
+                </div>
+                <div class="feed-row">
+                    <span class="sku-name">Premium Gel Polish - Ruby Red</span>
+                    <span class="qty-sold">47</span>
+                    <span>12</span>
+                    <span class="alert critical">⚠️ ORDER NOW</span>
+                    <span class="alert critical">80% sold</span>
+                </div>
+                <div class="feed-row">
+                    <span class="sku-name">Nail Strengthener Base Coat</span>
+                    <span class="qty-sold">38</span>
+                    <span>25</span>
+                    <span class="alert">⚡ Order Soon</span>
+                    <span class="alert">60% sold</span>
+                </div>
+                <div class="feed-row">
+                    <span class="sku-name">UV Top Coat Gloss</span>
+                    <span class="qty-sold">52</span>
+                    <span>8</span>
+                    <span class="alert critical">⚠️ ORDER NOW</span>
+                    <span class="alert critical">87% sold</span>
+                </div>
+                <div class="feed-row">
+                    <span class="sku-name">Cuticle Oil - Lavender</span>
+                    <span class="qty-sold">23</span>
+                    <span>45</span>
+                    <span class="status-ok">✓ Stock OK</span>
+                    <span class="status-ok">33% sold</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p><strong>SPS Joint Venture</strong> • SOLVY Card Pilot Partner #2</p>
+        <p style="margin-top: 0.5rem;">Connected to <a href="../index.html">Evergreen Beauty Lounge</a> (Pilot #1)</p>
+    </footer>
+</body>
+</html>
