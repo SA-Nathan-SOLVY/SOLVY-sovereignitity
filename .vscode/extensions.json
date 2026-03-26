@@ -1,0 +1,82 @@
+{
+  // ==========================================
+  // SOLVY SCRUM Master Recommended Extensions
+  // Install these for optimal project management
+  // ==========================================
+  
+  "recommendations": [
+    // ===== AGILE/SCRUM MANAGEMENT =====
+    
+    // Todo Tree - Visualize TODOs across project
+    "gruntfuggly.todo-tree",
+    
+    // TODO Highlight - Highlight TODOs in code
+    "wayou.vscode-todo-highlight",
+    
+    // Project Manager - Switch between projects
+    "alefragnani.project-manager",
+    
+    // GitLens - Enhanced Git integration
+    "eamodio.gitlens",
+    
+    // Git Graph - Visual Git history
+    "mhutchie.git-graph",
+    
+    // Markdown All in One - Documentation
+    "yzhang.markdown-all-in-one",
+    
+    // Mermaid Preview - Diagram support
+    "bierner.markdown-mermaid",
+    
+    // Code Spell Checker - Documentation quality
+    "streetsidesoftware.code-spell-checker",
+    
+    // ===== DEVELOPMENT ESSENTIALS =====
+    
+    // ESLint - JavaScript/TypeScript linting
+    "dbaeumer.vscode-eslint",
+    
+    // Prettier - Code formatting
+    "esbenp.prettier-vscode",
+    
+    // Path Intellisense - Autocomplete paths
+    "christian-kohler.path-intellisense",
+    
+    // Auto Rename Tag - HTML/XML editing
+    "formulahendry.auto-rename-tag",
+    
+    // Bracket Pair Colorizer
+    "coenraads.bracket-pair-colorizer-2",
+    
+    // Indent Rainbow
+    "oderwat.indent-rainbow",
+    
+    // Material Icon Theme
+    "pkief.material-icon-theme",
+    
+    // ===== DOCKER / DEVOPS =====
+    
+    // Docker - Container management
+    "ms-azuretools.vscode-docker",
+    
+    // ===== OPTIONAL / ADVANCED =====
+    
+    // Thunder Client - API testing
+    "rangav.vscode-thunder-client",
+    
+    // REST Client - API testing alternative
+    "humao.rest-client",
+    
+    // JSON Crack - Visualize JSON
+    "aykutsarac.jsoncrack-vscode",
+    
+    // Draw.io Integration - Diagrams
+    "hediet.vscode-drawio"
+  ],
+  
+  "unwantedRecommendations": [
+    // Avoid conflicting extensions
+    "hookyqr.beautify",
+    "ms-vscode.vscode-typescript-tslint-plugin"
+  ]
+}

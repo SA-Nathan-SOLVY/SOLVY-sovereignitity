@@ -59,3 +59,28 @@ y.pub
 
 # Sensitive
 *.pdf
+
+# Gitea specific
+gitea-tunnel-setup/.env
+gitea-tunnel-setup/data/
+gitea-tunnel-setup/gitea-data/
+gitea-tunnel-setup/postgres-data/
+gitea-tunnel-setup/backups/
+
+# Ops runtime data
+ops/**/data/
+ops/**/.env
+ops/**/ssl/
+
+# Temporary files
+*.tmp
+*.temp
+*.pid
+*.sock
+
+# Large media
+*.mp4
+*.mov
+*.avi
+*.pages
+*.numbers

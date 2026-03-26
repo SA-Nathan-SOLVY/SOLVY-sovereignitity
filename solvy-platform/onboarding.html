@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLVY - Open Your Account</title>
+  <style>
+    :root {
+      --solvy-green: #22c55e;
+      --solvy-dark: #0f172a;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--solvy-dark);
+      color: white;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    
+    .header {
+      background: rgba(30, 41, 59, 0.95);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--solvy-green);
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--solvy-green);
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .onboarding-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .onboarding-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    #unit-container {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      min-height: 600px;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 4rem;
+      color: var(--solvy-green);
+    }
+    
+    .error {
+      background: #ef4444;
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    
+    .back-link {
+      color: var(--solvy-green);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">👑 SOLVY</div>
+      <span>First Circle Member Onboarding</span>
+    </div>
+  </header>
+  
+  <div class="container">
+    <a href="./index.html" class="back-link">← Back to Home</a>
+    
+    <div class="onboarding-header">
+      <h1>Open Your SOLVY Account</h1>
+      <p>Join the cooperative. Get your SOLVY Card.</p>
+    </div>
+    
+    <div id="error-message" class="error"></div>
+    
+    <div id="loading" class="loading">
+      <p>Loading secure application...</p>
+    </div>
+    
+    <div id="unit-container" style="display: none;">
+      <unit-elements-white-label-app 
+        id="unit-app"
+        jwt-token="">
+      </unit-elements-white-label-app>
+    </div>
+  </div>
+  
+  <script async src="https://ui.s.unit.sh/release/latest/components-extended.js"></script>
+  
+  <script>
+    // ============================================
+    // CONFIG: Update this to your API server URL
+    // ============================================
+    const API_BASE = 'https://api.ebl.beauty'; // Change this!
+    // Options:
+    // - 'https://api.ebl.beauty' (if you deploy API to subdomain)
+    // - 'https://ebl.beauty/api' (if API is on same domain)
+    // - 'http://localhost:3000' (for local testing only)
+    // ============================================
+    
+    async function fetchJwtToken() {
+      try {
+        const response = await fetch(`${API_BASE}/api/auth/unit-token`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            memberId: 'member-123',
+            email: 'eva@example.com'
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data.token;
+      } catch (error) {
+        console.error('Error fetching token:', error);
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('error-message').textContent = 
+          'Unable to load application. Please try again later.';
+        throw error;
+      }
+    }
+    
+    // Initialize when script loads
+    window.addEventListener('load', async () => {
+      try {
+        const token = await fetchJwtToken();
+        const unitApp = document.getElementById('unit-app');
+        unitApp.setAttribute('jwt-token', token);
+        
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('unit-container').style.display = 'block';
+      } catch (error) {
+        console.error('Initialization failed:', error);
+      }
+    });
+  </script>
+</body>
+</html>

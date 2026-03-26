@@ -1,0 +1,603 @@
+/**
+ * SOLVY PWA - Threshold Widget Styles
+ * Phase 4: Threshold-Based Triggers
+ * 
+ * Green gradient progress bar with animated pulse when close to threshold
+ * Clean, modern card design matching SOLVY theme
+ */
+
+/* ============================================
+   THRESHOLD WIDGET STYLES
+   ============================================ */
+
+/* Widget Container */
+.threshold-widget {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  color: #fff;
+  max-width: 400px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(34, 197, 94, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background glow */
+.threshold-widget::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(34, 197, 94, 0.03) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.threshold-widget:hover {
+  border-color: rgba(34, 197, 94, 0.5);
+  box-shadow: 
+    0 15px 50px rgba(34, 197, 94, 0.15),
+    0 0 0 1px rgba(34, 197, 94, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   HEADER STYLES
+   ============================================ */
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.widget-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #22c55e;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cooperative-icon {
+  font-size: 1.25rem;
+  filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.4));
+}
+
+/* Live Indicator */
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 0.3rem 0.6rem;
+  border-radius: 50px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse-live 2s infinite;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+@keyframes pulse-live {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 0.6; 
+    transform: scale(1.3); 
+  }
+}
+
+/* ============================================
+   PROGRESS BAR STYLES
+   ============================================ */
+
+.progress-section {
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+.current-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.current-value.small {
+  font-size: 1.5rem;
+}
+
+.target-value {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* Progress Bar Container */
+.progress-bar-container {
+  height: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 7px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Green Gradient Progress Bar */
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    #16a34a 0%, 
+    #22c55e 25%,
+    #4ade80 50%, 
+    #22c55e 75%,
+    #16a34a 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 7px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  animation: shimmer 3s infinite;
+  box-shadow: 
+    0 0 10px rgba(34, 197, 94, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% { 
+    background-position: 200% 0; 
+  }
+  100% { 
+    background-position: -200% 0; 
+  }
+}
+
+/* Near Threshold Animation (>80%) */
+.progress-bar.near-threshold {
+  animation: 
+    pulse-green 1.5s infinite,
+    shimmer 3s infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { 
+    box-shadow: 
+      0 0 10px rgba(34, 197, 94, 0.4),
+      0 0 20px rgba(34, 197, 94, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  50% { 
+    box-shadow: 
+      0 0 20px rgba(34, 197, 94, 0.6),
+      0 0 40px rgba(34, 197, 94, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Percentage Label inside progress bar */
+.percentage-label {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   MESSAGE SECTION
+   ============================================ */
+
+.message-section {
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.12) 0%,
+    rgba(34, 197, 94, 0.05) 100%
+  );
+  border-left: 3px solid #22c55e;
+  padding: 0.875rem 1rem;
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.message-text {
+  font-size: 0.95rem;
+  color: #fff;
+  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.message-description {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ============================================
+   PROPOSAL PREVIEW
+   ============================================ */
+
+.proposal-preview {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(59, 130, 246, 0.03) 100%
+  );
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 10px;
+  padding: 0.875rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.proposal-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #60a5fa;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
+.proposal-text {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ============================================
+   FOOTER & LINKS
+   ============================================ */
+
+.widget-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.learn-more-link {
+  color: #22c55e;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.learn-more-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #22c55e;
+  transition: width 0.2s ease;
+}
+
+.learn-more-link:hover {
+  color: #4ade80;
+  gap: 0.5rem;
+}
+
+.learn-more-link:hover::after {
+  width: 100%;
+}
+
+.expand-button {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.expand-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* ============================================
+   THRESHOLDS LIST (EXPANDED)
+   ============================================ */
+
+.thresholds-list {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.threshold-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.625rem 0;
+  font-size: 0.85rem;
+  transition: opacity 0.2s ease;
+}
+
+.threshold-item:hover {
+  opacity: 0.8;
+}
+
+.threshold-status {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.threshold-status.achieved {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+}
+
+.threshold-status.pending {
+  background: rgba(148, 163, 184, 0.15);
+  color: #64748b;
+  border: 2px solid rgba(148, 163, 184, 0.2);
+}
+
+.threshold-info {
+  flex: 1;
+}
+
+.threshold-name {
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.threshold-target {
+  color: #64748b;
+  font-size: 0.75rem;
+  margin-top: 0.15rem;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+
+.loading-state {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  color: #94a3b8;
+}
+
+.spinner {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(34, 197, 94, 0.2);
+  border-top-color: #22c55e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+/* ============================================
+   SUCCESS STATE (ALL THRESHOLDS MET)
+   ============================================ */
+
+.success-state {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.success-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+  filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.4));
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.success-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #22c55e;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.success-message {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.success-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  margin-top: 1.25rem;
+}
+
+.success-stat {
+  text-align: center;
+}
+
+.success-stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #22c55e;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.success-stat-label {
+  font-size: 0.7rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.25rem;
+}
+
+/* ============================================
+   ERROR STATE
+   ============================================ */
+
+.error-state {
+  text-align: center;
+  padding: 1.5rem;
+  color: #ef4444;
+}
+
+.error-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.8;
+}
+
+.error-message {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.retry-button {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.retry-button:hover {
+  background: rgba(34, 197, 94, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 480px) {
+  .threshold-widget {
+    padding: 1.25rem;
+    border-radius: 14px;
+  }
+  
+  .current-value {
+    font-size: 1.75rem;
+  }
+  
+  .current-value.small {
+    font-size: 1.35rem;
+  }
+  
+  .success-stats {
+    gap: 1.5rem;
+  }
+  
+  .success-stat-value {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot,
+  .progress-bar,
+  .progress-bar.near-threshold,
+  .success-icon,
+  .spinner {
+    animation: none;
+  }
+  
+  .threshold-widget,
+  .progress-bar,
+  .learn-more-link,
+  .expand-button,
+  .retry-button {
+    transition: none;
+  }
+}

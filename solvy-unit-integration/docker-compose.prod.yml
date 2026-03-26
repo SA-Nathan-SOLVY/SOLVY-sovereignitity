@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  solvy-api:
+    build: .
+    container_name: solvy-api
+    restart: always
+    environment:
+      - UNIT_API_TOKEN=${UNIT_API_TOKEN}
+      - UNIT_API_URL=${UNIT_API_URL}
+      - UNIT_ORG_ID=${UNIT_ORG_ID}
+      - SOLVY_ENV=production
+      - SOLVY_WEBHOOK_SECRET=${SOLVY_WEBHOOK_SECRET}
+      - SOLVY_PORT=3000
+    ports:
+      - "3000:3000"
+    networks:
+      - gitea
+    
+  # Nginx reverse proxy (routes api.ebl.beauty to solvy-api)
+  nginx:
+    image: nginx:alpine
+    container_name: solvy-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../solvy-platform:/usr/share/nginx/html:ro
+    depends_on:
+      - solvy-api
+    networks:
+      - gitea
+
+networks:
+  gitea:
+    external: true  # Use existing Gitea network

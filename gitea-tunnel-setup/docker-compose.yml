@@ -46,7 +46,7 @@ services:
       - GITEA__server__ROOT_URL=${GITEA_ROOT_URL:-http://localhost:3000/}
       - GITEA__server__SSH_DOMAIN=${GITEA_SSH_DOMAIN:-localhost}
       - GITEA__server__SSH_PORT=${GITEA_SSH_PORT:-2222}
-      - GITEA__server__START_SSH_SERVER=true
+      - GITEA__server__START_SSH_SERVER=false
       - GITEA__security__INSTALL_LOCK=true
       - GITEA__server__DOMAIN=gitea.ebl.beauty
       - GITEA__server__ROOT_URL=https://gitea.ebl.beauty/

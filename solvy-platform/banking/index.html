@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Banking | Member Portal</title>
+    <meta name="description" content="SOLVY Cooperative Banking Portal - Manage your accounts, cards, and dividends">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #fff;
+        }
+        .nav-logo span {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #22c55e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #22c55e;
+        }
+        .member-badge {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Banking Container */
+        .banking-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+        .sidebar-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        .sidebar-item:hover, .sidebar-item.active {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+        .sidebar-item .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Dividend Widget */
+        .dividend-widget {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+        .dividend-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+        .dividend-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #22c55e;
+        }
+        .dividend-period {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: rgba(30, 41, 59, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 16px;
+            min-height: 600px;
+            overflow: hidden;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            height: 100%;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Unit App Container */
+        #unit-app-container {
+            height: 100%;
+            min-height: 600px;
+        }
+
+        /* Privacy Dashboard */
+        .privacy-dashboard {
+            padding: 2rem;
+        }
+        .privacy-header {
+            margin-bottom: 2rem;
+        }
+        .privacy-header h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .privacy-header p {
+            color: #94a3b8;
+        }
+
+        .privacy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .privacy-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .privacy-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #22c55e;
+        }
+        .privacy-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Data Pool Toggle */
+        .pool-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #475569;
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #22c55e;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Stats */
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        .stat-label {
+            color: #94a3b8;
+        }
+        .stat-value {
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(34, 197, 94, 0.3);
+            border-top-color: #22c55e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading p {
+            margin-top: 1rem;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .banking-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span style="font-size: 2rem;">👑</span>
+                <span>SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../card/solvy-card.html">Card</a>
+                <a href="./index.html" class="active">Banking</a>
+                <a href="../community/communities.html">Community</a>
+            </div>
+            <div class="member-badge" id="memberStatus">First Circle</div>
+        </div>
+    </nav>
+
+    <!-- Banking Container -->
+    <div class="banking-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Banking</div>
+                <div class="sidebar-menu">
+                    <button class="sidebar-item active" onclick="showTab('accounts')">
+                        <span class="icon">🏦</span>
+                        Accounts & Cards
+                    </button>
+                    <button class="sidebar-item" onclick="showTab('privacy')">
+                        <span class="icon">🔒</span>
+                        Data Sovereignty
+                    </button>
+                    <button class="sidebar-item" onclick="showTab('dividends')">
+                        <span class="icon">💰</span>
+                        Dividends
+                    </button>
+                    <button class="sidebar-item" onclick="showTab('governance')">
+                        <span class="icon">⚖️</span>
+                        Governance
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">70/20/10 Model</div>
+                <div class="dividend-widget">
+                    <div class="dividend-label">Your Q1 Dividend</div>
+                    <div class="dividend-amount" id="dividendAmount">$0.00</div>
+                    <div class="dividend-period">Based on interchange share</div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Data Pool</div>
+                <div class="pool-toggle">
+                    <span>Contribute Data</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="dataPoolToggle" onchange="toggleDataPool()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Accounts Tab (Unit White Label App) -->
+            <div id="accounts-tab" class="tab-content active">
+                <div id="unit-app-container">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>Loading SOLVY Banking...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Tab -->
+            <div id="privacy-tab" class="tab-content">
+                <div class="privacy-dashboard">
+                    <div class="privacy-header">
+                        <h2>🔒 Data Sovereignty Dashboard</h2>
+                        <p>Control your data. Vote on pooling. Earn from insights.</p>
+                    </div>
+                    <div class="privacy-grid">
+                        <div class="privacy-card">
+                            <h3>📊 Local Storage</h3>
+                            <p>Your transaction data is stored locally on your device.</p>
+                            <div class="stat-row">
+                                <span class="stat-label">Transactions Stored</span>
+                                <span class="stat-value" id="localTxCount">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Storage Used</span>
+                                <span class="stat-value" id="storageUsed">0 MB</span>
+                            </div>
+                        </div>
+
+                        <div class="privacy-card">
+                            <h3>🔐 Encrypted Pool</h3>
+                            <p>Anonymized data you choose to contribute to the cooperative pool.</p>
+                            <div class="stat-row">
+                                <span class="stat-label">Contributed Records</span>
+                                <span class="stat-value" id="pooledCount">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Expires In</span>
+                                <span class="stat-value">30 days</span>
+                            </div>
+                        </div>
+
+                        <div class="privacy-card">
+                            <h3>⚡ AI Insights</h3>
+                            <p>Personalized recommendations from your data.</p>
+                            <div class="stat-row">
+                                <span class="stat-label">Insights Generated</span>
+                                <span class="stat-value" id="insightsCount">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Data Never Shared</span>
+                                <span class="stat-value">✓</span>
+                            </div>
+                        </div>
+
+                        <div class="privacy-card">
+                            <h3>🗳️ Cooperative Voting</h3>
+                            <p>Vote on how pooled data is used for cooperative benefit.</p>
+                            <div class="stat-row">
+                                <span class="stat-label">Active Proposals</span>
+                                <span class="stat-value" id="activeProposals">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Your Votes Cast</span>
+                                <span class="stat-value" id="votesCast">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dividends Tab -->
+            <div id="dividends-tab" class="tab-content">
+                <div class="privacy-dashboard">
+                    <div class="privacy-header">
+                        <h2>💰 Dividend Distribution</h2>
+                        <p>70% to members, 20% to community, 10% to operations</p>
+                    </div>
+                    <div class="privacy-grid">
+                        <div class="privacy-card">
+                            <h3>Your Share (70%)</h3>
+                            <p>Direct dividend from interchange revenue</p>
+                            <div class="dividend-amount" style="margin-top: 1rem;">$<span id="memberShare">0.00</span></div>
+                        </div>
+                        <div class="privacy-card">
+                            <h3>Community Pool (20%)</h3>
+                            <p>Reinvested in cooperative growth</p>
+                            <div class="dividend-amount" style="margin-top: 1rem; color: #a78bfa;">$<span id="communityShare">0.00</span></div>
+                        </div>
+                        <div class="privacy-card">
+                            <h3>Operations (10%)</h3>
+                            <p>Platform maintenance and development</p>
+                            <div class="dividend-amount" style="margin-top: 1rem; color: #64748b;">$<span id="opsShare">0.00</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Governance Tab -->
+            <div id="governance-tab" class="tab-content">
+                <div class="privacy-dashboard">
+                    <div class="privacy-header">
+                        <h2>⚖️ Cooperative Governance</h2>
+                        <p>One member, one vote. Shape the future of SOLVY.</p>
+                    </div>
+                    <div class="privacy-grid" id="proposalsContainer">
+                        <!-- Proposals loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Unit Elements White Label App Script -->
+    <script async src="https://ui.s.unit.sh/release/latest/components-extended.js"></script>
+    
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active from sidebar items
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.closest('.sidebar-item').classList.add('active');
+            
+            // Initialize Unit App if accounts tab
+            if (tabName === 'accounts') {
+                initializeUnitApp();
+            }
+        }
+
+        // Initialize Unit White Label App
+        async function initializeUnitApp() {
+            const container = document.getElementById('unit-app-container');
+            
+            try {
+                // Fetch JWT token from our backend
+                const response = await fetch('/api/unit-token', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to get Unit token');
+                }
+                
+                const { token } = await response.json();
+                
+                // Clear loading state and render Unit App
+                container.innerHTML = '';
+                const unitApp = document.createElement('unit-elements-white-label-app');
+                unitApp.setAttribute('jwt-token', token);
+                unitApp.style.width = '100%';
+                unitApp.style.height = '100%';
+                unitApp.style.minHeight = '600px';
+                container.appendChild(unitApp);
+                
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <p style="color: #ef4444;">Unable to load banking interface</p>
+                        <p style="color: #64748b; font-size: 0.9rem;">${error.message}</p>
+                        <button onclick="initializeUnitApp()" class="btn-primary" style="margin-top: 1rem;">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Data Pool Toggle
+        async function toggleDataPool() {
+            const toggle = document.getElementById('dataPoolToggle');
+            const enabled = toggle.checked;
+            
+            // Store preference locally
+            localStorage.setItem('solvy_dataPoolEnabled', enabled);
+            
+            if (enabled) {
+                // Trigger data aggregation for pooling
+                await aggregateAndPoolData();
+            }
+            
+            updatePrivacyStats();
+        }
+
+        // Aggregate data before pooling (local-first)
+        async function aggregateAndPoolData() {
+            const db = await openDB('SolvyDB', 1);
+            const tx = db.transaction('transactions', 'readonly');
+            const store = tx.objectStore('transactions');
+            const transactions = await store.getAll();
+            
+            // Calculate aggregates locally
+            const aggregates = transactions.reduce((acc, tx) => {
+                acc.totalAmount += tx.amount;
+                acc.count += 1;
+                acc.categories[tx.category] = (acc.categories[tx.category] || 0) + 1;
+                return acc;
+            }, { totalAmount: 0, count: 0, categories: {} });
+            
+            // Store aggregates locally (never raw data)
+            localStorage.setItem('solvy_aggregates', JSON.stringify({
+                ...aggregates,
+                lastUpdated: new Date().toISOString()
+            }));
+            
+            console.log('Data aggregated locally:', aggregates);
+        }
+
+        // Update privacy dashboard stats
+        async function updatePrivacyStats() {
+            // Get local transaction count from IndexedDB
+            try {
+                const db = await openDB('SolvyDB', 1);
+                const tx = db.transaction('transactions', 'readonly');
+                const store = tx.objectStore('transactions');
+                const count = await store.count();
+                document.getElementById('localTxCount').textContent = count;
+            } catch (e) {
+                document.getElementById('localTxCount').textContent = '0';
+            }
+            
+            // Get storage estimate
+            if (navigator.storage && navigator.storage.estimate) {
+                const estimate = await navigator.storage.estimate();
+                const usedMB = Math.round((estimate.usage || 0) / 1024 / 1024);
+                document.getElementById('storageUsed').textContent = `${usedMB} MB`;
+            }
+            
+            // Check data pool status
+            const poolEnabled = localStorage.getItem('solvy_dataPoolEnabled') === 'true';
+            document.getElementById('dataPoolToggle').checked = poolEnabled;
+        }
+
+        // Load member dividend data
+        async function loadDividendData() {
+            try {
+                const response = await fetch('/api/dividends', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                document.getElementById('dividendAmount').textContent = 
+                    `$${data.memberShare.toFixed(2)}`;
+                document.getElementById('memberShare').textContent = 
+                    data.memberShare.toFixed(2);
+                document.getElementById('communityShare').textContent = 
+                    data.communityShare.toFixed(2);
+                document.getElementById('opsShare').textContent = 
+                    data.opsShare.toFixed(2);
+            } catch (e) {
+                console.log('Dividend data not available yet');
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePrivacyStats();
+            loadDividendData();
+            
+            // Check if we're on the accounts tab
+            if (document.getElementById('accounts-tab').classList.contains('active')) {
+                initializeUnitApp();
+            }
+        });
+
+        // IndexedDB helper
+        function openDB(name, version) {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(name, version);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+    </script>
+</body>
+</html>

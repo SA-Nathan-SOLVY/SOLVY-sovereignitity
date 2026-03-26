@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Privacy Dashboard | Your Data, Your Control</title>
+    <meta name="description" content="SOLVY Privacy Dashboard - Local-first data architecture with member voting and collective action">
+    
+    <!-- Dexie.js for IndexedDB -->
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
+    
+    <!-- SOLVY Services -->
+    <script src="js/services/db.js"></script>
+    <script src="js/services/aggregation-service.js"></script>
+    <script src="js/services/encryption-service.js"></script>
+    <script src="js/services/threshold-service.js"></script>
+    <script src="js/services/voting-service.js"></script>
+    
+    <!-- SOLVY Components -->
+    <script src="js/components/privacy-dashboard.js"></script>
+    <script src="js/components/threshold-widget.js"></script>
+    <script src="js/components/voting-widget.js"></script>
+    <script src="js/components/data-pool-optin.js"></script>
+    <script src="js/components/data-preview.js"></script>
+    <script src="js/components/proposal-card.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f172a;
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #22c55e;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #22c55e;
+        }
+        
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero h1 span {
+            color: #22c55e;
+        }
+        
+        .hero p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: #22c55e;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .section-header p {
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+        
+        /* Feature Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            border-color: rgba(34, 197, 94, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .feature-card h3 {
+            color: #22c55e;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Full Width Sections */
+        .full-width-section {
+            margin-bottom: 3rem;
+        }
+        
+        /* Code Preview */
+        .code-preview {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+        
+        .code-preview h4 {
+            color: #22c55e;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .code-preview pre {
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #94a3b8;
+        }
+        
+        .code-preview code {
+            color: #a5b4fc;
+        }
+        
+        .code-preview .comment {
+            color: #64748b;
+        }
+        
+        .code-preview .keyword {
+            color: #c084fc;
+        }
+        
+        .code-preview .string {
+            color: #86efac;
+        }
+        
+        /* Status Indicators */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .status-item {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .status-item.incomplete {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+        
+        .status-icon {
+            font-size: 1.5rem;
+        }
+        
+        .status-text {
+            flex: 1;
+        }
+        
+        .status-text h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .status-text p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span>👑</span>
+                <span>SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="card/solvy-card.html">Card</a>
+                <a href="privacy-dashboard.html" class="active">Privacy</a>
+                <a href="#voting">Voting</a>
+                <a href="#cooperative">Cooperative</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Your Data, <span>Your Control</span></h1>
+            <p>SOLVY uses a local-first, privacy-centric architecture. Your transaction history stays on your device. Only anonymized aggregates contribute to collective bargaining power.</p>
+        </section>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Privacy Dashboard Component -->
+            <div>
+                <div class="section-header">
+                    <h2>🔒 Privacy Dashboard</h2>
+                    <p>See what data is stored locally vs what is shared with the cooperative</p>
+                </div>
+                <privacy-dashboard member-id="demo-member-123"></privacy-dashboard>
+            </div>
+            
+            <!-- Threshold Widget Component -->
+            <div>
+                <div class="section-header">
+                    <h2>📊 Cooperative Progress</h2>
+                    <p>Track our collective progress toward bargaining milestones</p>
+                </div>
+                <threshold-widget auto-refresh refresh-interval="30"></threshold-widget>
+            </div>
+        </div>
+
+        <!-- Data Preview Section -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h2>👁️ Data Transparency</h2>
+                <p>See exactly what data is shared and how it's protected</p>
+            </div>
+            <data-preview></data-preview>
+        </div>
+
+        <!-- Voting Section -->
+        <div class="full-width-section" id="voting">
+            <div class="section-header">
+                <h2>🗳️ Active Proposals</h2>
+                <p>Vote on collective action proposals. Your vote is private and anonymous.</p>
+            </div>
+            <voting-widget></voting-widget>
+        </div>
+
+        <!-- Data Pool Opt-In Modal (Hidden by default, shown via JS) -->
+        <data-pool-optin auto-show></data-pool-optin>
+
+        <!-- Architecture Overview -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h2>🏗️ Technical Architecture</h2>
+                <p>How SOLVY's local-first, privacy-centric data system works</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>📱 Local-First Storage</h3>
+                    <p>All transaction data is stored in IndexedDB on your device. No central database holds your personal transaction history.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Client-Side Aggregation</h3>
+                    <p>Totals and averages are calculated on your device before sending. Only aggregates leave your device.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔐 End-to-End Encryption</h3>
+                    <p>Data contributions are encrypted with AES-256-GCM before transmission. Only cooperative managers can decrypt.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⏱️ Auto-Delete</h3>
+                    <p>Contributed data automatically deletes after 30 days. No backups, no retention beyond the agreed period.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🗳️ Threshold Voting</h3>
+                    <p>When cooperative volume reaches milestones ($500K, $750K, $1M), members vote on pooling data for bargaining.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎭 Anonymous Identity</h3>
+                    <p>Member IDs are hashed with SHA-256. No link between your vote, your data contribution, and your identity.</p>
+                </div>
+            </div>
+
+            <!-- Code Example -->
+            <div class="code-preview">
+                <h4>Privacy Guarantee - Client-Side Aggregation</h4>
+                <pre><code><span class="comment">// This runs on YOUR device - transactions never leave</span>
+<span class="keyword">const</span> metrics = <span class="keyword">await</span> AggregatedMetricsService.<span class="function">calculateMetrics</span>();
+
+<span class="comment">// What's sent to the server (anonymized aggregates only):</span>
+{
+  <span class="string">"totalVolume"</span>: <span class="number">15230.50</span>,
+  <span class="string">"transactionCount"</span>: <span class="number">127</span>,
+  <span class="string">"categorySums"</span>: {
+    <span class="string">"groceries"</span>: <span class="number">3420.00</span>,
+    <span class="string">"dining"</span>: <span class="number">890.50</span>
+  },
+  <span class="string">"memberHash"</span>: <span class="string">"a1b2c3d4e5f6..."</span> <span class="comment">// Hashed - not identifiable</span>
+}
+
+<span class="comment">// What's NEVER sent (stays on your device):</span>
+<span class="comment">// - Individual transaction details</span>
+<span class="comment">// - Merchant names</span>
+<span class="comment">// - Exact timestamps</span>
+<span class="comment">// - Transaction IDs</span></code></pre>
+            </div>
+        </div>
+
+        <!-- Implementation Status -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h2>✅ Implementation Status</h2>
+                <p>Track the progress of SOLVY's local-first architecture implementation</p>
+            </div>
+            
+            <div class="status-grid">
+                <div class="status-item">
+                    <span class="status-icon">✅</span>
+                    <div class="status-text">
+                        <h4>Phase 1: Data Audit</h4>
+                        <p>Mapped existing data schema</p>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">✅</span>
+                    <div class="status-text">
+                        <h4>Phase 2: Local Storage</h4>
+                        <p>IndexedDB implementation complete</p>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">✅</span>
+                    <div class="status-text">
+                        <h4>Phase 3: Aggregation</h4>
+                        <p>Client-side metrics calculation</p>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">✅</span>
+                    <div class="status-text">
+                        <h4>Phase 4: Thresholds</h4>
+                        <p>Milestone monitoring active</p>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">✅</span>
+                    <div class="status-text">
+                        <h4>Phase 5: Voting (MAN)</h4>
+                        <p>Privacy-preserving voting system</p>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">✅</span>
+                    <div class="status-text">
+                        <h4>Phase 6: Data Pool</h4>
+                        <p>Encrypted temporary storage</p>
+                    </div>
+                </div>
+                <div class="status-item incomplete">
+                    <span class="status-icon">⏳</span>
+                    <div class="status-text">
+                        <h4>Phase 7: Retire Central</h4>
+                        <p>Pending member migration</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>SOLVY Platform</strong> - Local-First, Privacy-Centric Cooperative Banking</p>
+        <p>Your transaction history stays on your device. Always.</p>
+        <p style="margin-top: 1rem; color: #22c55e;">👑 Created by SA Nathan</p>
+    </footer>
+
+    <script>
+        // Initialize services with demo member
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Set up demo member
+            const demoMemberId = 'demo-member-123';
+            localStorage.setItem('solvy_member_id', demoMemberId);
+            
+            // Initialize services
+            AggregatedMetricsService.setMemberId(demoMemberId);
+            EncryptionService.init(demoMemberId);
+            VotingService.init(demoMemberId);
+            
+            // Add some sample transactions for demo
+            if (typeof db !== 'undefined') {
+                const existingCount = await db.transactions.count();
+                if (existingCount === 0) {
+                    console.log('[Demo] Adding sample transactions...');
+                    
+                    const sampleTransactions = [
+                        { amount: 245.50, merchant: 'ABC Supply Co.', category: 'Supplies', date: new Date(Date.now() - 86400000 * 2).toISOString() },
+                        { amount: 89.99, merchant: 'City Hardware', category: 'Tools', date: new Date(Date.now() - 86400000 * 5).toISOString() },
+                        { amount: 156.75, merchant: 'ABC Supply Co.', category: 'Supplies', date: new Date(Date.now() - 86400000 * 8).toISOString() },
+                        { amount: 45.00, merchant: 'Express Shipping', category: 'Shipping', date: new Date(Date.now() - 86400000 * 12).toISOString() },
+                        { amount: 320.00, merchant: 'Wholesale Beauty', category: 'Inventory', date: new Date(Date.now() - 86400000 * 15).toISOString() }
+                    ];
+                    
+                    for (const tx of sampleTransactions) {
+                        await db.transactions.add({
+                            ...tx,
+                            pendingSync: false,
+                            createdAt: new Date().toISOString()
+                        });
+                    }
+                    
+                    // Update spending patterns
+                    for (const tx of sampleTransactions) {
+                        const existing = await db.spending_patterns.get(tx.category);
+                        if (existing) {
+                            await db.spending_patterns.update(tx.category, {
+                                total_amount: existing.total_amount + tx.amount,
+                                count: existing.count + 1,
+                                lastUpdated: new Date().toISOString()
+                            });
+                        } else {
+                            await db.spending_patterns.put({
+                                category: tx.category,
+                                total_amount: tx.amount,
+                                count: 1,
+                                lastUpdated: new Date().toISOString()
+                            });
+                        }
+                    }
+                    
+                    console.log('[Demo] Sample data loaded');
+                }
+            }
+            
+            // Listen for threshold events
+            window.addEventListener('thresholdReached', (event) => {
+                console.log('[Dashboard] Threshold reached:', event.detail);
+            });
+            
+            // Listen for vote events
+            window.addEventListener('voteCast', (event) => {
+                console.log('[Dashboard] Vote cast:', event.detail);
+            });
+            
+            // Listen for data pool contributions
+            window.addEventListener('dataPoolContribution', (event) => {
+                console.log('[Dashboard] Data contributed:', event.detail);
+            });
+            
+            console.log('[Dashboard] SOLVY Privacy Dashboard initialized');
+        });
+        
+        // Handle online/offline
+        window.addEventListener('online', () => {
+            console.log('[Dashboard] Connection restored');
+        });
+        
+        window.addEventListener('offline', () => {
+            console.log('[Dashboard] Connection lost - offline mode active');
+        });
+    </script>
+</body>
+</html>
