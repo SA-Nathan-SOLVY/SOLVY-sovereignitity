@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOLVY - Open Your Account</title>
+  <title>Join SOLVY Ecosystem™ | Open Your Account</title>
+  <meta name="description" content="Join SOLVY Ecosystem™ - Get your SOLVY Card™ and become a member-owner of the cooperative.">
   <style>
     :root {
       --solvy-green: #22c55e;
       --solvy-dark: #0f172a;
+      --solvy-gray: #94a3b8;
     }
+    
+    * { box-sizing: border-box; }
     
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -23,6 +27,9 @@
       background: rgba(30, 41, 59, 0.95);
       padding: 1rem 2rem;
       border-bottom: 1px solid var(--solvy-green);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     
     .header-content {
@@ -30,6 +37,7 @@
       margin: 0 auto;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 1rem;
     }
     
@@ -37,10 +45,16 @@
       font-size: 1.5rem;
       font-weight: 800;
       color: var(--solvy-green);
+      text-decoration: none;
+    }
+    
+    .header-status {
+      font-size: 0.85rem;
+      color: var(--solvy-gray);
     }
     
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 2rem auto;
       padding: 0 1rem;
     }
@@ -51,33 +65,131 @@
     }
     
     .onboarding-header h1 {
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin-bottom: 0.5rem;
       background: linear-gradient(135deg, var(--solvy-green), #16a34a);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     
+    .onboarding-header p {
+      color: var(--solvy-gray);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .progress-steps {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--solvy-gray);
+      font-size: 0.9rem;
+    }
+    
+    .step.active {
+      color: var(--solvy-green);
+      font-weight: 600;
+    }
+    
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.2);
+      border: 2px solid var(--solvy-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    
+    .step:not(.active) .step-number {
+      border-color: var(--solvy-gray);
+      background: transparent;
+    }
+    
     #unit-container {
       background: white;
       border-radius: 16px;
-      padding: 2rem;
+      padding: 0;
       min-height: 600px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
     }
     
-    .loading {
+    .loading-container {
       text-align: center;
       padding: 4rem;
       color: var(--solvy-green);
     }
     
-    .error {
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(34, 197, 94, 0.2);
+      border-top-color: var(--solvy-green);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1.5rem;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .loading-subtext {
+      font-size: 0.9rem;
+      color: var(--solvy-gray);
+    }
+    
+    .error-container {
       background: #ef4444;
       color: white;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
       display: none;
+      text-align: center;
+    }
+    
+    .error-container h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+    }
+    
+    .error-container p {
+      margin: 0 0 1rem;
+      opacity: 0.9;
+    }
+    
+    .retry-btn {
+      background: white;
+      color: #ef4444;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    
+    .retry-btn:hover {
+      background: #f9fafb;
     }
     
     .back-link {
@@ -86,15 +198,51 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    
+    .security-notice {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--solvy-gray);
+    }
+    
+    .security-notice .icon {
+      font-size: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .onboarding-header h1 {
+        font-size: 1.75rem;
+      }
+      
+      .progress-steps {
+        gap: 1rem;
+      }
+      
+      .step {
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
 <body>
   <header class="header">
     <div class="header-content">
-      <div class="logo">👑 SOLVY</div>
-      <span>First Circle Member Onboarding</span>
+      <a href="./index.html" class="logo">👑 SOLVY Ecosystem™</a>
+      <span class="header-status">First Circle Member Onboarding</span>
     </div>
   </header>
   
@@ -102,76 +250,228 @@
     <a href="./index.html" class="back-link">← Back to Home</a>
     
     <div class="onboarding-header">
-      <h1>Open Your SOLVY Account</h1>
-      <p>Join the cooperative. Get your SOLVY Card.</p>
+      <h1>Join SOLVY Ecosystem™</h1>
+      <p>Become a member-owner. Get your SOLVY Card™. Earn dividends from every swipe.</p>
     </div>
     
-    <div id="error-message" class="error"></div>
+    <div class="progress-steps">
+      <div class="step active">
+        <span class="step-number">1</span>
+        <span>Identity</span>
+      </div>
+      <div class="step">
+        <span class="step-number">2</span>
+        <span>Deposit Account</span>
+      </div>
+      <div class="step">
+        <span class="step-number">3</span>
+        <span>SOLVY Card™</span>
+      </div>
+    </div>
     
-    <div id="loading" class="loading">
-      <p>Loading secure application...</p>
+    <div class="security-notice">
+      <span class="icon">🔒</span>
+      <span>Your information is secured with bank-level encryption. We never sell your data.</span>
+    </div>
+    
+    <div id="error-container" class="error-container">
+      <h3>⚠️ Unable to Load Application</h3>
+      <p id="error-message">We're having trouble connecting to our banking partner. Please try again.</p>
+      <button class="retry-btn" onclick="initializeApp()">Try Again</button>
+    </div>
+    
+    <div id="loading-container" class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Connecting to SOLVY Banking...</div>
+      <div class="loading-subtext">This may take a few moments</div>
     </div>
     
     <div id="unit-container" style="display: none;">
       <unit-elements-white-label-app 
         id="unit-app"
-        jwt-token="">
-      </unit-elements-white-label-app>
+        jwt-token=""
+        hide-header="false"
+        hide-footer="true"
+      ></unit-elements-white-label-app>
     </div>
   </div>
   
+  <!-- Unit.co Elements -->
   <script async src="https://ui.s.unit.sh/release/latest/components-extended.js"></script>
   
   <script>
     // ============================================
-    // CONFIG: Update this to your API server URL
+    // CONFIGURATION
+    // Update API_BASE to match your deployment
     // ============================================
-    const API_BASE = 'https://api.ebl.beauty'; // Change this!
-    // Options:
-    // - 'https://api.ebl.beauty' (if you deploy API to subdomain)
-    // - 'https://ebl.beauty/api' (if API is on same domain)
-    // - 'http://localhost:3000' (for local testing only)
-    // ============================================
+    const CONFIG = {
+      // Production: 'https://ebl.beauty'
+      // Development: 'http://localhost:3000'
+      API_BASE: window.location.hostname === 'localhost' 
+        ? 'http://localhost:3000' 
+        : 'https://ebl.beauty',
+      
+      // API endpoint for token generation
+      TOKEN_ENDPOINT: '/api/unit-token',
+      
+      // Retry configuration
+      MAX_RETRIES: 3,
+      RETRY_DELAY: 2000, // 2 seconds
+      
+      // Generate unique member ID for this session
+      // In production, this comes from your auth system
+      MEMBER_ID: 'fc_' + Math.random().toString(36).substr(2, 9)
+    };
     
-    async function fetchJwtToken() {
+    // ============================================
+    // TOKEN FETCHING
+    // ============================================
+    async function fetchJwtToken(retryCount = 0) {
       try {
-        const response = await fetch(`${API_BASE}/api/auth/unit-token`, {
+        console.log(`[Onboarding] Fetching token (attempt ${retryCount + 1})...`);
+        
+        const response = await fetch(`${CONFIG.API_BASE}${CONFIG.TOKEN_ENDPOINT}`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'X-Member-ID': CONFIG.MEMBER_ID
+          },
           body: JSON.stringify({
-            memberId: 'member-123',
-            email: 'eva@example.com'
+            memberId: CONFIG.MEMBER_ID,
+            memberData: {
+              // These will be filled by Unit's KYC flow
+              // We pass minimal data here
+              source: 'first_circle_onboarding',
+              timestamp: new Date().toISOString()
+            }
           })
         });
         
         if (!response.ok) {
-          throw new Error(`API error: ${response.status}`);
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `HTTP error: ${response.status}`);
         }
         
         const data = await response.json();
+        
+        if (!data.token) {
+          throw new Error('No token received from server');
+        }
+        
+        console.log('[Onboarding] Token received successfully');
         return data.token;
+        
       } catch (error) {
-        console.error('Error fetching token:', error);
-        document.getElementById('error-message').style.display = 'block';
-        document.getElementById('error-message').textContent = 
-          'Unable to load application. Please try again later.';
+        console.error(`[Onboarding] Token fetch failed (attempt ${retryCount + 1}):`, error);
+        
+        // Retry logic
+        if (retryCount < CONFIG.MAX_RETRIES - 1) {
+          console.log(`[Onboarding] Retrying in ${CONFIG.RETRY_DELAY}ms...`);
+          await new Promise(resolve => setTimeout(resolve, CONFIG.RETRY_DELAY));
+          return fetchJwtToken(retryCount + 1);
+        }
+        
         throw error;
       }
     }
     
-    // Initialize when script loads
-    window.addEventListener('load', async () => {
+    // ============================================
+    // APP INITIALIZATION
+    // ============================================
+    async function initializeApp() {
+      const loadingContainer = document.getElementById('loading-container');
+      const errorContainer = document.getElementById('error-container');
+      const unitContainer = document.getElementById('unit-container');
+      const errorMessage = document.getElementById('error-message');
+      
+      // Reset UI state
+      loadingContainer.style.display = 'block';
+      errorContainer.style.display = 'none';
+      unitContainer.style.display = 'none';
+      
       try {
+        // Check if Unit script loaded
+        if (!window.customElements || !customElements.get('unit-elements-white-label-app')) {
+          console.log('[Onboarding] Waiting for Unit script to load...');
+          await new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
+              reject(new Error('Unit script failed to load'));
+            }, 10000); // 10 second timeout
+            
+            const checkScript = setInterval(() => {
+              if (customElements.get('unit-elements-white-label-app')) {
+                clearInterval(checkScript);
+                clearTimeout(timeout);
+                resolve();
+              }
+            }, 100);
+          });
+        }
+        
+        // Fetch JWT token
         const token = await fetchJwtToken();
+        
+        // Set token on Unit app
         const unitApp = document.getElementById('unit-app');
         unitApp.setAttribute('jwt-token', token);
         
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('unit-container').style.display = 'block';
+        // Show Unit app
+        loadingContainer.style.display = 'none';
+        unitContainer.style.display = 'block';
+        
+        console.log('[Onboarding] App initialized successfully');
+        
       } catch (error) {
-        console.error('Initialization failed:', error);
+        console.error('[Onboarding] Initialization failed:', error);
+        
+        loadingContainer.style.display = 'none';
+        errorContainer.style.display = 'block';
+        
+        // User-friendly error message
+        if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+          errorMessage.textContent = 'Network connection issue. Please check your internet and try again.';
+        } else if (error.message.includes('401') || error.message.includes('403')) {
+          errorMessage.textContent = 'Authentication failed. Please refresh the page and try again.';
+        } else {
+          errorMessage.textContent = 'We\'re having trouble connecting to our banking partner. Please try again.';
+        }
+      }
+    }
+    
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
+    
+    // Initialize when page loads
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeApp);
+    } else {
+      initializeApp();
+    }
+    
+    // Listen for Unit app events (optional)
+    document.addEventListener('unit-app-event', (event) => {
+      console.log('[Onboarding] Unit event:', event.detail);
+      
+      // Handle specific events
+      if (event.detail?.type === 'customer-created') {
+        console.log('[Onboarding] Customer created:', event.detail.customerId);
+        // You can send this to your backend for tracking
+      }
+      
+      if (event.detail?.type === 'account-created') {
+        console.log('[Onboarding] Account created:', event.detail.accountId);
+      }
+      
+      if (event.detail?.type === 'card-created') {
+        console.log('[Onboarding] Card created:', event.detail.cardId);
+        // Update progress step
+        document.querySelectorAll('.step')[2].classList.add('active');
       }
     });
+    
+    // Make initializeApp globally available for retry button
+    window.initializeApp = initializeApp;
   </script>
 </body>
 </html>

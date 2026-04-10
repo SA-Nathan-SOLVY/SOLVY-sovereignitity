@@ -1,0 +1,33 @@
+version: "3.9"
+
+networks:
+  solvy:
+    external: false
+
+services:
+  # SOLVY Web Server (Nginx)
+  web:
+    build: .
+    container_name: solvy-web
+    restart: always
+    networks:
+      - solvy
+    ports:
+      - "8081:80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Cloudflare Tunnel for public access
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: solvy-tunnel
+    restart: always
+    network_mode: host  # Use host network to access localhost:8081
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    profiles:
+      - tunnel

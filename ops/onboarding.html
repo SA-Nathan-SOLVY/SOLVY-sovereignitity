@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join SOLVY Ecosystem™ | Member Onboarding</title>
+  <link rel="icon" type="image/png" href="/SolvyLogo-1024.png" />
+  <style>
+    :root {
+      --bg-primary: #242424;
+      --bg-secondary: #1a1a1a;
+      --text-primary: rgba(255, 255, 255, 0.87);
+      --text-secondary: rgba(255, 255, 255, 0.6);
+      --accent: #646cff;
+      --accent-hover: #535bf2;
+      --success: #22c55e;
+      --error: #ef4444;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    
+    .header {
+      background: var(--bg-secondary);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(100, 108, 255, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    
+    .logo img { width: 32px; height: 32px; }
+    
+    .nav-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .nav-link:hover { color: var(--accent-hover); }
+    
+    .main-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+    
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+    }
+    
+    #loading {
+      text-align: center;
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(100, 108, 255, 0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1.5rem;
+    }
+    
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    #loading p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+    
+    #error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--text-primary);
+      padding: 2rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      display: none;
+      text-align: center;
+      max-width: 500px;
+    }
+    
+    #error h3 {
+      color: var(--error);
+      margin-bottom: 0.5rem;
+    }
+    
+    #error button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+    
+    #error button:hover { background: var(--accent-hover); }
+    
+    #unit-container {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 800px;
+      min-height: 700px;
+      display: none;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    
+    .info-box {
+      background: rgba(100, 108, 255, 0.1);
+      border: 1px solid rgba(100, 108, 255, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: center;
+      max-width: 600px;
+    }
+    
+    .info-box h3 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+    
+    .info-box p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    
+    .footer-note {
+      text-align: center;
+      margin-top: 2.5rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      max-width: 500px;
+    }
+    
+    .footer-note a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    
+    .footer-note a:hover { text-decoration: underline; }
+    
+    .secure-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--success);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+  <script async src="https://ui.s.unit.sh/release/latest/components-extended.js"></script>
+</head>
+<body>
+  <header class="header">
+    <a href="/" class="logo">
+      <img src="/SolvyLogo-1024.png" alt="SOLVY">
+      <span>SOLVY Ecosystem™</span>
+    </a>
+    <a href="/" class="nav-link">← Back to Home</a>
+  </header>
+  
+  <main class="main-container">
+    <div class="hero">
+      <h1>Become a Member-Owner</h1>
+      <p>Open your SOLVY Card™ account and join the cooperative banking revolution</p>
+    </div>
+    
+    <div class="info-box">
+      <h3>🏦 First Circle Membership</h3>
+      <p>You're applying for the exclusive First Circle - founding members who shape the future of SOLVY and receive lifetime benefits.</p>
+    </div>
+    
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>Connecting to secure banking services...</p>
+    </div>
+    
+    <div id="error">
+      <h3>⚠️ Connection Issue</h3>
+      <p id="error-message">We're having trouble connecting to our banking partner. Please try again.</p>
+      <button onclick="initApp()">Retry</button>
+    </div>
+    
+    <div id="unit-container">
+      <unit-elements-white-label-app id="unit-app" jwt-token=""></unit-elements-white-label-app>
+    </div>
+    
+    <p class="footer-note">
+      <span class="secure-badge">🔒 Bank-grade encryption</span><br>
+      Your information is securely transmitted and never stored on our servers.<br>
+      Powered by <a href="https://unit.co" target="_blank">Unit.co</a> • 
+      <a href="/">Return to homepage</a>
+    </p>
+  </main>
+  
+  <script>
+    async function fetchToken() {
+      const response = await fetch('/api/unit-token', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-Member-ID': 'fc_' + Date.now()
+        },
+        body: JSON.stringify({})
+      });
+      
+      if (!response.ok) throw new Error('Token fetch failed: ' + response.status);
+      const data = await response.json();
+      if (!data.token) throw new Error('No token received');
+      return data.token;
+    }
+    
+    async function initApp() {
+      document.getElementById('loading').style.display = 'flex';
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('unit-container').style.display = 'none';
+      
+      try {
+        // Wait for Unit script to load
+        let attempts = 0;
+        while (!customElements.get('unit-elements-white-label-app') && attempts < 100) {
+          await new Promise(r => setTimeout(r, 100));
+          attempts++;
+        }
+        
+        if (!customElements.get('unit-elements-white-label-app')) {
+          throw new Error('Unit Elements failed to load - please check your connection');
+        }
+        
+        const token = await fetchToken();
+        document.getElementById('unit-app').setAttribute('jwt-token', token);
+        
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('unit-container').style.display = 'block';
+      } catch (error) {
+        console.error('Init error:', error);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error-message').textContent = error.message;
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+    
+    window.addEventListener('load', initApp);
+  </script>
+</body>
+</html>

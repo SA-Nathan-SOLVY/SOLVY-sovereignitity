@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBC Policy Loan → SOLVY Card™ | MOLI Portal</title>
+    <meta name="description" content="Access your IBC policy cash value and deposit directly to your SOLVY Card™ - tax-free, instant, member-owned. Part of SOLVY Ecosystem™.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #fff;
+        }
+        .nav-logo span {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #22c55e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #22c55e;
+        }
+        .member-badge {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Hero Section - The Shield/Heart Narrative */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            font-size: 1.1rem;
+        }
+        .sheila-mandate {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: #22c55e;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Two-Column Layout */
+        .loan-flow {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .loan-flow {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Card Panels */
+        .panel {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .panel-header h2 {
+            font-size: 1.25rem;
+            color: #fff;
+        }
+        .panel-header .icon {
+            font-size: 1.5rem;
+        }
+
+        /* Policy Card */
+        .policy-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .policy-carrier {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #22c55e;
+            margin-bottom: 1rem;
+        }
+        .policy-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .policy-detail:last-child {
+            border-bottom: none;
+        }
+        .policy-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .policy-value {
+            color: #fff;
+            font-weight: 600;
+        }
+        .policy-value.highlight {
+            color: #22c55e;
+            font-size: 1.1rem;
+        }
+
+        /* Loan Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #22c55e;
+        }
+        .form-group input::placeholder {
+            color: #64748b;
+        }
+        .loan-amount-display {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #22c55e;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .slider-container {
+            margin-bottom: 1.5rem;
+        }
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #334155;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #22c55e;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        /* SOLVY Card Preview */
+        .card-preview {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            margin-bottom: 1.5rem;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .card-brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #22c55e;
+        }
+        .card-chip {
+            width: 40px;
+            height: 30px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            border-radius: 4px;
+        }
+        .card-number {
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-holder {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        .card-balance {
+            text-align: right;
+        }
+        .balance-label {
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+        .balance-amount {
+            color: #22c55e;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* Action Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            width: 100%;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+        }
+        .btn-secondary {
+            background: rgba(30, 41, 59, 0.8);
+            color: #94a3b8;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-secondary:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 4px solid #22c55e;
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+        }
+        .info-box h4 {
+            color: #22c55e;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .info-box p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Tax Notice */
+        .tax-notice {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        .tax-notice h4 {
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .tax-notice p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* Success Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: #1e293b;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .modal h3 {
+            color: #22c55e;
+            margin-bottom: 0.5rem;
+        }
+        .modal p {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #22c55e;
+        }
+        .loading.active {
+            display: flex;
+        }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            border-top-color: #22c55e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span>🛡️ SOLVY Ecosystem™</span>
+            </a>
+            <div class="nav-links">
+                <a href="../banking/index.html">Banking</a>
+                <a href="../card/solvy-card.html">Card</a>
+                <a href="ibc-loan-to-card.html" style="color: #22c55e;">MOLI Loans</a>
+                <a href="../decidey/decidey-ngo.html">DECIDEY</a>
+            </div>
+            <div class="member-badge">Member-Owner</div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>🛡️ SOLVY Ecosystem™ — The Iron Fist, Digital</h1>
+        <p>Access your IBC policy cash value instantly. Tax-free loans deposited directly to your SOLVY Card™—no banks, no credit checks, no waiting. Powered by MOLI (Membership Owned Life Insurance).</p>
+        <div class="sheila-mandate">
+            <span>💚</span> Powered by the Sheila Mandate • 70/20/10 Protection Protocol
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="loan-flow">
+            <!-- Left Panel: Policy & Loan Selection -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="icon">📋</span>
+                    <h2>Your IBC Policy</h2>
+                </div>
+
+                <div class="policy-card">
+                    <div class="policy-carrier">
+                        <span>🏛️</span> OneAmerica Financial Partners
+                    </div>
+                    <div class="policy-detail">
+                        <span class="policy-label">Policy Number</span>
+                        <span class="policy-value">•••• •••• 4821</span>
+                    </div>
+                    <div class="policy-detail">
+                        <span class="policy-label">Face Amount</span>
+                        <span class="policy-value">$500,000</span>
+                    </div>
+                    <div class="policy-detail">
+                        <span class="policy-label">Cash Value Available</span>
+                        <span class="policy-value highlight" id="available-cv">$127,450.00</span>
+                    </div>
+                    <div class="policy-detail">
+                        <span class="policy-label">Current Loan Balance</span>
+                        <span class="policy-value">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>🛡️ What is MOLI?</h4>
+                    <p>Membership Owned Life Insurance means your cooperative (SA Nathan LLC) holds the policy. You access cash value as tax-free loans—no taxable events, no predatory lenders, just the iron fist protecting your lineage.</p>
+                </div>
+
+                <div class="panel-header" style="margin-top: 2rem;">
+                    <span class="icon">💸</span>
+                    <h2>Request Loan Amount</h2>
+                </div>
+
+                <div class="loan-amount-display" id="loan-amount-display">$25,000</div>
+
+                <div class="slider-container">
+                    <input type="range" min="1000" max="127450" value="25000" class="slider" id="loan-slider">
+                    <div class="slider-labels">
+                        <span>$1,000</span>
+                        <span id="max-loan-label">$127,450</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Loan Purpose (optional)</label>
+                    <select id="loan-purpose">
+                        <option value="business">Business Investment</option>
+                        <option value="emergency">Emergency Fund</option>
+                        <option value="education">Education</option>
+                        <option value="home">Home Improvement</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="tax-notice">
+                    <h4>⚡ Tax-Free Distribution</h4>
+                    <p>Policy loans against cash value are not taxable income. You pay interest to your own policy, not a bank. This is the IBC advantage—capital access without giving equity to outsiders.</p>
+                </div>
+            </div>
+
+            <!-- Right Panel: SOLVY Card Deposit -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="icon">💳</span>
+                    <h2>Deposit to SOLVY Card™</h2>
+                </div>
+
+                <div class="card-preview">
+                    <div class="card-header">
+                        <div class="card-brand">SOLVY Card™</div>
+                        <div class="card-chip"></div>
+                    </div>
+                    <div class="card-number">**** **** **** 4242</div>
+                    <div class="card-footer">
+                        <div class="card-holder">SHEILA MCDANIEL</div>
+                        <div class="card-balance">
+                            <div class="balance-label">Available Balance</div>
+                            <div class="balance-amount" id="card-balance">$1,250.00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>✅ Instant Deposit</h4>
+                    <p>Once approved, funds are available on your SOLVY Card immediately. Use anywhere Visa is accepted, or withdraw cash at 55,000+ fee-free ATMs.</p>
+                </div>
+
+                <div class="policy-detail" style="margin-bottom: 1rem;">
+                    <span class="policy-label">Loan Amount</span>
+                    <span class="policy-value" id="summary-loan">$25,000.00</span>
+                </div>
+                <div class="policy-detail" style="margin-bottom: 1rem;">
+                    <span class="policy-label">Processing Fee (0.5%)</span>
+                    <span class="policy-value">$125.00</span>
+                </div>
+                <div class="policy-detail" style="margin-bottom: 1.5rem; border-bottom: none;">
+                    <span class="policy-label">Net to Card</span>
+                    <span class="policy-value highlight" id="summary-net">$24,875.00</span>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="terms-check" style="margin-right: 0.5rem;">
+                        I authorize SA Nathan LLC to request a policy loan from OneAmerica on my behalf and deposit proceeds to my SOLVY Card.
+                    </label>
+                </div>
+
+                <button class="btn btn-primary" id="submit-loan" disabled>
+                    <span class="loading" id="btn-loading">
+                        <div class="spinner"></div>
+                        Processing...
+                    </span>
+                    <span id="btn-text">🚀 Deposit to SOLVY Card</span>
+                </button>
+
+                <button class="btn btn-secondary" style="margin-top: 0.75rem;">
+                    Cancel Request
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal">
+            <div class="modal-icon">🛡️</div>
+            <h3>Loan Approved!</h3>
+            <p>Your policy loan of <strong id="modal-amount">$25,000</strong> has been approved and deposited to your SOLVY Card.</p>
+            <div style="background: rgba(34, 197, 94, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <div style="color: #94a3b8; font-size: 0.85rem;">New Balance</div>
+                <div style="color: #22c55e; font-size: 1.5rem; font-weight: 800;" id="modal-balance">$26,125.00</div>
+            </div>
+            <button class="btn btn-primary" onclick="closeModal()">Continue to Banking</button>
+        </div>
+    </div>
+
+    <script>
+        // Elements
+        const loanSlider = document.getElementById('loan-slider');
+        const loanAmountDisplay = document.getElementById('loan-amount-display');
+        const summaryLoan = document.getElementById('summary-loan');
+        const summaryNet = document.getElementById('summary-net');
+        const termsCheck = document.getElementById('terms-check');
+        const submitBtn = document.getElementById('submit-loan');
+        const btnLoading = document.getElementById('btn-loading');
+        const btnText = document.getElementById('btn-text');
+        const successModal = document.getElementById('success-modal');
+        const cardBalance = document.getElementById('card-balance');
+
+        // Format currency
+        function formatCurrency(num) {
+            return '$' + parseInt(num).toLocaleString();
+        }
+
+        // Update displays when slider changes
+        loanSlider.addEventListener('input', (e) => {
+            const amount = parseInt(e.target.value);
+            const fee = amount * 0.005;
+            const net = amount - fee;
+
+            loanAmountDisplay.textContent = formatCurrency(amount);
+            summaryLoan.textContent = formatCurrency(amount) + '.00';
+            summaryNet.textContent = formatCurrency(net) + '.00';
+        });
+
+        // Enable submit when terms checked
+        termsCheck.addEventListener('change', (e) => {
+            submitBtn.disabled = !e.target.checked;
+        });
+
+        // Submit loan request
+        submitBtn.addEventListener('click', async () => {
+            btnLoading.classList.add('active');
+            btnText.style.display = 'none';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            await new Promise(r => setTimeout(r, 2000));
+
+            // Show success
+            const amount = parseInt(loanSlider.value);
+            const fee = amount * 0.005;
+            const net = amount - fee;
+            const currentBalance = 1250;
+            const newBalance = currentBalance + net;
+
+            document.getElementById('modal-amount').textContent = formatCurrency(amount);
+            document.getElementById('modal-balance').textContent = formatCurrency(newBalance) + '.00';
+            cardBalance.textContent = formatCurrency(newBalance) + '.00';
+
+            successModal.classList.add('active');
+
+            btnLoading.classList.remove('active');
+            btnText.style.display = 'block';
+            submitBtn.disabled = false;
+        });
+
+        function closeModal() {
+            successModal.classList.remove('active');
+        }
+    </script>
+</body>
+</html>

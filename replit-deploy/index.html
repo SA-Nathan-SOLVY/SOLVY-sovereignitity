@@ -3,128 +3,920 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOVEREIGNITITY™ by DECIDEY NGO | SOLVY Cooperative Neobank</title>
-    <meta name="description" content="SOLVY - A Cooperative Neobank for IBC Practitioners and Strategic Partners. Economic sovereignty through transparent revenue sharing.">
+    <title>SOLVY Ecosystem™ | Cooperative Financial Platform</title>
+    <meta name="description" content="SOLVY Ecosystem™ — A cooperative financial platform. Own your spend. Own your future. Powered by SOLVY Card™.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            color: #fff;
+            background: #0f172a;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.3);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        .nav-logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #9333ea, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            flex: 1;
+            justify-content: center;
+        }
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #9333ea;
+            background: rgba(147, 51, 234, 0.1);
+        }
+        .nav-cta {
+            display: flex;
+            gap: 1rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(147, 51, 234, 0.5);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            background: rgba(147, 51, 234, 0.2);
+            border-color: #9333ea;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        .mobile-menu {
+            display: none;
+            background: rgba(30, 41, 59, 0.98);
+            padding: 20px;
+            border-top: 1px solid rgba(147, 51, 234, 0.3);
+            flex-direction: column;
+            gap: 10px;
+        }
+        .mobile-menu.active { display: flex; }
+
+        /* Hero Section */
         .hero {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 60px 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            text-align: center;
-            margin: 40px 0;
+            min-height: 90vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
         }
-        .logo { font-size: 4rem; margin-bottom: 20px; }
-        h1 { color: #667eea; font-size: 3rem; margin-bottom: 15px; font-weight: 800; }
-        .tagline { color: #666; font-size: 1.4rem; margin-bottom: 50px; }
-        .choice-section h2 { color: #333; font-size: 1.8rem; margin-bottom: 40px; text-align: center; }
-        .choice-grid {
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at top right, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            max-width: 900px;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-content .tagline {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+        .hero-content p {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        .hero-content .highlight {
+            color: #fff;
+            font-weight: 600;
+        }
+        .hero-image {
+            position: relative;
+        }
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        .hero-card {
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .hero-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        /* SOLVY Card Section */
+        .card-section {
+            padding: 6rem 2rem;
+            background: #0f172a;
+        }
+        .section-container {
+            max-width: 1400px;
             margin: 0 auto;
         }
-        .choice-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            text-decoration: none;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-header .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Card Carousel */
+        .card-carousel {
             display: flex;
-            flex-direction: column;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 2rem 0;
+            scroll-snap-type: x mandatory;
+        }
+        .card-item {
+            flex: 0 0 400px;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            scroll-snap-align: start;
+            text-align: center;
+        }
+        .card-item img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .card-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .card-item p {
+            color: #94a3b8;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+        }
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        .feature-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #a78bfa;
+        }
+        .feature-item p {
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        /* SOVEREIGNITITY Section */
+        .sovereignitity-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border-top: 1px solid rgba(147, 51, 234, 0.2);
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .sovereignitity-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .sovereignitity-content h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sovereignitity-content .tagline {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
+        .checklist-item::before {
+            content: '✓';
+            color: #22c55e;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        /* EBL Section */
+        .ebl-section {
+            padding: 6rem 2rem;
+            background: #0f172a;
+        }
+        .ebl-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             align-items: center;
         }
-        .choice-card:hover { transform: translateY(-10px); box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
-        .choice-card.sps { background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); }
-        .choice-card .icon { font-size: 4rem; margin-bottom: 25px; }
-        .choice-card h3 { font-size: 1.8rem; margin-bottom: 15px; }
-        .choice-card p { font-size: 1.1rem; opacity: 0.95; margin-bottom: 25px; }
-        .choice-card .btn {
-            background: white; color: #667eea; padding: 12px 35px;
-            border-radius: 50px; font-weight: bold; font-size: 1rem; margin-top: auto;
+        .ebl-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
-        .choice-card.sps .btn { color: #764ba2; }
-        .about-section {
-            background: white; border-radius: 20px; padding: 50px;
-            margin: 50px 0; box-shadow: 0 10px 40px rgba(0,0,0,0.1); text-align: center;
+        .ebl-content h2 span {
+            color: #22c55e;
         }
-        .about-section h2 { color: #667eea; font-size: 2.2rem; margin-bottom: 25px; }
-        .about-section p { font-size: 1.2rem; color: #555; max-width: 800px; margin: 0 auto 30px; line-height: 1.8; }
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px; margin-top: 40px;
+        .ebl-content p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
         }
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; padding: 30px; border-radius: 15px; text-align: center;
+        .ebl-image {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid rgba(34, 197, 94, 0.3);
         }
-        .stat-card .number { font-size: 2.5rem; font-weight: bold; margin-bottom: 10px; }
-        .stat-card .label { font-size: 1rem; opacity: 0.9; }
-        footer { text-align: center; color: white; padding: 40px 0; }
-        footer .links { margin-top: 20px; }
-        footer .links a { color: rgba(255,255,255,0.8); text-decoration: none; margin: 0 15px; }
-        footer .links a:hover { color: white; text-decoration: underline; }
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; } .tagline { font-size: 1.1rem; }
-            .hero { padding: 40px 20px; }
-            .choice-grid { grid-template-columns: 1fr; gap: 25px; }
+        .ebl-image .icon {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+        }
+
+        /* DECIDEY Section */
+        .decidey-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            text-align: center;
+        }
+        .decidey-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .decidey-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .decidey-content .subtitle {
+            color: #a78bfa;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            letter-spacing: 4px;
+        }
+        .decidey-content p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        /* Apply Section */
+        .apply-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+        }
+        .kyc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto;
+        }
+        .kyc-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        .kyc-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .kyc-card h3 .icon {
+            font-size: 1.5rem;
+        }
+        .kyc-card ul {
+            list-style: none;
+            color: #94a3b8;
+        }
+        .kyc-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .kyc-card li::before {
+            content: '•';
+            color: #9333ea;
+            position: absolute;
+            left: 0;
+        }
+        .privacy-note {
+            text-align: center;
+            color: #64748b;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            border-left: 4px solid #22c55e;
+        }
+
+        /* Brochures Section */
+        .brochures-section {
+            padding: 6rem 2rem;
+            background: #0f172a;
+            border-top: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .brochure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 3rem auto;
+        }
+        .brochure-card {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .brochure-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(147, 51, 234, 0.6);
+        }
+        .brochure-card .icon { font-size: 3rem; margin-bottom: 1rem; }
+        .brochure-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .brochure-card p { color: #94a3b8; margin-bottom: 1.5rem; }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            border-top: 1px solid rgba(147, 51, 234, 0.2);
+            padding: 4rem 2rem 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+        }
+        .footer-col h4 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-col a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+        }
+        .footer-col a:hover {
+            color: #9333ea;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(147, 51, 234, 0.1);
+            color: #64748b;
+        }
+
+        /* PDF Modal */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .pdf-modal.active { display: flex; }
+        .pdf-modal-content {
+            background: #1e293b;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(147, 51, 234, 0.3);
+        }
+        .pdf-modal-header {
+            background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pdf-modal-btn {
+            background: white;
+            color: #9333ea;
+            padding: 8px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .pdf-close {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        .pdf-iframe-container { flex: 1; }
+        .pdf-iframe-container iframe { width: 100%; height: 100%; border: none; }
+
+        @media (max-width: 1024px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .hero-container { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .ebl-container { grid-template-columns: 1fr; }
+            .brochure-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="hero">
-            <div class="logo">🏛️</div>
-            <h1>SOVEREIGNITITY™</h1>
-            <p class="tagline">Economic sovereignty through cooperative banking.<br>A DECIDEY NGO Initiative</p>
-            <div class="choice-section">
-                <h2>I am interested in...</h2>
-                <div class="choice-grid">
-                    <a href="/ibc/index.html" class="choice-card">
-                        <div class="icon">📊</div>
-                        <h3>IBC Practitioners</h3>
-                        <p>Learn how SOLVY operationalizes the Infinite Banking Concept for business owners.</p>
-                        <span class="btn">Explore IBC →</span>
-                    </a>
-                    <a href="/sps/index.html" class="choice-card sps">
-                        <div class="icon">🤝</div>
-                        <h3>Strategic Partners</h3>
-                        <p>Discover the SOLVY Data Flywheel and SPS Partnership model.</p>
-                        <span class="btn">Explore SPS →</span>
-                    </a>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="./index.html" class="nav-logo">
+                <img src="./assets/solvy-crown-icon.png" alt="SOLVY" style="height: 45px; width: auto;">
+            </a>
+            <div class="nav-links">
+                <a href="./index.html" class="active">SOLVY Card™</a>
+                <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
+                <a href="./about.html">About</a>
+                <a href="./sps/index.html">SPS Joint Venture</a>
+                <a href="#man">MAN ▼</a>
+            </div>
+            <div class="nav-cta">
+                <a href="#apply" class="btn-primary">Apply for Card</a>
+                <a href="#login" class="btn-secondary">Member Login</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="./index.html">SOLVY Card™</a>
+            <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
+            <a href="./about.html">About</a>
+            <a href="./sps/index.html">SPS Joint Venture</a>
+            <a href="#man">MAN</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <img src="./assets/solvy-full-logo.png" alt="SOLVY - Solution Valued You" style="width: 100%; max-width: 300px; margin-bottom: 2rem;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SOLVY Ecosystem™</h1><p style="font-size: 1.5rem; color: #94a3b8; margin-bottom: 1rem;">Own your spend. Own your future.</p>
+                <p>SOLVY (Solutions Valued You) is the cooperative ecosystem where members own their financial future. SOLVY Ecosystem™ powers the SOLVY Card™, the debit card that shares profit with members — not shareholders. Through our 70/20/10 economic model, we return 70% of interchange revenue directly to members as patronage dividends.</p>
+            </div>
+            <div class="hero-image">
+                <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 20px; padding: 2rem; text-align: center; border: 1px solid rgba(147, 51, 234, 0.3);">
+                    <img src="./assets/hero_payment_image.webp" alt="Payment at POS Terminal" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;">
+                    <p style="color: #94a3b8;">Payment at POS Terminal</p>
+                </div>
+                <div class="hero-card">
+                    <h3>SOLVY Card™</h3>
+                    <p>Cooperative Ownership • Data Sovereignty • Member-First</p>
                 </div>
             </div>
         </div>
-        <div class="about-section">
-            <h2>What is SOLVY?</h2>
-            <p>SOLVY is a cooperative neobank that captures interchange revenue from business transactions and returns it to members through our transparent 70/20/10 model.</p>
-            <div class="stats-grid">
-                <div class="stat-card"><div class="number">70%</div><div class="label">To Members</div></div>
-                <div class="stat-card"><div class="number">20%</div><div class="label">Operations</div></div>
-                <div class="stat-card"><div class="number">10%</div><div class="label">Reserves</div></div>
-                <div class="stat-card"><div class="number">∞</div><div class="label">Sovereignty</div></div>
+    </section>
+
+    <!-- SOLVY Card Section -->
+    <section class="card-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>The SOLVY Card™</h2>
+                <p class="subtitle">The debit card that shares profit with members</p>
+            </div>
+            <div class="card-carousel">
+                <div class="card-item">
+                    <img src="./assets/SOV-personal-mc.png" alt="SOLVY Business Card" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;">
+                    <h3>SOLVY Business Card</h3>
+                    <p>Mastercard</p>
+                </div>
+                <div class="card-item">
+                    <img src="./assets/SOV.png" alt="SOLVY Card™" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;">
+                    <h3>Demo NFC Tap-to-Pay</h3>
+                    <p>Contactless Payments</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="color: #94a3b8; margin-bottom: 1rem;">Already approved? Access your virtual card:</p>
+                <a href="#virtual" class="btn-primary">View My Virtual Card →</a>
             </div>
         </div>
-        <footer>
-            <p><strong>DECIDEY NGO</strong> - Economic Sovereignty Education</p>
-            <p>team@ebl.beauty | ebl.beauty | solvy.chain</p>
-            <div class="links">
-                <a href="/ibc/index.html">IBC for Practitioners</a>
-                <a href="/sps/index.html">SPS Partnership</a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>🔑 Entry Point to Digital Sovereignty</h2>
+                <p class="subtitle">Your gateway to digital data self-sovereignty autonomy with income earning potential</p>
             </div>
-        </footer>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <h3>NFC Enabled</h3>
+                    <p>Contactless payments with cutting-edge NFC technology. Tap, authorize, and transact with complete privacy protection.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Cooperative Owned</h3>
+                    <p>Member-owned, not bank-owned. Every cardholder is a cooperative owner sharing in the platform's success.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💎</div>
+                    <h3>Data is the New Commodity</h3>
+                    <p>Recognize data as the new commodity of Web3. Your data, your value, your control in the decentralized economy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brochures Section -->
+    <section class="brochures-section" id="brochures">
+        <div class="section-header">
+            <h2>📚 Downloadable Brochures</h2>
+            <p class="subtitle">Learn more about SOLVY and share with your team</p>
+        </div>
+        <div class="brochure-grid">
+            <div class="brochure-card" onclick="openPdfModal('ibc')">
+                <div class="icon">📊</div>
+                <h3>SOVEREIGNITITY: SOLVY</h3>
+                <p>A Cooperative Neobank for IBC Practitioners</p>
+                <a href="./brochures/solvy-ibc-practitioners.pdf" download class="btn-primary" onclick="event.stopPropagation()">⬇️ Download (35 MB)</a>
+            </div>
+            <div class="brochure-card" onclick="openPdfModal('flywheel')">
+                <div class="icon">🤝</div>
+                <h3>The SOLVY Data Flywheel</h3>
+                <p>SPS Partnership Model for Ecosystem Collaborators</p>
+                <a href="./brochures/solvy-data-flywheel.pdf" download class="btn-primary" onclick="event.stopPropagation()">⬇️ Download (58 MB)</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOVEREIGNITITY Section -->
+    <section class="sovereignitity-section">
+        <div class="sovereignitity-content">
+            <h2>SOVEREIGNITITY™</h2>
+            <p class="tagline">The Exercise of Achieving Control of Banking Through Cooperative Ownership</p>
+            <h3 style="font-size: 1.5rem; margin: 3rem 0 2rem; color: #fff;">What is SOVEREIGNITITY™?</h3>
+            <p style="color: #94a3b8; font-size: 1.2rem; margin-bottom: 3rem; line-height: 1.8;">SOVEREIGNITITY™ is more than a concept - it's a movement. It represents the exercise of achieving true control of your banking through cooperative ownership. When you hold a SOLVY Card™, you're not just a customer - you're a member-owner with genuine stake in the platform.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; text-align: left;">
+                <div>
+                    <h4 style="color: #a78bfa; font-size: 1.3rem; margin-bottom: 1rem;">Data Sovereignty</h4>
+                    <p style="color: #94a3b8;">Your financial data is yours. Period. No selling to third parties, no hidden tracking, no exploitation. We build technology that serves you, not the other way around.</p>
+                </div>
+                <div>
+                    <h4 style="color: #a78bfa; font-size: 1.3rem; margin-bottom: 1rem;">Economic Autonomy</h4>
+                    <p style="color: #94a3b8;">Break free from systems of economic entrapment. Build wealth cooperatively, earn income through the platform, and achieve true financial independence.</p>
+                </div>
+            </div>
+            <div class="checklist">
+                <div class="checklist-item">Member-owned cooperative structure</div>
+                <div class="checklist-item">Data sovereignty guaranteed</div>
+                <div class="checklist-item">Income earning opportunities</div>
+                <div class="checklist-item">Lower processing fees</div>
+                <div class="checklist-item">Privacy-first technology</div>
+                <div class="checklist-item">Community empowerment</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EBL Section -->
+    <section class="ebl-section">
+        <div class="ebl-container">
+            <div class="ebl-content">
+                <h2>EBL <span>See It In Action</span></h2>
+                <h3 style="color: #22c55e; margin-bottom: 1rem;">Evergreen Beauty Lounge - Pilot Partner #1</h3>
+                <p><strong style="color: #fff;">Live & Processing Payments</strong></p>
+                <p>Evergreen Beauty Lounge is our first pilot partner, demonstrating what genuine economic freedom achieves through community empowerment. Eva's beauty business now processes payments with full data sovereignty, keeping customer information private while building cooperative wealth.</p>
+                <p>This is proof that SOLVY Card™ works. Real business, real payments, real sovereignty.</p>
+                <a href="https://ebl.beauty" class="btn-primary" style="margin-top: 1rem;">Visit EBL Services →</a>
+            </div>
+            <div class="ebl-image">
+                <img src="./assets/ebl-logo.png" alt="Evergreen Beauty Lounge" style="width: 150px; margin-bottom: 1rem;">
+                <h3>Evergreen Beauty Lounge</h3>
+                <p style="color: #94a3b8;">Live Pilot Partner</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DECIDEY Section -->
+    <section class="decidey-section">
+        <div class="decidey-content">
+            <h2>DECIDEY NGO</h2>
+            <p class="subtitle">Education • Advocacy • Digital Rights</p>
+            <p>Breaking systemic barriers through education and digital rights advocacy. Continuing the legacy of Marcus Garvey, MLK, and Malcolm X in the modern era.</p>
+            <a href="https://decidey.ebl.beauty" class="btn-primary" style="margin-top: 2rem;">Learn More →</a>
+        </div>
+    </section>
+
+    <!-- Apply Section -->
+    <section class="apply-section" id="apply">
+        <div class="section-header">
+            <h2>Apply for Your SOLVY Card™</h2>
+            <p class="subtitle">Regulatory Compliance • Secure Verification • Member Protection</p>
+        </div>
+        <p style="text-align: center; color: #94a3b8; max-width: 800px; margin: 0 auto 3rem; font-size: 1.1rem;">As a regulated financial platform, SOLVY Card™ requires identity verification to protect our members and comply with federal regulations. This ensures the safety and integrity of our cooperative.</p>
+        <div class="kyc-grid">
+            <div class="kyc-card">
+                <h3><span class="icon">🪪</span> KYC Verification</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">Know Your Customer</p>
+                <ul>
+                    <li>Valid government-issued ID (Driver's License, Passport, or State ID)</li>
+                    <li>Proof of US residency</li>
+                    <li>Social Security Number</li>
+                    <li>Date of birth verification</li>
+                </ul>
+            </div>
+            <div class="kyc-card">
+                <h3><span class="icon">🛡️</span> AML Compliance</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">Anti-Money Laundering</p>
+                <ul>
+                    <li>Source of funds declaration</li>
+                    <li>OFAC screening verification</li>
+                    <li>Transaction monitoring consent</li>
+                    <li>Beneficial ownership disclosure</li>
+                </ul>
+            </div>
+            <div class="kyc-card">
+                <h3><span class="icon">📝</span> Application Process</h3>
+                <p style="color: #64748b; margin-bottom: 1rem;">Simple Steps</p>
+                <ul>
+                    <li>Complete online application (5-10 minutes)</li>
+                    <li>Upload verification documents</li>
+                    <li>Identity verification (1-3 business days)</li>
+                    <li>Receive your SOLVY Card™</li>
+                </ul>
+            </div>
+        </div>
+        <div class="privacy-note">
+            <strong style="color: #22c55e;">🔒 Your Privacy Matters:</strong> All verification data is encrypted and used solely for regulatory compliance. Unlike traditional banks, we never sell your data to third parties.
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="#apply-now" class="btn-primary" style="font-size: 1.2rem; padding: 1rem 3rem;">Apply Now - Start KYC</a>
+            <p style="margin-top: 2rem;"><a href="./about.html" class="btn-secondary">Learn More About SOLVY Ecosystem™</a></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>SOLVY Ecosystem™</h4>
+                <a href="#platform">Platform</a>
+                <a href="#card">SOLVY Card™</a>
+                <a href="#sovereignitity">SOVEREIGNITITY™</a>
+                <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
+                <a href="#apply">Apply for SOLVY Card™</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="#about">About</a>
+                <a href="https://ebl.beauty">EBL Pilot</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div style="font-size: 2.5rem; color: #9333ea; font-weight: 800; margin-bottom: 1rem;">👑 SOLVY Ecosystem™</div>
+            <p>© 2026 SOLVY Ecosystem™ — A cooperative financial platform</p>
+            <p style="margin-top: 0.5rem; color: #94a3b8;">SOLVY Card™ is a product of SA Nathan LLC</p>
+            <p style="margin-top: 0.5rem; color: #9333ea;">SOLVY (Solutions Valued You)</p>
+        </div>
+    </footer>
+
+    <!-- PDF Modals -->
+    <div id="pdfModalIbc" class="pdf-modal" onclick="closePdfModal(event, 'ibc')">
+        <div class="pdf-modal-content" onclick="event.stopPropagation()">
+            <div class="pdf-modal-header">
+                <h3>📊 SOVEREIGNITITY: SOLVY - IBC Brochure</h3>
+                <div>
+                    <a href="./brochures/solvy-ibc-practitioners.pdf" download class="pdf-modal-btn">⬇️ Download</a>
+                    <button class="pdf-close" onclick="closePdfModal(null, 'ibc')">&times;</button>
+                </div>
+            </div>
+            <div class="pdf-iframe-container">
+                <iframe src="./brochures/solvy-ibc-practitioners.pdf"></iframe>
+            </div>
+        </div>
     </div>
+
+    <div id="pdfModalFlywheel" class="pdf-modal" onclick="closePdfModal(event, 'flywheel')">
+        <div class="pdf-modal-content" onclick="event.stopPropagation()">
+            <div class="pdf-modal-header">
+                <h3>🤝 The SOLVY Data Flywheel - SPS Brochure</h3>
+                <div>
+                    <a href="./brochures/solvy-data-flywheel.pdf" download class="pdf-modal-btn">⬇️ Download</a>
+                    <button class="pdf-close" onclick="closePdfModal(null, 'flywheel')">&times;</button>
+                </div>
+            </div>
+            <div class="pdf-iframe-container">
+                <iframe src="./brochures/solvy-data-flywheel.pdf"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPdfModal(type) {
+            document.getElementById('pdfModal' + type.charAt(0).toUpperCase() + type.slice(1)).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closePdfModal(event, type) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('pdfModal' + type.charAt(0).toUpperCase() + type.slice(1)).classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closePdfModal(null, 'ibc');
+                closePdfModal(null, 'flywheel');
+            }
+        });
+    </script>
 </body>
 </html>

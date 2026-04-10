@@ -432,6 +432,15 @@ I, Sean Mayo, Managing Member of SA Nathan LLC, certify that:
 
 ---
 
+## RELATED DOCUMENTS
+
+- **[SOLVY_STACK_BUDGET.md](SOLVY_STACK_BUDGET.md)** - Detailed cost breakdown by category  
+- **[SOLVY_BUDGET_CHEAT_SHEET.md](SOLVY_BUDGET_CHEAT_SHEET.md)** - Quick reference guide  
+- **[UNIT_TECHNICAL_INTEGRATION_SPEC.md](UNIT_TECHNICAL_INTEGRATION_SPEC.md)** - Technical implementation costs  
+- **[MOLI_ARCHITECTURE.md](MOLI_ARCHITECTURE.md)** - Insurance and loan processing costs
+
+---
+
 **Document ID**: SOLVY-FIN-2026-001  
 **Classification**: Confidential - Financial  
 **Distribution**: Unit.co Underwriting, SA Nathan LLC Board, Legal Counsel

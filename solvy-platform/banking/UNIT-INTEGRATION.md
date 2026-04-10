@@ -53,11 +53,14 @@ This document describes the integration between SOLVY Cooperative and Unit.co ba
   - **Data Sovereignty** - Privacy dashboard with local-first stats
   - **Dividends** - 70/20/10 distribution display
   - **Governance** - Cooperative voting interface
+- `moli/ibc-loan-to-card.html` - MOLI policy loan request & card deposit
 
 ### Backend APIs
 - `api/unit-token.js` - JWT token generation for Unit Elements
 - `api/dividends.js` - 70/20/10 dividend calculations
 - `api/webhooks/unit.js` - Transaction event processing
+- `api/moli-loans.js` - MOLI policy loan requests
+- `api/unit/payment.js` - Card deposits & payment processing
 
 ## 70/20/10 Economic Model
 
@@ -245,9 +248,114 @@ Use Unit's test card numbers:
 | First Circle pilot | Week 9-12 | 🔄 Pending |
 | **Juneteenth Launch** | **June 19, 2026** | 🎯 Target |
 
+## MOLI Card Deposit Flow
+
+### Overview
+MOLI (Membership Owned Life Insurance) enables members to access policy cash value as tax-free loans deposited directly to their SOLVY Card.
+
+### Flow Diagram
+
+```
+Member Request
+      │
+      ▼
+┌─────────────────┐
+│  MOLI Portal    │ ← solvy-platform/moli/ibc-loan-to-card.html
+│  (OneAmerica)   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  POST /loan     │ ← solvy-platform/api/moli-loans.js
+│  Select amount  │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐     ┌─────────────────┐
+│  OneAmerica API │────→│  Policy Loan    │
+│  (if live)      │     │  Approved       │
+└─────────────────┘     └────────┬────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────┐
+│              Unit Payment API                        │
+│         solvy-unit-integration/api/unit/payment.js   │
+├─────────────────────────────────────────────────────┤
+│  Option A: Book Transfer (from MOLI pool)           │
+│  Option B: ACH Credit (from carrier)                │
+└─────────────────────────┬───────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────┐
+│  Member SOLVY Card Account                           │
+│  • Instant availability                              │
+│  • Tax-free distribution                             │
+│  • Immediate spending power                          │
+└─────────────────────────────────────────────────────┘
+```
+
+### API Integration
+
+#### Request MOLI Loan & Card Deposit
+
+```javascript
+const response = await fetch('/api/moli/loan-request', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    memberId: 'member_001',
+    amount: 25000,
+    purpose: 'business',
+    depositToCard: true,
+    cardId: 'card_4242424242'
+  })
+});
+
+const result = await response.json();
+// Returns: { loanId, status, netToCard, card: { newBalance, spendingPower } }
+```
+
+#### Deposit via Payment Module
+
+```javascript
+const { depositMoliLoanProceeds } = require('./api/unit/payment');
+
+const deposit = await depositMoliLoanProceeds({
+  memberId: 'member_001',
+  accountId: 'acct_1234567890',
+  cardId: 'card_4242424242',
+  amount: 24875.00,  // Net after 0.5% fee
+  loanId: 'MOLI-ABC123',
+  carrier: 'oneamerica',
+  policyId: 'OA-2021-4821'
+});
+```
+
+### Tax Treatment
+
+Policy loans against cash value are:
+- ✅ **Not taxable income** (no 1099 issued)
+- ✅ **No credit check required**
+- ✅ **Immediate availability** on SOLVY Card
+- ⚠️ **Accrue interest** payable to own policy (not a bank)
+
+### Configuration
+
+```bash
+# MOLI Pool Account (for book transfers)
+MOLI_POOL_ACCOUNT_ID=acct_moli_pool_xxx
+
+# OneAmerica API (when live integration available)
+ONEAMERICA_API_URL=https://api.oneamerica.com
+ONEAMERICA_CLIENT_ID=xxx
+ONEAMERICA_CLIENT_SECRET=xxx
+```
+
 ## References
 
 - [Unit Elements Documentation](https://docs.unit.co/elements)
 - [Unit Webhooks Guide](https://docs.unit.co/webhooks)
+- [Unit Payments API](https://docs.unit.co/payments)
 - [UNIT_FINANCIAL_PROJECTIONS.md](../UNIT_FINANCIAL_PROJECTIONS.md)
 - [UNIT_SANDBOX_IMPLEMENTATION_GUIDE.md](../UNIT_SANDBOX_IMPLEMENTATION_GUIDE.md)
+- [MOLI_ARCHITECTURE.md](../../MOLI_ARCHITECTURE.md)
