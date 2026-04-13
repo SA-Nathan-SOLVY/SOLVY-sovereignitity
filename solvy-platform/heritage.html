@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Heritage | From Freedman's Bank to Cooperative Ownership</title>
+    <meta name="description" content="Explore how SOLVY Ecosystem™ learns from the Freedman Bank, complements H.R. 40, and exceeds GENIUS Act requirements. Built for economic justice.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f172a;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        .nav-logo span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #22c55e;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 70vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at top right, rgba(34, 197, 94, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: #22c55e;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .hero h1 span {
+            color: #22c55e;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Pillar Cards */
+        .pillars-section {
+            padding: 4rem 2rem;
+            background: #0f172a;
+        }
+        .pillars-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .pillar-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.1) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+        .pillar-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .pillar-card h3 {
+            font-size: 1.5rem;
+            color: #22c55e;
+            margin-bottom: 0.75rem;
+        }
+        .pillar-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 5rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .content-section:nth-child(even) {
+            background: rgba(30, 41, 59, 0.5);
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+        .section-header h2 span {
+            color: #22c55e;
+        }
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #22c55e, #94a3b8, #22c55e);
+        }
+        .timeline-point {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+        .timeline-point .year {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #22c55e;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-point .event {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            max-width: 150px;
+            margin: 0 auto;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .comparison-table th {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            font-weight: 600;
+        }
+        .comparison-table td {
+            color: #e2e8f0;
+        }
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .stat-box .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #22c55e;
+        }
+        .stat-box .label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Quote */
+        .quote-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, transparent 100%);
+        }
+        .quote {
+            font-size: 1.8rem;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto 1rem;
+            color: #e2e8f0;
+        }
+        .quote-author {
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        .checklist li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #e2e8f0;
+        }
+        .checklist li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .cta-section p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(34, 197, 94, 0.5);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            border-top: 1px solid rgba(34, 197, 94, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: #22c55e;
+        }
+        .trust-badges {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+            .timeline { flex-direction: column; gap: 2rem; }
+            .timeline::before { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="./index.html" class="nav-logo">
+                <span style="font-size: 2rem;">👑</span>
+                <span>SOLVY Heritage</span>
+            </a>
+            <div class="nav-links">
+                <a href="./index.html">Home</a>
+                <a href="./heritage.html" style="color: #ffb347;">🏛️ Heritage</a>
+                <a href="./manifesto.html">📜 Manifesto</a>
+                <a href="./sovereignty-vs-hustle.html" style="color: #22c55e;">✊ Sovereignty</a>
+                <a href="./internal/man-portal.html">📊 MAN</a>
+            </div>
+            <a href="./onboarding.html" class="btn-primary">Join First Circle</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-badge">🏛️ From History to Ownership</div>
+            <h1>From Promised Liberation<br>to <span>Owned Infrastructure</span></h1>
+            <p>The Freedman Bank asked for trust. SOLVY removes the need for trust by giving you ownership.</p>
+            <a href="#freedman" class="btn-primary">Explore Our Heritage</a>
+        </div>
+    </section>
+
+    <!-- Three Pillars -->
+    <section class="pillars-section">
+        <div class="pillars-grid">
+            <div class="pillar-card" onclick="document.getElementById('freedman').scrollIntoView({behavior: 'smooth'})">
+                <div class="pillar-icon">🏛️</div>
+                <h3>The Freedman Bank</h3>
+                <p>1865-1874: The promise of economic freedom betrayed by those who controlled the money.</p>
+            </div>
+            <div class="pillar-card" onclick="document.getElementById('hr40').scrollIntoView({behavior: 'smooth'})">
+                <div class="pillar-icon">📜</div>
+                <h3>H.R. 40</h3>
+                <p>Study while we build. SOLVY creates economic infrastructure now, not after decades of debate.</p>
+            </div>
+            <div class="pillar-card" onclick="document.getElementById('genius').scrollIntoView({behavior: 'smooth'})">
+                <div class="pillar-icon">⚖️</div>
+                <h3>GENIUS Act</h3>
+                <p>Regulation-ready by design. SOLVY exceeds requirements Congress is only now proposing.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Freedman Bank Section -->
+    <section id="freedman" class="content-section">
+        <div class="section-header">
+            <h2>The Freedman Bank <span>(1865-1874)</span></h2>
+            <p>Promise and betrayal. 61,000 Black depositors lost everything to white trustees who speculated away their savings.</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-point">
+                <div class="year">1865</div>
+                <div class="event">Freedman's Bank opens<br>37 branches, 61,000 depositors</div>
+            </div>
+            <div class="timeline-point">
+                <div class="year">1874</div>
+                <div class="event">Collapse<br>Trustees bankrupt institution</div>
+            </div>
+            <div class="timeline-point">
+                <div class="year">2026</div>
+                <div class="event">SOLVY launches<br>Member-owned, transparent</div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="number">61,000</div>
+                <div class="label">Black depositors betrayed</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">$57M</div>
+                <div class="label">Lost in 1870s dollars</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">0</div>
+                <div class="label">Black board members</div>
+            </div>
+        </div>
+
+        <h3 style="color: #22c55e; margin: 2rem 0 1rem;">What Went Wrong Then → What SOLVY Does Now</h3>
+        <table class="comparison-table">
+            <tr>
+                <th>Freedman Bank (1865)</th>
+                <th>SOLVY Ecosystem (2026)</th>
+            </tr>
+            <tr>
+                <td>White trustees controlled Black deposits</td>
+                <td><strong>Member-owned:</strong> 70% of revenue returns to members</td>
+            </tr>
+            <tr>
+                <td>No voting rights for depositors</td>
+                <td><strong>One member = One vote:</strong> Cooperative governance</td>
+            </tr>
+            <tr>
+                <td>No transparency in investments</td>
+                <td><strong>MAN Portal:</strong> Every dollar visible, every decision auditable</td>
+            </tr>
+            <tr>
+                <td>Wealth extracted from community</td>
+                <td><strong>70/20/10 model:</strong> Wealth distributed to those who create it</td>
+            </tr>
+        </table>
+
+        <a href="./about.html" class="btn-primary" style="margin-top: 2rem;">Learn About Our Cooperative Structure →</a>
+    </section>
+
+    <!-- Sheila Mandate Quote -->
+    <section class="quote-section">
+        <p class="quote">"The Freedman Bank failed because it separated promise from power. SOLVY keeps them inseparable."</p>
+        <p class="quote-author">— The Sheila Mandate</p>
+    </section>
+
+    <!-- H.R. 40 Section -->
+    <section id="hr40" class="content-section">
+        <div class="section-header">
+            <h2>H.R. 40 <span>Study vs. Action</span></h2>
+            <p>"H.R. 40 asks Congress to study reparations. SOLVY puts them in your wallet."</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="number">37</div>
+                <div class="label">Years H.R. 40 studied without vote</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">7.8x</div>
+                <div class="label">Black-white wealth gap (growing)</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">0</div>
+                <div class="label">Days SOLVY waits for permission</div>
+            </div>
+        </div>
+
+        <h3 style="color: #22c55e; margin: 2rem 0 1rem;">The Wealth Gap</h3>
+        <table class="comparison-table">
+            <tr>
+                <th>Metric</th>
+                <th>Black Households</th>
+                <th>White Households</th>
+            </tr>
+            <tr>
+                <td>Median Wealth</td>
+                <td>$24,100</td>
+                <td>$188,200</td>
+            </tr>
+            <tr>
+                <td>Homeownership</td>
+                <td>44%</td>
+                <td>72.7%</td>
+            </tr>
+            <tr>
+                <td>Retirement Savings</td>
+                <td>$35,000</td>
+                <td>$80,000</td>
+            </tr>
+        </table>
+
+        <h3 style="color: #22c55e; margin: 2rem 0 1rem;">SOLVY Position on H.R. 40</h3>
+        <p style="color: #e2e8f0; font-size: 1.1rem; margin-bottom: 1.5rem;">
+            <strong>We support H.R. 40.</strong> We also recognize that study is not substitute for action. While Congress studies the legacy of slavery, SOLVY builds the infrastructure to close the wealth gap.
+        </p>
+        <ul class="checklist">
+            <li>Every swipe of a SOLVY Card™ generates interchange revenue</li>
+            <li>70% of that revenue flows directly to Black and Brown members</li>
+            <li>Not charity — ongoing ownership</li>
+            <li>Not one-time payment — continuous wealth building</li>
+        </ul>
+
+        <a href="#" class="btn-primary" style="margin-top: 2rem;">See Our 70/20/10 Model →</a>
+    </section>
+
+    <!-- GENIUS Act Section -->
+    <section id="genius" class="content-section">
+        <div class="section-header">
+            <h2>The GENIUS Act <span>Regulation-Ready by Design</span></h2>
+            <p>"The GENIUS Act is catching up to SOLVY. We built transparency and accountability from day one."</p>
+        </div>
+
+        <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+            <p style="color: #22c55e; font-weight: 600; margin: 0;">📅 March 2026: GENIUS Act passed Senate Banking Committee (18-6 vote)</p>
+            <p style="color: #94a3b8; margin: 0.5rem 0 0;">SOLVY Status: ✅ Compliant by design since conception</p>
+        </div>
+
+        <h3 style="color: #22c55e; margin: 2rem 0 1rem;">How SOLVY Already Meets GENIUS Requirements</h3>
+        <table class="comparison-table">
+            <tr>
+                <th>GENIUS Act Requires</th>
+                <th>SOLVY Implementation</th>
+            </tr>
+            <tr>
+                <td>✅ 1:1 Reserves</td>
+                <td>✅ FDIC-insured deposits (via Unit.co/Thread Bank)</td>
+            </tr>
+            <tr>
+                <td>✅ Monthly Audits</td>
+                <td>✅ Real-time MAN Portal + quarterly member reports</td>
+            </tr>
+            <tr>
+                <td>✅ KYC/AML Compliance</td>
+                <td>✅ Bank-grade identity verification</td>
+            </tr>
+            <tr>
+                <td>✅ Consumer Protection</td>
+                <td>✅ Cooperative ownership (no extraction possible)</td>
+            </tr>
+            <tr>
+                <td>✅ Transparency</td>
+                <td>✅ Mandatory Audit Network (MAN)</td>
+            </tr>
+        </table>
+
+        <h3 style="color: #22c55e; margin: 2rem 0 1rem;">Future: Guapcoin Integration</h3>
+        <p style="color: #e2e8f0;">
+            The GENIUS Act creates a compliant framework for blockchain integration. When SOLVY connects to Guapcoin for African diaspora remittances, we'll do so within clear regulatory guidelines. <strong>We don't wait for permission to do the right thing.</strong>
+        </p>
+    </section>
+
+    <!-- The Common Thread -->
+    <section class="content-section" style="background: rgba(30, 41, 59, 0.5);">
+        <div class="section-header">
+            <h2>What Connects These <span>Three Stories?</span></h2>
+        </div>
+
+        <div class="pillars-grid">
+            <div class="pillar-card">
+                <div class="pillar-icon">🏛️</div>
+                <h3>Promise</h3>
+                <p>The Freedman Bank promised freedom but betrayed trust through separated ownership and control.</p>
+                <p style="color: #22c55e; margin-top: 1rem;"><strong>SOLVY:</strong> Architecture prevents betrayal.</p>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">📜</div>
+                <h3>Study</h3>
+                <p>H.R. 40 studies the problem while the wealth gap grows and generations wait.</p>
+                <p style="color: #22c55e; margin-top: 1rem;"><strong>SOLVY:</strong> Building while they debate.</p>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">⚖️</div>
+                <h3>Regulation</h3>
+                <p>The GENIUS Act regulates what SOLVY already does through cooperative design.</p>
+                <p style="color: #22c55e; margin-top: 1rem;"><strong>SOLVY:</strong> Built right from day one.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <p style="font-size: 1.5rem; color: #22c55e; font-weight: 700;">"SOLVY doesn't wait for permission to do the right thing."</p>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Be Part of the Solution</h2>
+        <p>Join the First Circle of 100 founding members. Own your spend. Own your future.</p>
+        <div class="cta-buttons">
+            <a href="./onboarding.html" class="btn-primary">Join First Circle →</a>
+            <a href="./about.html" class="btn-secondary">Learn More</a>
+            <a href="mailto:hello@ebl.beauty" class="btn-secondary">Partner With Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="trust-badges">
+            <div class="trust-badge">🏛️ Cooperative-Owned</div>
+            <div class="trust-badge">📊 MAN Audited</div>
+            <div class="trust-badge">⚖️ GENIUS-Ready</div>
+            <div class="trust-badge">🔒 Data Sovereign</div>
+        </div>
+        <div class="footer-links">
+            <a href="./index.html">Home</a>
+            <a href="./about.html">About</a>
+            <a href="./card/solvy-card.html">SOLVY Card</a>
+            <a href="./community/communities.html">Community</a>
+            <a href="../marketing/FREEDMAN_BANK_NARRATIVE.md" target="_blank">Full Documentation</a>
+        </div>
+        <p style="color: #64748b;">© 2026 SOLVY Ecosystem™ — A cooperative financial platform</p>
+        <p style="color: #94a3b8; margin-top: 0.5rem;">SOLVY Card™ is a product of SA Nathan LLC</p>
+    </footer>
+</body>
+</html>
