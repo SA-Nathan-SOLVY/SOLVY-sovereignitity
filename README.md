@@ -123,7 +123,8 @@ Every feature, every decision, every line of code serves this mandate.
 |------|------|--------|
 | Trust Protector | Sean Mayo | Passive (TDIU compliant) |
 | Legal Counsel | (Engaging) | Retainer pending |
-| Technical Lead | (You/Kimi) | Active development |
+| AI Development Partners | Kimi Code & Replit | Primary development partner |
+| Technical Advisor | DeepSeek AI | Mathematical modeling, business logic |
 | First Circle | 45 confirmed, 55 pending | Pilot cohort |
 
 ---

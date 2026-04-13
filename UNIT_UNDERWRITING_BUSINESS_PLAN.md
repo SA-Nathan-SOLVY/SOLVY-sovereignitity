@@ -265,7 +265,14 @@ SOLVY Ecosystem™ is a cooperative financial technology platform that issues de
 - Unit.co integration specialists
 - Security and compliance engineers
 
-### 7.2 Advisors
+### 7.2 AI Development Partners
+
+| Partner | Role | Contribution |
+|---------|------|--------------|
+| **Kimi Code & Replit** | Primary Development Partner | Full-stack architecture, MAN portal, Unit.co integration, deployment |
+| **DeepSeek AI** | Technical Advisor | Mathematical modeling, business logic calculations, data analysis |
+
+### 7.3 Advisors
 
 - **Legal:** Engaging banking/compliance counsel
 - **Banking:** Unit.co partnership team

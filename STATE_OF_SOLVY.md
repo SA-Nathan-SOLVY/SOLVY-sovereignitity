@@ -108,7 +108,8 @@
 | Role | Person | Status | Notes |
 |------|--------|--------|-------|
 | Trust Protector | Sean Mayo | ✅ Passive | TDIU compliant, advisory only |
-| Technical | (Kimi/You) | ✅ Active | Daily development |
+| AI Development Partners | Kimi Code & Replit | ✅ Active | Primary development partner |
+| Technical Advisor | DeepSeek AI | ✅ Active | Mathematical modeling, business logic |
 | Legal Counsel | (Engaging) | 🔄 In Progress | Retainer pending |
 | Compliance | (Part-time) | ⬜ Not Started | Post-LLC filing |
 | Community | (Deferred) | ⬜ Not Started | Post-launch |

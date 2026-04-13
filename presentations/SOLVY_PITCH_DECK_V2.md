@@ -205,8 +205,11 @@
 - Strategic vision, compliance oversight
 - Lineage keeper of the Sheila Mandate
 
+**AI Development Partners**
+- **Kimi Code & Replit** — Primary development partner (full-stack, deployment, Unit.co integration)
+- **DeepSeek AI** — Technical advisor (mathematical modeling, business logic)
+
 **Technical Team**
-- Full-stack development (Kimi Code)
 - Unit.co integration specialists
 - Security & compliance engineers
 
