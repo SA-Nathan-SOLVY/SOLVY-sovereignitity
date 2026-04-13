@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Manifesto | Digital Encoding of Protection</title>
+    <meta name="description" content="The SOLVY Manifesto: 70/20/10 as digital protection, MAN as community witness, cooperative economics as lineage preservation.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f172a;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.3);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        .nav-logo img {
+            height: 45px;
+            width: auto;
+        }
+        .nav-logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #9333ea, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #9333ea;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 70vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .hero h1 span {
+            color: #9333ea;
+        }
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        /* Manifesto Content */
+        .manifesto-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        .manifesto-section {
+            margin-bottom: 4rem;
+        }
+        .manifesto-section h2 {
+            font-size: 2rem;
+            color: #9333ea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.3);
+        }
+        .manifesto-section p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 70/20/10 Diagram */
+        .split-diagram {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .split-row {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .split-row:last-child { border-bottom: none; }
+        .split-percent {
+            font-size: 2.5rem;
+            font-weight: 800;
+            width: 100px;
+            color: #9333ea;
+        }
+        .split-label {
+            flex: 1;
+            font-size: 1.2rem;
+            color: #e2e8f0;
+        }
+        .split-meaning {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Technical Table */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        .tech-table th,
+        .tech-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .tech-table th {
+            color: #9333ea;
+            font-weight: 600;
+        }
+        .tech-table td {
+            color: #cbd5e1;
+        }
+
+        /* Git Commit Box */
+        .git-box {
+            background: #0f172a;
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: monospace;
+            margin: 2rem 0;
+        }
+        .git-box code {
+            color: #9333ea;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Quote */
+        .quote-box {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, transparent 100%);
+            border-left: 4px solid #9333ea;
+            padding: 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #e2e8f0;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            border-top: 1px solid rgba(34, 197, 94, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: #9333ea;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="./index.html" class="nav-logo">
+                <img src="./assets/solvy-crown-icon.png" alt="SOLVY" style="height: 45px; width: auto;">
+                <span class="nav-logo-text">SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <a href="./index.html">SOLVY Card™</a>
+                <a href="./heritage.html">🏛️ Heritage</a>
+                <a href="./manifesto.html" class="active">📜 Manifesto</a>
+                <a href="./sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
+                <a href="./about.html">About</a>
+                <a href="./sps/index.html">SPS Joint Venture</a>
+            </div>
+            <div class="nav-cta">
+                <a href="#apply" class="btn-primary">Apply for Card</a>
+                <a href="#login" class="btn-secondary">Member Login</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="./index.html">SOLVY Card™</a>
+            <a href="./heritage.html">🏛️ Heritage</a>
+            <a href="./manifesto.html">📜 Manifesto</a>
+            <a href="./sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            <a href="https://decidey.ebl.beauty">DECIDEY NGO</a>
+            <a href="./about.html">About</a>
+            <a href="./sps/index.html">SPS Joint Venture</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>The <span>SOLVY</span> Manifesto</h1>
+            <p class="hero-subtitle">Digital encoding of protection. Mathematical expression of "leave them better."</p>
+        </div>
+    </section>
+
+    <!-- Manifesto Content -->
+    <div class="manifesto-content">
+        
+        <section class="manifesto-section">
+            <h2>The 70/20/10 Model</h2>
+            <p>SOLVY's distribution model is not arbitrary economics—it is digital protection encoded in protocol:</p>
+            
+            <div class="split-diagram">
+                <div class="split-row">
+                    <div class="split-percent">70%</div>
+                    <div>
+                        <div class="split-label">Patronage Dividends</div>
+                        <div class="split-meaning">Direct descendant protection—revenue that returns to those who generate it</div>
+                    </div>
+                </div>
+                <div class="split-row">
+                    <div class="split-percent">20%</div>
+                    <div>
+                        <div class="split-label">Community Pool</div>
+                        <div class="split-meaning">The grandmother's blanket—collective care for members in need</div>
+                    </div>
+                </div>
+                <div class="split-row">
+                    <div class="split-percent">10%</div>
+                    <div>
+                        <div class="split-label">Operations</div>
+                        <div class="split-meaning">The fist, maintained—protocol sustainability and growth</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                "When you spend with SOLVY, you are not consuming. You are building. The iron fist in plastic—spending as protection, not exploitation."
+            </div>
+        </section>
+
+        <section class="manifesto-section">
+            <h2>The Narrative-Technical Bridge</h2>
+            <p>Traditional financial systems separate story from structure. SOLVY encodes them together:</p>
+
+            <table class="tech-table">
+                <tr>
+                    <th>Technical Component</th>
+                    <th>Lineage Encoding</th>
+                </tr>
+                <tr>
+                    <td><strong>The MAN</strong><br>(Mandatory Audit Network)</td>
+                    <td>Digital continuation of grandmother "witness"—the community watching the money. Every transaction visible, every allocation auditable.</td>
+                </tr>
+                <tr>
+                    <td><strong>DECIDEY Platform</strong></td>
+                    <td>Transmission of IBC knowledge—scaling what was learned through struggle into collective education.</td>
+                </tr>
+                <tr>
+                    <td><strong>70/20/10 Split</strong></td>
+                    <td>Mathematical expression of "leave them better"—70% direct protection, 20% community blanket, 10% fist maintenance.</td>
+                </tr>
+                <tr>
+                    <td><strong>SOLVY Card</strong></td>
+                    <td>The iron fist in plastic—spending as protection, not consumption. Every swipe builds equity.</td>
+                </tr>
+                <tr>
+                    <td><strong>MOLI</strong><br>(Membership Owned Life Insurance)</td>
+                    <td>The eventual vehicle for perpetual protection—transaction revenue becoming generational security.</td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="manifesto-section">
+            <h2>On Self-Sovereign Identity</h2>
+            <p>True sovereignty is not isolation. It is autonomy with protection. SOLVY implements this through:</p>
+            
+            <p><strong>Data Sovereignty:</strong> Your transaction history stays on your device, not in corporate databases. You control access. You control disclosure. You are not the product.</p>
+            
+            <p><strong>Economic Sovereignty:</strong> You own 70% of the revenue your transactions generate. Not as charity. Not as reward. As ownership.</p>
+            
+            <p><strong>Governance Sovereignty:</strong> One member = One vote. The protocol serves its users, not distant shareholders.</p>
+
+            <div class="quote-box">
+                "The system that profits from your labor must carry responsibility for your survival. This is not ideology—it is structural stability."
+            </div>
+        </section>
+
+        <section class="manifesto-section">
+            <h2>The Commit</h2>
+            <p>Every line of SOLVY code commits to this principle:</p>
+
+            <div class="git-box">
+                <code>
+                    git commit -m "feat: implement interchange capture logic<br>
+                    - implements 70/20/10 per protection mandate<br>
+                    - ensures descendants receive better than nothing<br>
+                    - MAN transparency enforced at protocol level"
+                </code>
+            </div>
+
+            <p>This is not a marketing document. This is the technical specification. The architecture does not permit betrayal because the architecture makes betrayal impossible.</p>
+        </section>
+
+        <section class="manifesto-section">
+            <h2>Future: Zero-Knowledge Lineage</h2>
+            <p>When solvy.chain launches, member verification will include optional <code>proofOfLineage()</code> functions—allowing ADOS descendants to verify ancestry without revealing PII. Economic affinity groups with shared historical trauma and mutual protection obligations.</p>
+            
+            <p>The grandmother's blanket, cryptographically secured.</p>
+        </section>
+
+        <div style="text-align: center; margin: 4rem 0;">
+            <a href="./onboarding.html" class="btn-primary">Join the First Circle →</a>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <img src="./assets/solvy-full-logo.png" alt="SOLVY" style="height: 60px; width: auto;">
+        </div>
+        <div class="footer-links">
+            <a href="./index.html">Home</a>
+            <a href="./heritage.html">Heritage</a>
+            <a href="./sovereignty-vs-hustle.html">Sovereignty</a>
+            <a href="./internal/man-portal.html">MAN Portal</a>
+        </div>
+        <p style="color: #64748b;">© 2026 SOLVY Ecosystem™</p>
+        <p style="color: #9333ea; margin-top: 0.5rem;">Own your spend. Own your future.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
+</body>
+</html>
