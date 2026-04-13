@@ -234,29 +234,37 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="./index.html" class="nav-logo">
-                <img src="./assets/solvy-crown-icon.png" alt="SOLVY Ecosystem™" style="height: 45px;">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/solvy-crown-icon.png" alt="SOLVY" style="height: 45px; width: auto;">
+                <span class="nav-logo-text">SOLVY</span>
             </a>
             <div class="nav-links">
-                <a href="./index.html">SOLVY Card™</a>
-                <a href="https://decidey.ebl.beauty">DECIDEY</a>
-                <a href="./about.html" class="active">About</a>
-                <a href="./sps/index.html">SPS</a>
-                <a href="#man">MAN</a>
+                <a href="index.html">SOLVY Card™</a>
+                <a href="heritage.html">🏛️ Heritage</a>
+                <a href="manifesto.html">📜 Manifesto</a>
+                <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                <a href="about.html" class="active">About</a>
+                <a href="sps/index.html">SPS Joint Venture</a>
+                <a href="ibc/index.html">IBC</a>
             </div>
-            <a href="#apply" class="btn-primary">Apply Now</a>
-            <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('active')">
+            <div class="nav-cta">
+                <a href="#apply" class="btn-primary">Apply for Card</a>
+                <a href="#login" class="btn-secondary">Member Login</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
         </div>
         <div class="mobile-menu" id="mobileMenu">
-            <a href="./index.html">SOLVY Card™</a>
-            <a href="https://decidey.ebl.beauty">DECIDEY</a>
-            <a href="./about.html">About</a>
-            <a href="./sps/index.html">SPS</a>
-            <a href="#man">MAN</a>
+            <a href="index.html">SOLVY Card™</a>
+            <a href="heritage.html">🏛️ Heritage</a>
+            <a href="manifesto.html">📜 Manifesto</a>
+            <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            <a href="about.html">About</a>
+            <a href="sps/index.html">SPS Joint Venture</a>
+            <a href="ibc/index.html">IBC</a>
         </div>
     </nav>
 
@@ -346,5 +354,15 @@
         <p>© 2026 SOLVY Ecosystem™ — All Rights Reserved</p>
         <p style="color: #64748b;">SOLVY Card™ is a product of SA Nathan LLC</p>
     </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
 </body>
 </html>

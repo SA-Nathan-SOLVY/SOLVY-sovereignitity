@@ -239,6 +239,52 @@
   </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/solvy-crown-icon.png" alt="SOLVY" style="height: 45px; width: auto;">
+                <span class="nav-logo-text">SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="heritage.html">🏛️ Heritage</a>
+                <a href="manifesto.html">📜 Manifesto</a>
+                <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                <a href="banking/index.html">🏦 Banking</a>
+                <a href="card/solvy-card.html">💳 SOLVY Card™</a>
+                <a href="remittance/remittance.html">Remittance</a>
+                <a href="invoice/invoice-management.html">Invoices</a>
+                <a href="sps-pilot/index.html">SPS Pilot</a>
+                <a href="community/communities.html">Community</a>
+                <a href="decidey/decidey-ngo.html">DECIDEY</a>
+                <a href="internal/man-portal.html" style="color: #94a3b8; font-size: 0.75rem;">📊 MAN <span style="background: rgba(148,163,184,0.2); padding: 1px 4px; border-radius: 3px;">Internal</span></a>
+            </div>
+            <div class="nav-cta">
+                <a href="onboarding.html" class="btn-primary">Join First Circle</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="heritage.html">🏛️ Heritage</a>
+            <a href="manifesto.html">📜 Manifesto</a>
+            <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            <a href="banking/index.html">🏦 Banking</a>
+            <a href="card/solvy-card.html">💳 SOLVY Card™</a>
+            <a href="remittance/remittance.html">Remittance</a>
+            <a href="invoice/invoice-management.html">Invoices</a>
+            <a href="sps-pilot/index.html">SPS Pilot</a>
+            <a href="community/communities.html">Community</a>
+            <a href="decidey/decidey-ngo.html">DECIDEY</a>
+        </div>
+    </nav>
+
   <header class="header">
     <div class="header-content">
       <a href="./index.html" class="logo">👑 SOLVY Ecosystem™</a>
@@ -473,5 +519,15 @@
     // Make initializeApp globally available for retry button
     window.initializeApp = initializeApp;
   </script>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
 </body>
 </html>
