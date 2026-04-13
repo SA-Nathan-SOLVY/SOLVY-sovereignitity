@@ -33,6 +33,9 @@
     
     // ===== DEVELOPMENT ESSENTIALS =====
     
+    // Live Server - Launch local dev server with auto-refresh
+    "ritwickdey.live-server",
+    
     // ESLint - JavaScript/TypeScript linting
     "dbaeumer.vscode-eslint",
     

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAN Demo | SOLVY Ecosystem</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        h1 { color: #22c55e; }
+        h2 { color: #22c55e; margin-top: 2rem; }
+        .card {
+            background: #1e293b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        button {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            font-weight: 600;
+        }
+        button:hover {
+            background: #16a34a;
+        }
+        .metric {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+            min-width: 150px;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        #log {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .log-entry { margin: 0.25rem 0; }
+        .log-success { color: #22c55e; }
+        .log-info { color: #3b82f6; }
+        .log-error { color: #ef4444; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            color: #22c55e;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔐 MAN Portal Demo</h1>
+    <p>Mandatory Audit Network — Local-first transaction tracking</p>
+
+    <div class="card">
+        <h2>📊 Current Metrics (70/20/10 Split)</h2>
+        <div id="metrics">
+            <p>Loading...</p>
+        </div>
+        <button onclick="refreshMetrics()">Refresh</button>
+    </div>
+
+    <div class="card">
+        <h2>💳 Simulate Transactions</h2>
+        <p>Add test transactions to see 70/20/10 calculation in action:</p>
+        <button onclick="addTransaction(47.32, 'Walmart Supercenter')">+ $47.32 Walmart</button>
+        <button onclick="addTransaction(124.87, 'Costco Wholesale')">+ $124.87 Costco</button>
+        <button onclick="addTransaction(23.45, 'Walgreens')">+ $23.45 Walgreens</button>
+        <button onclick="addTransaction(200.00, 'Sephora')">+ $200.00 Sephora</button>
+    </div>
+
+    <div class="card">
+        <h2>🗳️ Create Test Proposal</h2>
+        <button onclick="createProposal()">Create Sample Proposal</button>
+    </div>
+
+    <div class="card">
+        <h2>📜 Recent Transactions</h2>
+        <div id="transactions">
+            <p>No transactions yet.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📋 Audit Log</h2>
+        <div id="log">
+            <p class="log-info">Waiting for database...</p>
+        </div>
+    </div>
+
+    <!-- Load MAN Database -->
+    <script src="../js/manDB.js"></script>
+    <script>
+        // Demo controller
+        let db;
+
+        // Wait for database
+        window.addEventListener('MANDBReady', async (e) => {
+            db = e.detail;
+            log('Database initialized', 'success');
+            await refreshMetrics();
+            await refreshTransactions();
+            await refreshAuditLog();
+        });
+
+        function log(message, type = 'info') {
+            const logEl = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        async function refreshMetrics() {
+            if (!db) return;
+            
+            const metrics = await db.getMetrics();
+            const container = document.getElementById('metrics');
+            
+            container.innerHTML = `
+                <div class="metric">
+                    <div class="metric-value">$${metrics.total_member_pool.toFixed(2)}</div>
+                    <div class="metric-label">Member Pool (70%)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$${metrics.total_operations_pool.toFixed(2)}</div>
+                    <div class="metric-label">Operations (20%)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$${metrics.total_sovereign_pool.toFixed(2)}</div>
+                    <div class="metric-label">Sovereign Fund (10%)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$${metrics.total_volume.toFixed(2)}</div>
+                    <div class="metric-label">Total Volume</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${metrics.transaction_count}</div>
+                    <div class="metric-label">Transactions</div>
+                </div>
+            `;
+            
+            log('Metrics refreshed', 'info');
+        }
+
+        async function addTransaction(amount, merchant) {
+            if (!db) {
+                log('Database not ready', 'error');
+                return;
+            }
+
+            try {
+                // Add transaction
+                const txId = await db.addTransaction({
+                    amount: amount,
+                    merchant: merchant,
+                    status: 'settled'
+                });
+                
+                log(`Transaction added: ${merchant} $${amount}`, 'success');
+                
+                // Process metrics (calculates 70/20/10)
+                await db.processTransactionMetrics(amount);
+                log(`70/20/10 split calculated for $${amount}`, 'info');
+                
+                // Refresh displays
+                await refreshMetrics();
+                await refreshTransactions();
+                await refreshAuditLog();
+                
+            } catch (error) {
+                log(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function refreshTransactions() {
+            if (!db) return;
+            
+            const transactions = await db.getTransactions();
+            const container = document.getElementById('transactions');
+            
+            if (transactions.length === 0) {
+                container.innerHTML = '<p>No transactions yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr><th>Time</th><th>Merchant</th><th>Amount</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        ${transactions.slice(0, 10).map(tx => `
+                            <tr>
+                                <td>${new Date(tx.timestamp).toLocaleTimeString()}</td>
+                                <td>${tx.merchant}</td>
+                                <td>$${tx.amount.toFixed(2)}</td>
+                                <td>${tx.status}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        async function createProposal() {
+            if (!db) return;
+            
+            const proposalId = await db.createProposal({
+                title: 'Pool anonymized data for better interchange rates',
+                description: 'Allow SOLVY to pool anonymized transaction data to negotiate higher interchange rates with our processor.',
+                threshold_type: 'volume',
+                threshold_value: 1000000, // $1M
+                vote_end: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+            });
+            
+            log(`Proposal created: ${proposalId}`, 'success');
+            await refreshAuditLog();
+        }
+
+        async function refreshAuditLog() {
+            if (!db) return;
+            
+            const entries = await db.getAuditLog({ limit: 20 });
+            const logEl = document.getElementById('log');
+            
+            // Keep the latest 50 entries
+            while (logEl.children.length > 50) {
+                logEl.removeChild(logEl.firstChild);
+            }
+        }
+    </script>
+</body>
+</html>
