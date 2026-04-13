@@ -43,10 +43,17 @@
             height: 40px;
             width: auto;
         }
-        .nav-logo span {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #9333ea;
+        .nav-logo img {
+            height: 45px;
+            width: auto;
+        }
+        .nav-logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #9333ea, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .nav-links {
             display: flex;
@@ -464,8 +471,8 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="./index.html" class="nav-logo">
-                <span style="font-size: 2rem;">👑</span>
-                <span>EBL</span>
+                <img src="./assets/solvy-crown-icon.png" alt="SOLVY" style="height: 45px; width: auto;">
+                <span class="nav-logo-text">SOLVY</span>
             </a>
             <div class="nav-links">
                 <a href="./index.html" class="active">Home</a>
@@ -682,7 +689,9 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <div style="font-size: 3rem; color: #9333ea; font-weight: 800;">👑 SOLVY Ecosystem™</div>
+            <div style="margin-bottom: 1rem;">
+                <img src="./assets/solvy-full-logo.png" alt="SOLVY" style="height: 60px; width: auto;">
+            </div>
             <p>© 2026 SOLVY Ecosystem™ — A cooperative financial platform</p>
             <p style="margin-top: 0.5rem; color: #94a3b8;">SOLVY Card™ is a product of SA Nathan LLC</p>
             <p style="margin-top: 0.5rem; color: #9333ea;">SOLVY (Solutions Valued You)</p>
