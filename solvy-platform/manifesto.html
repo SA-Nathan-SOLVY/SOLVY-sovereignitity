@@ -14,16 +14,17 @@
             color: #fff;
             background: #0f172a;
         }
-
-        /* Navigation */
+        }
+    
+        /* Professional Navbar */
         .navbar {
-            background: rgba(30, 41, 59, 0.95);
+            background: rgba(15, 23, 42, 0.98);
             backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
+            padding: 0.75rem 2rem;
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(147, 51, 234, 0.3);
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
         }
         .nav-container {
             max-width: 1400px;
@@ -31,207 +32,150 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 2rem;
         }
         .nav-logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
             text-decoration: none;
+            flex-shrink: 0;
         }
         .nav-logo img {
-            height: 45px;
+            height: 42px;
             width: auto;
         }
         .nav-logo-text {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #9333ea, #3b82f6);
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: -0.02em;
         }
         .nav-links {
             display: flex;
-            gap: 1.5rem;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
         }
-        .nav-links a {
-            color: #ffffff;
+        .nav-links a, .nav-dropdown > a {
+            color: #e2e8f0;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.9rem;
-            transition: color 0.3s;
+            transition: all 0.2s;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            white-space: nowrap;
         }
-        .nav-links a:hover {
-            color: #9333ea;
+        .nav-links a:hover, .nav-links a.active, .nav-dropdown:hover > a {
+            color: #ec4899;
+            background: rgba(147, 51, 234, 0.1);
+        }
+        .nav-dropdown {
+            position: relative;
+        }
+        .nav-dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.6rem;
+            opacity: 0.7;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.25rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: #cbd5e1;
+            font-size: 0.85rem;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .nav-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .nav-cta {
+            display: flex;
+            gap: 0.75rem;
+            flex-shrink: 0;
         }
         .btn-primary {
             background: linear-gradient(135deg, #9333ea, #7c3aed);
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.25rem;
             border-radius: 8px;
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
             transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.35);
         }
-
-        /* Hero */
-        .hero {
-            min-height: 70vh;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            display: flex;
-            align-items: center;
-            padding: 4rem 2rem;
-            text-align: center;
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 0.5rem;
         }
-        .hero-container {
-            max-width: 900px;
-            margin: 0 auto;
+        .hamburger span {
+            width: 24px;
+            height: 2.5px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.3s;
         }
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-        .hero h1 span {
-            color: #9333ea;
-        }
-        .hero-subtitle {
-            font-size: 1.3rem;
-            color: #94a3b8;
-            font-style: italic;
-        }
-
-        /* Manifesto Content */
-        .manifesto-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-        .manifesto-section {
-            margin-bottom: 4rem;
-        }
-        .manifesto-section h2 {
-            font-size: 2rem;
-            color: #9333ea;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(147, 51, 234, 0.3);
-        }
-        .manifesto-section p {
-            color: #cbd5e1;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        /* 70/20/10 Diagram */
-        .split-diagram {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-        .split-row {
-            display: flex;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .split-row:last-child { border-bottom: none; }
-        .split-percent {
-            font-size: 2.5rem;
-            font-weight: 800;
-            width: 100px;
-            color: #9333ea;
-        }
-        .split-label {
-            flex: 1;
-            font-size: 1.2rem;
-            color: #e2e8f0;
-        }
-        .split-meaning {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        /* Technical Table */
-        .tech-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-        }
-        .tech-table th,
-        .tech-table td {
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: rgba(15, 23, 42, 0.99);
             padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 0.25rem;
+            border-top: 1px solid rgba(147, 51, 234, 0.15);
         }
-        .tech-table th {
-            color: #9333ea;
-            font-weight: 600;
-        }
-        .tech-table td {
-            color: #cbd5e1;
-        }
-
-        /* Git Commit Box */
-        .git-box {
-            background: #0f172a;
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            border-radius: 8px;
-            padding: 1.5rem;
-            font-family: monospace;
-            margin: 2rem 0;
-        }
-        .git-box code {
-            color: #9333ea;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Quote */
-        .quote-box {
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, transparent 100%);
-            border-left: 4px solid #9333ea;
-            padding: 2rem;
-            margin: 2rem 0;
-            font-style: italic;
-            font-size: 1.2rem;
+        .mobile-menu a {
             color: #e2e8f0;
-        }
-
-        /* Footer */
-        footer {
-            background: #0f172a;
-            border-top: 1px solid rgba(34, 197, 94, 0.2);
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-        .footer-links a {
-            color: #94a3b8;
             text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
-        .footer-links a:hover {
-            color: #9333ea;
+        .mobile-menu a:hover, .mobile-menu a.active {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .mobile-divider {
+            height: 1px;
+            background: rgba(147, 51, 234, 0.15);
+            margin: 0.5rem 0;
+        }
+        @media (max-width: 1024px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu.active { display: flex; }
         }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .nav-links { display: none; }
-        }
     </style>
 </head>
 <body>
@@ -239,23 +183,36 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="assets/solvy-crown-icon.png" alt="SOLVY" style="height: 45px; width: auto;">
+                <img src="./assets/SolvyLogo-1024.png" alt="SOLVY" style="height: 42px; width: auto;">
                 <span class="nav-logo-text">SOLVY</span>
             </a>
             <div class="nav-links">
-                <a href="index.html">Home</a>
                 <a href="about.html">About</a>
-                <a href="heritage.html">🏛️ Heritage</a>
-                <a href="manifesto.html" class="active">📜 Manifesto</a>
-                <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
-                <a href="banking/index.html">🏦 Banking</a>
-                <a href="card/solvy-card.html">💳 SOLVY Card™</a>
-                <a href="remittance/remittance.html">Remittance</a>
-                <a href="invoice/invoice-management.html">Invoices</a>
-                <a href="sps-pilot/index.html">SPS Pilot</a>
+                <div class="nav-dropdown">
+                    <a href="banking/index.html">Products</a>
+                    <div class="dropdown-menu">
+                        <a href="banking/index.html">🏦 Banking</a>
+                        <a href="card/solvy-card.html">💳 SOLVY Card™</a>
+                        <a href="remittance/remittance.html">Remittance</a>
+                        <a href="invoice/invoice-management.html">Invoices</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="heritage.html">Mission</a>
+                    <div class="dropdown-menu">
+                        <a href="heritage.html">🏛️ Heritage</a>
+                        <a href="manifesto.html">📜 Manifesto</a>
+                        <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="sps-pilot/index.html">Partners</a>
+                    <div class="dropdown-menu">
+                        <a href="sps-pilot/index.html">SPS Pilot</a>
+                        <a href="decidey/decidey-ngo.html">DECIDEY</a>
+                    </div>
+                </div>
                 <a href="community/communities.html">Community</a>
-                <a href="decidey/decidey-ngo.html">DECIDEY</a>
-                <a href="internal/man-portal.html" style="color: #94a3b8; font-size: 0.75rem;">📊 MAN <span style="background: rgba(148,163,184,0.2); padding: 1px 4px; border-radius: 3px;">Internal</span></a>
             </div>
             <div class="nav-cta">
                 <a href="onboarding.html" class="btn-primary">Join First Circle</a>
@@ -267,22 +224,24 @@
             </div>
         </div>
         <div class="mobile-menu" id="mobileMenu">
-            <a href="index.html">Home</a>
             <a href="about.html">About</a>
-            <a href="heritage.html">🏛️ Heritage</a>
-            <a href="manifesto.html">📜 Manifesto</a>
-            <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
             <a href="banking/index.html">🏦 Banking</a>
             <a href="card/solvy-card.html">💳 SOLVY Card™</a>
             <a href="remittance/remittance.html">Remittance</a>
             <a href="invoice/invoice-management.html">Invoices</a>
+            <div class="mobile-divider"></div>
+            <a href="heritage.html">🏛️ Heritage</a>
+            <a href="manifesto.html">📜 Manifesto</a>
+            <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            <div class="mobile-divider"></div>
             <a href="sps-pilot/index.html">SPS Pilot</a>
-            <a href="community/communities.html">Community</a>
             <a href="decidey/decidey-ngo.html">DECIDEY</a>
+            <div class="mobile-divider"></div>
+            <a href="community/communities.html">Community</a>
+            <a href="internal/man-portal.html" style="color: #94a3b8; font-size: 0.85rem;">📊 MAN Portal</a>
         </div>
     </nav>
-
-    <!-- Hero -->
+<!-- Hero -->
     <section class="hero">
         <div class="hero-container">
             <h1>The <span>SOLVY</span> Manifesto</h1>

@@ -1,0 +1,102 @@
+/**
+ * SOLVY First Circle Deposit - Stripe Checkout
+ * 
+ * Creates Checkout sessions for the $100 equity deposit
+ * that confirms First Circle membership.
+ */
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+const DEPOSIT_AMOUNT = 10000; // $100.00 in cents
+const PRODUCT_NAME = 'SOLVY First Circle Membership';
+
+/**
+ * POST /api/stripe/create-checkout-session
+ * Create a Stripe Checkout session for First Circle deposit
+ */
+async function createCheckoutSession(req, res) {
+  try {
+    const { email, name, memberId, successUrl, cancelUrl } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: PRODUCT_NAME,
+              description: '$100 equity deposit — member-owned cooperative'
+            },
+            unit_amount: DEPOSIT_AMOUNT
+          },
+          quantity: 1
+        }
+      ],
+      mode: 'payment',
+      customer_email: email,
+      metadata: {
+        memberId: memberId || 'unknown',
+        depositType: 'first_circle_equity',
+        source: 'solvy_onboarding'
+      },
+      success_url: successUrl || `${req.headers.origin || 'https://ebl.beauty'}/first-circle-deposit.html?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: cancelUrl || `${req.headers.origin || 'https://ebl.beauty'}/first-circle-deposit.html?canceled=true`
+    });
+
+    console.log('[Stripe] Checkout session created:', session.id, 'for', email);
+
+    res.json({
+      success: true,
+      sessionId: session.id,
+      url: session.url
+    });
+
+  } catch (error) {
+    console.error('[Stripe] Checkout error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+}
+
+/**
+ * GET /api/stripe/session-status
+ * Verify a checkout session status
+ */
+async function getSessionStatus(req, res) {
+  try {
+    const { sessionId } = req.query;
+
+    if (!sessionId) {
+      return res.status(400).json({ error: 'sessionId is required' });
+    }
+
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    res.json({
+      success: true,
+      status: session.payment_status,
+      customerEmail: session.customer_email,
+      amountTotal: session.amount_total,
+      metadata: session.metadata
+    });
+
+  } catch (error) {
+    console.error('[Stripe] Session status error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+}
+
+module.exports = {
+  createCheckoutSession,
+  getSessionStatus
+};

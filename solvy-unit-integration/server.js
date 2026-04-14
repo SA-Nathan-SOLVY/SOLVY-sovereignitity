@@ -13,6 +13,9 @@ const { createCustomer } = require('./api/unit/customer');
 const { createDepositAccount, getBalance } = require('./api/unit/account');
 const { createCard } = require('./api/unit/card');
 const { handleWebhook } = require('./api/webhooks/unit');
+const { getUnitToken } = require('./api/auth/unit-token');
+const { createCheckoutSession, getSessionStatus } = require('./api/stripe/checkout');
+const { handleStripeWebhook, listDeposits } = require('./api/stripe/webhook');
 
 // Middleware
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
@@ -91,6 +94,32 @@ app.post('/api/auth/unit-token', getUnitToken);
  */
 app.post('/webhooks/unit', handleWebhook);
 
+// ==================== STRIPE ROUTES ====================
+
+/**
+ * POST /api/stripe/create-checkout-session
+ * Create Stripe Checkout for First Circle deposit
+ */
+app.post('/api/stripe/create-checkout-session', createCheckoutSession);
+
+/**
+ * GET /api/stripe/session-status
+ * Check checkout session status
+ */
+app.get('/api/stripe/session-status', getSessionStatus);
+
+/**
+ * GET /api/stripe/deposits
+ * List recorded deposits (admin)
+ */
+app.get('/api/stripe/deposits', listDeposits);
+
+/**
+ * POST /webhooks/stripe
+ * Stripe webhook endpoint
+ */
+app.post('/webhooks/stripe', handleStripeWebhook);
+
 // ==================== SERVER START ====================
 
 const PORT = process.env.SOLVY_PORT || 3000;
@@ -103,10 +132,13 @@ app.listen(PORT, () => {
   console.log('=================================');
   console.log('');
   console.log('Endpoints:');
-  console.log('  GET  /health              - Health check');
-  console.log('  POST /api/members/onboard - Onboard new member');
-  console.log('  GET  /api/accounts/:id/balance - Get balance');
-  console.log('  POST /webhooks/unit       - Unit webhooks');
+  console.log('  GET  /health                    - Health check');
+  console.log('  POST /api/members/onboard       - Onboard new member');
+  console.log('  GET  /api/accounts/:id/balance  - Get balance');
+  console.log('  POST /api/auth/unit-token       - Unit JWT token');
+  console.log('  POST /webhooks/unit             - Unit webhooks');
+  console.log('  POST /api/stripe/create-checkout-session - Stripe checkout');
+  console.log('  POST /webhooks/stripe           - Stripe webhooks');
   console.log('');
 });
 

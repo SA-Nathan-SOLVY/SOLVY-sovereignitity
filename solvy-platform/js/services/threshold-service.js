@@ -337,8 +337,8 @@ const ThresholdService = {
     if (Notification.permission === 'granted') {
       new Notification('SOLVY Cooperative Milestone!', {
         body: notification.message,
-        icon: '/assets/solvy-crown-icon.png',
-        badge: '/assets/solvy-crown-icon.png',
+        icon: '/assets/SolvyLogo-1024.png',
+        badge: '/assets/SolvyLogo-1024.png',
         tag: notification.thresholdId,
         requireInteraction: notification.isNew
       });
