@@ -18,6 +18,7 @@
 | **Capital** | $225K committed seed capital |
 | **Tech Stack** | Unit.co (banking core), Stripe (deposits), Hetzner VPS, Replit |
 | **Live Assets** | Website ✅, MAN Portal ✅, Stripe Checkout ✅, Unit Sandbox ✅ |
+| **Pilot #1** | Evergreen Beauty Lounge (Texas) — Live merchant acceptance |
 
 ---
 
@@ -63,7 +64,9 @@ TECHNICAL READINESS
 • MAN Portal: LIVE at https://ebl.beauty/internal/man-portal.html
 
 First Circle members are independent beauty contractors in Texas — a $480M 
-underserved market. They are waiting. We are ready.
+underserved market. Evergreen Beauty Lounge, our Pilot #1 partner, is already 
+accepting SOLVY Card™ and serving as the live proof point for the entire 
+cooperative model. They are waiting. We are ready.
 
 REQUEST:
 1. Expedited underwriting review (this week if possible)
@@ -150,7 +153,34 @@ https://ebl.beauty
 
 ---
 
-## 3️⃣ ALCHEMY PAY — CRYPTO-FIAT ON-RAMP & GLOBAL PAYMENTS
+## 3️⃣ EVERGREEN BEAUTY LOUNGE — FOUNDING PILOT PARTNER #1
+
+### Status
+- **Location:** Texas
+- **Role:** First live business deploying SOLVY Card™ in production
+- **Significance:** Proof of concept for the entire cooperative model
+- **Website:** https://ebl.beauty (same domain, Evergreen is the operational proof point)
+
+### Why Evergreen Matters to Partners
+Evergreen Beauty Lounge is not a theoretical use case — it is the first real business accepting and deploying SOLVY Card™. Every partner conversation should lead with this:
+
+> *"Evergreen Beauty Lounge is already live with SOLVY. They are our Pilot #1. This is not a deck. This is a deployed card program serving real customers in Texas."*
+
+### Evergreen as Traction Proof
+- **Real merchant acceptance** via Stripe (operational)
+- **Real beauty contractors** as First Circle members
+- **Real deposit accounts** and card issuance via Unit.co sandbox
+- **Live website:** https://ebl.beauty
+- **Live deposit flow:** https://ebl.beauty/first-circle-deposit.html
+
+### How to Reference Evergreen in Outreach
+- **Unit.co:** *"Evergreen Beauty Lounge is live and processing. We need production keys to scale from 1 merchant to 100."*
+- **Baanx:** *"Evergreen Beauty Lounge proves our model works. We are exploring Baanx to expand internationally."*
+- **Alchemy Pay:** *"Evergreen Beauty Lounge is our US anchor. We need Alchemy Pay to connect their contractors to global remittance and crypto rails."*
+
+---
+
+## 4️⃣ ALCHEMY PAY — CRYPTO-FIAT ON-RAMP & GLOBAL PAYMENTS
 
 ### Why Alchemy Pay
 - **On-Ramp / Off-Ramp:** Members can fund SOLVY accounts with crypto and convert to fiat
