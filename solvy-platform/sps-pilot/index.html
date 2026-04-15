@@ -3,156 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPS Replenishment Feed | SOLVY Pilot MVP</title>
+    <title>SPS Joint Venture | SOLVY Card Pilot Partner #2</title>
+    <meta name="description" content="SPS Joint Venture - SOLVY Card Pilot Partner #2. Reverse inventory tracking, expense reporting, and SOLVY Card integration.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             color: #fff;
             background: #0f172a;
         }
-        .nav-logo span {
-            font-size: 1.3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #a78bfa, #ec4899);
+
+        /* Navbar */
+        
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+            border-top: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f472b6 0%, #a78bfa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .hero {
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            text-align: center;
-        }
-        .badge {
-            display: inline-block;
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
-            border: 1px solid rgba(147, 51, 234, 0.4);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            color: #a78bfa;
-            margin-bottom: 1rem;
-        }
-        .badge.mvp {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
-            border-color: rgba(34, 197, 94, 0.4);
-            color: #22c55e;
-            margin-left: 0.5rem;
-        }
-        h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .subtitle {
-            color: #94a3b8;
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-        .tagline {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-        .goal-section {
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.1) 100%);
-            border-top: 1px solid rgba(34, 197, 94, 0.2);
-            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
-            text-align: center;
-        }
-        .goal-section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #22c55e;
-        }
-        .goal-section > p {
+        .cta-section > p {
             color: #94a3b8;
             font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .goal-metric {
-            display: inline-block;
-            background: rgba(34, 197, 94, 0.2);
-            border: 2px solid #22c55e;
-            padding: 1.5rem 2.5rem;
-            border-radius: 16px;
-            margin: 1rem;
-        }
-        .goal-metric h3 {
-            font-size: 3rem;
-            color: #22c55e;
-            font-weight: 800;
-        }
-        .goal-metric p {
-            color: #cbd5e1;
-        }
-        .feed-section {
-            padding: 4rem 2rem;
-            background: #0f172a;
-        }
-        .feed-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .feed-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .feed-header h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        .feed-header p {
-            color: #94a3b8;
-        }
-        .feed-table {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        .feed-table-header {
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%);
-            padding: 1rem 1.5rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-            gap: 1rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .feed-row {
-            padding: 1rem 1.5rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-            gap: 1rem;
-            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
-            font-size: 0.9rem;
-        }
-        .feed-row:last-child {
-            border-bottom: none;
-        }
-        .sku-name { color: #fff; font-weight: 500; }
-        .qty-sold { color: #a78bfa; font-weight: 600; }
-        .alert { color: #fbbf24; font-weight: 600; }
-        .alert.critical { color: #ef4444; }
-        .status-ok { color: #22c55e; }
+
+        /* Footer */
         footer {
             background: #0f172a;
-            border-top: 1px solid rgba(147, 51, 234, 0.2);
+            border-top: 1px solid rgba(236, 72, 153, 0.2);
             padding: 3rem 2rem;
             text-align: center;
         }
-        footer a { color: #a78bfa; text-decoration: none; }
-    
-        /* Professional Navbar */
-            .mobile-menu.active { display: flex; }
+        footer p {
+            color: #64748b;
+            margin-bottom: 0.5rem;
         }
-
+        footer .pilot-tag {
+            color: #ec4899;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+            .tagline { font-size: 1.1rem; }
+        }
+        @media (max-width: 768px) {
+            .hero { padding: 3rem 1rem; }
+            h1 { font-size: 2rem; }
+            .presentation-slide { padding: 2rem 1.5rem; }
+            .presentation-slide h2 { font-size: 1.75rem; }
+        }
+            .slideshow-wrapper {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        .slideshow-slide img {
+            max-height: 400px;
+            object-fit: contain;
+            background: rgba(15, 23, 42, 0.5);
+        }
+        .slideshow-slide h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        .slideshow-slide p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
     
         /* Professional Navbar */
         .navbar {
@@ -317,6 +251,7 @@
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="../index.html" class="nav-logo">
@@ -368,111 +303,165 @@
             <a href="../internal/man-portal.html" style="color: #94a3b8; font-size: 0.85rem;">📊 MAN Portal</a>
         </div>
     </nav>
-<section class="hero">
-        <div>
-            <span class="badge">🤝 Pilot Partner #2</span>
-            <span class="badge mvp">MVP</span>
-        </div>
-        <h1>SPS Replenishment Feed</h1>
-        <p class="subtitle">Reverse Inventory Tracking • Expense Reporting • SOLVY Card Integration</p>
-        <p class="tagline">The Opportunity: Turning Data into Revenue</p>
-    </section>
-
-    <section class="goal-section">
-        <h2>🎯 MVP Success Metric</h2>
-        <p>Prove that SOLVY's data feed saves SPS time and prevents stock-outs</p>
-        <div style="margin-top: 2rem;">
-            <div class="goal-metric">
-                <h3>5+</h3>
-                <p>Hours Saved Weekly</p>
-            </div>
-            <div class="goal-metric">
-                <h3>0</h3>
-                <p>Stock-Outs Prevented</p>
-            </div>
+<!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">SPS Joint Venture</div>
+            <h1>SOLVY Card Pilot Partner #2</h1>
+            <p class="pilot-badge">Evergreen Beauty Lounge Main Nail Supplier</p>
+            <p class="tagline">Reverse Inventory Tracking • Expense Reporting • SOLVY Card Integration</p>
         </div>
     </section>
 
-    <section class="feed-section">
-        <div class="feed-container">
-            <div class="feed-header">
-                <h2>📊 Weekly Replenishment Feed</h2>
-                <p>Aggregated from EBL SOLVY Card transactions • Last 7 Days</p>
-            </div>
-            <div class="feed-table">
-                <div class="feed-table-header">
-                    <span>SKU Name</span>
-                    <span>Qty Sold</span>
-                    <span>Current Stock</span>
-                    <span>Alert</span>
-                    <span>Action</span>
+    <!-- Presentation Section -->
+    <section class="presentation-section">
+        <div class="presentation-container">
+            <p class="presentation-label">Data Flywheel Presentation</p>
+            <div class="slideshow-wrapper" style="position: relative; max-width: 900px; margin: 0 auto;">
+                <div class="slideshow-slide active" style="display: block;">
+                    <img src="../sps-presentation/pilot_partnership_generated.webp" alt="Pilot Partnership" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>Pilot Partnership</h2>
+                    <p>Strategic alliance between SOLVY and SPS Joint Venture.</p>
                 </div>
-                <div class="feed-row">
-                    <span class="sku-name">Premium Gel Polish - Ruby Red</span>
-                    <span class="qty-sold">47</span>
-                    <span>12</span>
-                    <span class="alert critical">⚠️ ORDER NOW</span>
-                    <span class="alert critical">80% sold</span>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_1_opportunity_generated.webp" alt="Opportunity" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>The Opportunity</h2>
+                    <p>Turning data into revenue through cooperative economics.</p>
                 </div>
-                <div class="feed-row">
-                    <span class="sku-name">Nail Strengthener Base Coat</span>
-                    <span class="qty-sold">38</span>
-                    <span>25</span>
-                    <span class="alert">⚡ Order Soon</span>
-                    <span class="alert">60% sold</span>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_2_engine_generated.webp" alt="Engine" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>The Engine</h2>
+                    <p>How the SOLVY data flywheel powers member value.</p>
                 </div>
-                <div class="feed-row">
-                    <span class="sku-name">UV Top Coat Gloss</span>
-                    <span class="qty-sold">52</span>
-                    <span>8</span>
-                    <span class="alert critical">⚠️ ORDER NOW</span>
-                    <span class="alert critical">87% sold</span>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_3_member_value_generated.webp" alt="Member Value" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>Member Value</h2>
+                    <p>Every transaction builds ownership and dividends.</p>
                 </div>
-                <div class="feed-row">
-                    <span class="sku-name">Cuticle Oil - Lavender</span>
-                    <span class="qty-sold">23</span>
-                    <span>45</span>
-                    <span class="status-ok">✓ Stock OK</span>
-                    <span class="status-ok">33% sold</span>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_4_sps_value_generated.webp" alt="SPS Value" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>SPS Value</h2>
+                    <p>Reverse inventory tracking and automated replenishment.</p>
+                </div>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_5_roadmap_generated.webp" alt="Roadmap" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>The Roadmap</h2>
+                    <p>Scaling from Pilot #2 to cooperative supply chains.</p>
+                </div>
+                <p class="slide-counter" id="slideCounter">1 / 6</p>
+                <div class="slide-nav">
+                    <button onclick="changeSlide(-1)">‹</button>
+                    <button onclick="changeSlide(1)">›</button>
                 </div>
             </div>
         </div>
     </section>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slideshow-slide');
+        const totalSlides = slides.length;
+        
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.display = i === index ? 'block' : 'none';
+            });
+            document.getElementById('slideCounter').textContent = (index + 1) + ' / ' + totalSlides;
+        }
+        
+        function changeSlide(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+        
+        showSlide(currentSlide);
+    </script>
+
+    <!-- Scaling Section -->
+    <section class="scaling-section">
+        <div class="section-header">
+            <h2>Scaling SOLVY Through Strategic Partnership</h2>
+            <p>SPS Joint Venture is our second pilot partner, demonstrating how SOLVY Card can scale across multiple businesses. By providing SPS customers with SOLVY Cards, we're creating a seamless ecosystem for purchase tracking and expense reporting.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3>SOLVY Cards for Customers</h3>
+                <p>Duplicate and scale SPS ability to track purchases with cooperative ownership benefits</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Purchase History Reports</h3>
+                <p>Automatic expense reporting from SOLVY Card transactions</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Reverse Inventory</h3>
+                <p>Track what customers buy to anticipate supplier replenishment needs</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section class="upload-section">
+        <div class="upload-container">
+            <h2>Reverse Inventory Tracking</h2>
+            <p>Upload your purchase history or inventory file (.csv, .xls) to build a reverse inventory tracking system. This helps anticipate when to replenish stock from your suppliers.</p>
+            <div class="upload-box">
+                <div class="upload-icon">📁</div>
+                <h3>Click to upload .csv or .xls file</h3>
+                <p>Drag and drop or click to browse</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration Section -->
+    <section class="integration-section">
+        <div class="steps-container">
+            <h2>SOLVY Card Integration</h2>
+            <p style="text-align: center; color: #94a3b8; margin-bottom: 3rem;">Every SPS customer receives a SOLVY Card, enabling automatic purchase tracking and expense reporting. As cooperative owners, their transactions build both their purchase history and their ownership stake.</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Customer Gets SOLVY Card</h3>
+                    <p>SPS customers become SOLVY cooperative owners</p>
+                    <div class="step-arrow">→</div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Purchase with Card</h3>
+                    <p>Transactions automatically tracked</p>
+                    <div class="step-arrow">→</div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Expense Reports</h3>
+                    <p>Instant purchase history reports</p>
+                    <div class="step-arrow">→</div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Inventory Insights</h3>
+                    <p>Reverse inventory for replenishment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="apply">
+        <h2>Partner with SPS Joint Venture</h2>
+        <p>Join our cooperative ecosystem and scale your business with SOLVY Card integration</p>
+        <a href="mailto:team@ebl.beauty?subject=SPS%20Joint%20Venture%20Partnership" class="btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">Apply for SOLVY Card</a>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>SOLVY Card™</h4>
-                <a href="../card/solvy-card.html">Get Started</a>
-                <a href="../card/card-customizer.html">Customize</a>
-            </div>
-            <div class="footer-col">
-                <h4>Pilot Partners</h4>
-                <a href="../index.html">🌟 Evergreen Beauty Lounge</a>
-                <a href="../sps-pilot/index.html">SPS Pilot</a>
-                <a href="../decidey/decidey-ngo.html">DECIDEY</a>
-            </div>
-            <div class="footer-col">
-                <h4>Community</h4>
-                <a href="../community/communities.html">Cooperative</a>
-                <a href="../operations/operations-dashboard.html">Operations</a>
-            </div>
-            <div class="footer-col">
-                <h4 style="color: #ffb347;">Internal</h4>
-                <a href="../internal/man-portal.html" style="color: #ffb347;">📊 MAN Portal</a>
-                <span style="color: #64748b; font-size: 0.75rem; display: block; margin-top: 0.5rem;">Member-only transparency</span>
-            </div>
-        </div>
-        <div class="footer-bottom" style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
-            <div style="margin-bottom: 1rem;">
-                <img src="../assets/solvy-full-logo.png" alt="SOLVY" style="height: 60px; width: auto;">
-            </div>
-            <p>© 2026 SOLVY Ecosystem™ — A cooperative financial platform</p>
-            <p style="margin-top: 0.5rem; color: #94a3b8;">SOLVY Card™ is a product of SA Nathan LLC</p>
-            <p style="margin-top: 0.5rem; color: #9333ea;">SOLVY (Solutions Valued You)</p>
-            <p style="margin-top: 1rem; font-size: 0.8rem; color: #64748b;">Made with 🤖 Kimi Code</p>
-        </div>
+        <p><strong>SPS Joint Venture</strong></p>
+        <p>SOLVY Card Pilot Partner #2</p>
+        <p class="pilot-tag">© 2025 SOLVY Platform. All rights reserved.</p>
     </footer>
-<script>
+
+    <script>
         function toggleMenu() {
             document.querySelector('.hamburger').classList.toggle('active');
             document.getElementById('mobileMenu').classList.toggle('active');

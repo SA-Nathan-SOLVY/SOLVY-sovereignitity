@@ -28,6 +28,11 @@
 
     
         /* Professional Navbar */
+            .mobile-menu.active { display: flex; }
+        }
+
+    
+        /* Professional Navbar */
         .navbar {
             background: rgba(15, 23, 42, 0.98);
             backdrop-filter: blur(10px);
@@ -187,6 +192,54 @@
             .mobile-menu.active { display: flex; }
         }
 
+    
+        /* Card Carousel */
+        .card-carousel {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 2rem 0;
+            scroll-snap-type: x mandatory;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .card-item {
+            flex: 0 0 320px;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            scroll-snap-align: start;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .card-item:hover {
+            transform: translateY(-5px);
+        }
+        .card-item img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .card-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        .card-item p {
+            color: #94a3b8;
+        }
+        @media (max-width: 768px) {
+            .card-carousel {
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+                gap: 1rem;
+            }
+            .card-item {
+                flex: 0 0 280px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -275,6 +328,33 @@
                     <p style="color: #94a3b8;">Payment at POS Terminal</p>
                 </div>
                 <div class="live-badge">● LIVE</div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Card Carousel -->
+    <section style="padding: 4rem 2rem; background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">The SOLVY Card™</h2>
+                <p style="color: #94a3b8;">Cooperative Ownership • Data Sovereignty • Member-First</p>
+            </div>
+            <div class="card-carousel">
+                <div class="card-item">
+                    <img src="./assets/SOV-personal-mc.png" alt="SOLVY Personal Card" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;">
+                    <h3>SOLVY Personal Card</h3>
+                    <p>Mastercard</p>
+                </div>
+                <div class="card-item">
+                    <img src="./assets/SOV.png" alt="SOLVY Card" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;">
+                    <h3>Demo NFC Tap-to-Pay</h3>
+                    <p>Contactless Payments</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="color: #94a3b8; margin-bottom: 1rem;">Ready to join the cooperative?</p>
+                <a href="./onboarding.html" class="btn-primary">Get Your SOLVY Card™ →</a>
             </div>
         </div>
     </section>

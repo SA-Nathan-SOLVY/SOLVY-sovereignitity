@@ -466,6 +466,26 @@
             .presentation-slide { padding: 2rem 1.5rem; }
             .presentation-slide h2 { font-size: 1.75rem; }
         }
+            .slideshow-wrapper {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        .slideshow-slide img {
+            max-height: 400px;
+            object-fit: contain;
+            background: rgba(15, 23, 42, 0.5);
+        }
+        .slideshow-slide h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        .slideshow-slide p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -520,17 +540,64 @@
     <section class="presentation-section">
         <div class="presentation-container">
             <p class="presentation-label">Data Flywheel Presentation</p>
-            <div class="presentation-slide">
-                <h2>The Opportunity: Turning Data into Revenue</h2>
-                <p>Discover how SPS Joint Venture creates value through strategic data partnerships and cooperative economics.</p>
-                <p class="slide-counter">1 / 6</p>
-            </div>
-            <div class="slide-nav">
-                <button>‹</button>
-                <button>›</button>
+            <div class="slideshow-wrapper" style="position: relative; max-width: 900px; margin: 0 auto;">
+                <div class="slideshow-slide active" style="display: block;">
+                    <img src="../sps-presentation/pilot_partnership_generated.webp" alt="Pilot Partnership" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>Pilot Partnership</h2>
+                    <p>Strategic alliance between SOLVY and SPS Joint Venture.</p>
+                </div>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_1_opportunity_generated.webp" alt="Opportunity" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>The Opportunity</h2>
+                    <p>Turning data into revenue through cooperative economics.</p>
+                </div>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_2_engine_generated.webp" alt="Engine" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>The Engine</h2>
+                    <p>How the SOLVY data flywheel powers member value.</p>
+                </div>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_3_member_value_generated.webp" alt="Member Value" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>Member Value</h2>
+                    <p>Every transaction builds ownership and dividends.</p>
+                </div>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_4_sps_value_generated.webp" alt="SPS Value" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>SPS Value</h2>
+                    <p>Reverse inventory tracking and automated replenishment.</p>
+                </div>
+                <div class="slideshow-slide" style="display: none;">
+                    <img src="../sps-presentation/slide_5_roadmap_generated.webp" alt="Roadmap" style="width: 100%; border-radius: 16px; margin-bottom: 1rem;">
+                    <h2>The Roadmap</h2>
+                    <p>Scaling from Pilot #2 to cooperative supply chains.</p>
+                </div>
+                <p class="slide-counter" id="slideCounter">1 / 6</p>
+                <div class="slide-nav">
+                    <button onclick="changeSlide(-1)">‹</button>
+                    <button onclick="changeSlide(1)">›</button>
+                </div>
             </div>
         </div>
     </section>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slideshow-slide');
+        const totalSlides = slides.length;
+        
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.display = i === index ? 'block' : 'none';
+            });
+            document.getElementById('slideCounter').textContent = (index + 1) + ' / ' + totalSlides;
+        }
+        
+        function changeSlide(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+        
+        showSlide(currentSlide);
+    </script>
 
     <!-- Scaling Section -->
     <section class="scaling-section">
