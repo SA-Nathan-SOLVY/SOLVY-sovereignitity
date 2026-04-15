@@ -9,7 +9,7 @@
  * - POST /api/moli/loan-request - Submit new loan request
  * - GET /api/moli/loans/:memberId - Get loan history
  * 
- * Sheila Mandate Compliance:
+ * SOLVY Manifesto Compliance:
  * - All loans are tax-free (policy loans against CV)
  * - 0.5% processing fee funds operations (the 10% fist)
  * - Instant deposit to SOLVY Card (member liquidity)
@@ -69,8 +69,8 @@ const policyDatabase = new Map([
         puaRider: true,
         issueDate: '2021-03-15',
         owner: 'SA Nathan LLC (Cooperative)',
-        insured: 'Sheila McDaniel',
-        beneficiary: 'SNT for Sheila McDaniel'
+        insured: 'Founding Member',
+        beneficiary: 'SNT for Founding Member'
     }]
 ]);
 
@@ -116,7 +116,7 @@ router.get('/policy/:memberId', async (req, res) => {
                     ownership: policy.owner
                 },
                 mandate: {
-                    type: 'Sheila Mandate - 70/20/10',
+                    type: 'SOLVY Manifesto - 70/20/10',
                     note: 'Policy loans are tax-free distributions against cash value'
                 }
             }
@@ -293,7 +293,7 @@ router.post('/loan-request', async (req, res) => {
                 compliance: {
                     taxStatus: 'Tax-free distribution (policy loan against CV)',
                     regulation: 'IRC Section 7702 compliant',
-                    sheilaMandate: 'Iron fist protection - no equity dilution'
+                    manifesto: 'Iron fist protection - no equity dilution'
                 }
             }
         });
@@ -369,7 +369,7 @@ const memberAccountMapping = new Map([
     ['member_001', {
         accountId: 'acct_1234567890',
         defaultCardId: 'card_4242424242',
-        unitCustomerId: 'customer_sheila_mcdaniel'
+        unitCustomerId: 'customer_founding_member'
     }]
 ]);
 
