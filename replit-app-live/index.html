@@ -302,6 +302,88 @@
                 font-size: 2rem;
             }
         }
+        /* SOLVY Partnership Section */
+        .solvy-partner-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .solvy-partner-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #22c55e;
+        }
+
+        .solvy-partner-section .partner-badge {
+            display: inline-block;
+            background: #22c55e;
+            color: #0f172a;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .solvy-partner-section p {
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            font-size: 1.1rem;
+            color: #cbd5e1;
+        }
+
+        .solvy-partner-section .solvy-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .solvy-partner-section .solvy-feature {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            min-width: 150px;
+        }
+
+        .solvy-partner-section .solvy-feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .solvy-partner-section .solvy-feature-label {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .btn-solvy {
+            display: inline-block;
+            background: #22c55e;
+            color: #0f172a;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-solvy:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .solvy-partner-section h2 {
+                font-size: 1.5rem;
+            }
+            .solvy-partner-section .solvy-features {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -344,6 +426,33 @@
         <h2>👑 Pay with SOLVY Card</h2>
         <p>Privacy-first contactless payments • NFC enabled</p>
         <a href="payment.html" class="btn-payment">Make a Payment →</a>
+    </section>
+
+    <!-- SOLVY Partnership -->
+    <section class="solvy-partner-section">
+        <div class="partner-badge">🏆 #1 Pilot Partner</div>
+        <h2>Powered by SOLVY Ecosystem™</h2>
+        <p>Evergreen Beauty Lounge is proud to be the <strong>first pilot partner</strong> of the SOLVY Ecosystem™ — a cooperative financial platform building generational wealth through sovereign banking and data ownership.</p>
+        <p>Every SOLVY Card™ payment at EBL supports our shared mission: <em>"Leave them better than I received."</em></p>
+        <div class="solvy-features">
+            <div class="solvy-feature">
+                <div class="solvy-feature-icon">💳</div>
+                <div class="solvy-feature-label">SOLVY Card™ Payments</div>
+            </div>
+            <div class="solvy-feature">
+                <div class="solvy-feature-icon">📡</div>
+                <div class="solvy-feature-label">NFC Contactless</div>
+            </div>
+            <div class="solvy-feature">
+                <div class="solvy-feature-icon">🛡️</div>
+                <div class="solvy-feature-label">Privacy-First</div>
+            </div>
+            <div class="solvy-feature">
+                <div class="solvy-feature-icon">🤝</div>
+                <div class="solvy-feature-label">Cooperative Ownership</div>
+            </div>
+        </div>
+        <a href="https://solvy.cards" class="btn-solvy" target="_blank">Get Your SOLVY Card →</a>
     </section>
 
     <!-- Reign Products Section -->
