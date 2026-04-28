@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SOVEREIGNITITY™ LIFE PROGRAM – Membership Owned Life Insurance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: #f4f6fa;
+            color: #1a2a3a;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header / Navigation */
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eef2f6;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f1e2c 0%, #2c4c6e 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline-nav {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #1a2a3a;
+            font-weight: 500;
+        }
+
+        .btn-primary-nav {
+            background: #0f1e2c;
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-highlight {
+            color: #ffb347;
+        }
+
+        .hero-sub {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            text-align: center;
+        }
+
+        .section-sub {
+            text-align: center;
+            color: #5a6e7c;
+            margin-bottom: 2rem;
+        }
+
+        /* Real‑world results cards */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f6;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0f1e2c;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-label {
+            font-size: 0.8rem;
+            color: #5a6e7c;
+            letter-spacing: 0.3px;
+        }
+
+        .trend-up {
+            color: #2c7a4d;
+            font-weight: 500;
+        }
+
+        /* PUA feature grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            border-left: 4px solid #ffb347;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .feature-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Comparison table */
+        .comparison {
+            background: white;
+            border-radius: 1.5rem;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid #eef2f6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        th {
+            background: #fafcff;
+            font-weight: 600;
+        }
+
+        .check {
+            color: #2c7a4d;
+            font-weight: bold;
+        }
+
+        /* Benefits grid (three columns) */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .benefit-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            border: 1px solid #eef2f6;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* CTA */
+        .cta {
+            background: #0f1e2c;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 2rem;
+            margin: 2rem 0;
+        }
+
+        .cta h2 {
+            margin-bottom: 0.75rem;
+        }
+
+        .btn-light {
+            background: #ffb347;
+            color: #0f1e2c;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin: 1rem 0.5rem;
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            border: 1px solid #ffb347;
+            color: #ffb347;
+            padding: 0.75rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.7rem;
+            color: #8a9aa8;
+            border-top: 1px solid #eef2f6;
+            padding-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Simplified navigation (consistent with your screenshots) -->
+    <div class="navbar">
+        <div class="logo">SOVEREIGNITITY™</div>
+        <div class="nav-links">
+            <a href="#">CARD</a>
+            <a href="#">EBL</a>
+            <a href="#">SERVICES</a>
+            <a href="#">GLOBAL REMITTANCE</a>
+            <a href="#">DECIDEY NGO</a>
+            <a href="#">FINANCIAL PRODUCTS</a>
+            <a href="#">PLATFORM</a>
+            <a href="#" class="btn-outline-nav">Sign In</a>
+            <a href="#" class="btn-primary-nav">Get Started</a>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>SOVEREIGNITITY™ <span class="hero-highlight">LIFE PROGRAM</span></h1>
+        <p class="hero-sub">Membership Owned Life Insurance — democratizing the wealth‑building strategies that banks and corporations have used for decades. Now available to SOLVY members through cooperative ownership and shared benefits.</p>
+    </div>
+
+    <!-- Real‑world IBC/BYOB success -->
+    <h2 class="section-title">Real‑World IBC/BYOB Success</h2>
+    <p class="section-sub">Actual results from our One America policy — real numbers, real proof.</p>
+
+    <div class="results-grid">
+        <div class="result-card"><div class="result-value">$8,000</div><div class="result-label">Initial Investment</div></div>
+        <div class="result-card"><div class="result-value">$7,700</div><div class="result-label">Immediate Loan Value</div><div class="result-label" style="font-size:0.7rem;">96.25% of investment</div></div>
+        <div class="result-card"><div class="result-value">$8,400</div><div class="result-label">After One Payment</div></div>
+        <div class="result-card"><div class="result-value trend-up">+$700</div><div class="result-label trend-up">Growth in one month (+9.1%)</div></div>
+    </div>
+
+    <!-- The Power of PUA (features) -->
+    <div class="features-grid">
+        <div class="feature-card"><h3>⚡ Immediate Access</h3><p>96.25% of your investment available as a policy loan — no bank approval, no credit check.</p></div>
+        <div class="feature-card"><h3>📈 Compound Growth</h3><p>Cash value increases with every premium, and unpaid loan interest capitalizes without forcing a sale.</p></div>
+        <div class="feature-card"><h3>🔄 Premium Recycling</h3><p>Borrow against your own cash value to pay future premiums — the exact IBC/BYOB cycle.</p></div>
+        <div class="feature-card"><h3>💰 Tax Advantages</h3><p>Tax‑free loans, tax‑deferred cash value growth, and tax‑free death benefits.</p></div>
+    </div>
+
+    <!-- Policy details callout (exactly from your notes) -->
+    <div style="background: #fef9ef; border-radius: 1rem; padding: 1rem; margin: 1rem 0; text-align: center; font-size: 0.85rem;">
+        📄 <strong>Policy Details:</strong> One America with Jason Sipple (Chris Naugle's group). Monthly premium: $315 base + $685 PUA rider = $1,000 total premium.
+    </div>
+
+    <!-- BOLI vs SOVEREIGNITITY LIFE PROGRAM comparison -->
+    <h2 class="section-title">BOLI vs. SOVEREIGNITITY™ LIFE PROGRAM</h2>
+    <div class="comparison">
+        <table>
+            <thead><tr><th>Feature</th><th>BOLI (Bank Owned Life Insurance)</th><th>SOVEREIGNITITY™ LIFE PROGRAM (Membership Owned)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Ownership</td><td>Banks own policies on employees</td><td class="check">✅ Members collectively own policies</td></tr>
+                <tr><td>Cash value benefit</td><td>Employees get no benefit</td><td class="check">✅ Shared profits from cash value growth</td></tr>
+                <tr><td>Premium recycling</td><td>Banks keep the spread</td><td class="check">✅ Cooperative recycling benefits members</td></tr>
+                <tr><td>Tax advantages</td><td>Tax benefits go to the bank</td><td class="check">✅ Tax advantages shared among members</td></tr>
+                <tr><td>Control & transparency</td><td>No employee control</td><td class="check">✅ Democratic control + MAN portal transparency</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Benefits grid (Financial, Liquidity, Cooperative) -->
+    <h2 class="section-title">Benefits for SOLVY Members</h2>
+    <div class="benefits-grid">
+        <div class="benefit-card"><h3>📊 Financial Benefits</h3><ul style="margin-left: 1rem;"><li>Tax‑free cash value growth</li><li>Tax‑free policy loans</li><li>Guaranteed minimum returns</li><li>No market risk</li></ul></div>
+        <div class="benefit-card"><h3>💧 Liquidity Benefits</h3><ul style="margin-left: 1rem;"><li>Immediate access to cash value</li><li>No credit checks for loans</li><li>Flexible repayment terms</li><li>Emergency fund alternative</li></ul></div>
+        <div class="benefit-card"><h3>🤝 Cooperative Benefits</h3><ul style="margin-left: 1rem;"><li>Shared ownership & control</li><li>Collective bargaining power</li><li>Transparent operations (MAN)</li><li>Democratic decision‑making</li></ul></div>
+    </div>
+
+    <!-- Simple "How It Works" (Premium Recycling) -->
+    <h2 class="section-title">How It Works — Premium Recycling Simplified</h2>
+    <div class="benefits-grid" style="margin-top: 0;">
+        <div class="benefit-card"><h3>1️⃣ Premium Contributions</h3><p>Members contribute through SOLVY Card. $315 base + $685 PUA rider = $1,000/month.</p></div>
+        <div class="benefit-card"><h3>2️⃣ Cash Value Growth</h3><p>Premiums build cash value (tax‑free). After one payment, $8,000 grows to $8,400 available.</p></div>
+        <div class="benefit-card"><h3>3️⃣ Premium Recycling</h3><p>Borrow against cash value to pay future premiums. Loan rate 5.37% vs. cash value growth 6%+ → net positive return.</p></div>
+    </div>
+
+    <!-- Call to action -->
+    <div class="cta">
+        <h2>Ready to start building wealth with SOVEREIGNITITY™ LIFE PROGRAM?</h2>
+        <p>Join the SOLVY cooperative and start benefiting from the same wealth‑building strategies that banks and corporations have used for decades.</p>
+        <div>
+            <a href="#" class="btn-light">Learn More</a>
+            <a href="#" class="btn-outline-light">Contact Our Advisors</a>
+        </div>
+    </div>
+
+    <footer>
+        SOVEREIGNITITY™ LIFE PROGRAM integrates with the SOLVY ecosystem: automatic premium contributions, SOLVY Card rewards, and cooperative governance.<br>
+        Policy details: One America with Jason Sipple (Chris Naugle’s group). IBC/BYOB principles taught by Nelson Nash Institute.<br>
+        This is a real‑world proof of concept. Past results do not guarantee future performance, but the mechanism is repeatable and scalable for MOLI.
+    </footer>
+</div>
+</body>
+</html>

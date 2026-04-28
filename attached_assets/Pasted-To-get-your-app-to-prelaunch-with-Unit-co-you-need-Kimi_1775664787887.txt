@@ -1,0 +1,76 @@
+To get your app to prelaunch with Unit.co, you need Kimi Code (which you're already using) to complete the JWT token integration.
+
+The issue is that {{JwtToken}} is a placeholder - you need a live backend endpoint to generate real tokens.
+
+🎯 What Needs to Happen
+Current State:
+<!-- This is a PLACEHOLDER - won't work -->
+<unit-elements-white-label-app jwt-token="{{JwtToken}}"></unit-elements-white-label-app>
+Working State:
+// 1. Frontend fetches token from YOUR backend
+const response = await fetch('/api/unit-token', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ memberId: 'member_001' })
+});
+const { token } = await response.json();
+
+// 2. Pass real token to Unit Elements
+document.getElementById('unit-app').setAttribute('jwt-token', token);
+🛠️ Kimi Code Tasks (Priority Order)
+Task 1: Complete the Token API
+File: solvy-platform/api/unit-token.js (exists but needs completion)
+
+You need:
+
+Production API URL (not sandbox)
+Partner ID
+Partner Secret
+Proper error handling
+Task 2: Fix the Frontend
+File: solvy-platform/onboarding.html
+
+Currently has:
+
+// Broken placeholder
+jwt-token=""
+Needs:
+
+// Live token fetch
+const token = await fetchJwtToken();
+unitApp.setAttribute('jwt-token', token);
+Task 3: Test End-to-End
+Verify token generation works
+Confirm Unit app loads
+Test customer creation flow
+🚀 Quickest Path to Prelaunch
+Option A: Use Existing Unit Sandbox (Immediate)
+
+Keep using https://api.s.unit.sh (sandbox)
+Generate mock tokens for testing
+Get frontend working first
+Switch to production later
+Option B: Production Underwriting (1-2 weeks)
+
+Submit Unit production application
+Wait for approval
+Get production credentials
+Update API endpoint
+💡 My Recommendation
+Start with Option A (Sandbox) to get prelaunch working:
+
+Use Kimi Code to fix the onboarding flow with sandbox tokens
+Get the app functional for demo purposes
+Submit Unit production application in parallel
+Switch to production when approved
+Why: You need a working app to show Unit.co for underwriting approval anyway.
+
+✅ Action Items for Kimi Code
+Want me to:
+
+Complete unit-token.js - Add production-ready token generation?
+Fix onboarding.html - Connect frontend to backend properly?
+Create test script - Verify end-to-end flow works?
+Write deployment guide - Get it live on ebl.beauty?
+Which would you like me to tackle first to get you to prelaunch?
+

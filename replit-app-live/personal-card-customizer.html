@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Personal Card Customizer</title>
+    <meta name="description" content="Design your personalized SOLVY checking debit card with custom colors and layout">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-preview h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            perspective: 1000px;
+        }
+
+        .debit-card {
+            width: 420px;
+            height: 265px;
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .debit-card.vertical {
+            width: 265px;
+            height: 420px;
+        }
+
+        .debit-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .monogram {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nfc-icon {
+            font-size: 2rem;
+            opacity: 0.8;
+        }
+
+        .card-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .card-middle {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-type {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .card-tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .card-number-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-number {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .network-logo {
+            background: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .network-logo.mastercard {
+            color: #eb001b;
+        }
+
+        .network-logo.visa {
+            color: #1a1f71;
+        }
+
+        .customizer-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .customizer-panel h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .color-palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .color-option {
+            height: 60px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .color-option:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .color-option.active {
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .color-option::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0.7;
+        }
+
+        .layout-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .layout-option {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .layout-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .layout-option.active {
+            background: rgba(168, 85, 247, 0.3);
+            border-color: #a855f7;
+        }
+
+        .layout-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .network-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .network-option {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .network-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .network-option.active {
+            background: rgba(168, 85, 247, 0.3);
+            border-color: #a855f7;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .code-output {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .code-output.show {
+            display: block;
+        }
+
+        .code-output h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .code-output pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .code-output code {
+            color: #a855f7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👑 SOLVY Personal Card Customizer</h1>
+        <p class="subtitle">Design your personalized checking debit card • Choose colors, layout, and payment network</p>
+
+        <div class="main-grid">
+            <!-- Card Preview -->
+            <div class="card-preview">
+                <h2>Live Preview</h2>
+                <div class="card-container">
+                    <div class="debit-card" id="previewCard">
+                        <div class="card-watermark">👑</div>
+                        <div class="card-top">
+                            <div class="monogram" id="monogramPreview">EN</div>
+                            <div class="nfc-icon">📶</div>
+                        </div>
+                        <div class="card-middle">
+                            <div class="card-type">SOLVY Checking</div>
+                            <div class="card-name" id="namePreview">Evergreen Nathan</div>
+                        </div>
+                        <div class="card-bottom">
+                            <div class="card-tagline">Solutions Valued You</div>
+                            <div class="card-number-logo">
+                                <div class="card-number">•••• 0000</div>
+                                <div class="network-logo mastercard" id="networkPreview">MC</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customizer Panel -->
+            <div class="customizer-panel">
+                <h2>Customize Your Card</h2>
+
+                <div class="form-group">
+                    <label for="cardholderName">Cardholder Name</label>
+                    <input type="text" id="cardholderName" placeholder="Enter your full name" value="Evergreen Nathan">
+                </div>
+
+                <div class="form-group">
+                    <label for="monogramText">Personal Monogram (Initials)</label>
+                    <input type="text" id="monogramText" placeholder="e.g., EN" value="EN" maxlength="3">
+                </div>
+
+                <div class="form-group">
+                    <label>Background Color Palette</label>
+                    <div class="color-palette-grid">
+                        <div class="color-option active" data-color="purple" data-name="Purple" style="background: linear-gradient(135deg, #a855f7, #7c3aed, #6d28d9);"></div>
+                        <div class="color-option" data-color="blue" data-name="Blue" style="background: linear-gradient(135deg, #3b82f6, #2563eb, #1e40af);"></div>
+                        <div class="color-option" data-color="green" data-name="Green" style="background: linear-gradient(135deg, #10b981, #059669, #047857);"></div>
+                        <div class="color-option" data-color="orange" data-name="Orange" style="background: linear-gradient(135deg, #f97316, #ea580c, #c2410c);"></div>
+                        <div class="color-option" data-color="pink" data-name="Pink" style="background: linear-gradient(135deg, #ec4899, #db2777, #be185d);"></div>
+                        <div class="color-option" data-color="black" data-name="Black" style="background: linear-gradient(135deg, #1f2937, #111827, #000000);"></div>
+                        <div class="color-option" data-color="teal" data-name="Teal" style="background: linear-gradient(135deg, #14b8a6, #0d9488, #0f766e);"></div>
+                        <div class="color-option" data-color="red" data-name="Red" style="background: linear-gradient(135deg, #ef4444, #dc2626, #b91c1c);"></div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 3rem;">
+                    <label>Card Layout</label>
+                    <div class="layout-options">
+                        <div class="layout-option active" data-layout="horizontal">
+                            <div class="layout-icon">▬</div>
+                            <div>Horizontal</div>
+                            <div style="font-size: 0.8rem; opacity: 0.7;">420×265px</div>
+                        </div>
+                        <div class="layout-option" data-layout="vertical">
+                            <div class="layout-icon">▮</div>
+                            <div>Vertical</div>
+                            <div style="font-size: 0.8rem; opacity: 0.7;">265×420px</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Network</label>
+                    <div class="network-options">
+                        <div class="network-option active" data-network="mastercard">
+                            <div>Mastercard</div>
+                        </div>
+                        <div class="network-option" data-network="visa">
+                            <div>Visa</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" onclick="generateCode()">Generate Code</button>
+                    <button class="btn-secondary" onclick="resetCard()">Reset</button>
+                </div>
+
+                <div class="code-output" id="codeOutput">
+                    <h3>CSS Code</h3>
+                    <pre><code id="generatedCode"></code></pre>
+                    <button class="btn-primary" style="width: 100%; margin-top: 1rem;" onclick="copyCode()">Copy Code</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Color palettes
+        const colorPalettes = {
+            purple: 'linear-gradient(135deg, #a855f7, #7c3aed, #6d28d9)',
+            blue: 'linear-gradient(135deg, #3b82f6, #2563eb, #1e40af)',
+            green: 'linear-gradient(135deg, #10b981, #059669, #047857)',
+            orange: 'linear-gradient(135deg, #f97316, #ea580c, #c2410c)',
+            pink: 'linear-gradient(135deg, #ec4899, #db2777, #be185d)',
+            black: 'linear-gradient(135deg, #1f2937, #111827, #000000)',
+            teal: 'linear-gradient(135deg, #14b8a6, #0d9488, #0f766e)',
+            red: 'linear-gradient(135deg, #ef4444, #dc2626, #b91c1c)'
+        };
+
+        let currentColor = 'purple';
+        let currentLayout = 'horizontal';
+        let currentNetwork = 'mastercard';
+
+        // Update preview
+        function updatePreview() {
+            const card = document.getElementById('previewCard');
+            const name = document.getElementById('cardholderName').value || 'Your Name';
+            const monogram = document.getElementById('monogramText').value || 'YN';
+
+            // Update card style
+            card.style.background = colorPalettes[currentColor];
+            
+            // Update layout
+            if (currentLayout === 'vertical') {
+                card.classList.add('vertical');
+            } else {
+                card.classList.remove('vertical');
+            }
+
+            // Update content
+            document.getElementById('namePreview').textContent = name;
+            document.getElementById('monogramPreview').textContent = monogram.toUpperCase();
+
+            // Update network logo
+            const networkLogo = document.getElementById('networkPreview');
+            if (currentNetwork === 'mastercard') {
+                networkLogo.textContent = 'MC';
+                networkLogo.className = 'network-logo mastercard';
+            } else {
+                networkLogo.textContent = 'VISA';
+                networkLogo.className = 'network-logo visa';
+            }
+        }
+
+        // Color selection
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                currentColor = this.dataset.color;
+                updatePreview();
+            });
+        });
+
+        // Layout selection
+        document.querySelectorAll('.layout-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.layout-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                currentLayout = this.dataset.layout;
+                updatePreview();
+            });
+        });
+
+        // Network selection
+        document.querySelectorAll('.network-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.network-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                currentNetwork = this.dataset.network;
+                updatePreview();
+            });
+        });
+
+        // Input listeners
+        document.getElementById('cardholderName').addEventListener('input', updatePreview);
+        document.getElementById('monogramText').addEventListener('input', updatePreview);
+
+        // Generate code
+        function generateCode() {
+            const name = document.getElementById('cardholderName').value || 'Your Name';
+            const monogram = document.getElementById('monogramText').value || 'YN';
+            const dimensions = currentLayout === 'horizontal' ? '420px × 265px' : '265px × 420px';
+            
+            const code = `.solvy-personal-card {
+    background: ${colorPalettes[currentColor]};
+    width: ${currentLayout === 'horizontal' ? '420px' : '265px'};
+    height: ${currentLayout === 'horizontal' ? '265px' : '420px'};
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+/* Cardholder: ${name} */
+/* Monogram: ${monogram.toUpperCase()} */
+/* Network: ${currentNetwork === 'mastercard' ? 'Mastercard' : 'Visa'} */
+/* Layout: ${currentLayout} (${dimensions}) */
+/* Color: ${currentColor} */`;
+
+            document.getElementById('generatedCode').textContent = code;
+            document.getElementById('codeOutput').classList.add('show');
+        }
+
+        // Copy code
+        function copyCode() {
+            const code = document.getElementById('generatedCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Code copied to clipboard!');
+            });
+        }
+
+        // Reset
+        function resetCard() {
+            document.getElementById('cardholderName').value = 'Evergreen Nathan';
+            document.getElementById('monogramText').value = 'EN';
+            
+            document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+            document.querySelector('[data-color="purple"]').classList.add('active');
+            currentColor = 'purple';
+            
+            document.querySelectorAll('.layout-option').forEach(o => o.classList.remove('active'));
+            document.querySelector('[data-layout="horizontal"]').classList.add('active');
+            currentLayout = 'horizontal';
+            
+            document.querySelectorAll('.network-option').forEach(o => o.classList.remove('active'));
+            document.querySelector('[data-network="mastercard"]').classList.add('active');
+            currentNetwork = 'mastercard';
+            
+            document.getElementById('codeOutput').classList.remove('show');
+            updatePreview();
+        }
+
+        // Initialize
+        updatePreview();
+    </script>
+</body>
+</html>

@@ -1,8 +1,8 @@
 # SOLVY Ecosystem™ — Partner Outreach Package
-**Prepared:** April 14, 2026  
-**Entity:** SA Nathan LLC (Wyoming Cooperative)  
-**Website:** https://ebl.beauty  
-**Primary App:** https://solvy-sovereignitity--smayone.replit.app  
+**Prepared:** April 14, 2026
+**Entity:** SA Nathan LLC (Wyoming Cooperative)
+**Website:** https://ebl.beauty
+**Primary App:** https://solvy-sovereignitity--smayone.replit.app
 **Status:** Active sandbox integration, First Circle deposits live, underwriting in progress
 
 ---
@@ -35,13 +35,13 @@ Expedite production API approval and establish a direct partnership manager rela
 
 ### Email
 
-**To:** partners@unit.co, support@unit.co  
+**To:** partners@unit.co, support@unit.co
 **Subject:** PRODUCTION ACCESS REQUEST — $225K Capital Committed | 45 Members Confirmed | Juneteenth Launch
 
 ```
 Dear Unit.co Partnership Team,
 
-I am writing to request expedited review for production API access for SA Nathan 
+I am writing to request expedited review for production API access for SA Nathan
 LLC (SOLVY Ecosystem™).
 
 CAPITAL COMMITMENT
@@ -49,7 +49,7 @@ CAPITAL COMMITMENT
 • $25,000 immediately available for operational reserves
 • Extended runway with full capital deployment
 
-MEMBER VALIDATION  
+MEMBER VALIDATION
 • 45 First Circle members confirmed
 • $100 equity deposit structure live via Stripe Checkout
 • Target: 100 founding members by June 19, 2026 (Juneteenth launch)
@@ -63,9 +63,9 @@ TECHNICAL READINESS
 • Deposit flow: LIVE at https://ebl.beauty/first-circle-deposit.html
 • MAN Portal: LIVE at https://ebl.beauty/internal/man-portal.html
 
-First Circle members are independent beauty contractors in Texas — a $480M 
-underserved market. Evergreen Beauty Lounge, our Pilot #1 partner, is already 
-accepting SOLVY Card™ and serving as the live proof point for the entire 
+First Circle members are independent beauty contractors in Texas — a $480M
+undeserved market. Evergreen Beauty Lounge, our Pilot #1 partner, is already
+accepting SOLVY Card™ and serving as the live proof point for the entire
 cooperative model. They are waiting. We are ready.
 
 REQUEST:
@@ -73,7 +73,7 @@ REQUEST:
 2. Production API keys for June 1 testing
 3. Direct contact for partnership manager
 
-We respectfully request a response within 48 hours with next steps or scheduling 
+We respectfully request a response within 48 hours with next steps or scheduling
 for an underwriting call.
 
 Documentation attached:
@@ -113,14 +113,14 @@ Establish exploratory partnership for a backup card issuance and BaaS provider.
 
 ### Email
 
-**To:** partnerships@baanx.com, hello@baanx.com  
+**To:** partnerships@baanx.com, hello@baanx.com
 **Subject:** Cooperative Banking Partnership — 100 Founding Members, $225K Capital, White-Label Card Program
 
 ```
 Dear Baanx Partnership Team,
 
-SA Nathan LLC is launching SOLVY Ecosystem™, a cooperative financial platform 
-for underserved communities. We are exploring card issuance and crypto-friendly 
+SA Nathan LLC is launching SOLVY Ecosystem™, a cooperative financial platform
+for underserved communities. We are exploring card issuance and crypto-friendly
 BaaS partners for our Q3 2026 roadmap.
 
 Highlights:
@@ -130,7 +130,7 @@ Highlights:
 • Website: https://ebl.beauty
 • Interest in future stablecoin, remittance, and crypto-fiat card integration
 
-We currently have a live Unit.co sandbox integration, but we are evaluating 
+We currently have a live Unit.co sandbox integration, but we are evaluating
 Baanx as a primary or supplementary partner for:
 - White-label debit card issuance (physical + virtual)
 - Crypto-to-fiat on/off ramp for member deposits
@@ -194,17 +194,17 @@ Explore Alchemy Pay as the crypto-fiat infrastructure layer for SOLVY's Phase 2 
 
 ### Email
 
-**To:** business@alchemypay.org, partnership@alchemypay.org  
+**To:** business@alchemypay.org, partnership@alchemypay.org
 **Subject:** Partnership Inquiry — Cooperative Fintech Seeking Crypto-Fiat On-Ramp & Remittance Rails
 
 ```
 Dear Alchemy Pay Business Development Team,
 
-SA Nathan LLC operates SOLVY Ecosystem™, a member-owned cooperative financial 
+SA Nathan LLC operates SOLVY Ecosystem™, a member-owned cooperative financial
 platform launching in the United States on June 19, 2026.
 
-Our mission is to return 70% of all revenue directly to our members — primarily 
-Independent Beauty Contractors (IBCs) and underserved communities in Texas and 
+Our mission is to return 70% of all revenue directly to our members — primarily
+Independent Beauty Contractors (IBCs) and underserved communities in Texas and
 the Global South.
 
 We are evaluating partners for Phase 2 (Q3 2026) to enable:
@@ -220,7 +220,7 @@ Current traction:
 • Live deposit flow: https://ebl.beauty/first-circle-deposit.html
 • Unit.co banking integration in sandbox
 
-We believe Alchemy Pay's global payment rails and regulatory coverage align 
+We believe Alchemy Pay's global payment rails and regulatory coverage align
 perfectly with our cooperative's expansion plan.
 
 Would you be available for a 20-minute introductory call this week or next?
@@ -282,5 +282,5 @@ git push gitea-hetzner main
 
 ---
 
-*Prepared by Kimi Code for SA Nathan LLC*  
+*Prepared by Kimi Code for SA Nathan LLC*
 *All trademarks: SOLVY Ecosystem™, SOLVY Card™ — Products of SA Nathan LLC*

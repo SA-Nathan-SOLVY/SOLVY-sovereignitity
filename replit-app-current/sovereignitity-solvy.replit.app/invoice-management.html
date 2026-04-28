@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Management | SOLVY Platform</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .dashboard-header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #EC4899;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #DB2777;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dashboard-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #EC4899;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .invoice-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .invoice-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #EC4899;
+        }
+
+        .invoice-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #EC4899;
+            border-color: #EC4899;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .invoice-table th {
+            text-align: left;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+        }
+
+        .invoice-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .invoice-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .status-badge {
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-paid {
+            background: rgba(16, 185, 129, 0.3);
+            color: #10B981;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.3);
+            color: #F59E0B;
+        }
+
+        .status-overdue {
+            background: rgba(239, 68, 68, 0.3);
+            color: #EF4444;
+        }
+
+        .status-draft {
+            background: rgba(107, 114, 128, 0.3);
+            color: #9CA3AF;
+        }
+
+        .btn-action {
+            padding: 0.3rem 1rem;
+            border: none;
+            border-radius: 50px;
+            background: #EC4899;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-action:hover {
+            background: #DB2777;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #EC4899;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .invoice-table {
+                font-size: 0.9rem;
+            }
+
+            .invoice-table th,
+            .invoice-table td {
+                padding: 0.5rem;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>💰 Invoice Management</h1>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="openCreateModal()">+ New Invoice</button>
+            <a href="admin-dashboard.html" class="btn btn-secondary">← Back to Admin</a>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-value">$45.2K</div>
+                <div class="stat-label">Total Outstanding</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">$128.5K</div>
+                <div class="stat-label">Paid This Month</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Pending Invoices</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Overdue</div>
+            </div>
+        </div>
+
+        <div class="invoice-section">
+            <h2>Invoices</h2>
+
+            <div class="invoice-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="paid">Paid</button>
+                <button class="filter-btn" data-filter="pending">Pending</button>
+                <button class="filter-btn" data-filter="overdue">Overdue</button>
+                <button class="filter-btn" data-filter="draft">Draft</button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Client</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoiceTableBody">
+                        <tr data-status="pending">
+                            <td><strong>INV-2025-001</strong></td>
+                            <td>Acme Corporation</td>
+                            <td><strong>$15,000</strong></td>
+                            <td>Nov 15, 2025</td>
+                            <td>Dec 15, 2025</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td>
+                                <button class="btn-action">View</button>
+                                <button class="btn-action">Send</button>
+                            </td>
+                        </tr>
+
+                        <tr data-status="paid">
+                            <td><strong>INV-2025-002</strong></td>
+                            <td>TechStart Inc</td>
+                            <td><strong>$8,500</strong></td>
+                            <td>Nov 10, 2025</td>
+                            <td>Dec 10, 2025</td>
+                            <td><span class="status-badge status-paid">Paid</span></td>
+                            <td>
+                                <button class="btn-action">View</button>
+                            </td>
+                        </tr>
+
+                        <tr data-status="overdue">
+                            <td><strong>INV-2025-003</strong></td>
+                            <td>Global Solutions LLC</td>
+                            <td><strong>$22,000</strong></td>
+                            <td>Oct 20, 2025</td>
+                            <td>Nov 20, 2025</td>
+                            <td><span class="status-badge status-overdue">Overdue</span></td>
+                            <td>
+                                <button class="btn-action">View</button>
+                                <button class="btn-action">Remind</button>
+                            </td>
+                        </tr>
+
+                        <tr data-status="pending">
+                            <td><strong>INV-2025-004</strong></td>
+                            <td>Nigeria Remittance Partners</td>
+                            <td><strong>$12,500</strong></td>
+                            <td>Nov 18, 2025</td>
+                            <td>Dec 18, 2025</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td>
+                                <button class="btn-action">View</button>
+                                <button class="btn-action">Send</button>
+                            </td>
+                        </tr>
+
+                        <tr data-status="draft">
+                            <td><strong>INV-2025-005</strong></td>
+                            <td>EBL Beauty Services</td>
+                            <td><strong>$5,200</strong></td>
+                            <td>Nov 20, 2025</td>
+                            <td>Dec 20, 2025</td>
+                            <td><span class="status-badge status-draft">Draft</span></td>
+                            <td>
+                                <button class="btn-action">Edit</button>
+                                <button class="btn-action">Send</button>
+                            </td>
+                        </tr>
+
+                        <tr data-status="paid">
+                            <td><strong>INV-2025-006</strong></td>
+                            <td>DECIDEY NGO Partnership</td>
+                            <td><strong>$18,000</strong></td>
+                            <td>Nov 5, 2025</td>
+                            <td>Dec 5, 2025</td>
+                            <td><span class="status-badge status-paid">Paid</span></td>
+                            <td>
+                                <button class="btn-action">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.3); border-radius: 20px; padding: 2rem;">
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #EC4899;">Payment Integration</h3>
+            <p style="margin-bottom: 1.5rem;">
+                SOLVY Platform integrates with Stripe for B2B payment processing. Configure your Stripe account to enable automated payment collection.
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">💳 Stripe Integration</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">
+                        Accept credit cards, ACH, and international payments
+                    </p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">📧 Auto-Reminders</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">
+                        Automated email reminders via MailCow + Huginn
+                    </p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">📊 Reporting</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">
+                        Real-time revenue tracking and analytics
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Invoice Modal -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <h2>Create New Invoice</h2>
+            
+            <form id="createInvoiceForm">
+                <div class="form-group">
+                    <label for="clientName">Client Name *</label>
+                    <input type="text" id="clientName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="clientEmail">Client Email *</label>
+                    <input type="email" id="clientEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Amount (USD) *</label>
+                    <input type="number" id="amount" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dueDate">Due Date *</label>
+                    <input type="date" id="dueDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="4" placeholder="Services provided..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Invoice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                
+                document.querySelectorAll('#invoiceTableBody tr').forEach(row => {
+                    if (filter === 'all' || row.dataset.status === filter) {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Modal functions
+        function openCreateModal() {
+            document.getElementById('createModal').classList.add('active');
+        }
+
+        function closeCreateModal() {
+            document.getElementById('createModal').classList.remove('active');
+            document.getElementById('createInvoiceForm').reset();
+        }
+
+        // Form submission
+        document.getElementById('createInvoiceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const invoiceData = {
+                clientName: document.getElementById('clientName').value,
+                clientEmail: document.getElementById('clientEmail').value,
+                amount: document.getElementById('amount').value,
+                dueDate: document.getElementById('dueDate').value,
+                description: document.getElementById('description').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            console.log('Invoice created:', invoiceData);
+            
+            // TODO: Send to API
+            // TODO: Generate PDF via Stripe
+            // TODO: Send email via MailCow
+            
+            alert('Invoice created successfully!');
+            closeCreateModal();
+        });
+
+        // Close modal on outside click
+        document.getElementById('createModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCreateModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Ecosystem™ Banking | Member Portal</title>
+    <meta name="description" content="SOLVY Ecosystem™ Banking Portal - Manage your SOLVY Card™, accounts, and member dividends">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+            .sidebar {
+                display: none;
+            }
+        }
+    
+        /* Professional Navbar */
+            .mobile-menu.active { display: flex; }
+        }
+
+    
+        /* Professional Navbar */
+            .mobile-menu.active { display: flex; }
+        }
+
+    
+        /* Professional Navbar */
+        .navbar {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo img {
+            height: 42px;
+            width: auto;
+        }
+        .nav-logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+        .nav-links a, .nav-dropdown > a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-dropdown:hover > a {
+            color: #ec4899;
+            background: rgba(147, 51, 234, 0.1);
+        }
+        .nav-dropdown {
+            position: relative;
+        }
+        .nav-dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.6rem;
+            opacity: 0.7;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.25rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: #cbd5e1;
+            font-size: 0.85rem;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .nav-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .nav-cta {
+            display: flex;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.35);
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 0.5rem;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 2.5px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: rgba(15, 23, 42, 0.99);
+            padding: 1rem;
+            gap: 0.25rem;
+            border-top: 1px solid rgba(147, 51, 234, 0.15);
+        }
+        .mobile-menu a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .mobile-menu a:hover, .mobile-menu a.active {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .mobile-divider {
+            height: 1px;
+            background: rgba(147, 51, 234, 0.15);
+            margin: 0.5rem 0;
+        }
+        @media (max-width: 1024px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu.active { display: flex; }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../assets/SolvyLogo-1024.png" alt="SOLVY" style="height: 42px; width: auto;">
+                <span class="nav-logo-text">SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <div class="nav-dropdown">
+                    <a href="../about.html">About</a>
+                    <div class="dropdown-menu">
+                        <a href="../manifesto.html">📜 Manifesto</a>
+                        <a href="../heritage.html">🏛️ Heritage</a>
+                        <a href="../sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                    </div>
+                </div>
+                <a href="../card/solvy-card.html">💳 SOLVY Card™</a>
+                <div class="nav-dropdown">
+                    <a href="../sps-pilot/index.html">Partners</a>
+                    <div class="dropdown-menu">
+                        <a href="../index.html">🌟 Evergreen Beauty Lounge</a>
+                        <a href="../sps-pilot/index.html">SPS Pilot</a>
+                        <a href="../decidey/decidey-ngo.html">DECIDEY</a>
+                    </div>
+                </div>
+                <a href="../community/communities.html">Community</a>
+                <a href="../data-marketplace.html">🛢️ Data Marketplace</a>
+            </div>
+            <div class="nav-cta">
+                <a href="../onboarding.html" class="btn-primary">Join First Circle</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="../about.html">About</a>
+            <a href="../manifesto.html">📜 Manifesto</a>
+            <a href="../heritage.html">🏛️ Heritage</a>
+            <a href="../sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            <div class="mobile-divider"></div>
+            <a href="../card/solvy-card.html">💳 SOLVY Card™</a>
+            <div class="mobile-divider"></div>
+            <a href="../index.html">🌟 Evergreen Beauty Lounge</a>
+            <a href="../sps-pilot/index.html">SPS Pilot</a>
+            <a href="../decidey/decidey-ngo.html">DECIDEY</a>
+            <div class="mobile-divider"></div>
+            <a href="../community/communities.html">Community</a>
+            <a href="../data-marketplace.html">🛢️ Data Marketplace</a>
+            <a href="../internal/man-portal.html" style="color: #94a3b8; font-size: 0.85rem;">📊 MAN Portal</a>
+        </div>
+    </nav>
+<!-- Banking Container -->
+    <div class="banking-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Banking</div>
+                <div class="sidebar-menu">
+                    <button class="sidebar-item active" onclick="showTab('accounts')">
+                        <span class="icon">🏦</span>
+                        Accounts & Cards
+                    </button>
+                    <button class="sidebar-item" onclick="showTab('privacy')">
+                        <span class="icon">🔒</span>
+                        Data Sovereignty
+                    </button>
+                    <button class="sidebar-item" onclick="showTab('dividends')">
+                        <span class="icon">💰</span>
+                        Dividends
+                    </button>
+                    <button class="sidebar-item" onclick="showTab('governance')">
+                        <span class="icon">⚖️</span>
+                        Governance
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">70/20/10 Model</div>
+                <div class="dividend-widget">
+                    <div class="dividend-label">Your Q1 Dividend</div>
+                    <div class="dividend-amount" id="dividendAmount">$0.00</div>
+                    <div class="dividend-period">Based on interchange share</div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Data Pool</div>
+                <div class="pool-toggle">
+                    <span>Contribute Data</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="dataPoolToggle" onchange="toggleDataPool()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Accounts Tab (Unit White Label App) -->
+            <div id="accounts-tab" class="tab-content active">
+                <div id="unit-app-container">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>Loading SOLVY Banking...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Tab -->
+            <div id="privacy-tab" class="tab-content">
+                <div class="privacy-dashboard">
+                    <div class="privacy-header">
+                        <h2>🔒 Data Sovereignty Dashboard</h2>
+                        <p>Control your data. Vote on pooling. Earn from insights.</p>
+                    </div>
+                    <div class="privacy-grid">
+                        <div class="privacy-card">
+                            <h3>📊 Local Storage</h3>
+                            <p>Your transaction data is stored locally on your device.</p>
+                            <div class="stat-row">
+                                <span class="stat-label">Transactions Stored</span>
+                                <span class="stat-value" id="localTxCount">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Storage Used</span>
+                                <span class="stat-value" id="storageUsed">0 MB</span>
+                            </div>
+                        </div>
+
+                        <div class="privacy-card">
+                            <h3>🔐 Encrypted Pool</h3>
+                            <p>Anonymized data you choose to contribute to the cooperative pool.</p>
+                            <div class="stat-row">
+                                <span class="stat-label">Contributed Records</span>
+                                <span class="stat-value" id="pooledCount">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Expires In</span>
+                                <span class="stat-value">30 days</span>
+                            </div>
+                        </div>
+
+                        <div class="privacy-card">
+                            <h3>⚡ AI Insights</h3>
+                            <p>Personalized recommendations from your data.</p>
+                            <div class="stat-row">
+                                <span class="stat-label">Insights Generated</span>
+                                <span class="stat-value" id="insightsCount">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Data Never Shared</span>
+                                <span class="stat-value">✓</span>
+                            </div>
+                        </div>
+
+                        <div class="privacy-card">
+                            <h3>🗳️ Cooperative Voting</h3>
+                            <p>Vote on how pooled data is used for cooperative benefit.</p>
+                            <div class="stat-row">
+                                <span class="stat-label">Active Proposals</span>
+                                <span class="stat-value" id="activeProposals">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Your Votes Cast</span>
+                                <span class="stat-value" id="votesCast">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dividends Tab -->
+            <div id="dividends-tab" class="tab-content">
+                <div class="privacy-dashboard">
+                    <div class="privacy-header">
+                        <h2>💰 Dividend Distribution</h2>
+                        <p>70% to members, 20% to community, 10% to operations</p>
+                    </div>
+                    <div class="privacy-grid">
+                        <div class="privacy-card">
+                            <h3>Your Share (70%)</h3>
+                            <p>Direct dividend from interchange revenue</p>
+                            <div class="dividend-amount" style="margin-top: 1rem;">$<span id="memberShare">0.00</span></div>
+                        </div>
+                        <div class="privacy-card">
+                            <h3>Community Pool (20%)</h3>
+                            <p>Reinvested in cooperative growth</p>
+                            <div class="dividend-amount" style="margin-top: 1rem; color: #a78bfa;">$<span id="communityShare">0.00</span></div>
+                        </div>
+                        <div class="privacy-card">
+                            <h3>Operations (10%)</h3>
+                            <p>Platform maintenance and development</p>
+                            <div class="dividend-amount" style="margin-top: 1rem; color: #64748b;">$<span id="opsShare">0.00</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Governance Tab -->
+            <div id="governance-tab" class="tab-content">
+                <div class="privacy-dashboard">
+                    <div class="privacy-header">
+                        <h2>⚖️ Cooperative Governance</h2>
+                        <p>One member, one vote. Shape the future of SOLVY.</p>
+                    </div>
+                    <div class="privacy-grid" id="proposalsContainer">
+                        <!-- Proposals loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Unit Elements White Label App Script -->
+    <script async src="https://ui.s.unit.sh/release/latest/components-extended.js"></script>
+    
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active from sidebar items
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.closest('.sidebar-item').classList.add('active');
+            
+            // Initialize Unit App if accounts tab
+            if (tabName === 'accounts') {
+                initializeUnitApp();
+            }
+        }
+
+        // Initialize Unit White Label App
+        async function initializeUnitApp() {
+            const container = document.getElementById('unit-app-container');
+            
+            try {
+                // Fetch JWT token from our backend
+                const response = await fetch('/api/unit-token', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to get Unit token');
+                }
+                
+                const { token } = await response.json();
+                
+                // Clear loading state and render Unit App
+                container.innerHTML = '';
+                const unitApp = document.createElement('unit-elements-white-label-app');
+                unitApp.setAttribute('jwt-token', token);
+                unitApp.style.width = '100%';
+                unitApp.style.height = '100%';
+                unitApp.style.minHeight = '600px';
+                container.appendChild(unitApp);
+                
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <p style="color: #ef4444;">Unable to load banking interface</p>
+                        <p style="color: #64748b; font-size: 0.9rem;">${error.message}</p>
+                        <button onclick="initializeUnitApp()" class="btn-primary" style="margin-top: 1rem;">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Data Pool Toggle
+        async function toggleDataPool() {
+            const toggle = document.getElementById('dataPoolToggle');
+            const enabled = toggle.checked;
+            
+            // Store preference locally
+            localStorage.setItem('solvy_dataPoolEnabled', enabled);
+            
+            if (enabled) {
+                // Trigger data aggregation for pooling
+                await aggregateAndPoolData();
+            }
+            
+            updatePrivacyStats();
+        }
+
+        // Aggregate data before pooling (local-first)
+        async function aggregateAndPoolData() {
+            const db = await openDB('SolvyDB', 1);
+            const tx = db.transaction('transactions', 'readonly');
+            const store = tx.objectStore('transactions');
+            const transactions = await store.getAll();
+            
+            // Calculate aggregates locally
+            const aggregates = transactions.reduce((acc, tx) => {
+                acc.totalAmount += tx.amount;
+                acc.count += 1;
+                acc.categories[tx.category] = (acc.categories[tx.category] || 0) + 1;
+                return acc;
+            }, { totalAmount: 0, count: 0, categories: {} });
+            
+            // Store aggregates locally (never raw data)
+            localStorage.setItem('solvy_aggregates', JSON.stringify({
+                ...aggregates,
+                lastUpdated: new Date().toISOString()
+            }));
+            
+            console.log('Data aggregated locally:', aggregates);
+        }
+
+        // Update privacy dashboard stats
+        async function updatePrivacyStats() {
+            // Get local transaction count from IndexedDB
+            try {
+                const db = await openDB('SolvyDB', 1);
+                const tx = db.transaction('transactions', 'readonly');
+                const store = tx.objectStore('transactions');
+                const count = await store.count();
+                document.getElementById('localTxCount').textContent = count;
+            } catch (e) {
+                document.getElementById('localTxCount').textContent = '0';
+            }
+            
+            // Get storage estimate
+            if (navigator.storage && navigator.storage.estimate) {
+                const estimate = await navigator.storage.estimate();
+                const usedMB = Math.round((estimate.usage || 0) / 1024 / 1024);
+                document.getElementById('storageUsed').textContent = `${usedMB} MB`;
+            }
+            
+            // Check data pool status
+            const poolEnabled = localStorage.getItem('solvy_dataPoolEnabled') === 'true';
+            document.getElementById('dataPoolToggle').checked = poolEnabled;
+        }
+
+        // Load member dividend data
+        async function loadDividendData() {
+            try {
+                const response = await fetch('/api/dividends', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                document.getElementById('dividendAmount').textContent = 
+                    `$${data.memberShare.toFixed(2)}`;
+                document.getElementById('memberShare').textContent = 
+                    data.memberShare.toFixed(2);
+                document.getElementById('communityShare').textContent = 
+                    data.communityShare.toFixed(2);
+                document.getElementById('opsShare').textContent = 
+                    data.opsShare.toFixed(2);
+            } catch (e) {
+                console.log('Dividend data not available yet');
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePrivacyStats();
+            loadDividendData();
+            
+            // Check if we're on the accounts tab
+            if (document.getElementById('accounts-tab').classList.contains('active')) {
+                initializeUnitApp();
+            }
+        });
+
+        // IndexedDB helper
+        function openDB(name, version) {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(name, version);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+    </script>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
+</body>
+</html>

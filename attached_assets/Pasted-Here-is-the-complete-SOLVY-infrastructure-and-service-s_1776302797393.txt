@@ -1,0 +1,67 @@
+Here is the complete SOLVY infrastructure and service stack:
+
+1. Hetzner VPS (Production Host)
+IP: 46.62.235.95
+Domain: https://ebl.beauty
+
+Component	Details
+OS	Ubuntu (implied from PM2 logs)
+Web Server	Nginx (reverse proxy + static files)
+Static Site Root	/var/www/ebl.beauty/ (symlinked from /var/www/solvy-platform)
+API Server	Node.js Express on 127.0.0.1:3333
+Process Manager	PM2 (solvy-api, solvy-preview, man-page-server)
+SSL	Let's Encrypt
+Containerization	Docker + Docker Compose (for prod deployments)
+Key deployed paths:
+
+API backend: /opt/solvy/solvy-platform/api/server.js
+Static files: /var/www/ebl.beauty/
+Nginx config: /etc/nginx/sites-enabled/ebl.beauty
+2. Gitea (Self-Hosted Git)
+URL: https://gitea.ebl.beauty (also referenced as https://git.ebl.beauty)
+Status: ⚠️ Active issue — push fails with Unauthorized
+
+Detail	Status
+Remote name	gitea-hetzner
+Problem	Local commits are ahead on main, but push fails with Unauthorized
+Fix needed	Log into Gitea web UI, generate fresh access token, update remote URL
+Alternative remote	GitHub origin — also failing (Repository not found)
+Current git situation: Local repo has un-pushed commits.
+
+3. Cloudflare
+Domain managed: ebl.beauty
+
+Function	Status
+DNS	ebl.beauty → 46.62.235.95
+SSL/TLS	Termination + origin pull certificates
+Email Routing	⚠️ Not configured yet — hello@ebl.beauty not forwarding
+Fix needed	Create Email Routing rule: *@ebl.beauty → your-inbox
+4. Replit (Backup / Development)
+Two active apps:
+
+App	URL	Role
+sovereignitity-solvy	https://sovereignitity-solvy.replit.app	React SPA (minified bundle)
+solvy-sovereignitity	https://solvy-sovereignitity--smayone.replit.app	Secondary Replit deployment
+Backup package: replit-app-live.zip (6.4 MB) — exact duplicate of live React SPA
+Static backup folder: replit-deploy/ — synced with latest HTML/navbar
+
+5. Banking & Payments
+Service	Purpose	Status
+Unit.co	Banking-as-a-Service (BaaS) via Thread Bank	Sandbox mode (pre-launch)
+Stripe	First Circle $100 deposit flow	Test mode active (sk_test_...)
+Stripe Live Keys	Production deposits	⚠️ Pending swap on VPS
+6. Other Infrastructure Services
+Service	Purpose	Location/Status
+Nginx	Reverse proxy, static file serving, SSL termination	Hetzner VPS
+PM2	Process management for Node.js API	Hetzner VPS
+Docker + Docker Compose	Containerized deployments	Local dev + VPS
+Mailcow	Email server configuration	ops/mailcow/ (not yet live)
+Huginn	Automation agents	ops/huginn/
+Monitoring	System / app monitoring	ops/monitoring/
+Let's Encrypt	Free SSL certificates	Hetzner VPS (via Certbot or similar)
+7. Active Issues Summary
+Issue	Service	Action Required
+🔴 Gitea push blocked	Gitea	Generate fresh token, update gitea-hetzner remote
+🔴 Email catch-all down	Cloudflare	Configure Email Routing rule *@ebl.beauty
+🔴 Stripe live keys not swapped	Stripe / VPS	Replace STRIPE_SECRET_KEY with sk_live_... in VPS env and pm2 restart
+🟡 Baanx & AlchemyPay	Partner outreach	Only docs exist — no API integration code yet

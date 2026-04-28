@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Card – Prelaunch Commitment</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fc 0%, #eef2f9 100%);
+            color: #1a2a3a;
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 48px; }
+        .logo { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #0f1e2c 0%, #2c4c6e 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .tagline { font-size: 1.1rem; color: #5a6e7c; }
+        .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 48px; }
+        @media (max-width: 768px) { .two-columns { grid-template-columns: 1fr; } }
+        .info-panel, .form-panel { background: white; border-radius: 32px; padding: 32px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); border: 1px solid #eef2f6; }
+        .feature-list { list-style: none; margin: 24px 0; }
+        .feature-list li { padding: 12px 0; border-bottom: 1px solid #f0f2f5; display: flex; align-items: center; gap: 12px; }
+        .feature-list li::before { content: "✓"; color: #ffb347; font-weight: bold; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 500; margin-bottom: 8px; }
+        input { width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 16px; font-size: 1rem; }
+        input:focus { outline: none; border-color: #ffb347; box-shadow: 0 0 0 3px rgba(255,180,71,0.1); }
+        .btn-primary { width: 100%; background: #0f1e2c; color: white; border: none; padding: 14px 24px; border-radius: 40px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        .btn-primary:hover { background: #2c4c6e; }
+        .btn-secondary { background: transparent; border: 1px solid #cbd5e1; padding: 10px 20px; border-radius: 40px; cursor: pointer; }
+        .commitments-section { background: white; border-radius: 32px; padding: 32px; margin-top: 32px; border: 1px solid #eef2f6; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th, td { text-align: left; padding: 12px 8px; border-bottom: 1px solid #f0f2f5; }
+        .status-badge { background: #e6f7e6; color: #2c7a4d; padding: 4px 10px; border-radius: 40px; font-size: 0.7rem; display: inline-block; }
+        .total-commitment { margin-top: 16px; text-align: right; font-weight: 700; border-top: 1px solid #eef2f6; padding-top: 16px; }
+        .alert { background: #fff8e7; border-left: 4px solid #ffb347; padding: 16px; border-radius: 16px; margin-bottom: 24px; }
+        footer { text-align: center; margin-top: 48px; color: #8a9aa8; font-size: 0.75rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">SOLVY<span style="color:#ffb347;">⟁</span></div>
+        <div class="tagline">Own your spend. Own your future.</div>
+    </div>
+
+    <div class="two-columns">
+        <div class="info-panel">
+            <h2>Join the cooperative revolution</h2>
+            <p>SOLVY Card is not a bank. It's a cooperative. Every swipe earns interchange revenue shared back to members.</p>
+            <ul class="feature-list">
+                <li><strong>70%</strong> of profits → Member pool (MOLI, benefits)</li>
+                <li><strong>20%</strong> → Operations</li>
+                <li><strong>10%</strong> → Sovereign fund</li>
+                <li>📊 <strong>MAN</strong> – Full transparency portal</li>
+                <li>🎓 <strong>DECIDEY</strong> – Data sovereignty education</li>
+            </ul>
+            <div class="alert">🔮 <strong>Prelaunch commitment</strong> — no charge until launch.</div>
+        </div>
+
+        <div class="form-panel">
+            <h2>Commit to membership</h2>
+            <form id="commitmentForm">
+                <div class="form-group">
+                    <label>Full name *</label>
+                    <input type="text" id="memberName" required placeholder="e.g., Evergreen Mayo">
+                </div>
+                <div class="form-group">
+                    <label>Email address *</label>
+                    <input type="email" id="memberEmail" required placeholder="evergreen@ebl.beauty">
+                </div>
+                <div class="form-group">
+                    <label>Monthly spending commitment (USD) *</label>
+                    <input type="number" id="pledgeAmount" value="500" step="100" min="10" required>
+                </div>
+                <button type="submit" class="btn-primary">📝 Submit commitment</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="commitments-section" id="commitmentsSection">
+        <div class="section-header">
+            <h2>📋 Prelaunch commitments</h2>
+            <button class="btn-secondary" id="exportBtn">⬇️ Export CSV</button>
+        </div>
+        <div style="overflow-x: auto;">
+            <table id="commitmentTable">
+                <thead><tr><th>Name</th><th>Email</th><th>Monthly pledge</th><th>Date</th><th>Status</th></tr></thead>
+                <tbody id="commitmentTableBody"><tr><td colspan="5" style="text-align: center;">Loading...</td></tr></tbody>
+            </table>
+        </div>
+        <div id="totalCommitmentDisplay" class="total-commitment"></div>
+    </div>
+    <footer>SOLVY Ecosystem – Cooperative neobank. Data sovereign. Member owned.</footer>
+</div>
+
+<script>
+(function() {
+    const STORAGE_KEY = 'solvy_prelaunch_commitments';
+
+    function loadCommitments() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) return JSON.parse(stored);
+        } catch(e) { console.warn(e); }
+        return [
+            { name: "Evergreen Mayo", email: "evergreen@ebl.beauty", pledge: 500, date: new Date().toISOString().slice(0,10), status: "committed" }
+        ];
+    }
+
+    function saveCommitments(commitments) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(commitments));
+    }
+
+    function addCommitment(name, email, pledge) {
+        const commitments = loadCommitments();
+        commitments.push({
+            name: name.trim(),
+            email: email.trim(),
+            pledge: parseFloat(pledge),
+            date: new Date().toISOString().slice(0,10),
+            status: "committed"
+        });
+        saveCommitments(commitments);
+        renderTable();
+        return commitments;
+    }
+
+    function renderTable() {
+        const commitments = loadCommitments();
+        const tbody = document.getElementById('commitmentTableBody');
+        if (!tbody) return;
+        if (commitments.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No commitments yet. Be the first.</td></tr>';
+            document.getElementById('totalCommitmentDisplay').innerHTML = '';
+            return;
+        }
+        let totalMonthly = 0;
+        tbody.innerHTML = commitments.map(c => {
+            totalMonthly += c.pledge;
+            return `<tr>
+                <td>${escapeHtml(c.name)}</td>
+                <td>${escapeHtml(c.email)}</td>
+                <td>$${c.pledge.toFixed(2)}</td>
+                <td>${c.date}</td>
+                <td><span class="status-badge">${c.status}</span></td>
+            </tr>`;
+        }).join('');
+        document.getElementById('totalCommitmentDisplay').innerHTML = `💰 Total monthly committed volume: $${totalMonthly.toFixed(2)}<br>📈 Annual projected: $${(totalMonthly * 12).toFixed(2)}`;
+    }
+
+    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m) { return m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'; }); }
+
+    function exportCSV() {
+        const commitments = loadCommitments();
+        if (!commitments.length) { alert("No commitments to export."); return; }
+        const headers = ["Name", "Email", "Monthly Pledge (USD)", "Date", "Status"];
+        const rows = commitments.map(c => [c.name, c.email, c.pledge, c.date, c.status]);
+        const csv = [headers, ...rows].map(row => row.join(",")).join("\n");
+        const blob = new Blob([csv], { type: "text/csv" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `solvy_commitments_${new Date().toISOString().slice(0,10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    }
+
+    document.getElementById('commitmentForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('memberName')?.value;
+        const email = document.getElementById('memberEmail')?.value;
+        const pledge = document.getElementById('pledgeAmount')?.value;
+        if (!name || !email || !pledge) { alert("Please fill all fields."); return; }
+        addCommitment(name, email, pledge);
+        document.getElementById('commitmentForm').reset();
+        alert(`Thank you, ${name}. Your commitment helps build the cooperative.`);
+    });
+    document.getElementById('exportBtn')?.addEventListener('click', exportCSV);
+    renderTable();
+})();
+</script>
+</body>
+</html>

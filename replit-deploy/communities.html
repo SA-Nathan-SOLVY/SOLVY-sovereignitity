@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communities We Serve | SOLVY Platform</title>
+    <meta name="description" content="Empowering diverse communities with tailored financial solutions for true economic sovereignty.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #1e293b 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #9333ea, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .communities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin: 4rem 0;
+        }
+
+        .community-card {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            transition: all 0.4s;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .community-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .community-card:hover::before {
+            opacity: 1;
+        }
+
+        .community-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #9333ea;
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.3);
+        }
+
+        .community-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .community-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #9333ea;
+        }
+
+        .community-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #EC4899;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #DB2777;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(236, 72, 153, 0.4);
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .communities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div id="navigation-placeholder"></div>
+
+    <section class="hero-section">
+        <h1>Communities We Serve</h1>
+        <p>Empowering diverse communities with tailored financial solutions for true economic sovereignty.</p>
+    </section>
+
+    <div class="container">
+        <div class="communities-grid">
+            <div class="community-card fade-in">
+                <span class="community-icon">🛡️</span>
+                <h3>Military Veterans</h3>
+                <p>Specialized financial solutions honoring those who served, with dedicated support for military benefits and transitions to civilian economic independence.</p>
+            </div>
+
+            <div class="community-card fade-in">
+                <span class="community-icon">💼</span>
+                <h3>Self-Employed & Small Businesses</h3>
+                <p>Tailored services for entrepreneurs and small business owners, supporting sustainable growth and financial independence through cooperative banking.</p>
+            </div>
+
+            <div class="community-card fade-in">
+                <span class="community-icon">🏢</span>
+                <h3>Employee-Owned Companies</h3>
+                <p>Supporting shared ownership models with collaborative financial tools and cooperative banking solutions that benefit all members.</p>
+            </div>
+
+            <div class="community-card fade-in">
+                <span class="community-icon">🏦</span>
+                <h3>IBC/BYOB Entrepreneurs</h3>
+                <p>Specialized support for Infinite Banking Concept practitioners and Be Your Own Banker strategies, helping you become your own financial institution.</p>
+            </div>
+
+            <div class="community-card fade-in">
+                <span class="community-icon">🎨</span>
+                <h3>NFT Enthusiasts & Creators</h3>
+                <p>Integrated solutions for NFT trading, creation, and monetization with seamless fiat-to-crypto conversion and Web3 infrastructure.</p>
+            </div>
+
+            <div class="community-card fade-in">
+                <span class="community-icon">🌍</span>
+                <h3>Un/Underbanked Individuals</h3>
+                <p>Inclusive financial services breaking down traditional banking barriers, ensuring access for all and building pathways out of economic challenges to make our economy stronger.</p>
+            </div>
+
+            <div class="community-card fade-in">
+                <span class="community-icon">🌏</span>
+                <h3>African Diaspora</h3>
+                <p>Zero-fee family remittances connecting diaspora communities worldwide, supporting economic sovereignty and cooperative wealth-building across continents.</p>
+            </div>
+
+            <div class="community-card fade-in">
+                <span class="community-icon">👥</span>
+                <h3>Cooperative Movements</h3>
+                <p>Supporting cooperative economics and community-owned enterprises with financial infrastructure that prioritizes member benefit over corporate profit.</p>
+            </div>
+
+            <div class="community-card fade-in">
+                <span class="community-icon">🎓</span>
+                <h3>Financial Literacy Seekers</h3>
+                <p>Education-first approach through DECIDEY NGO, honoring all forms of wisdom while providing practical tools for wealth-building and economic sovereignty.</p>
+            </div>
+        </div>
+
+        <div class="cta-section fade-in">
+            <h2>Join the Path to Sovereignty</h2>
+            <p>Break free from traditional financial limitations. Subscribe to receive updates about our mission to empower individuals through decentralized financial sovereignty.</p>
+            <a href="https://shop.ebl.beauty" class="btn btn-primary">Get Your SOLVY Card</a>
+            <a href="decidey-ngo.html" class="btn btn-primary">Learn More</a>
+        </div>
+
+        <div style="text-align: center; padding: 2rem;">
+            <h3 style="font-size: 2rem; margin-bottom: 1rem;">Every Member Matters</h3>
+            <p style="font-size: 1.2rem; opacity: 0.9;">
+                Whether you're a veteran, entrepreneur, creator, or simply seeking financial independence, 
+                SOLVY provides the tools and community support to achieve true economic sovereignty.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>SOLVY - Solutions Valued You</strong></p>
+        <p>Breaking chains, building futures. Empowering individuals through decentralized financial sovereignty.</p>
+        <p style="margin-top: 2rem;">
+            Founded by SA Nathan | Continuing the legacy of Marcus Garvey, MLK, and Malcolm X in the digital age
+        </p>
+        <p style="margin-top: 1rem; opacity: 0.6;">© 2025 SOLVY Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="navigation.js"></script>
+    <script>
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(el => fadeObserver.observe(el));
+    </script>
+</body>
+</html>

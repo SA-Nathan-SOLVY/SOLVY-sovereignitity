@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | SOLVY Platform</title>
+    <meta name="description" content="Get in touch with the SOLVY team. We're here to help you on your journey to economic sovereignty.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #1e293b 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #9333ea, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .contact-form {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .contact-form h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #9333ea;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(to right, #9333ea, #2563eb);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(to right, #a855f7, #3b82f6);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(236, 72, 153, 0.4);
+        }
+
+        .contact-info {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .contact-info h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #9333ea;
+        }
+
+        .info-item {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .info-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-item p {
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .info-item a {
+            color: #9333ea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .info-item a:hover {
+            color: #a855f7;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10B981;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navigation-placeholder"></div>
+
+    <section class="hero-section">
+        <h1>Contact Us</h1>
+        <p>We're here to help you on your journey to economic sovereignty</p>
+    </section>
+
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-form">
+                <h2>Send Us a Message</h2>
+                
+                <div id="successMessage" class="success-message">
+                    ✓ Thank you! Your message has been sent. We'll get back to you soon.
+                </div>
+
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a topic...</option>
+                            <option value="solvy-card">SOLVY Card Inquiry</option>
+                            <option value="decidey-ngo">DECIDEY NGO Education</option>
+                            <option value="remittance">Global Remittance</option>
+                            <option value="partnership">Partnership Opportunity</option>
+                            <option value="support">Technical Support</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required placeholder="Tell us how we can help..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <h2>Get In Touch</h2>
+
+                <div class="info-item">
+                    <h3>📧 Email</h3>
+                    <p>
+                        General Inquiries: <a href="mailto:eva@ebl.beauty">eva@ebl.beauty</a><br>
+                        <small style="opacity: 0.7;">(Please note: Eva is available Monday-Friday, 9 AM - 5 PM CST)</small>
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        SMTP Services & Technical: <a href="mailto:sanathan@ebl.beauty">sanathan@ebl.beauty</a>
+                    </p>
+                </div>
+
+                <div class="info-item">
+                    <h3>📞 Phone</h3>
+                    <p>
+                        <a href="tel:+17756363656">(775) 636-3656</a><br>
+                        <small style="opacity: 0.7;">Call or text</small>
+                    </p>
+                </div>
+
+                <div class="info-item">
+                    <h3>📍 Location</h3>
+                    <p>
+                        Fort Worth, TX<br>
+                        United States
+                    </p>
+                </div>
+
+                <div class="info-item">
+                    <h3>📘 Social Media</h3>
+                    <p>
+                        <a href="https://www.facebook.com/SANathanLLC/" target="_blank">Facebook: @SANathanLLC</a>
+                    </p>
+                </div>
+
+                <div class="info-item">
+                    <h3>⏰ Business Hours</h3>
+                    <p>
+                        Monday - Friday: 9:00 AM - 5:00 PM CST<br>
+                        Saturday - Sunday: Closed<br>
+                        <small style="opacity: 0.7;">(24/7 AI support coming soon!)</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.3); border-radius: 20px; padding: 3rem; text-align: center; margin-top: 3rem;">
+            <h3 style="font-size: 2rem; margin-bottom: 1rem;">Ready to Get Started?</h3>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                Don't wait for permission to practice economic sovereignty
+            </p>
+            <a href="https://shop.ebl.beauty" style="display: inline-block; padding: 1rem 3rem; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; background: linear-gradient(to right, #9333ea, #2563eb); color: #fff; transition: all 0.3s;">
+                Get Your SOLVY Card →
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>SOLVY - Solutions Valued You</strong></p>
+        <p>Practice economic sovereignty every day</p>
+        <p style="margin-top: 2rem;">
+            Founded by SA Nathan, Service Member Veteran | Continuing the legacy of Marcus Garvey, MLK, and Malcolm X in the digital age
+        </p>
+        <p style="margin-top: 1rem; opacity: 0.6;">© 2025 SOLVY Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="navigation.js"></script>
+    <script>
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // TODO: Replace with actual API endpoint
+            // For now, we'll simulate submission and show success message
+            console.log('Form submitted:', formData);
+            
+            // Show success message
+            document.getElementById('successMessage').classList.add('show');
+            
+            // Reset form
+            this.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.remove('show');
+            }, 5000);
+            
+            // TODO: Send to MailCow via API
+            // TODO: Create ticket in Huginn
+            // TODO: Notify Kimi AI for response
+        });
+    </script>
+</body>
+</html>

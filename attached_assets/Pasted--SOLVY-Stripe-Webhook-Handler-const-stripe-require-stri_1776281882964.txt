@@ -1,0 +1,85 @@
+/**
+ * SOLVY Stripe Webhook Handler
+ */
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const crypto = require('crypto');
+
+const depositRecords = [];
+
+function verifyStripeSignature(payload, signature, secret) {
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(payload, 'utf8')
+    .digest('hex');
+
+  const elements = signature.split(',');
+  const signatureHash = elements.find(el => el.startsWith('v1='))?.split('=')[1];
+
+  return signatureHash === expected;
+}
+
+async function processCheckoutCompleted(session) {
+  const deposit = {
+    sessionId: session.id,
+    memberId: session.metadata?.memberId || 'unknown',
+    depositType: session.metadata?.depositType || 'first_circle_equity',
+    customerEmail: session.customer_email,
+    amountTotal: session.amount_total,
+    currency: session.currency,
+    paymentStatus: session.payment_status,
+    createdAt: new Date().toISOString()
+  };
+
+  depositRecords.push(deposit);
+  console.log('[Stripe] ✅ First Circle deposit recorded:', deposit);
+  return { processed: true, deposit };
+}
+
+async function handleStripeWebhook(req, res) {
+  const payload = req.rawBody || JSON.stringify(req.body);
+  const signature = req.headers['stripe-signature'];
+  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  if (process.env.NODE_ENV === 'production' && secret) {
+    if (!signature || !verifyStripeSignature(payload, signature, secret)) {
+      return res.status(401).json({ error: 'Invalid signature' });
+    }
+  }
+
+  const event = req.body;
+  console.log('[Stripe] Webhook received:', event.type);
+
+  try {
+    let result;
+
+    switch (event.type) {
+      case 'checkout.session.completed':
+        result = await processCheckoutCompleted(event.data.object);
+        break;
+      default:
+        result = { acknowledged: true };
+    }
+
+    return res.status(200).json({ received: true, type: event.type, result });
+
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Webhook processing failed',
+      message: error.message
+    });
+  }
+}
+
+function listDeposits(req, res) {
+  res.json({
+    success: true,
+    count: depositRecords.length,
+    deposits: depositRecords
+  });
+}
+
+module.exports = {
+  handleStripeWebhook,
+  listDeposits
+};

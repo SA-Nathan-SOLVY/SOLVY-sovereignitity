@@ -75,8 +75,18 @@ const handleApplicationApproved = async (application) => {
     }
   );
   
-  // TODO: Send welcome email
-  console.log('📧 Welcome email should be sent');
+  // Send welcome email via AgentMail
+  try {
+    const { sendWelcomeEmail } = require('../email/agentmail-service');
+    const member = await db.members.findByUnitId(application.relationships?.customer?.data?.id);
+    if (member?.email) {
+      await sendWelcomeEmail(member.email, { firstName: member.firstName });
+      console.log('📧 Welcome email sent via AgentMail to:', member.email);
+    }
+  } catch (emailError) {
+    console.error('📧 Welcome email failed:', emailError.message);
+    // Don't fail the webhook for email errors
+  }
 };
 
 /**

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Card - Your Entry to Economic Sovereignty | SOLVY Platform</title>
+    <meta name="description" content="Virtual debit card with AI-powered tax assistance for self-employed members. Your first step toward financial independence.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #1e293b 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #9333ea, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            max-width: 900px;
+            margin: 1rem auto;
+            opacity: 0.9;
+        }
+
+        .card-visual {
+            max-width: 600px;
+            margin: 3rem auto;
+            background: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.3s;
+        }
+
+        .card-visual:hover {
+            transform: perspective(1000px) rotateY(0deg) scale(1.05);
+        }
+
+        .card-visual h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-visual p {
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .card-chip {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .card-number {
+            font-size: 1.5rem;
+            letter-spacing: 0.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #9333ea;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #9333ea;
+        }
+
+        .feature-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .benefits-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            margin: 4rem 0;
+        }
+
+        .benefits-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .benefit-content h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #9333ea;
+        }
+
+        .benefit-content p {
+            opacity: 0.9;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #EC4899;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #DB2777;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .pricing {
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .pricing h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 2px solid #EC4899;
+        }
+
+        .pricing-card .price {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #9333ea;
+            margin: 1rem 0;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .pricing-card li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .pricing-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10B981;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-visual {
+                transform: none;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div id="navigation-placeholder"></div>
+
+    <section class="hero-section">
+        <h1>SOLVY Card</h1>
+        <p>Your Entry Point to Economic Sovereignty</p>
+        <p>Virtual debit card with AI-powered tax assistance for self-employed members</p>
+    </section>
+
+    <div class="container">
+        <div class="card-visual fade-in">
+            <div class="card-chip"></div>
+            <h2>SOLVY CARD</h2>
+            <p>Virtual Debit Card</p>
+            <div class="card-number">•••• •••• •••• ••••</div>
+            <p style="opacity: 0.7;">Your pathway to financial independence</p>
+        </div>
+
+        <section class="features-grid fade-in">
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3>Virtual Debit Card</h3>
+                <p>Instant virtual card for online and in-store purchases. No physical card needed - start using immediately upon approval.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Tax Assistant</h3>
+                <p>Powered by advanced AI to help self-employed members track expenses, maximize deductions, and stay tax-compliant.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Data Sovereignty</h3>
+                <p>Your spending data becomes YOUR property. Get paid for data that's already being collected about you.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Cooperative Ownership</h3>
+                <p>As a member, you're an owner. Share in the platform's success through cooperative profit-sharing.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3>Financial Education</h3>
+                <p>Access to DECIDEY NGO education: IBC/BYOB strategies, tax optimization, and wealth-building techniques.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Future: Global Remittance</h3>
+                <p>Coming soon: Zero-fee family remittances connecting diaspora communities worldwide.</p>
+            </div>
+        </section>
+
+        <div class="benefits-section fade-in">
+            <h2>Why Choose SOLVY Card?</h2>
+            
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-content">
+                        <h4>No Hidden Fees</h4>
+                        <p>Transparent pricing with no surprise charges</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-content">
+                        <h4>Instant Approval</h4>
+                        <p>Get approved and start using your card immediately</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-content">
+                        <h4>Self-Employed Friendly</h4>
+                        <p>Built specifically for freelancers and entrepreneurs</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-content">
+                        <h4>Tax Optimization</h4>
+                        <p>AI-powered expense tracking and deduction maximization</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-content">
+                        <h4>Member Benefits</h4>
+                        <p>Access to exclusive education and cooperative programs</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-content">
+                        <h4>Data Monetization</h4>
+                        <p>Earn from your own data instead of giving it away free</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing fade-in">
+            <h2>Simple, Transparent Pricing</h2>
+            
+            <div class="pricing-card">
+                <h3>SOLVY Card Membership</h3>
+                <div class="price">$9.99<span style="font-size: 1.5rem; opacity: 0.7;">/mo</span></div>
+                <p style="opacity: 0.8; margin-bottom: 2rem;">Everything you need to start your sovereignty journey</p>
+                
+                <ul>
+                    <li>Virtual Debit Card</li>
+                    <li>AI Tax Assistant</li>
+                    <li>Expense Tracking</li>
+                    <li>Data Sovereignty</li>
+                    <li>Cooperative Ownership</li>
+                    <li>Financial Education Access</li>
+                    <li>Member Profit Sharing</li>
+                    <li>Future: Zero-Fee Remittance</li>
+                </ul>
+                
+                <a href="https://shop.ebl.beauty" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: 2rem;">Get Your SOLVY Card →</a>
+            </div>
+        </div>
+
+        <div class="cta-section fade-in">
+            <h2>Ready to Practice SOVEREIGNITITY™?</h2>
+            <p>Join thousands building economic independence through cooperative ownership</p>
+            <p style="font-size: 1rem; opacity: 0.8; margin-bottom: 2rem;">
+                <strong>Your Journey:</strong> SOLVY Card → Self-Employment → Data Sovereignty → Autonomous Income
+            </p>
+            <a href="https://shop.ebl.beauty" class="btn btn-primary">Get Started Now</a>
+            <a href="decidey-ngo.html" class="btn btn-secondary">Learn More</a>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.3); border-radius: 20px; padding: 3rem; text-align: center;" class="fade-in">
+            <h3 style="font-size: 2rem; margin-bottom: 1rem;">Questions?</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Contact us for more information about the SOLVY Card and membership benefits
+            </p>
+            <p style="font-size: 1.1rem;">
+                📧 <a href="mailto:sanathan@ebl.beauty" style="color: #9333ea; text-decoration: none;">sanathan@ebl.beauty</a><br>
+                📞 <a href="tel:+17756363656" style="color: #9333ea; text-decoration: none;">(775) 636-3656</a><br>
+                📍 Fort Worth, TX
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>SOLVY - Solutions Valued You</strong></p>
+        <p>Practice economic sovereignty every day</p>
+        <p style="margin-top: 2rem;">
+            Founded by SA Nathan, Service Member Veteran | Continuing the legacy of Marcus Garvey, MLK, and Malcolm X in the digital age
+        </p>
+        <p style="margin-top: 1rem; opacity: 0.6;">© 2025 SOLVY Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="navigation.js"></script>
+    <script>
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(el => fadeObserver.observe(el));
+    </script>
+</body>
+</html>

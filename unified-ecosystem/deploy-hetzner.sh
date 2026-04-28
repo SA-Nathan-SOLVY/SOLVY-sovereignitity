@@ -1,0 +1,271 @@
+#!/bin/bash
+# ─────────────────────────────────────────────────────────────────────────────
+# SOLVY Unified Ecosystem — Hetzner VPS Deploy Script
+#
+# Usage:
+#   ./deploy-hetzner.sh [domain]
+#   ./deploy-hetzner.sh nitty.ebl.beauty       # default
+#   ./deploy-hetzner.sh ebl.beauty
+#
+# First-time VPS setup (run once as root on VPS):
+#   apt update && apt install -y nginx certbot python3-certbot-nginx
+#   curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+#   apt install -y nodejs
+#   npm install -g pm2
+#
+# Run from:  unified-ecosystem/  directory
+# SSH key:   ~/.ssh/hetzner_key  (never share with any app/agent)
+# ─────────────────────────────────────────────────────────────────────────────
+
+set -e
+
+DOMAIN="${1:-ebl.beauty}"
+VPS="root@46.62.235.95"
+SSH_KEY="$HOME/.ssh/hetzner_key"
+APP_DIR="/var/www/solvy-ecosystem"   # backend lives here
+WEB_DIR="/var/www/$DOMAIN"           # static React files here
+
+BOLD='\033[1m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
+RED='\033[0;31m'; BLUE='\033[0;34m'; NC='\033[0m'
+
+banner() { echo -e "\n${BLUE}${BOLD}▶ $1${NC}"; }
+ok()     { echo -e "  ${GREEN}✓ $1${NC}"; }
+warn()   { echo -e "  ${YELLOW}⚠ $1${NC}"; }
+die()    { echo -e "  ${RED}✗ $1${NC}"; exit 1; }
+
+echo -e "${BLUE}${BOLD}"
+echo "  ╔══════════════════════════════════════════════╗"
+echo "  ║   SOLVY Ecosystem — Hetzner VPS Deploy      ║"
+echo "  ║   Target: $DOMAIN"
+echo "  ╚══════════════════════════════════════════════╝"
+echo -e "${NC}"
+
+# ── 1. Pre-flight ─────────────────────────────────────────────────────────────
+banner "1/7  Pre-flight checks"
+
+[ -f "$SSH_KEY" ] || die "SSH key not found: $SSH_KEY"
+
+ssh -i "$SSH_KEY" -o ConnectTimeout=8 -o BatchMode=yes "$VPS" "echo ok" &>/dev/null \
+  || die "Cannot reach VPS. Check key and host."
+ok "VPS reachable at 46.62.235.95"
+
+[ -d "dist" ] && warn "Old dist/ found — will be rebuilt" || true
+
+# ── 2. Build frontend ─────────────────────────────────────────────────────────
+banner "2/7  Building React frontend"
+
+npm install
+npm run build
+
+[ -d "dist" ] || die "Build failed — dist/ not created"
+ok "Frontend built → dist/"
+
+# ── 3. Upload frontend static files ──────────────────────────────────────────
+banner "3/7  Uploading frontend → $WEB_DIR"
+
+ssh  -i "$SSH_KEY" "$VPS" "mkdir -p $WEB_DIR"
+rsync -az --delete -e "ssh -i $SSH_KEY" dist/ "$VPS:$WEB_DIR/"
+ok "Static files uploaded"
+
+# ── 4. Upload backend ─────────────────────────────────────────────────────────
+banner "4/7  Uploading backend → $APP_DIR"
+
+ssh -i "$SSH_KEY" "$VPS" "mkdir -p $APP_DIR/server"
+
+# Copy the VPS production server + PM2 config + production package.json
+scp -i "$SSH_KEY" server/vps.mjs         "$VPS:$APP_DIR/server/"
+scp -i "$SSH_KEY" pm2.config.cjs         "$VPS:$APP_DIR/"
+scp -i "$SSH_KEY" package.production.json "$VPS:$APP_DIR/package.json"
+
+# Install production npm dependencies on VPS
+ssh -i "$SSH_KEY" "$VPS" "
+  set -e
+  cd $APP_DIR
+  npm install --omit=dev --prefer-offline 2>&1 | tail -5
+  echo 'npm install done'
+"
+ok "Backend uploaded and dependencies installed"
+
+# ── 5. Configure .env (first time only) ──────────────────────────────────────
+banner "5/7  Environment configuration"
+
+ssh -i "$SSH_KEY" "$VPS" "
+  if [ ! -f $APP_DIR/.env ]; then
+    cat > $APP_DIR/.env << 'ENV'
+# SOLVY Ecosystem — Production Environment
+# Matches Replit: 2 vCPU / 4 GiB RAM / Autoscale
+# Fill in ALL values before starting the app
+
+NODE_ENV=production
+PORT=3001
+DOMAIN=$DOMAIN
+
+# Domains
+DOMAIN_CARDS=solvy.cards
+DOMAIN_REPLIT=solvy-sovereignitity--smayone.replit.app
+
+# PostgreSQL (matches Replit Production Database)
+DATABASE_URL=postgresql://solvy:CHANGE_ME@localhost:5432/solvy
+
+# Stripe (live keys — get from dashboard.stripe.com)
+STRIPE_SECRET_KEY=sk_live_CHANGE_ME
+STRIPE_PUBLISHABLE_KEY=pk_live_CHANGE_ME
+STRIPE_WEBHOOK_SECRET=whsec_CHANGE_ME
+
+# Unit.co banking (get from app.unit.co → Settings → API Tokens)
+UNIT_API_TOKEN=v2_CHANGE_ME
+UNIT_CUSTOMER_ID=CHANGE_ME
+
+# AgentMail Email
+AGENTMAIL_API_KEY=am_CHANGE_ME
+AGENTMAIL_SUPPORT_INBOX_ID=
+AGENTMAIL_NOREPLY_INBOX_ID=
+AGENTMAIL_HELLO_INBOX_ID=
+ENV
+    echo 'CREATED .env — edit it now:'
+    echo '  ssh -i ~/.ssh/hetzner_key root@46.62.235.95 nano $APP_DIR/.env'
+  else
+    echo '.env already exists — skipping (edit manually if needed)'
+  fi
+"
+ok "Environment file ready"
+
+# ── 6. Start / reload PM2 service ────────────────────────────────────────────
+banner "6/7  Starting PM2 service"
+
+ssh -i "$SSH_KEY" "$VPS" "
+  set -e
+  cd $APP_DIR
+  pm2 describe solvy-api > /dev/null 2>&1 \
+    && pm2 reload solvy-api \
+    || pm2 start pm2.config.cjs
+  pm2 save
+  pm2 startup systemd -u root --hp /root 2>/dev/null || true
+  echo '--- pm2 status ---'
+  pm2 list
+"
+ok "PM2 service running on port 3001"
+
+# ── 7. Configure Nginx ────────────────────────────────────────────────────────
+banner "7/7  Configuring Nginx"
+
+ssh -i "$SSH_KEY" "$VPS" "cat > /etc/nginx/sites-available/$DOMAIN" << NGINX
+# SOLVY Ecosystem — $DOMAIN
+# Generated by deploy-hetzner.sh on $(date)
+
+server {
+    listen 80;
+    server_name $DOMAIN;
+    return 301 https://\$host\$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name $DOMAIN;
+
+    ssl_certificate     /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+
+    add_header Strict-Transport-Security "max-age=63072000" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+
+    # React SPA static files
+    root  $WEB_DIR;
+    index index.html;
+
+    # API → Express backend on port 3001
+    location /api/ {
+        proxy_pass         http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade \$http_upgrade;
+        proxy_set_header   Connection 'upgrade';
+        proxy_set_header   Host \$host;
+        proxy_set_header   X-Real-IP \$remote_addr;
+        proxy_set_header   X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto \$scheme;
+        proxy_cache_bypass \$http_upgrade;
+        proxy_read_timeout 30s;
+    }
+
+    # React Router — all non-asset paths serve index.html
+    location / {
+        try_files \$uri \$uri/ /index.html;
+    }
+
+    access_log /var/log/nginx/${DOMAIN}-access.log;
+    error_log  /var/log/nginx/${DOMAIN}-error.log;
+}
+NGINX
+
+ssh -i "$SSH_KEY" "$VPS" "
+  set -e
+  ln -sf /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN
+
+  # Obtain SSL cert if not yet present
+  if [ ! -f /etc/letsencrypt/live/$DOMAIN/fullchain.pem ]; then
+    echo 'Obtaining SSL certificate for $DOMAIN...'
+    # Temporarily serve via HTTP for ACME challenge
+    cat > /tmp/nginx-temp.conf << 'TMP'
+server { listen 80; server_name $DOMAIN; root $WEB_DIR; location / { try_files \$uri /index.html; } }
+TMP
+    cp /tmp/nginx-temp.conf /etc/nginx/sites-available/$DOMAIN
+    nginx -t && systemctl reload nginx
+    certbot certonly --nginx -d $DOMAIN \
+      --non-interactive --agree-tos --email admin@ebl.beauty \
+      --redirect || true
+
+    # Restore full HTTPS config
+    cat > /etc/nginx/sites-available/$DOMAIN << 'NGINXSSL'
+server {
+  listen 80; server_name $DOMAIN;
+  return 301 https://\$host\$request_uri;
+}
+server {
+  listen 443 ssl http2; server_name $DOMAIN;
+  ssl_certificate     /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+  ssl_protocols TLSv1.2 TLSv1.3;
+  add_header X-Frame-Options \"SAMEORIGIN\" always;
+  root $WEB_DIR; index index.html;
+  location /api/ {
+    proxy_pass http://127.0.0.1:3001;
+    proxy_set_header Host \$host;
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Forwarded-Proto \$scheme;
+  }
+  location / { try_files \$uri \$uri/ /index.html; }
+  access_log /var/log/nginx/${DOMAIN}-access.log;
+  error_log  /var/log/nginx/${DOMAIN}-error.log;
+}
+NGINXSSL
+  fi
+
+  nginx -t && systemctl reload nginx
+  echo 'Nginx configured'
+"
+ok "Nginx configured for https://$DOMAIN"
+
+# ── Summary ───────────────────────────────────────────────────────────────────
+echo ""
+echo -e "${GREEN}${BOLD}╔══════════════════════════════════════════════╗"
+echo "║         Deployment complete!                ║"
+echo -e "╚══════════════════════════════════════════════╝${NC}"
+echo ""
+echo -e "  Live URL : ${BLUE}https://$DOMAIN${NC}"
+echo -e "  API test : ${BLUE}https://$DOMAIN/api/health${NC}"
+echo ""
+echo -e "${YELLOW}Next steps:${NC}"
+echo "  1. Fill in your .env on the VPS:"
+echo "       ssh -i $SSH_KEY $VPS 'nano $APP_DIR/.env'"
+echo ""
+echo "  2. Restart backend after editing .env:"
+echo "       ssh -i $SSH_KEY $VPS 'pm2 reload solvy-api && pm2 logs solvy-api'"
+echo ""
+echo "  3. To deploy again after code changes:"
+echo "       cd unified-ecosystem && ./deploy-hetzner.sh $DOMAIN"
+echo ""
+echo -e "  ${BLUE}Keep ~/.ssh/hetzner_key on your local machine only.${NC}"

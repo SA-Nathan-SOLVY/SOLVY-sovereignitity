@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SOLVY MAN Page - Advanced Interchange Model</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 6px solid #2a6ebb;
+        }
+        .card.metrics { border-left-color: #28a745; }
+        .card.split { border-left-color: #6f42c1; }
+        .card.operational { border-left-color: #17a2b8; }
+        .card.member-pool { border-left-color: #ffc107; }
+        .card.sovereignty-fund { border-left-color: #dc3545; }
+
+        h1 { color: #1a365d; margin-bottom: 10px; }
+        h2 { color: #2a6ebb; font-size: 1.3rem; margin-top: 0; }
+        h3 { color: #495057; margin-top: 30px; }
+        .card h2 { margin-top: 0; }
+        .stat-large {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 15px 0;
+            color: #1a365d;
+        }
+        .stat-label {
+            font-size: 1rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .explanation {
+            background-color: #f1f8ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .allocation-bar {
+            height: 24px;
+            background: #e9ecef;
+            border-radius: 12px;
+            margin: 30px 0 15px;
+            overflow: hidden;
+            display: flex;
+        }
+        .allocation-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .revenue-input {
+            margin: 25px 0;
+            padding: 20px;
+            background: #e8f4fd;
+            border-radius: 8px;
+        }
+        .split-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #495057;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #2a6ebb;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #1a5ca8; }
+        .calculation {
+            font-family: 'Courier New', monospace;
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 12px 0;
+            border-left: 3px solid #2a6ebb;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        .note {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+        .positive { color: #28a745; font-weight: 600; }
+        .info-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-color: #17a2b8;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 18px;
+            font-size: 12px;
+            margin-left: 5px;
+            cursor: help;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>SOLVY MAN Page: Advanced Interchange Revenue Model</h1>
+    <p>Transparent view showing how consumer vs. business card usage impacts the cooperative.</p>
+
+    <!-- Input Section -->
+    <div class="revenue-input">
+        <h3>Configure Your Revenue Simulation</h3>
+        <p>Adjust the values below to see how different member activity affects the cooperative:</p>
+        
+        <div class="split-inputs">
+            <div class="input-group">
+                <label>Total Consumer Card Volume ($)</label>
+                <input type="number" id="consumerVolume" value="70000">
+                <div class="note">Spending by members with personal cards</div>
+            </div>
+            <div class="input-group">
+                <label>Consumer Interchange Rate (%)</label>
+                <input type="number" id="consumerRate" value="1.65" step="0.01">
+                <div class="note">Typical rate: 1.4% - 1.7%</div>
+            </div>
+            <div class="input-group">
+                <label>Total Business Card Volume ($)</label>
+                <input type="number" id="businessVolume" value="30000">
+                <div class="note">Spending by members with business cards</div>
+            </div>
+            <div class="input-group">
+                <label>Business Interchange Rate (%)</label>
+                <input type="number" id="businessRate" value="2.30" step="0.01">
+                <div class="note">Typical rate: 2.2% - 2.4%</div>
+            </div>
+        </div>
+        
+        <button onclick="updateDashboard()">Update All Calculations</button>
+        <p class="note">Changing any value above will recalculate the entire revenue model.</p>
+    </div>
+
+    <!-- Key Metrics -->
+    <h2>Cooperative Activity Summary</h2>
+    <div class="container">
+        <div class="card metrics">
+            <div class="stat-label">Total Members</div>
+            <div class="stat-large" id="memberCount">105</div>
+            <p>Founding Sovereign Members</p>
+        </div>
+        <div class="card metrics">
+            <div class="stat-label">Total Card Volume</div>
+            <div class="stat-large" id="totalVolume">$100,000</div>
+            <p>Combined member spending</p>
+        </div>
+        <div class="card metrics">
+            <div class="stat-label">Total Interchange Revenue</div>
+            <div class="stat-large" id="totalRevenue">$1,845.00</div>
+            <p>Generated from all card usage</p>
+        </div>
+        <div class="card split">
+            <div class="stat-label">Business Card Contribution</div>
+            <div class="stat-large" id="businessContribution">36.9%</div>
+            <p>of total interchange revenue</p>
+            <div class="calculation" id="businessCalc">($30,000 × 2.30% = $690)</div>
+        </div>
+    </div>
+
+    <!-- Rate Comparison Table -->
+    <h3>Interchange Rate Advantage</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Card Type</th>
+                <th>Spending Volume</th>
+                <th>Interchange Rate</th>
+                <th>Revenue Generated</th>
+                <th>Contribution to Profit Pool</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Consumer Cards</strong></td>
+                <td>$<span id="tableConsumerVol">70,000</span></td>
+                <td><span id="tableConsumerRate">1.65</span>%</td>
+                <td>$<span id="tableConsumerRev">1,155.00</span></td>
+                <td>$<span id="tableConsumerPool">231.00</span></td>
+            </tr>
+            <tr>
+                <td><strong>Business Cards <span class="info-icon" title="Business cards earn higher interchange rates because they typically represent commercial transactions with different risk profiles">i</span></strong></td>
+                <td>$<span id="tableBusinessVol">30,000</span></td>
+                <td><span id="tableBusinessRate">2.30</span>%</td>
+                <td>$<span id="tableBusinessRev">690.00</span></td>
+                <td class="positive">$<span id="tableBusinessPool">138.00</span></td>
+            </tr>
+            <tr style="background-color: #f8f9fa;">
+                <td><strong>Total</strong></td>
+                <td><strong>$<span id="tableTotalVol">100,000</span></strong></td>
+                <td><strong><span id="tableAvgRate">1.85</span>%</strong></td>
+                <td><strong>$<span id="tableTotalRev">1,845.00</span></strong></td>
+                <td><strong>$<span id="tableTotalPool">369.00</span></strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- The SOVEREIGNITITY Growth Message -->
+    <div class="highlight">
+        <h3>📈 The Path to SOVEREIGNITITY & Greater Impact</h3>
+        <p>Notice how <strong>business card volume generates 37.4% more revenue per dollar spent</strong> compared to consumer cards. This demonstrates a key growth path for our cooperative:</p>
+        <p><strong>Start as a consumer → Achieve data autonomy (SOVEREIGNITITY) → Add a business card → Amplify your contribution to the shared profit pool.</strong></p>
+        <p>As members grow into business accounts, they don't just help themselves—they <strong>strengthen the entire cooperative</strong> by generating more resources for all members to share.</p>
+    </div>
+
+    <!-- 70/20/10 Allocation -->
+    <h2>Transparent Allocation: The 70/20/10 Model</h2>
+    <div class="allocation-bar">
+        <div class="allocation-segment" style="width:70%; background-color:#17a2b8;">70% Operations</div>
+        <div class="allocation-segment" style="width:20%; background-color:#ffc107;">20% Member Pool</div>
+        <div class="allocation-segment" style="width:10%; background-color:#dc3545;">10% Sovereignty Fund</div>
+    </div>
+
+    <!-- Allocation Details -->
+    <div class="container">
+        <div class="card operational">
+            <h2>Operations & Platform Development</h2>
+            <div class="stat-label">70% of Revenue</div>
+            <div class="stat-large" id="opsAmount">$1,291.50</div>
+            <p>Covers essential infrastructure, partner fees, and member-approved operational costs.</p>
+            <div class="calculation" id="opsCalc">$1,845.00 × 0.70 = $1,291.50</div>
+        </div>
+        <div class="card member-pool">
+            <h2>Member Profit Share Pool</h2>
+            <div class="stat-label">20% of Revenue</div>
+            <div class="stat-large" id="poolAmount">$369.00</div>
+            <p>Distributed quarterly based on patronage (your spending volume).</p>
+            <div class="calculation" id="poolCalc">$1,845.00 × 0.20 = $369.00</div>
+            
+            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #dee2e6;">
+                <div class="stat-label">Sample Member Share</div>
+                <div class="stat-large" id="memberShare">$29.52</div>
+                <p>If a member contributed <strong>8%</strong> of total spending volume:</p>
+                <div class="calculation" id="memberCalc">8% of $369.00 = $29.52</div>
+            </div>
+        </div>
+        <div class="card sovereignty-fund">
+            <h2>Sovereignty Reinvestment Fund</h2>
+            <div class="stat-label">10% of Revenue</div>
+            <div class="stat-large" id="fundAmount">$184.50</div>
+            <p>Dedicated to building independent infrastructure (Data Vault, blockchain networks).</p>
+            <div class="calculation" id="fundCalc">$1,845.00 × 0.10 = $184.50</div>
+            
+            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #dee2e6;">
+                <div class="stat-label">Business Card Boost</div>
+                <p>Business cards add <span class="positive" id="businessBoost">$13.80</span> extra to this fund compared to if all spending was at consumer rates.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="explanation">
+        <h3>How This Advanced Model Works</h3>
+        <p>This dashboard illustrates the real power of the SOLVY economic model:</p>
+        <ul>
+            <li><strong>Dual-Tier Revenue:</strong> Business cards (2.2%-2.4% interchange) generate significantly more revenue per dollar than consumer cards (1.4%-1.7%).</li>
+            <li><strong>The Business Advantage:</strong> When a member adds a business card, they increase their personal rewards <strong>and</strong> contribute more to the shared profit pool that benefits all members.</li>
+            <li><strong>SOVEREIGNITITY Pathway:</strong> This creates a natural growth path: start as a consumer, achieve data autonomy, then add a business card to amplify your impact.</li>
+            <li><strong>Transparent Calculations:</strong> Every number shows its derivation, maintaining the radical transparency promised by the MAN page.</li>
+        </ul>
+        <p>This model turns member growth into cooperative strength—each step toward business usage makes the entire community more financially resilient.</p>
+    </div>
+
+    <script>
+        // --- SAMPLE DATA & CONFIGURATION ---
+        let config = {
+            memberCount: 105,
+            consumerVolume: 70000,
+            consumerRate: 0.0165,  // 1.65%
+            businessVolume: 30000,
+            businessRate: 0.0230,  // 2.30%
+            memberExamplePatronage: 0.08  // 8% for example member
+        };
+
+        // --- CORE CALCULATION FUNCTIONS ---
+        function calculateRevenue(volume, rate) {
+            return volume * rate;
+        }
+        
+        function calculateTotalRevenue() {
+            const consumerRev = calculateRevenue(config.consumerVolume, config.consumerRate);
+            const businessRev = calculateRevenue(config.businessVolume, config.businessRate);
+            return {
+                consumer: consumerRev,
+                business: businessRev,
+                total: consumerRev + businessRev
+            };
+        }
+        
+        function allocateRevenue(totalRevenue) {
+            return {
+                ops: totalRevenue * 0.70,
+                pool: totalRevenue * 0.20,
+                fund: totalRevenue * 0.10
+            };
+        }
+        
+        function calculateBusinessContribution(businessRev, totalRev) {
+            return totalRev > 0 ? (businessRev / totalRev) * 100 : 0;
+        }
+        
+        function calculateBusinessBoost(businessRev, businessVol, consumerRate) {
+            // What business volume would generate at consumer rates
+            const atConsumerRate = businessVol * consumerRate;
+            // The extra contribution from business rates
+            return businessRev - atConsumerRate;
+        }
+
+        // --- DASHBOARD UPDATE FUNCTION ---
+        function updateDashboard() {
+            // Get current values from inputs
+            config.consumerVolume = parseFloat(document.getElementById('consumerVolume').value) || 70000;
+            config.consumerRate = (parseFloat(document.getElementById('consumerRate').value) || 1.65) / 100;
+            config.businessVolume = parseFloat(document.getElementById('businessVolume').value) || 30000;
+            config.businessRate = (parseFloat(document.getElementById('businessRate').value) || 2.30) / 100;
+            
+            // Perform all calculations
+            const revenue = calculateTotalRevenue();
+            const allocation = allocateRevenue(revenue.total);
+            const businessContribution = calculateBusinessContribution(revenue.business, revenue.total);
+            const businessBoost = calculateBusinessBoost(revenue.business, config.businessVolume, config.consumerRate);
+            const memberShare = allocation.pool * config.memberExamplePatronage;
+            
+            const totalVolume = config.consumerVolume + config.businessVolume;
+            const avgRate = totalVolume > 0 ? (revenue.total / totalVolume) * 100 : 0;
+            
+            // Update summary metrics
+            document.getElementById('memberCount').textContent = config.memberCount.toLocaleString();
+            document.getElementById('totalVolume').textContent = '$' + totalVolume.toLocaleString();
+            document.getElementById('totalRevenue').textContent = '$' + revenue.total.toFixed(2);
+            document.getElementById('businessContribution').textContent = businessContribution.toFixed(1) + '%';
+            
+            // Update table values
+            document.getElementById('tableConsumerVol').textContent = config.consumerVolume.toLocaleString();
+            document.getElementById('tableConsumerRate').textContent = (config.consumerRate * 100).toFixed(2);
+            document.getElementById('tableConsumerRev').textContent = revenue.consumer.toFixed(2);
+            document.getElementById('tableConsumerPool').textContent = (revenue.consumer * 0.20).toFixed(2);
+            
+            document.getElementById('tableBusinessVol').textContent = config.businessVolume.toLocaleString();
+            document.getElementById('tableBusinessRate').textContent = (config.businessRate * 100).toFixed(2);
+            document.getElementById('tableBusinessRev').textContent = revenue.business.toFixed(2);
+            document.getElementById('tableBusinessPool').textContent = (revenue.business * 0.20).toFixed(2);
+            
+            document.getElementById('tableTotalVol').textContent = totalVolume.toLocaleString();
+            document.getElementById('tableAvgRate').textContent = avgRate.toFixed(2);
+            document.getElementById('tableTotalRev').textContent = revenue.total.toFixed(2);
+            document.getElementById('tableTotalPool').textContent = allocation.pool.toFixed(2);
+            
+            // Update 70/20/10 allocation
+            document.getElementById('opsAmount').textContent = '$' + allocation.ops.toFixed(2);
+            document.getElementById('poolAmount').textContent = '$' + allocation.pool.toFixed(2);
+            document.getElementById('fundAmount').textContent = '$' + allocation.fund.toFixed(2);
+            document.getElementById('memberShare').textContent = '$' + memberShare.toFixed(2);
+            document.getElementById('businessBoost').textContent = '$' + (businessBoost * 0.10).toFixed(2);
+            
+            // Update calculation breakdowns
+            document.getElementById('businessCalc').textContent = 
+                `(${config.businessVolume.toLocaleString()} × ${(config.businessRate*100).toFixed(2)}% = $${revenue.business.toFixed(2)})`;
+            
+            document.getElementById('opsCalc').textContent = 
+                `$${revenue.total.toFixed(2)} × 0.70 = $${allocation.ops.toFixed(2)}`;
+            document.getElementById('poolCalc').textContent = 
+                `$${revenue.total.toFixed(2)} × 0.20 = $${allocation.pool.toFixed(2)}`;
+            document.getElementById('fundCalc').textContent = 
+                `$${revenue.total.toFixed(2)} × 0.10 = $${allocation.fund.toFixed(2)}`;
+            document.getElementById('memberCalc').textContent = 
+                `${(config.memberExamplePatronage*100).toFixed(0)}% of $${allocation.pool.toFixed(2)} = $${memberShare.toFixed(2)}`;
+        }
+
+        // --- INITIALIZE DASHBOARD ON PAGE LOAD ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial input values
+            document.getElementById('consumerVolume').value = config.consumerVolume;
+            document.getElementById('consumerRate').value = (config.consumerRate * 100).toFixed(2);
+            document.getElementById('businessVolume').value = config.businessVolume;
+            document.getElementById('businessRate').value = (config.businessRate * 100).toFixed(2);
+            
+            // Run initial calculation
+            updateDashboard();
+            
+            // Add event listeners for real-time updates (optional)
+            const inputs = document.querySelectorAll('.revenue-input input');
+            inputs.forEach(input => {
+                input.addEventListener('change', updateDashboard);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "pools": {
+    "efbff87b-4b45-4e0d-a49f-c5e776df0239": {
+      "id": "efbff87b-4b45-4e0d-a49f-c5e776df0239",
+      "name": "Diaspora Spending Patterns",
+      "description": "Anonymized aggregate spending data from SOLVY members to identify trends in diaspora communities. Used for academic research and financial product development.",
+      "category": "research",
+      "pricePerDownload": 500,
+      "status": "active",
+      "createdAt": "2026-04-18T03:15:57.443Z",
+      "createdBy": "system"
+    },
+    "7a89c4b4-62c5-4147-bd39-1ff6307579bb": {
+      "id": "7a89c4b4-62c5-4147-bd39-1ff6307579bb",
+      "name": "Cooperative Merchant Insights",
+      "description": "Category-level spending aggregates to help pilot partners (like Evergreen Beauty Lounge) understand member preferences and optimize offerings.",
+      "category": "partners",
+      "pricePerDownload": 250,
+      "status": "active",
+      "createdAt": "2026-04-18T03:15:57.448Z",
+      "createdBy": "system"
+    },
+    "a203ef69-46aa-4ee8-b7e7-63bb7a8dd51c": {
+      "id": "a203ef69-46aa-4ee8-b7e7-63bb7a8dd51c",
+      "name": "AI Training Dataset: Financial Behavior",
+      "description": "High-level behavioral aggregates for training AI models that serve underbanked communities. No personal identifiers. No individual transactions.",
+      "category": "ai",
+      "pricePerDownload": 1000,
+      "status": "active",
+      "createdAt": "2026-04-18T03:15:57.448Z",
+      "createdBy": "system"
+    }
+  },
+  "contributions": {
+    "efbff87b-4b45-4e0d-a49f-c5e776df0239": [],
+    "7a89c4b4-62c5-4147-bd39-1ff6307579bb": [],
+    "a203ef69-46aa-4ee8-b7e7-63bb7a8dd51c": []
+  },
+  "sales": [],
+  "revenueSummary": {
+    "totalRevenue": 0,
+    "memberPool": 0,
+    "operations": 0,
+    "sovereignFund": 0
+  }
+}

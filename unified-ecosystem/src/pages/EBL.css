@@ -1,0 +1,1041 @@
+.ebl-app {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e293b 100%);
+  min-height: 100vh;
+  color: #ffffff;
+}
+
+/* Hero Section */
+.ebl-hero {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 4rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  text-align: center;
+}
+
+.ebl-hero-content {
+  max-width: 800px;
+}
+
+.ebl-hero-logo {
+  max-width: 300px;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 10px 30px rgba(147, 51, 234, 0.3));
+}
+
+.ebl-title-bookend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.ebl-bookend-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 15px rgba(147, 51, 234, 0.4));
+}
+
+.ebl-hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #9333ea, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ebl-tagline {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1.5rem;
+}
+
+.ebl-badge {
+  display: inline-block;
+  background: rgba(147, 51, 234, 0.2);
+  border: 1px solid rgba(147, 51, 234, 0.4);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ebl-proof-statement {
+  font-size: 1.3rem;
+  color: #10b981;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* SOLVY Intro */
+.ebl-solvy-intro {
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.ebl-solvy-intro h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.ebl-solvy-intro p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  line-height: 1.8;
+}
+
+.solvy-benefits {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.solvy-benefits span {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
+/* Services Section */
+.ebl-services {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+.ebl-services .services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.ebl-services .service-card {
+  background: rgba(147, 51, 234, 0.1);
+  border: 2px solid rgba(147, 51, 234, 0.3);
+  border-radius: 20px;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.ebl-services .service-card:hover {
+  transform: translateY(-10px);
+  border-color: #9333ea;
+  box-shadow: 0 20px 40px rgba(147, 51, 234, 0.3);
+}
+
+.ebl-services .service-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.ebl-services .service-card h3 {
+  font-size: 1.5rem;
+  color: #9333ea;
+  margin-bottom: 1rem;
+}
+
+.ebl-services .service-card p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+/* Booking Section */
+.ebl-booking {
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  text-align: center;
+}
+
+.ebl-booking h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #9333ea;
+}
+
+.ebl-booking > .container > p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+
+.booking-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-call, .btn-text, .btn-pay {
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+
+.btn-call {
+  background: #10b981;
+  color: white;
+}
+
+.btn-text {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-pay {
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+  color: white;
+}
+
+.btn-call:hover, .btn-text:hover, .btn-pay:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Reign Section */
+.ebl-reign {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+  text-align: center;
+}
+
+.ebl-reign h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.reign-description {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.reign-videos {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.video-link {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.video-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-order {
+  display: inline-block;
+  background: white;
+  color: #8e44ad;
+  padding: 1.25rem 3rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+
+.btn-order:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* SPS Section */
+.ebl-sps {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  text-align: center;
+}
+
+.ebl-sps h2 {
+  font-size: 2.5rem;
+  color: #9333ea;
+  margin-bottom: 1.5rem;
+}
+
+.sps-proposal-badge {
+  display: inline-block;
+  background: #ffb347;
+  color: #0f1e2c;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  vertical-align: middle;
+  margin-left: 10px;
+  text-transform: uppercase;
+}
+
+.ebl-sps > .container > p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  line-height: 1.8;
+}
+
+.sps-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.sps-feature {
+  background: rgba(147, 51, 234, 0.1);
+  border: 1px solid rgba(147, 51, 234, 0.3);
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+.sps-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.sps-feature h4 {
+  color: #9333ea;
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.sps-feature p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* MAN Section */
+.ebl-man {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  text-align: center;
+}
+
+.ebl-man h2 {
+  font-size: 2.5rem;
+  color: #9333ea;
+  margin-bottom: 1rem;
+}
+
+.ebl-man > .container > p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 3rem;
+}
+
+.man-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.man-card {
+  background: rgba(147, 51, 234, 0.1);
+  border: 2px solid rgba(147, 51, 234, 0.3);
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: left;
+}
+
+.man-card h3 {
+  color: #9333ea;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.man-card > p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.man-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.man-card li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.man-card li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #9333ea;
+  font-weight: bold;
+}
+
+/* Email Directory */
+.email-directory {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.email-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 12px;
+  background: rgba(147, 51, 234, 0.08);
+  border: 1px solid rgba(147, 51, 234, 0.2);
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.email-entry:hover {
+  background: rgba(147, 51, 234, 0.2);
+  border-color: rgba(147, 51, 234, 0.5);
+}
+
+.email-entry--team {
+  background: rgba(147, 51, 234, 0.15);
+  border-color: rgba(147, 51, 234, 0.4);
+  margin-top: 0.3rem;
+}
+
+.email-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.email-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.email-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.email-address {
+  color: #a78bfa;
+  font-size: 0.78rem;
+  font-family: monospace;
+}
+
+/* Payment Section */
+.ebl-payment {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  text-align: center;
+}
+
+.ebl-payment h2 {
+  font-size: 2.5rem;
+  color: #9333ea;
+  margin-bottom: 0.5rem;
+}
+
+.pilot-badge {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  margin-bottom: 3rem;
+  color: #10b981;
+  font-weight: 600;
+}
+
+.payment-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: rgba(147, 51, 234, 0.1);
+  border: 2px solid rgba(147, 51, 234, 0.3);
+  border-radius: 20px;
+  padding: 2.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid rgba(147, 51, 234, 0.4);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 1rem;
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group select {
+  cursor: pointer;
+}
+
+.form-group select option {
+  background: #1e293b;
+  color: white;
+}
+
+.payment-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-solvy-pay {
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  padding: 1.25rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-solvy-pay:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.5);
+}
+
+.btn-other-pay {
+  background: transparent;
+  color: #9333ea;
+  border: 2px solid #9333ea;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-other-pay:hover {
+  background: rgba(147, 51, 234, 0.2);
+}
+
+.profit-note {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(147, 51, 234, 0.2);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+}
+
+/* Community Section */
+.reign-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 2rem auto;
+  max-width: 960px;
+  text-align: left;
+}
+
+.reign-feature-card {
+  background: rgba(147, 51, 234, 0.08);
+  border: 1px solid rgba(147, 51, 234, 0.25);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.reign-feature-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.reign-feature-card h4 {
+  color: #c4b5fd;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.reign-feature-card p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.ebl-community {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  text-align: center;
+}
+
+.ebl-community h2 {
+  font-size: 2.5rem;
+  color: #9333ea;
+  margin-bottom: 1.5rem;
+}
+
+.ebl-community p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 800px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.8;
+}
+
+.btn-community {
+  display: inline-block;
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+  color: white;
+  padding: 1.25rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  transition: all 0.3s;
+}
+
+.btn-community:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(147, 51, 234, 0.4);
+}
+
+/* QR Codes Section */
+.ebl-qr-codes {
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  text-align: center;
+}
+
+.ebl-qr-codes h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #9333ea, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.qr-description {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 3rem;
+}
+
+.qr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.qr-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(147, 51, 234, 0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s;
+}
+
+.qr-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(147, 51, 234, 0.6);
+  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.2);
+}
+
+.qr-card h3 {
+  font-size: 1.3rem;
+  color: #9333ea;
+  margin-bottom: 1.5rem;
+}
+
+.qr-image {
+  width: 200px;
+  height: 200px;
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.qr-url {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+  font-family: monospace;
+}
+
+.btn-download-qr {
+  display: inline-block;
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.btn-download-qr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(147, 51, 234, 0.4);
+}
+
+.print-note {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+@media print {
+  .ebl-qr-codes {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .qr-card {
+    border: 1px solid #ccc !important;
+    background: white !important;
+    page-break-inside: avoid;
+  }
+  
+  .qr-card h3 {
+    color: #333 !important;
+  }
+  
+  .btn-download-qr {
+    display: none !important;
+  }
+}
+
+/* ── Business Card Section ─────────────────────────── */
+.biz-card-section {
+  padding: 3rem 2rem 2rem;
+  border-top: 1px solid rgba(147, 51, 234, 0.3);
+  text-align: center;
+}
+
+.biz-card-heading {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #a855f7;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.biz-card-subheading {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 2rem;
+}
+
+.biz-cards-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.biz-card-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.biz-card-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+}
+
+/* Standard business card: 3.5" × 2" → 350px × 200px */
+.biz-card {
+  width: 350px;
+  height: 200px;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(147,51,234,0.25);
+  overflow: hidden;
+  position: relative;
+}
+
+/* FRONT ──────────── */
+.biz-card-front {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #fce4ec 100%);
+  display: flex;
+  align-items: stretch;
+}
+
+.biz-card-front-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 22px 14px;
+}
+
+.biz-card-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.biz-card-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(147,51,234,0.6));
+}
+
+.biz-card-name-block {
+  text-align: left;
+}
+
+.biz-card-business {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a0a0e;
+  margin: 0 0 2px;
+  line-height: 1.2;
+}
+
+.biz-card-license {
+  font-size: 0.62rem;
+  color: rgba(26,10,14,0.55);
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.biz-card-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(180,80,120,0.5), transparent);
+  margin: 4px 0;
+}
+
+.biz-card-contact {
+  text-align: right;
+}
+
+.biz-card-phone {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #9d174d;
+  margin: 0 0 2px;
+  letter-spacing: 0.5px;
+}
+
+.biz-card-appt {
+  font-size: 0.62rem;
+  color: rgba(26,10,14,0.6);
+  margin: 0 0 4px;
+}
+
+.biz-card-web {
+  font-size: 0.72rem;
+  color: #1d4ed8;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* BACK ──────────── */
+.biz-card-back {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #fce4ec 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+}
+
+.biz-card-qr-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.biz-card-qr-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.biz-card-qr-box {
+  border: 2px solid rgba(157,23,77,0.25);
+  border-radius: 6px;
+  padding: 4px;
+  background: #fce4ec;
+}
+
+.biz-card-qr-label {
+  font-size: 0.62rem;
+  color: #1a0a0e;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
+
+.biz-card-qr-sublabel {
+  font-size: 0.55rem;
+  color: #9d174d;
+  margin: 0;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
+
+.biz-card-qr-divider {
+  width: 1px;
+  height: 90px;
+  background: rgba(157,23,77,0.3);
+}
+
+.biz-card-back-tagline {
+  font-size: 0.6rem;
+  color: rgba(26,10,14,0.55);
+  margin: 0;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* Print button */
+.biz-card-print-btn {
+  margin-top: 1.5rem;
+  padding: 0.65rem 1.8rem;
+  background: linear-gradient(135deg, #9333ea, #3b82f6);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.biz-card-print-btn:hover {
+  opacity: 0.88;
+}
+
+/* Print media – show only the cards */
+@media print {
+  .ebl-app > *:not(footer) { display: none !important; }
+  .biz-card-section { border: none; padding: 0; }
+  .biz-card-heading, .biz-card-subheading, .biz-card-label, .biz-card-print-btn { display: none; }
+  .biz-cards-wrapper { gap: 1.5cm; }
+  .biz-card { box-shadow: none; border: 1px solid #ccc; }
+  .ebl-footer > .container { display: none; }
+}
+
+/* ── Footer ─────────────────────────────────────────── */
+.ebl-footer {
+  background: #0f172a;
+  padding: 0 0 3rem;
+  text-align: center;
+  border-top: none;
+}
+
+.ebl-footer p {
+  margin: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.ebl-footer .copyright {
+  margin-top: 1.5rem;
+  opacity: 0.6;
+}
+
+/* Container */
+.ebl-app .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ebl-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .ebl-solvy-intro h2,
+  .ebl-booking h2,
+  .ebl-reign h2,
+  .ebl-sps h2,
+  .ebl-man h2,
+  .ebl-payment h2,
+  .ebl-community h2 {
+    font-size: 2rem;
+  }
+  
+  .solvy-benefits {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .booking-buttons {
+    flex-direction: column;
+  }
+  
+  .reign-videos {
+    flex-direction: column;
+  }
+}

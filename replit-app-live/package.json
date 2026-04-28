@@ -1,0 +1,38 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "**Economic Liberation Through Cooperative Ownership**",
+  "main": "navigation.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd unified-ecosystem && npm install && npm run build && node_modules/.bin/esbuild server/index.ts --bundle --platform=node --format=esm --outfile=dist/server.mjs --packages=external",
+    "start": "NODE_ENV=production node unified-ecosystem/dist/server.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@stripe/stripe-js": "^8.6.0",
+    "@types/connect-pg-simple": "^7.0.3",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/express-session": "^1.18.2",
+    "@types/memoizee": "^0.4.12",
+    "@types/passport": "^1.0.17",
+    "@types/pg": "^8.16.0",
+    "concurrently": "^9.2.1",
+    "connect-pg-simple": "^10.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "express-session": "^1.18.2",
+    "memoizee": "^0.4.17",
+    "openid-client": "^6.8.1",
+    "passport": "^0.7.0",
+    "pg": "^8.16.3",
+    "qrcode.react": "^4.2.0",
+    "serve": "^14.2.5",
+    "stripe": "^20.1.0",
+    "stripe-replit-sync": "^1.0.0",
+    "tsx": "^4.21.0"
+  }
+}

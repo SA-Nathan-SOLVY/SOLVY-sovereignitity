@@ -2,125 +2,217 @@
 
 ## Overview
 
-This document provides instructions for deploying the SOLVY platform to various environments.
+This document provides instructions for deploying the SOLVY platform to production environments.
+
+**Production Setup (matches Replit):**
+- **Domains:** `ebl.beauty`, `solvy.cards`, `solvy-sovereignitity--smayone.replit.app`
+- **Compute:** 2 vCPU / 4 GiB RAM / Autoscale
+- **Database:** PostgreSQL 15 (production)
+- **Visibility:** Public
 
 ## Project Structure
 
 ```
 solvy-platform/
-├── index.html                    # Main landing page (EBL)
+├── index.html                    # Main landing page
+├── about.html                    # About page
+├── heritage.html                 # Heritage page
+├── manifesto.html                # Manifesto page
+├── banking/                      # Member banking portal
+│   └── index.html
 ├── card/
 │   ├── solvy-card.html          # Card interface
 │   └── card-customizer.html     # Card customization
 ├── sps-pilot/
 │   └── index.html               # SPS replenishment feed
 ├── payment/
-│   └── payment.html             # Payment processing (coming soon)
+│   └── payment.html             # Payment processing
 ├── invoice/
-│   └── invoice-management.html  # Invoice management (coming soon)
+│   └── invoice-management.html  # Invoice management
 ├── remittance/
-│   └── remittance.html          # Remittance (coming soon)
+│   └── remittance.html          # Remittance
 ├── community/
-│   └── communities.html         # Community (coming soon)
+│   └── communities.html         # Community
 ├── decidey/
-│   └── decidey-ngo.html         # DECIDEY NGO (coming soon)
+│   └── decidey-ngo.html         # DECIDEY NGO
 ├── operations/
-│   └── operations-dashboard.html # Operations (coming soon)
-├── docs/
-│   └── CARD-API-DOCUMENTATION.md
-├── assets/                      # Static assets (logos, images)
-├── Dockerfile                   # Docker configuration
-└── docker-compose.yml           # Docker Compose configuration
+│   └── operations-dashboard.html # Operations
+├── api/                          # Backend API
+├── backend/                      # Node.js backend (production)
+│   ├── src/
+│   └── package.json
+├── frontend/                     # React frontend (production)
+│   ├── src/
+│   └── package.json
+├── assets/                       # Static assets
+├── Dockerfile                    # Docker configuration
+├── docker-compose.yml            # Docker Compose with PostgreSQL
+├── nginx-proxy.conf              # Nginx multi-domain config
+└── DEPLOYMENT.md                 # This file
+```
+
+## Production Domains
+
+| Domain | Purpose |
+|--------|---------|
+| `ebl.beauty` | Main SOLVY Ecosystem platform |
+| `solvy.cards` | SOLVY Card™ product pages |
+| `solvy-sovereignitity--smayone.replit.app` | Replit mirror |
+| `api.ebl.beauty` | API gateway |
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and configure:
+
+```bash
+# Domains
+DOMAIN=ebl.beauty
+DOMAIN_CARDS=solvy.cards
+DOMAIN_REPLIT=solvy-sovereignitity--smayone.replit.app
+
+# Database
+DB_PASSWORD=your_secure_password
+DATABASE_URL=postgresql://solvy:your_password@db:5432/solvy
+
+# Unit.co Banking
+UNIT_API_TOKEN=your_token
+UNIT_API_URL=https://api.s.unit.sh
+UNIT_ORG_ID=your_org_id
+
+# Webhook Security
+SOLVY_WEBHOOK_SECRET=your_secret
+
+# JWT
+JWT_SECRET=your_jwt_secret_min_32_chars
+
+# AgentMail Email
+AGENTMAIL_API_KEY=am_...
 ```
 
 ## Deployment Options
 
-### Option 1: Docker (Recommended for Local/Server)
+### Option 1: Docker Compose (Recommended for VPS)
 
 ```bash
-# Build and run
+# Build and run with PostgreSQL
 docker-compose up -d
 
 # Access at http://localhost:8080
+# Nginx proxy at ports 80/443
 ```
 
-### Option 2: Static Hosting (Netlify, Vercel, Cloudflare Pages)
+**Resource Limits (matches Replit Production):**
+- Web: 2 vCPU / 4 GiB RAM
+- API: 1 vCPU / 2 GiB RAM
+- DB: 1 vCPU / 2 GiB RAM
 
-1. Upload the `solvy-platform` folder contents
-2. Configure build settings (none needed - static site)
-3. Deploy
-
-### Option 3: Nginx Server
+### Option 2: PM2 + Nginx (Bare Metal)
 
 ```bash
-# Copy files to nginx html directory
-sudo cp -r solvy-platform/* /var/www/html/
+# Install dependencies
+npm install --omit=dev
 
-# Ensure proper permissions
-sudo chown -R www-data:www-data /var/www/html/
+# Start with PM2 (cluster mode, 2 instances)
+pm2 start pm2.config.cjs
+
+# Configure Nginx with SSL
+sudo cp nginx-proxy.conf /etc/nginx/sites-available/solvy
+sudo ln -s /etc/nginx/sites-available/solvy /etc/nginx/sites-enabled/
+sudo certbot --nginx -d ebl.beauty -d solvy.cards
+sudo systemctl reload nginx
 ```
 
-### Option 4: Replit
+### Option 3: Hetzner VPS (Automated)
 
-The platform is currently hosted on Replit. To update:
+```bash
+cd unified-ecosystem
+./deploy-hetzner.sh ebl.beauty
+```
 
-1. Upload files to Replit
-2. Click "Run" or use the Deploy button
-3. Update environment variables if needed
+### Option 4: Replit Mirror
 
-## Environment Variables
+```bash
+cd replit-deploy
+# Copy .env.example to .env and fill in values
+cp .env.example .env
+# Deploy with Docker
+docker-compose up -d
+```
 
-No environment variables required for basic static deployment.
+## SSL Certificates
 
-For future API integration:
-- `API_BASE_URL` - Backend API endpoint
-- `STRIPE_PUBLIC_KEY` - Payment processing
-- `AUTH_DOMAIN` - Authentication provider
+Using Let's Encrypt:
+
+```bash
+# Obtain certificates for all domains
+sudo certbot --nginx \
+  -d ebl.beauty \
+  -d www.ebl.beauty \
+  -d solvy.cards \
+  -d www.solvy.cards \
+  -d api.ebl.beauty
+```
+
+## Database Setup
+
+PostgreSQL is included in docker-compose. For bare metal:
+
+```bash
+# Install PostgreSQL 15
+sudo apt install postgresql-15
+
+# Create database
+sudo -u postgres psql -c "CREATE USER solvy WITH PASSWORD 'your_password';"
+sudo -u postgres psql -c "CREATE DATABASE solvy OWNER solvy;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE solvy TO solvy;"
+```
 
 ## Pre-Deployment Checklist
 
-- [ ] All HTML pages are complete
-- [ ] Assets are properly linked
-- [ ] Navigation works between pages
+- [ ] All `.env` values filled in
+- [ ] SSL certificates obtained for all domains
+- [ ] DNS A records point to VPS IP (46.62.235.95)
+- [ ] Firewall ports 80, 443, 3000, 5432 open
+- [ ] Database migrations run
+- [ ] Health check endpoints responding
 - [ ] Mobile responsiveness tested
-- [ ] No broken links
 
 ## Post-Deployment Verification
 
-1. Visit main page: `/`
-2. Test navigation to all sections
-3. Verify all links work
-4. Test on mobile device
+1. Visit `https://ebl.beauty` — main platform loads
+2. Visit `https://solvy.cards` — card pages load
+3. Test API: `curl https://api.ebl.beauty/health`
+4. Test database connectivity
+5. Verify SSL certificates
 
-## Custom Domain Setup
+## Monitoring
 
-### Netlify
-1. Go to Domain Settings
-2. Add custom domain
-3. Configure DNS records
+```bash
+# Container status
+docker-compose ps
 
-### Vercel
-1. Go to Project Settings > Domains
-2. Add domain
-3. Configure DNS
+# Logs
+docker-compose logs -f web
+docker-compose logs -f api
+docker-compose logs -f db
 
-### Traditional Server
-Configure nginx or Apache virtual host to point to the deployment directory.
+# PM2 status (if using PM2)
+pm2 status
+pm2 logs solvy-api
+```
 
-## Maintenance
+## Scaling
 
-### Updating Content
+To match Replit autoscale behavior on VPS:
 
-1. Make changes to files locally
-2. Rebuild Docker container or
-3. Re-upload to hosting provider
+```bash
+# Scale web containers
+docker-compose up -d --scale web=2
 
-### Monitoring
-
-- Set up uptime monitoring (UptimeRobot, Pingdom)
-- Monitor error logs
-- Track performance metrics
+# Or use PM2 cluster mode (already configured for 2 instances)
+pm2 reload solvy-api
+```
 
 ## Support
 
-For deployment assistance, contact: support@solvy.coop
+For deployment assistance, contact: support@ebl.beauty

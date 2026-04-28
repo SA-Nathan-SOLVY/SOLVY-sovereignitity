@@ -1,0 +1,147 @@
+Done. All three versions have been integrated into the live site, and the complete stack list for Replit coordination is below.
+
+---
+
+## What I Just Deployed
+
+### 1. Manifesto — "A Parallel Economy, Not a Rejection"
+**File:** `solvy-platform/manifesto.html` (live)
+- Inserted Version 1 as the opening section of the manifesto content, right after the hero and before the 70/20/10 model.
+
+### 2. Heritage — "Extraction and Parallel Economy"
+**File:** `solvy-platform/heritage.html` (live)
+- Inserted Version 2 as a new full-width section immediately after the hero, before the Three Pillars.
+- Includes the bullet list contrasting extraction vs. interchange/cooperative ownership.
+
+### 3. MAN Portal — "Parallel Economy Dashboard – Proof, Not Promises"
+**File:** `solvy-platform/internal/man-portal.html` (live)
+- Added a new sidebar item: **Parallel Economy** (⚖️ icon)
+- Built a full page renderer with:
+  - Comparison table (Old Economy vs. SOLVY Parallel Economy vs. Proof on MAN)
+  - Links to revenue ledger, 70/20/10 tracker, proposal history, and data marketplace
+  - Closing "Proof, not promises" statement card
+
+### 4. Synced to VPS & Replit deploy package
+- All updated HTML files pushed to `/var/www/ebl.beauty/` (live)
+- `replit-deploy/` synced with the latest static site files
+
+---
+
+## SOLVY Stack – Replit Duplication / Coordination List
+
+### Architecture Reminder
+You maintain **two parallel architectures**:
+1. **Static HTML Site** (`solvy-platform/`) — Source of truth for `https://ebl.beauty`
+2. **Replit React SPA** (`replit-app-live.zip` / `replit-deploy/`) — Backup/live Replit app
+
+---
+
+### A. Static Site Files (Source of Truth)
+
+#### New Page
+| File | Path | Purpose |
+|:---|:---|:---|
+| `data-marketplace.html` | `solvy-platform/data-marketplace.html` | Member-facing data marketplace |
+
+#### Updated Content Pages
+| File | Path | Key Changes |
+|:---|:---|:---|
+| `manifesto.html` | `solvy-platform/manifesto.html` | Version 1: "A Parallel Economy, Not a Rejection" |
+| `heritage.html` | `solvy-platform/heritage.html` | Version 2: "Extraction and Parallel Economy" |
+| `man-portal.html` | `solvy-platform/internal/man-portal.html` | Version 3: "Parallel Economy Dashboard" + Data Pool Revenue tab |
+| `privacy-dashboard.html` | `solvy-platform/privacy-dashboard.html` | Data Marketplace CTA card |
+
+#### Navbar-Unified Pages (21 files)
+All of these now include the `🛢️ Data Marketplace` link in desktop and mobile nav:
+```
+about.html, banking/index.html, card/card-customizer.html, card/solvy-card.html,
+community/communities.html, data-marketplace.html, decidey/decidey-ngo.html,
+first-circle-deposit.html, heritage.html, index.html, internal/man-demo.html,
+internal/man-portal.html, invoice/invoice-management.html, manifesto.html,
+onboarding.html, operations/operations-dashboard.html, payment/payment.html,
+phase2-moli/ibc-loan-to-card.html, privacy-dashboard.html, remittance/remittance.html,
+sovereignty-vs-hustle.html, sps-pilot/index.html
+```
+
+---
+
+### B. Backend API Extensions
+
+#### New Module
+| File | Path | Purpose |
+|:---|:---|:---|
+| `data-pool.js` | `solvy-unit-integration/api/marketplace/data-pool.js` | Pool creation, contributions, dataset bundling (JSON/CSV), sales, 70/20/10 split |
+
+#### Modified Entry Point
+| File | Path | Change |
+|:---|:---|:---|
+| `server.js` | `solvy-unit-integration/server.js` | Wired all `/api/marketplace/*` routes |
+
+**Live endpoints:**
+- `GET  https://ebl.beauty/api/marketplace/pools`
+- `POST https://ebl.beauty/api/marketplace/contribute`
+- `GET  https://ebl.beauty/api/marketplace/revenue`
+- `GET  https://ebl.beauty/api/marketplace/pools/:poolId/dataset.csv`
+
+---
+
+### C. What to Sync to Replit (Static Site Backup)
+
+**Directories:**
+```
+solvy-platform/assets/           → replit-deploy/assets/
+solvy-platform/js/               → replit-deploy/js/
+solvy-platform/css/              → replit-deploy/css/
+solvy-platform/brochures/        → replit-deploy/brochures/
+solvy-platform/sps-presentation/ → replit-deploy/sps-presentation/
+solvy-platform/internal/         → replit-deploy/internal/
+solvy-platform/card/             → replit-deploy/card/
+solvy-platform/banking/          → replit-deploy/banking/
+```
+
+**All HTML files** from `solvy-platform/` (including subdirectories) → `replit-deploy/` (same structure)
+
+---
+
+### D. If You Are Maintaining the React SPA Separately
+
+You must port these into the React source:
+
+#### New Route
+- **Page:** `DataMarketplace`
+- **API calls:** `GET /api/marketplace/pools`, `GET /api/marketplace/member/:memberHash/earnings`, `POST /api/marketplace/contribute`
+- **Feature:** CSV preview link to `/api/marketplace/pools/:poolId/dataset.csv`
+
+#### Nav Updates
+- Add `🛢️ Data Marketplace` to global navbar
+- Add `Parallel Economy` section to member dashboard / MAN portal equivalent
+
+#### Content Copy to Paste
+
+**Manifesto:**
+> The existing economy—built on extraction, ISDS arbitration, and resource grabs—has created enormous wealth. We do not deny that. We do not ask anyone to be ashamed of it. Many of us have benefited from it, directly or indirectly. But not everyone could participate. That is not an accident. The same mechanisms that built wealth for some—from regime change to subprime mortgages to investor-state lawsuits—locked others out. SOLVY does not seek to tear down. We seek to build alongside. We are creating a parallel economy governed by SOVEREIGNITITY: data sovereignty, cooperative ownership, and patient revenue. Not to replace what exists, but to offer a choice. You can participate in the old economy. You can also own the new one. We do not reject. We build.
+
+**Heritage:**
+> The wealth of nations—including the one we call home—has often been built through extraction. From colonial resource grabs to modern ISDS arbitration (Investor-State Dispute Settlement), corporations have sued sovereign nations for billions to protect profits from oil, gas, minerals, and land. This system created jobs, funded pensions, and built stock markets. It also displaced communities, undermined democracies, and created the diaspora that now seeks a new way forward. We are not here to judge. We are here to build. SOLVY is a parallel economy, not a protest. We do not ask you to leave the old system. We ask you to also participate in a new one.
+
+**MAN Portal:**
+> "We do not reject the old economy. We prove the parallel economy works." Every dollar in the Member Pool comes from swipes, not extraction. Every member can see it. Every vote is recorded. Every data contribution is consented. This is not a rejection of history. It is a verifiable alternative.
+
+---
+
+### E. Environment Variables (Backend)
+
+```bash
+STRIPE_SECRET_KEY=sk_test_... (or sk_live_...)
+UNIT_API_TOKEN=...
+UNIT_API_URL=https://api.s.unit.sh
+UNIT_ORG_ID=...
+SOLVY_ENV=sandbox
+SOLVY_PORT=3000
+```
+
+No new env vars are needed for the marketplace module — it persists to `./.data/marketplace.json`.
+
+---
+
+**Everything is live on `https://ebl.beauty`.** If you need me to rebuild the Replit zip package from `replit-deploy/` or push directly to the Replit git remote, say the word.

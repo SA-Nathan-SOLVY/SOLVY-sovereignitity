@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Remittance Vision | SOLVY Platform</title>
+    <meta name="description" content="Building zero-fee family networks connecting diaspora communities worldwide through Web3 infrastructure.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0A1628 0%, #1a2942 50%, #0A1628 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #4A9FD8, #6BB6E8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            max-width: 900px;
+            margin: 1rem auto;
+            opacity: 0.9;
+        }
+
+        .vision-box {
+            background: rgba(74, 159, 216, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border-left: 5px solid #4A9FD8;
+        }
+
+        .vision-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #6BB6E8;
+        }
+
+        .vision-box p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .roadmap {
+            margin: 4rem 0;
+        }
+
+        .roadmap-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .roadmap-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .roadmap-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s;
+            border: 2px solid rgba(74, 159, 216, 0.3);
+        }
+
+        .roadmap-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #4A9FD8;
+        }
+
+        .roadmap-phase {
+            display: inline-block;
+            background: #4A9FD8;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-item h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #6BB6E8;
+        }
+
+        .roadmap-item .timeline {
+            color: #4A9FD8;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-item ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .roadmap-item li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .roadmap-item li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10B981;
+            font-weight: bold;
+        }
+
+        .countries-section {
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #6BB6E8;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .country-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(74, 159, 216, 0.3);
+        }
+
+        .country-card:hover {
+            transform: scale(1.05);
+            background: rgba(74, 159, 216, 0.1);
+            border-color: #4A9FD8;
+        }
+
+        .country-flag {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .country-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #6BB6E8;
+        }
+
+        .country-info {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .country-volume {
+            font-weight: 600;
+            color: #4A9FD8;
+            margin-top: 0.5rem;
+        }
+
+        .calculator-section {
+            background: rgba(74, 159, 216, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 2px solid rgba(74, 159, 216, 0.3);
+        }
+
+        .calculator-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #6BB6E8;
+        }
+
+        .calculator-form {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #6BB6E8;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid rgba(74, 159, 216, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4A9FD8;
+        }
+
+        .calculator-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .result-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid rgba(74, 159, 216, 0.3);
+        }
+
+        .result-box h4 {
+            color: #6BB6E8;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-box .amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .result-box .fee {
+            color: #EF4444;
+            font-size: 1.2rem;
+        }
+
+        .result-box .savings {
+            color: #10B981;
+            font-size: 1.2rem;
+        }
+
+        .result-box.solvy {
+            border-color: #10B981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .annual-savings {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 15px;
+            border: 2px solid #10B981;
+        }
+
+        .annual-savings h3 {
+            color: #10B981;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .annual-savings .amount {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #10B981;
+        }
+
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .benefit-card {
+            background: rgba(74, 159, 216, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 2px solid rgba(74, 159, 216, 0.3);
+            transition: all 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: #4A9FD8;
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #6BB6E8;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .calculator-results {
+                grid-template-columns: 1fr;
+            }
+
+            .countries-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+    <script src="navigation.js"></script>
+</head>
+<body>
+    <div id="navigation-placeholder"></div>
+
+    <section class="hero-section">
+        <h1>Global Remittance Vision & Roadmap</h1>
+        <p>Building the future of diaspora financial sovereignty through strategic partnership goals</p>
+    </section>
+
+    <div class="container">
+        <div class="vision-box">
+            <h2>Future Vision: Self-Determined Economic Liberation</h2>
+            <p>
+                While HR 40 represents important progress, diaspora communities worldwide are building their own pathways to economic opportunity. 
+                SOLVY's roadmap envisions zero-fee family remittances connecting communities globally through our Ethereum-ready and Polygon-integrated 
+                Web3 infrastructure. This comprehensive network will enable immediate economic sovereignty through cooperative wealth-building, 
+                supporting all communities seeking financial independence and self-determination.
+            </p>
+        </div>
+
+        <div class="roadmap">
+            <h2 class="roadmap-title">Development Roadmap</h2>
+            <div class="roadmap-items">
+                <div class="roadmap-item">
+                    <span class="roadmap-phase">In Progress</span>
+                    <h3>Phase 1: Foundation</h3>
+                    <p class="timeline">2025 Q1-Q2</p>
+                    <ul>
+                        <li>EBL Services integration (Current)</li>
+                        <li>SOLVY Card deployment</li>
+                        <li>DECIDEY NGO education platform</li>
+                        <li>SOVEREIGNITITY™ LIFE PROGRAM wealth-building strategies</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item">
+                    <span class="roadmap-phase">Planned</span>
+                    <h3>Phase 2: Regional Expansion</h3>
+                    <p class="timeline">2025 Q3-Q4</p>
+                    <ul>
+                        <li>African Diaspora remittance pilot</li>
+                        <li>Nigeria, Ghana, Kenya partnerships</li>
+                        <li>Family card network testing</li>
+                        <li>Cooperative economics education</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item">
+                    <span class="roadmap-phase">Vision</span>
+                    <h3>Phase 3: Global Integration</h3>
+                    <p class="timeline">2026 Q1-Q2</p>
+                    <ul>
+                        <li>Web3 infrastructure deployment</li>
+                        <li>Ethereum and Polygon network integration</li>
+                        <li>International partnership development</li>
+                        <li>Cross-border payment infrastructure</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-item">
+                    <span class="roadmap-phase">Vision</span>
+                    <h3>Phase 4: Global Network</h3>
+                    <p class="timeline">2026 Q3+</p>
+                    <ul>
+                        <li>Top remittance market integration</li>
+                        <li>Multi-currency support expansion</li>
+                        <li>Global cooperative network</li>
+                        <li>Economic sovereignty achievement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="calculator-section">
+            <h2 class="calculator-title">Future Savings Calculator</h2>
+            <div class="calculator-form">
+                <div class="form-group">
+                    <label for="sendAmount">Send Amount (USD)</label>
+                    <input type="number" id="sendAmount" value="500" min="1" oninput="calculateSavings()">
+                </div>
+                <div class="form-group">
+                    <label for="country">Destination Country</label>
+                    <select id="country" onchange="calculateSavings()">
+                        <optgroup label="BRICS Members">
+                            <option value="6">🇧🇷 Brazil - $2.8B (0.15% GDP)</option>
+                            <option value="7">🇷🇺 Russia - $1.2B (0.07% GDP)</option>
+                            <option value="8">🇮🇳 India - $125B (3.2% GDP)</option>
+                            <option value="5">🇨🇳 China - $18.1B (0.1% GDP)</option>
+                            <option value="6">🇿🇦 South Africa - $1.1B (0.27% GDP)</option>
+                            <option value="8">🇸🇦 Saudi Arabia - $36.1B (4.8% GDP)</option>
+                            <option value="7">🇪🇬 Egypt - $31.9B (6.2% GDP)</option>
+                            <option value="6">🇦🇪 UAE - $18.8B (3.9% GDP)</option>
+                            <option value="8">🇪🇹 Ethiopia - $5.4B (4.1% GDP)</option>
+                            <option value="7">🇮🇩 Indonesia - $8.9B (0.65% GDP)</option>
+                            <option value="9">🇮🇷 Iran - $1.8B (0.9% GDP)</option>
+                        </optgroup>
+                        <optgroup label="BRICS Partners">
+                            <option value="7">🇧🇾 Belarus</option>
+                            <option value="8">🇧🇴 Bolivia</option>
+                            <option value="9">🇨🇺 Cuba</option>
+                            <option value="7">🇰🇿 Kazakhstan</option>
+                            <option value="6">🇲🇾 Malaysia</option>
+                            <option value="8">🇳🇬 Nigeria - $25.1B</option>
+                            <option value="7">🇹🇭 Thailand</option>
+                            <option value="8">🇺🇬 Uganda</option>
+                            <option value="9">🇺🇿 Uzbekistan</option>
+                            <option value="6">🇻🇳 Vietnam</option>
+                        </optgroup>
+                        <optgroup label="Top Markets">
+                            <option value="5">🇲🇽 Mexico - $61.0B</option>
+                            <option value="7">🇬🇹 Guatemala - $19.3B</option>
+                            <option value="6">🇵🇭 Philippines - $38.2B</option>
+                            <option value="8">🇸🇻 El Salvador - $8.1B</option>
+                            <option value="7">🇭🇳 Honduras - $6.2B</option>
+                            <option value="6">🇩🇴 Dominican Republic - $10.4B</option>
+                            <option value="8">🇯🇲 Jamaica - $3.8B</option>
+                        </optgroup>
+                        <optgroup label="African Diaspora">
+                            <option value="8">🇬🇭 Ghana - $4.7B</option>
+                            <option value="7">🇰🇪 Kenya - $4.2B</option>
+                            <option value="6">🇲🇦 Morocco - $10.9B</option>
+                            <option value="8">🇸🇳 Senegal - $2.8B</option>
+                            <option value="7">🇨🇲 Cameroon - $1.8B</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calculator-results">
+                <div class="result-box">
+                    <h4>Traditional Remittance</h4>
+                    <p><strong>Send Amount:</strong> $<span id="traditionalSend">500</span></p>
+                    <p class="fee"><strong>Fees (18%):</strong> -$<span id="traditionalFee">90</span></p>
+                    <p class="amount">$<span id="traditionalReceive">410</span></p>
+                    <p>Recipient Gets</p>
+                </div>
+
+                <div class="result-box solvy">
+                    <h4>SOLVY Family Network (Future)</h4>
+                    <p><strong>Send Amount:</strong> $<span id="solvySend">500</span></p>
+                    <p class="savings"><strong>Fees:</strong> $0.00 (Family Cards)</p>
+                    <p class="amount">$<span id="solvyReceive">500</span></p>
+                    <p>Recipient Gets</p>
+                </div>
+            </div>
+
+            <div class="annual-savings">
+                <h3>Projected Annual Savings</h3>
+                <p class="amount">$<span id="annualSavings">1,080</span></p>
+                <p>Per year (monthly transfers)</p>
+            </div>
+        </div>
+
+        <div class="countries-section">
+            <h2 class="section-title">Comprehensive Global Network Vision</h2>
+            <p class="section-subtitle">BRICS Members, Partner Countries, and Strategic Markets</p>
+
+            <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem;">BRICS Full Members (2025)</h3>
+            <div class="countries-grid">
+                <div class="country-card">
+                    <div class="country-flag">🇧🇷</div>
+                    <div class="country-name">Brazil</div>
+                    <div class="country-volume">$2.8B annually</div>
+                    <div class="country-info">0.15% GDP | BRICS founding member</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇷🇺</div>
+                    <div class="country-name">Russia</div>
+                    <div class="country-volume">$1.2B annually</div>
+                    <div class="country-info">0.07% GDP | Energy powerhouse</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇮🇳</div>
+                    <div class="country-name">India</div>
+                    <div class="country-volume">$125B annually</div>
+                    <div class="country-info">3.2% GDP | Fastest growing economy</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇨🇳</div>
+                    <div class="country-name">China</div>
+                    <div class="country-volume">$18.1B annually</div>
+                    <div class="country-info">0.1% GDP | Second largest economy</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇿🇦</div>
+                    <div class="country-name">South Africa</div>
+                    <div class="country-volume">$1.1B annually</div>
+                    <div class="country-info">0.27% GDP | African economic hub</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇸🇦</div>
+                    <div class="country-name">Saudi Arabia</div>
+                    <div class="country-volume">$36.1B annually</div>
+                    <div class="country-info">4.8% GDP | Gulf powerhouse</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇪🇬</div>
+                    <div class="country-name">Egypt</div>
+                    <div class="country-volume">$31.9B annually</div>
+                    <div class="country-info">6.2% GDP | North African gateway</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇦🇪</div>
+                    <div class="country-name">UAE</div>
+                    <div class="country-volume">$18.8B annually</div>
+                    <div class="country-info">3.9% GDP | Financial hub</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇪🇹</div>
+                    <div class="country-name">Ethiopia</div>
+                    <div class="country-volume">$5.4B annually</div>
+                    <div class="country-info">4.1% GDP | East African leader</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇮🇩</div>
+                    <div class="country-name">Indonesia</div>
+                    <div class="country-volume">$8.9B annually</div>
+                    <div class="country-info">0.65% GDP | Southeast Asian giant</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇮🇷</div>
+                    <div class="country-name">Iran</div>
+                    <div class="country-volume">$1.8B annually</div>
+                    <div class="country-info">0.9% GDP | Regional power</div>
+                </div>
+            </div>
+
+            <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem;">BRICS Partner Countries</h3>
+            <div class="countries-grid">
+                <div class="country-card">
+                    <div class="country-flag">🇧🇾</div>
+                    <div class="country-name">Belarus</div>
+                    <div class="country-info">Eastern European economy</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇧🇴</div>
+                    <div class="country-name">Bolivia</div>
+                    <div class="country-info">Resource-rich nation</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇨🇺</div>
+                    <div class="country-name">Cuba</div>
+                    <div class="country-info">Caribbean island nation</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇰🇿</div>
+                    <div class="country-name">Kazakhstan</div>
+                    <div class="country-info">Central Asian energy producer</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇲🇾</div>
+                    <div class="country-name">Malaysia</div>
+                    <div class="country-info">Southeast Asian trading hub</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇳🇬</div>
+                    <div class="country-name">Nigeria</div>
+                    <div class="country-volume">$25.1B annually</div>
+                    <div class="country-info">Africa's largest economy</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇹🇭</div>
+                    <div class="country-name">Thailand</div>
+                    <div class="country-info">Manufacturing hub</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇺🇬</div>
+                    <div class="country-name">Uganda</div>
+                    <div class="country-info">East African emerging market</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇺🇿</div>
+                    <div class="country-name">Uzbekistan</div>
+                    <div class="country-info">Central Asian economy</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇻🇳</div>
+                    <div class="country-name">Vietnam</div>
+                    <div class="country-volume">$17.2B annually</div>
+                    <div class="country-info">Dynamic Asian economy</div>
+                </div>
+            </div>
+
+            <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem;">Top Remittance Markets</h3>
+            <div class="countries-grid">
+                <div class="country-card">
+                    <div class="country-flag">🇲🇽</div>
+                    <div class="country-name">Mexico</div>
+                    <div class="country-volume">$61.0B annually</div>
+                    <div class="country-info">Largest US remittance destination</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇬🇹</div>
+                    <div class="country-name">Guatemala</div>
+                    <div class="country-volume">$19.3B annually</div>
+                    <div class="country-info">Central American leader</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇵🇭</div>
+                    <div class="country-name">Philippines</div>
+                    <div class="country-volume">$38.2B annually</div>
+                    <div class="country-info">Major Asian remittance market</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇸🇻</div>
+                    <div class="country-name">El Salvador</div>
+                    <div class="country-volume">$8.1B annually</div>
+                    <div class="country-info">Bitcoin adoption leader</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇭🇳</div>
+                    <div class="country-name">Honduras</div>
+                    <div class="country-volume">$6.2B annually</div>
+                    <div class="country-info">Central American market</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇩🇴</div>
+                    <div class="country-name">Dominican Republic</div>
+                    <div class="country-volume">$10.4B annually</div>
+                    <div class="country-info">Caribbean economic hub</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇯🇲</div>
+                    <div class="country-name">Jamaica</div>
+                    <div class="country-volume">$3.8B annually</div>
+                    <div class="country-info">Caribbean island nation</div>
+                </div>
+            </div>
+
+            <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem;">African Diaspora Priority Markets</h3>
+            <div class="countries-grid">
+                <div class="country-card">
+                    <div class="country-flag">🇬🇭</div>
+                    <div class="country-name">Ghana</div>
+                    <div class="country-volume">$4.7B annually</div>
+                    <div class="country-info">West African gold coast</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇰🇪</div>
+                    <div class="country-name">Kenya</div>
+                    <div class="country-volume">$4.2B annually</div>
+                    <div class="country-info">East African tech hub</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇲🇦</div>
+                    <div class="country-name">Morocco</div>
+                    <div class="country-volume">$10.9B annually</div>
+                    <div class="country-info">North African gateway</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇸🇳</div>
+                    <div class="country-name">Senegal</div>
+                    <div class="country-volume">$2.8B annually</div>
+                    <div class="country-info">West African cultural center</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇨🇲</div>
+                    <div class="country-name">Cameroon</div>
+                    <div class="country-volume">$1.8B annually</div>
+                    <div class="country-info">Central African hub</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="benefits">
+            <div class="benefit-card">
+                <div class="benefit-icon">💰</div>
+                <h3>Economic Sovereignty</h3>
+                <p>Self-determined financial independence through cooperative wealth-building and data ownership</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🌍</div>
+                <h3>Diaspora Unity</h3>
+                <p>Connect families across continents, strengthen cultural and economic bonds, build cooperative networks</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🚀</div>
+                <h3>Global Impact</h3>
+                <p>Deploy Web3 infrastructure globally, advance blockchain-based financial systems, create decentralized networks</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateSavings() {
+            const amount = parseFloat(document.getElementById('sendAmount').value) || 500;
+            const feePercent = parseFloat(document.getElementById('country').value) || 7;
+            
+            const fee = amount * (feePercent / 100);
+            const traditionalReceive = amount - fee;
+            const annualSavings = fee * 12;
+            
+            document.getElementById('traditionalSend').textContent = amount.toFixed(2);
+            document.getElementById('traditionalFee').textContent = fee.toFixed(2);
+            document.getElementById('traditionalReceive').textContent = traditionalReceive.toFixed(2);
+            
+            document.getElementById('solvySend').textContent = amount.toFixed(2);
+            document.getElementById('solvyReceive').textContent = amount.toFixed(2);
+            
+            document.getElementById('annualSavings').textContent = annualSavings.toFixed(2);
+        }
+        
+        // Initialize calculator
+        calculateSavings();
+    </script>
+</body>
+</html>

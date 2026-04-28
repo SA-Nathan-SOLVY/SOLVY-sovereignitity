@@ -1,7 +1,27 @@
-version: '3.8'
+version: '3.9'
 services:
   web:
     build: .
+    container_name: solvy-web
+    restart: always
     ports:
       - "80:80"
-    restart: always
+      - "443:443"
+    environment:
+      - NODE_ENV=production
+      - DOMAIN=ebl.beauty
+      - DOMAIN_CARDS=solvy.cards
+      - DOMAIN_REPLIT=solvy-sovereignitity--smayone.replit.app
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

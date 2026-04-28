@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SOLVY Card – Due Diligence Package</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f4f6fa;
+            color: #1a2a3a;
+            line-height: 1.4;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f1e2c 0%, #2c4c6e 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .tagline {
+            color: #5a6e7c;
+            font-size: 0.9rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #0f1e2c;
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            border: 1px solid #eef2f6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: transform 0.1s ease;
+        }
+
+        .stat-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #5a6e7c;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-sub {
+            font-size: 0.7rem;
+            color: #5a6e7c;
+        }
+
+        .stat-positive {
+            color: #2c7a4d;
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+        }
+
+        .badge {
+            background: #e6f7e6;
+            color: #2c7a4d;
+            padding: 0.25rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        /* Applicant Info Card */
+        .applicant-card {
+            background: #0f1e2c;
+            color: white;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .applicant-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .applicant-detail {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+        }
+
+        /* Section spacing */
+        .section {
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ffb347;
+            display: inline-block;
+        }
+
+        /* Panel Grid */
+        .panel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            border: 1px solid #eef2f6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .panel h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.5rem 0.25rem;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        th {
+            font-weight: 600;
+            color: #2c3e4e;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-muted {
+            color: #8a9aa8;
+            font-size: 0.7rem;
+        }
+
+        .check-green {
+            color: #2c7a4d;
+            font-size: 0.7rem;
+        }
+
+        code {
+            background: #f0f2f5;
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        hr {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #eef2f6;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #8a9aa8;
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+            .stat-number {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">SOLVY<span style="color:#ffb347;">⟁</span></div>
+        <div class="tagline">Cooperative Card Program · Due Diligence Package</div>
+        <div style="margin-top: 0.5rem;"><span class="badge">Application Readiness</span></div>
+    </div>
+
+    <!-- Applicant Info -->
+    <div class="applicant-card">
+        <div>
+            <div class="applicant-title">SOLVY Card™</div>
+            <div class="applicant-detail">America's First Cooperative P2P Payment Platform</div>
+        </div>
+        <div style="text-align: right;">
+            <div class="applicant-detail">Program Type: Cooperative BaaS Card Issuance</div>
+            <div class="applicant-detail">Card Network: Visa + Mastercard Debit</div>
+            <div class="applicant-detail">Revenue Model: 70/20/10 Cooperative Split</div>
+            <div class="applicant-detail">Target Launch: June 19, 2026 — Juneteenth</div>
+        </div>
+    </div>
+
+    <!-- Dashboard Stats -->
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <div class="stat-title">PRELAUNCH COMMITMENTS</div>
+            <div class="stat-number">3</div>
+            <div class="stat-sub">founding members committed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">TOTAL PLEDGED VOLUME</div>
+            <div class="stat-number">$130,000</div>
+            <div class="stat-sub">monthly across all members</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">PROJECTED INTERCHANGE</div>
+            <div class="stat-number">$7,800 – $15,600</div>
+            <div class="stat-sub">at 0.5%–1.0% annually</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">AVG MEMBER PLEDGE</div>
+            <div class="stat-number">$43,333</div>
+            <div class="stat-sub">per founding member/month</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">KYC VERIFIED</div>
+            <div class="stat-number">0</div>
+            <div class="stat-sub">members identity-confirmed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">PILOT MERCHANTS LIVE</div>
+            <div class="stat-number">1</div>
+            <div class="stat-sub">active & processing payments</div>
+        </div>
+    </div>
+
+    <!-- Section: Supporting Financial Data -->
+    <div class="section">
+        <div class="section-title">📊 Supporting Financial Data</div>
+    </div>
+
+    <div class="panel-grid">
+        <!-- Panel A: Operational History -->
+        <div class="panel">
+            <h3>🏦 Metro City Bank – 2025 History</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead><tr><th>Month</th><th class="text-right">Deposits</th></tr></thead>
+                    <tbody>
+                        <tr><td>Jan 2025</td><td class="text-right">$2,893.00</td></tr>
+                        <tr><td>Feb 2025</td><td class="text-right">$2,710.00</td></tr>
+                        <tr><td>Mar 2025</td><td class="text-right">$3,904.00</td></tr>
+                        <tr><td>Apr 2025</td><td class="text-right">$12,473.00</td></tr>
+                        <tr><td>May 2025</td><td class="text-right">$4,927.81</td></tr>
+                        <tr><td>Jun 2025</td><td class="text-right">$4,394.00</td></tr>
+                        <tr><td>Jul 2025</td><td class="text-right">$17,571.80</td></tr>
+                        <tr><td>Aug 2025</td><td class="text-right">$3,811.00</td></tr>
+                        <tr><td>Sep 2025</td><td class="text-right">$5,465.38</td></tr>
+                        <tr><td>Oct 2025</td><td class="text-right">$4,177.24</td></tr>
+                        <tr><td>Nov 2025</td><td class="text-right">$3,921.10</td></tr>
+                        <tr><td>Dec 2025</td><td class="text-right">$8,101.35</td></tr>
+                    </tbody>
+                    <tfoot><tr><td><strong>Total 2025</strong></td><td class="text-right"><strong>$74,349.68</strong></td></tr></tfoot>
+                </table>
+            </div>
+            <div class="check-green" style="margin-top: 0.75rem;">✅ Zero overdrafts | ✅ Zero fees | ✅ Positive balance every month</div>
+        </div>
+
+        <!-- Panel B: Technology Infrastructure -->
+        <div class="panel">
+            <h3>🖥️ SOLVY Infrastructure Expenses</h3>
+            <table>
+                <thead><tr><th>Vendor</th><th class="text-right">Monthly</th></tr></thead>
+                <tbody>
+                    <tr><td>Hetzner VPS</td><td class="text-right">$30.63</td></tr>
+                    <tr><td>Vercel Hosting</td><td class="text-right">$21.32</td></tr>
+                    <tr><td>Manus AI (thru Sep)</td><td class="text-right">$39.00</td></tr>
+                    <tr><td>Kimi Code</td><td class="text-right">$31.00</td></tr>
+                    <tr><td>Cloudflare</td><td class="text-right">$0–20</td></tr>
+                </tbody>
+                <tfoot><tr><td><strong>Estimated Total</strong></td><td class="text-right"><strong>~$121–141</strong></td></tr></tfoot>
+            </table>
+            <div class="check-green" style="margin-top: 0.75rem;">✅ All business expenses | ✅ Paid from Metro City account</div>
+        </div>
+
+        <!-- Panel C: Product Sourcing (AMEX) -->
+        <div class="panel">
+            <h3>📦 Product Sourcing – Female Reign</h3>
+            <table>
+                <thead><tr><th>Month</th><th class="text-right">Purchases</th></tr></thead>
+                <tbody>
+                    <tr><td>March 2026</td><td class="text-right">$100.00</td></tr>
+                    <tr><td>April 2026</td><td class="text-right">$346.44</td></tr>
+                </tbody>
+            </table>
+            <div class="check-green" style="margin-top: 0.75rem;">✅ Consistent restocking | ✅ No interest charges</div>
+            <div class="text-muted" style="margin-top: 0.5rem;">*February 2026 statement not provided (acceptable gap)</div>
+        </div>
+    </div>
+
+    <!-- Panel D: Brand Assets & IP -->
+    <div class="panel-grid">
+        <div class="panel">
+            <h3>🏷️ Brand Assets & Intellectual Property</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr><th>Asset</th><th>Vendor</th><th class="text-right">Cost (USD)</th><th>Type</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>ebl.beauty</code></td><td>Domain Registrar</td><td class="text-right">~$15–20</td><td>Web2 Domain</td><td>Active (annual renewal)</td></tr>
+                        <tr><td><code>solvy.cards</code></td><td>Replit</td><td class="text-right">$32.00</td><td>Web2 Domain</td><td>✅ Paid / Active</td></tr>
+                        <tr><td><code>solvy.chain</code></td><td>Freename.io</td><td class="text-right">$5–4,099+</td><td>Web3 TLD</td><td>Blockchain domain; no renewal fees</td></tr>
+                        <tr><td>USPTO Trademark Filing</td><td>USPTO</td><td class="text-right">$700.00</td><td>Legal/IP</td><td>✅ Paid; Serial No. 99739716 (2 classes)</td></tr>
+                        <tr><td>SOLVY Logo</td><td>Graphic Designer</td><td class="text-right">$100–1,000+</td><td>Brand Asset</td><td>One-time investment</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="check-green" style="margin-top: 0.75rem;">✅ Demonstrates professional brand development and long-term commitment</div>
+        </div>
+    </div>
+
+    <hr>
+    <footer>
+        SOLVY Ecosystem – Cooperative Neobank | Data Sovereign | Member Owned<br>
+        Due diligence package compiled from Metro City Bank (2025), Credit One AMEX (Mar–Apr 2026), and SOLVY prelaunch commitments.
+    </footer>
+</div>
+</body>
+</html>

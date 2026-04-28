@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Marketplace | SOLVY Ecosystem™</title>
+    <meta name="description" content="Member-owned data marketplace. Contribute anonymized aggregates, earn from pooled data sales, and maintain full sovereignty.">
+    
+    <!-- Dexie.js for IndexedDB -->
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
+    
+    <!-- SOLVY Services -->
+    <script src="js/services/db.js"></script>
+    <script src="js/services/aggregation-service.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f172a;
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .stat-card {
+            background: rgba(147, 51, 234, 0.08);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-card h3 {
+            font-size: 2rem;
+            color: #ec4899;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        
+        /* Section Header */
+        .section-header {
+            margin-bottom: 1.5rem;
+        }
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: #9333ea;
+            margin-bottom: 0.5rem;
+        }
+        .section-header p {
+            color: #94a3b8;
+        }
+        
+        /* Pool Cards */
+        .pool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .pool-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s;
+        }
+        .pool-card:hover {
+            border-color: rgba(147, 51, 234, 0.4);
+            transform: translateY(-2px);
+        }
+        .pool-card .pool-badge {
+            display: inline-block;
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+        }
+        .pool-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        .pool-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+        .pool-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+        .pool-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .pool-card .contributed-badge {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: none;
+        }
+        .pool-card.contributed .contributed-badge {
+            display: inline-block;
+        }
+        
+        /* Earnings Section */
+        .earnings-box {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(236, 72, 153, 0.05));
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .earnings-box h2 {
+            color: #9333ea;
+            margin-bottom: 1rem;
+        }
+        .earnings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .earnings-item {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .earnings-item .amount {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #ec4899;
+        }
+        .earnings-item .label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.35);
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #cbd5e1;
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-secondary:hover {
+            background: rgba(147, 51, 234, 0.1);
+            color: #ec4899;
+        }
+        
+        /* Privacy Box */
+        .privacy-box {
+            background: rgba(34, 197, 94, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .privacy-box h3 {
+            color: #22c55e;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        .privacy-box ul {
+            margin-left: 1.25rem;
+            color: #cbd5e1;
+        }
+        .privacy-box li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Loading */
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #94a3b8;
+            padding: 2rem;
+        }
+        .loading.active {
+            display: flex;
+        }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(147, 51, 234, 0.3);
+            border-top-color: #9333ea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Message */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        .message.success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+            display: block;
+        }
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            display: block;
+        }
+        
+        /* Pool table */
+        .pool-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .pool-table th, .pool-table td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+        .pool-table th {
+            color: #9333ea;
+            font-weight: 600;
+        }
+        
+        /* Navbar & Footer */
+        .navbar {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo img { height: 42px; width: auto; }
+        .nav-logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+        .nav-links a, .nav-dropdown > a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-dropdown:hover > a {
+            color: #ec4899;
+            background: rgba(147, 51, 234, 0.1);
+        }
+        .nav-dropdown { position: relative; }
+        .nav-dropdown > a::after { content: ' ▼'; font-size: 0.6rem; opacity: 0.7; }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.25rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: #cbd5e1;
+            font-size: 0.85rem;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .nav-dropdown:hover .dropdown-menu { display: block; }
+        .nav-cta {
+            display: flex;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 0.5rem;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 2.5px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: rgba(15, 23, 42, 0.99);
+            padding: 1rem;
+            gap: 0.25rem;
+            border-top: 1px solid rgba(147, 51, 234, 0.15);
+        }
+        .mobile-menu a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .mobile-menu a:hover, .mobile-menu a.active {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .mobile-divider {
+            height: 1px;
+            background: rgba(147, 51, 234, 0.15);
+            margin: 0.5rem 0;
+        }
+        .nav-group-left, .nav-group-center, .nav-group-right {
+            display: inline-flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .mobile-group-left, .mobile-group-center, .mobile-group-right {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        @media (max-width: 1024px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu.active { display: flex; }
+        }
+        
+        footer {
+            background: #0f172a;
+            border-top: 1px solid rgba(147, 51, 234, 0.2);
+            padding: 3rem 2rem 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+        }
+        .footer-col h4 {
+            color: #9333ea;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-col a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+        }
+        .footer-col a:hover { color: #ec4899; }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .footer-bottom img { height: 60px; margin-bottom: 1rem; }
+        .footer-bottom p { color: #64748b; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="./assets/SolvyLogo-1024.png" alt="SOLVY" style="height: 42px; width: auto;">
+                <span class="nav-logo-text">SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <div class="nav-group-left">
+                    <div class="nav-dropdown">
+                        <a href="sps-pilot/index.html">Partners</a>
+                        <div class="dropdown-menu">
+                            <a href="index.html">🌟 Evergreen Beauty Lounge</a>
+                            <a href="sps-pilot/index.html">SPS Pilot</a>
+                            <a href="decidey/decidey-ngo.html">DECIDEY</a>
+                        </div>
+                    </div>
+                    <a href="card/solvy-card.html">💳 SOLVY Card™</a>
+                </div>
+                <div class="nav-group-center">
+                    <div class="nav-dropdown">
+                        <a href="about.html">About</a>
+                        <div class="dropdown-menu">
+                            <a href="manifesto.html">📜 Manifesto</a>
+                            <a href="heritage.html">🏛️ Heritage</a>
+                            <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                        </div>
+                    </div>
+                    <a href="community/communities.html">Community</a>
+                    <a href="data-marketplace.html">🛢️ Data Marketplace</a>
+                </div>
+            </div>
+            <div class="nav-cta">
+                <a href="onboarding.html" class="btn-primary">Join First Circle</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-group-center">
+                <a href="about.html">About</a>
+                <a href="manifesto.html">📜 Manifesto</a>
+                <a href="heritage.html">🏛️ Heritage</a>
+                <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            </div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-group-left">
+                <a href="card/solvy-card.html">💳 SOLVY Card™</a>
+            </div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-group-left">
+                <a href="index.html">🌟 Evergreen Beauty Lounge</a>
+                <a href="sps-pilot/index.html">SPS Pilot</a>
+                <a href="decidey/decidey-ngo.html">DECIDEY</a>
+            </div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-group-center">
+                <a href="community/communities.html">Community</a>
+                <a href="data-marketplace.html">🛢️ Data Marketplace</a>
+            </div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-group-right">
+                <a href="internal/man-portal.html" style="color: #94a3b8; font-size: 0.85rem;">📊 MAN Portal</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Member-Owned Data Marketplace</h1>
+        <p>Your data is an asset. Pool it anonymously with fellow members, sell insights to buyers, and share the revenue — all while keeping full sovereignty.</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        
+        <!-- Earnings Summary -->
+        <div class="earnings-box" id="earningsBox">
+            <h2>💰 Your Data Earnings</h2>
+            <p style="color: #94a3b8;">Estimated earnings from pools you have contributed to. Actual payouts happen quarterly alongside patronage dividends.</p>
+            <div class="earnings-grid">
+                <div class="earnings-item">
+                    <div class="amount" id="totalEarnings">$0.00</div>
+                    <div class="label">Total Estimated Earnings</div>
+                </div>
+                <div class="earnings-item">
+                    <div class="amount" id="poolsContributed">0</div>
+                    <div class="label">Pools Contributed To</div>
+                </div>
+                <div class="earnings-item">
+                    <div class="amount" id="marketplaceSales">0</div>
+                    <div class="label">Dataset Sales Across Pools</div>
+                </div>
+            </div>
+            <div id="earningsDetails" style="margin-top: 1.5rem;"></div>
+        </div>
+
+        <!-- Privacy Guarantees -->
+        <div class="privacy-box">
+            <h3>🔒 Privacy Guarantees</h3>
+            <ul>
+                <li><strong>Local-first aggregation:</strong> Totals and averages are computed on your device before anything leaves.</li>
+                <li><strong>No PII:</strong> We never collect names, addresses, merchant details, or exact transaction times.</li>
+                <li><strong>Anonymous hashes:</strong> Your member ID is replaced with a salted SHA-256 hash.</li>
+                <li><strong>Opt-in only:</strong> You choose which pools to join. You can withdraw at any time.</li>
+                <li><strong>70/20/10 revenue split:</strong> 70% of every sale goes to the Member Pool shared by contributors.</li>
+            </ul>
+        </div>
+
+        <!-- Message Area -->
+        <div id="message" class="message"></div>
+
+        <!-- Available Pools -->
+        <div class="section-header">
+            <h2>📊 Available Data Pools</h2>
+            <p>Choose which anonymized aggregate datasets you want to contribute to. Each sale generates revenue for all contributors.</p>
+        </div>
+
+        <div id="poolLoading" class="loading active">
+            <div class="spinner"></div>
+            <span>Loading available pools...</span>
+        </div>
+
+        <div id="poolGrid" class="pool-grid" style="display: none;">
+            <!-- Pools rendered here -->
+        </div>
+
+        <!-- Revenue Model -->
+        <div class="section-header" style="margin-top: 4rem;">
+            <h2>📈 How Revenue Is Shared</h2>
+            <p>Every dataset sale follows the same cooperative model as interchange fees.</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>70%</h3>
+                <p><strong>Member Pool</strong><br>Distributed to members who contributed data to the sold pool.</p>
+            </div>
+            <div class="stat-card">
+                <h3>20%</h3>
+                <p><strong>Operations</strong><br>Platform maintenance, compliance, and marketplace growth.</p>
+            </div>
+            <div class="stat-card">
+                <h3>10%</h3>
+                <p><strong>Sovereign Fund</strong><br>Emergency reserve and long-term cooperative stability.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>SOLVY Card™</h4>
+                <a href="./card/solvy-card.html">Get Started</a>
+                <a href="./card/card-customizer.html">Customize</a>
+            </div>
+            <div class="footer-col">
+                <h4>Pilot Partners</h4>
+                <a href="./index.html">🌟 Evergreen Beauty Lounge</a>
+                <a href="./sps-pilot/index.html">SPS Pilot</a>
+                <a href="./decidey/decidey-ngo.html">DECIDEY</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="./community/communities.html">Cooperative</a>
+                <a href="./operations/operations-dashboard.html">Operations</a>
+            </div>
+            <div class="footer-col">
+                <h4 style="color: #ffb347;">Internal</h4>
+                <a href="./internal/man-portal.html" style="color: #ffb347;">📊 MAN Portal</a>
+                <span style="color: #64748b; font-size: 0.75rem; display: block; margin-top: 0.5rem;">Member-only transparency</span>
+            </div>
+        </div>
+        <div class="footer-bottom" style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div style="margin-bottom: 1rem;">
+                <img src="./assets/solvy-full-logo.png" alt="SOLVY" style="height: 60px; width: auto;">
+            </div>
+            <p>© 2026 SOLVY Ecosystem™ — A cooperative financial platform</p>
+            <p style="margin-top: 0.5rem; color: #94a3b8;">SOLVY Card™ is a product of SA Nathan LLC</p>
+            <p style="margin-top: 0.5rem; color: #9333ea;">SOLVY (Solutions Valued You)</p>
+            <p style="margin-top: 1rem; font-size: 0.8rem; color: #64748b;">Made with 🤖 Kimi Code</p>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://ebl.beauty';
+        let currentPools = [];
+        let memberHash = '';
+
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = 'message ' + type;
+            setTimeout(() => msg.className = 'message', 5000);
+        }
+
+        async function getMemberHash() {
+            const memberId = localStorage.getItem('solvy_member_id') || 'anonymous';
+            const encoder = new TextEncoder();
+            const data = encoder.encode(memberId + 'solvy_salt_2025');
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function loadPools() {
+            try {
+                memberHash = await getMemberHash();
+                
+                // Load pools and earnings in parallel
+                const [poolsRes, earningsRes] = await Promise.all([
+                    fetch(`${API_BASE}/api/marketplace/pools`),
+                    fetch(`${API_BASE}/api/marketplace/member/${memberHash}/earnings`)
+                ]);
+
+                const poolsData = await poolsRes.json();
+                const earningsData = await earningsRes.json();
+
+                if (poolsData.success) {
+                    currentPools = poolsData.pools;
+                    renderPools(currentPools);
+                }
+
+                if (earningsData.success) {
+                    renderEarnings(earningsData);
+                }
+            } catch (err) {
+                console.error(err);
+                showMessage('Unable to load marketplace. Please try again later.', 'error');
+            } finally {
+                document.getElementById('poolLoading').classList.remove('active');
+                document.getElementById('poolGrid').style.display = 'grid';
+            }
+        }
+
+        function renderEarnings(data) {
+            document.getElementById('totalEarnings').textContent = '$' + data.totalEstimatedEarnings.toFixed(2);
+            document.getElementById('poolsContributed').textContent = data.poolsContributed;
+            
+            // Count total sales across member's pools
+            const totalSales = data.pools.reduce((sum, p) => sum + p.totalPoolSales, 0);
+            document.getElementById('marketplaceSales').textContent = totalSales;
+
+            const details = document.getElementById('earningsDetails');
+            if (data.pools.length === 0) {
+                details.innerHTML = '<p style="color:#64748b;margin-top:1rem;">You have not contributed to any pools yet. Select a pool below to start earning.</p>';
+                return;
+            }
+
+            let html = '<table class="pool-table"><thead><tr><th>Pool</th><th>Contributed</th><th>Contributors</th><th>Sales</th><th>Your Est. Share</th></tr></thead><tbody>';
+            data.pools.forEach(p => {
+                html += `<tr>
+                    <td><strong>${escapeHtml(p.poolName)}</strong></td>
+                    <td>${new Date(p.contributedAt).toLocaleDateString()}</td>
+                    <td>${p.contributorCount}</td>
+                    <td>${p.totalPoolSales}</td>
+                    <td style="color:#ec4899;font-weight:600;">$${p.estimatedShare.toFixed(2)}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            details.innerHTML = html;
+        }
+
+        function renderPools(pools) {
+            const grid = document.getElementById('poolGrid');
+            if (pools.length === 0) {
+                grid.innerHTML = '<p style="color:#94a3b8;">No active pools available at this time.</p>';
+                return;
+            }
+
+            grid.innerHTML = pools.map(pool => `
+                <div class="pool-card" id="pool-${pool.id}" data-pool-id="${pool.id}">
+                    <span class="pool-badge">${escapeHtml(pool.category)}</span>
+                    <h3>${escapeHtml(pool.name)}</h3>
+                    <p>${escapeHtml(pool.description)}</p>
+                    <div class="pool-meta">
+                        <span>👥 ${pool.contributorCount} contributors</span>
+                        <span>💾 ${pool.totalContributions} contributions</span>
+                    </div>
+                    <div class="pool-actions">
+                        <button class="btn-primary" onclick="contributeToPool('${pool.id}')" id="btn-${pool.id}">
+                            Contribute Data
+                        </button>
+                        <span class="contributed-badge" id="badge-${pool.id}">✅ Contributed</span>
+                        <a href="${API_BASE}/api/marketplace/pools/${pool.id}/dataset.csv" class="btn-secondary" target="_blank">
+                            Preview CSV
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+
+            // Check contribution status for each pool
+            pools.forEach(pool => checkPoolStatus(pool.id));
+        }
+
+        async function checkPoolStatus(poolId) {
+            try {
+                const res = await fetch(`${API_BASE}/api/marketplace/pools/${poolId}/status/${memberHash}`);
+                const data = await res.json();
+                if (data.success && data.hasContributed) {
+                    const card = document.getElementById(`pool-${poolId}`);
+                    if (card) card.classList.add('contributed');
+                    const btn = document.getElementById(`btn-${poolId}`);
+                    if (btn) {
+                        btn.textContent = 'Update Contribution';
+                        btn.disabled = false;
+                    }
+                }
+            } catch (e) {
+                console.error('Status check failed:', e);
+            }
+        }
+
+        async function contributeToPool(poolId) {
+            const btn = document.getElementById(`btn-${poolId}`);
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'Processing...';
+            }
+
+            try {
+                // Step 1: Calculate local aggregates
+                let metrics;
+                if (typeof AggregatedMetricsService !== 'undefined') {
+                    AggregatedMetricsService.setMemberId(localStorage.getItem('solvy_member_id') || 'anonymous');
+                    metrics = await AggregatedMetricsService.calculateMetrics();
+                } else {
+                    // Fallback using db.js global functions
+                    const transactions = await db.transactions.toArray();
+                    const totalVolume = transactions.reduce((sum, t) => sum + (parseFloat(t.amount) || 0), 0);
+                    const categorySums = transactions.reduce((acc, t) => {
+                        const cat = t.category || 'uncategorized';
+                        acc[cat] = (acc[cat] || 0) + (parseFloat(t.amount) || 0);
+                        return acc;
+                    }, {});
+                    metrics = {
+                        totalVolume: Math.round(totalVolume * 100) / 100,
+                        transactionCount: transactions.length,
+                        categorySums,
+                        memberHash,
+                        timestamp: new Date().toISOString()
+                    };
+                }
+
+                // Step 2: Sanitize before sending
+                const payload = {
+                    totalVolume: metrics.totalVolume,
+                    transactionCount: metrics.transactionCount,
+                    categorySums: metrics.categorySums,
+                    timestamp: new Date().toISOString()
+                };
+
+                // Step 3: Submit to marketplace API
+                const response = await fetch(`${API_BASE}/api/marketplace/contribute`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        poolId,
+                        memberHash,
+                        data: payload
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage('✅ Your anonymized data has been contributed to the pool. Earnings will be tracked in the Member Pool.', 'success');
+                    const card = document.getElementById(`pool-${poolId}`);
+                    if (card) card.classList.add('contributed');
+                    if (btn) btn.textContent = 'Update Contribution';
+                    
+                    // Refresh earnings
+                    const earningsRes = await fetch(`${API_BASE}/api/marketplace/member/${memberHash}/earnings`);
+                    const earningsData = await earningsRes.json();
+                    if (earningsData.success) renderEarnings(earningsData);
+                } else {
+                    showMessage(result.error || 'Contribution failed. Please try again.', 'error');
+                    if (btn) btn.textContent = 'Contribute Data';
+                }
+            } catch (err) {
+                console.error(err);
+                showMessage('Network error. Please check your connection and try again.', 'error');
+                if (btn) btn.textContent = 'Contribute Data';
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set demo member if none exists
+            if (!localStorage.getItem('solvy_member_id')) {
+                localStorage.setItem('solvy_member_id', 'demo-member-' + Math.random().toString(36).substr(2, 8));
+            }
+            loadPools();
+        });
+    </script>
+</body>
+</html>

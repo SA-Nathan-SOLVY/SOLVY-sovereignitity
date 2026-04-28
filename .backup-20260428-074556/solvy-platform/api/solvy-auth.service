@@ -1,0 +1,23 @@
+[Unit]
+Description=SOLVY Cooperative Authentication Server
+Documentation=https://gitea.ebl.beauty/smayone/solvy-platform
+After=network.target
+
+[Service]
+Type=simple
+User=git
+WorkingDirectory=/var/lib/gitea/solvy-platform/solvy-platform/api
+ExecStart=/usr/bin/node auth-server.js
+Restart=always
+RestartSec=5
+Environment="NODE_ENV=production"
+Environment="PORT=3001"
+
+# Security
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/gitea/solvy-platform/logs
+
+[Install]
+WantedBy=multi-user.target

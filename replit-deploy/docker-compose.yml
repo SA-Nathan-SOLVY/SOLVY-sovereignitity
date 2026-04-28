@@ -13,21 +13,69 @@ services:
     networks:
       - solvy
     ports:
-      - "8081:80"
+      - "80:80"
+      - "443:443"
+    environment:
+      - NODE_ENV=production
+      - DOMAIN=ebl.beauty
+      - DOMAIN_CARDS=solvy.cards
+      - DOMAIN_REPLIT=solvy-sovereignitity--smayone.replit.app
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
       interval: 10s
       timeout: 5s
       retries: 5
+    depends_on:
+      - db
 
-  # Cloudflare Tunnel for public access
+  # PostgreSQL Database (matches Replit Production DB)
+  db:
+    image: postgres:15-alpine
+    container_name: solvy-db
+    restart: always
+    networks:
+      - solvy
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=solvy
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=solvy
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U solvy -d solvy"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Cloudflare Tunnel for public access (optional)
   tunnel:
     image: cloudflare/cloudflared:latest
     container_name: solvy-tunnel
     restart: always
-    network_mode: host  # Use host network to access localhost:8081
+    network_mode: host
     command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
     environment:
       - TUNNEL_TOKEN=${TUNNEL_TOKEN}
     profiles:
       - tunnel
+
+volumes:
+  postgres_data:

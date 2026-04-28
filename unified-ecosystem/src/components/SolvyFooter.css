@@ -1,0 +1,133 @@
+.solvy-footer {
+  background: #0a0f1a;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 56px 24px 32px;
+  margin-top: auto;
+}
+
+.sf-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.sf-top {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 64px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.sf-brand {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.sf-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sf-brand-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.sf-brand-tagline {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0 0 6px;
+}
+
+.sf-brand-sub {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 220px;
+}
+
+.sf-links {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.sf-col h4 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 14px;
+}
+
+.sf-col a {
+  display: block;
+  font-size: 0.83rem;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.15s;
+}
+
+.sf-col a:hover {
+  color: #fff;
+}
+
+.sf-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-top: 28px;
+  flex-wrap: wrap;
+}
+
+.sf-bottom p {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.25);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.sf-bottom a {
+  color: rgba(124,58,237,0.7);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.sf-bottom a:hover {
+  color: #7c3aed;
+}
+
+@media (max-width: 900px) {
+  .sf-top {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .sf-links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sf-links {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sf-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

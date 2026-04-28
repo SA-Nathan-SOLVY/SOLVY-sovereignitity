@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Circle Deposit | SOLVY Ecosystem™</title>
+    <meta name="description" content="Secure your First Circle membership with a $100 equity deposit. Become a member-owner of SOLVY Ecosystem™.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+            .mobile-menu.active { display: flex; }
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Deposit Card */
+        .deposit-card {
+            background: rgba(147, 51, 234, 0.05);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+        .deposit-card .price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 1rem 0;
+        }
+        .deposit-card .price span {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .deposit-card .description {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+        .benefits {
+            text-align: left;
+            margin: 2rem 0;
+        }
+        .benefits li {
+            color: #cbd5e1;
+            margin-bottom: 0.75rem;
+            list-style: none;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .benefits li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #ec4899;
+            font-weight: bold;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #9333ea;
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+        }
+        .form-group input::placeholder {
+            color: #64748b;
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        .message.success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+            display: block;
+        }
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            display: block;
+        }
+        .message.info {
+            background: rgba(147, 51, 234, 0.1);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            color: #9333ea;
+            display: block;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+        .loading.active {
+            display: flex;
+        }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(147, 51, 234, 0.3);
+            border-top-color: #9333ea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer note */
+        .secure-note {
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .secure-note span {
+            color: #22c55e;
+        }
+    
+        /* Professional Navbar */
+            .mobile-menu.active { display: flex; }
+        }
+
+    
+        /* Professional Navbar */
+            .mobile-menu.active { display: flex; }
+        }
+
+    
+        /* Professional Navbar */
+        .navbar {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo img {
+            height: 42px;
+            width: auto;
+        }
+        .nav-logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+        .nav-links a, .nav-dropdown > a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-dropdown:hover > a {
+            color: #ec4899;
+            background: rgba(147, 51, 234, 0.1);
+        }
+        .nav-dropdown {
+            position: relative;
+        }
+        .nav-dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.6rem;
+            opacity: 0.7;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.25rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: #cbd5e1;
+            font-size: 0.85rem;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .nav-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .nav-cta {
+            display: flex;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.35);
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 0.5rem;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 2.5px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: rgba(15, 23, 42, 0.99);
+            padding: 1rem;
+            gap: 0.25rem;
+            border-top: 1px solid rgba(147, 51, 234, 0.15);
+        }
+        .mobile-menu a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .mobile-menu a:hover, .mobile-menu a.active {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .mobile-divider {
+            height: 1px;
+            background: rgba(147, 51, 234, 0.15);
+            margin: 0.5rem 0;
+        }
+        @media (max-width: 1024px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu.active { display: flex; }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="./assets/SolvyLogo-1024.png" alt="SOLVY" style="height: 42px; width: auto;">
+                <span class="nav-logo-text">SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <div class="nav-dropdown">
+                    <a href="about.html">About</a>
+                    <div class="dropdown-menu">
+                        <a href="manifesto.html">📜 Manifesto</a>
+                        <a href="heritage.html">🏛️ Heritage</a>
+                        <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                    </div>
+                </div>
+                <a href="card/solvy-card.html">💳 SOLVY Card™</a>
+                <div class="nav-dropdown">
+                    <a href="sps-pilot/index.html">Partners</a>
+                    <div class="dropdown-menu">
+                        <a href="index.html">🌟 Evergreen Beauty Lounge</a>
+                        <a href="sps-pilot/index.html">SPS Pilot</a>
+                        <a href="decidey/decidey-ngo.html">DECIDEY</a>
+                    </div>
+                </div>
+                <a href="community/communities.html">Community</a>
+            </div>
+            <div class="nav-cta">
+                <a href="onboarding.html" class="btn-primary">Join First Circle</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="about.html">About</a>
+            <a href="manifesto.html">📜 Manifesto</a>
+            <a href="heritage.html">🏛️ Heritage</a>
+            <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            <div class="mobile-divider"></div>
+            <a href="card/solvy-card.html">💳 SOLVY Card™</a>
+            <div class="mobile-divider"></div>
+            <a href="index.html">🌟 Evergreen Beauty Lounge</a>
+            <a href="sps-pilot/index.html">SPS Pilot</a>
+            <a href="decidey/decidey-ngo.html">DECIDEY</a>
+            <div class="mobile-divider"></div>
+            <a href="community/communities.html">Community</a>
+            <a href="internal/man-portal.html" style="color: #94a3b8; font-size: 0.85rem;">📊 MAN Portal</a>
+        </div>
+    </nav>
+<!-- Hero -->
+    <section class="hero">
+        <h1>Join First Circle</h1>
+        <p>Secure your founding membership with a $100 equity deposit. This deposit makes you a member-owner of SOLVY Ecosystem™ with voting rights and dividend eligibility.</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="deposit-card">
+            <div class="price">$100<span>USD</span></div>
+            <p class="description">One-time equity deposit — refundable per cooperative bylaws</p>
+
+            <ul class="benefits">
+                <li>Member-owner status with voting rights</li>
+                <li>Priority access to SOLVY Card™ issuance</li>
+                <li>70% patronage dividend eligibility</li>
+                <li>Founding member recognition in First Circle</li>
+            </ul>
+
+            <div id="message" class="message"></div>
+
+            <form id="depositForm" onsubmit="handleDeposit(event)">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Jane Doe" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; font-size: 1.1rem; padding: 1rem;">
+                    Proceed to Secure Payment
+                </button>
+            </form>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <span style="color: #94a3b8;">Redirecting to Stripe...</span>
+            </div>
+
+            <p class="secure-note"><span>🔒</span> Payments processed securely by Stripe. SOLVY does not store your card details.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="onboarding.html" class="btn-secondary">← Back to Onboarding</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.hostname === 'localhost'
+            ? 'http://localhost:3000'
+            : 'https://ebl.beauty';
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = 'message ' + type;
+        }
+
+        function setLoading(isLoading) {
+            const form = document.getElementById('depositForm');
+            const loading = document.getElementById('loading');
+            if (isLoading) {
+                form.style.display = 'none';
+                loading.classList.add('active');
+            } else {
+                form.style.display = 'block';
+                loading.classList.remove('active');
+            }
+        }
+
+        // Check for return from Stripe
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        const success = urlParams.get('success');
+        const canceled = urlParams.get('canceled');
+
+        if (success === 'true' && sessionId) {
+            verifySession(sessionId);
+        } else if (canceled === 'true') {
+            showMessage('Payment was canceled. You can try again when ready.', 'info');
+        }
+
+        async function verifySession(sessionId) {
+            setLoading(true);
+            try {
+                const res = await fetch(`${API_BASE}/api/stripe/session-status?sessionId=${sessionId}`);
+                const data = await res.json();
+                if (data.success && data.status === 'paid') {
+                    showMessage(`✅ Payment confirmed! Welcome to First Circle, ${data.customerEmail}. Check your email for next steps.`, 'success');
+                    document.getElementById('depositForm').style.display = 'none';
+                } else {
+                    showMessage('Payment status pending. We will update you shortly.', 'info');
+                    setLoading(false);
+                }
+            } catch (err) {
+                showMessage('Could not verify payment status. Please contact hello@ebl.beauty', 'error');
+                setLoading(false);
+            }
+        }
+
+        async function handleDeposit(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const name = document.getElementById('name').value.trim();
+
+            if (!email || !name) {
+                showMessage('Please enter both your email and full name.', 'error');
+                return;
+            }
+
+            setLoading(true);
+
+            try {
+                const response = await fetch(`${API_BASE}/api/stripe/create-checkout-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email,
+                        name,
+                        memberId: 'fc_' + Math.random().toString(36).substr(2, 9)
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.url) {
+                    window.location.href = data.url;
+                } else {
+                    showMessage(data.error || 'Unable to start checkout. Please try again.', 'error');
+                    setLoading(false);
+                }
+            } catch (err) {
+                console.error(err);
+                showMessage('Network error. Please check your connection and try again.', 'error');
+                setLoading(false);
+            }
+        }
+
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
+</body>
+</html>

@@ -50,6 +50,13 @@ All interchange revenue follows this distribution:
 - **Integration:** White Label App (Ready To Launch component)
 - **Environment:** Sandbox (pre-launch), Production (post-launch)
 
+### Email Service
+- **AgentMail** — AI-native email API for agents (replaces Resend)
+- **Inboxes:** `support@ebl.beauty`, `noreply@ebl.beauty`, `hello@ebl.beauty`
+- **Use Cases:** Transactional emails (welcome, receipts) + 2-way customer support
+- **SDK:** `npm install agentmail`
+- **Console:** https://console.agentmail.to
+
 ---
 
 ## Repository Structure
@@ -220,6 +227,13 @@ SOLVY_PORT=3000
 
 # Security
 SOLVY_WEBHOOK_SECRET=random_secret_for_webhook_verification
+
+# AgentMail — AI-native email (replaces Resend)
+AGENTMAIL_API_KEY=am_...
+AGENTMAIL_SUPPORT_INBOX_ID=      # support@ebl.beauty inbox ID
+AGENTMAIL_NOREPLY_INBOX_ID=      # noreply@ebl.beauty inbox ID
+AGENTMAIL_HELLO_INBOX_ID=        # hello@ebl.beauty inbox ID
+AGENTMAIL_WEBHOOK_SECRET=        # for inbound webhook verification
 ```
 
 ### solvy-platform/api/.env (if separate)
@@ -411,6 +425,10 @@ ngrok http 3000
 | `/api/members/onboard` | POST | Complete member onboarding flow |
 | `/api/accounts/:id/balance` | GET | Get account balance |
 | `/webhooks/unit` | POST | Unit.co webhook receiver |
+| `/api/email/send-welcome` | POST | Send welcome email (AgentMail) |
+| `/api/email/support-reply` | POST | Send support reply (AgentMail) |
+| `/api/email/support-inbox` | GET | List support inbox messages |
+| `/webhooks/agentmail` | POST | AgentMail inbound email webhook |
 
 ### solvy-platform/api (Node.js)
 
@@ -520,6 +538,22 @@ Clear description of the work.
 3. Generate sandbox tokens for testing
 4. Verify webhook signatures in production
 5. Log all API calls for audit trail
+
+### Working with AgentMail Email
+
+1. **Install SDK:** `npm install agentmail` (already in `solvy-unit-integration`)
+2. **Configure inboxes:** Set `AGENTMAIL_*_INBOX_ID` env vars for each purpose
+3. **Transactional sends:** Use `api/email/agentmail-service.js` functions:
+   - `sendWelcomeEmail(to, member)` — new member welcome
+   - `sendDepositConfirmation(to, deposit)` — First Circle receipt
+   - `sendDataPoolReceipt(to, contribution)` — data pool contribution
+4. **Support replies:** Use `sendSupportReply(to, subject, text, html, inReplyTo)`
+   - Always include `---\nNeed human help? Reply HUMAN` footer
+   - Auto-escalates on keywords: dispute, fraud, lawyer, HUMAN
+5. **Inbound webhooks:** POST to `/webhooks/agentmail`
+   - Set `AGENTMAIL_WEBHOOK_SECRET` for HMAC verification
+   - Returns `{ action: 'escalated' | 'faq' | 'classify', ... }`
+6. **Testing:** Create test inboxes with `createInbox({ clientId: 'test-...' })`
 
 ---
 

@@ -1,0 +1,261 @@
+Here are the three files you asked for, with the marketing/mission content extracted and the heavy CSS/nav boilerplate trimmed for readability.
+
+1. Heritage Page (solvy-platform/heritage.html)
+The "About → Heritage" mission narrative. Connects Freedman Bank, H.R. 40, and the GENIUS Act to SOLVY's architecture.
+
+Hero & Core Narrative:
+
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-badge">🏛️ From History to Ownership</div>
+        <h1>From Promised Liberation<br>to <span>Owned Infrastructure</span></h1>
+        <p>The Freedman Bank asked for trust. SOLVY removes the need for trust by giving you ownership.</p>
+        <a href="#freedman" class="btn-primary">Explore Our Heritage</a>
+    </div>
+</section>
+
+<!-- Three Pillars -->
+<section class="pillars-section">
+    <div class="pillars-grid">
+        <div class="pillar-card">
+            <div class="pillar-icon">🏛️</div>
+            <h3>The Freedman Bank</h3>
+            <p>1865-1874: The promise of economic freedom betrayed by those who controlled the money.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-icon">📜</div>
+            <h3>H.R. 40</h3>
+            <p>Study while we build. SOLVY creates economic infrastructure now, not after decades of debate.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="pillar-icon">⚖️</div>
+            <h3>GENIUS Act</h3>
+            <p>Regulation-ready by design. SOLVY exceeds requirements Congress is only now proposing.</p>
+        </div>
+    </div>
+</section>
+The Freedman Bank → SOLVY Comparison:
+
+<h3>What Went Wrong Then → What SOLVY Does Now</h3>
+<table class="comparison-table">
+    <tr>
+        <th>Freedman Bank (1865)</th>
+        <th>SOLVY Ecosystem (2026)</th>
+    </tr>
+    <tr>
+        <td>White trustees controlled Black deposits</td>
+        <td><strong>Member-owned:</strong> 70% of revenue returns to members</td>
+    </tr>
+    <tr>
+        <td>No voting rights for depositors</td>
+        <td><strong>One member = One vote:</strong> Cooperative governance</td>
+    </tr>
+    <tr>
+        <td>No transparency in investments</td>
+        <td><strong>MAN Portal:</strong> Every dollar visible, every decision auditable</td>
+    </tr>
+    <tr>
+        <td>Wealth extracted from community</td>
+        <td><strong>70/20/10 model:</strong> Wealth distributed to those who create it</td>
+    </tr>
+</table>
+H.R. 40 Position Statement:
+
+<h3>SOLVY Position on H.R. 40</h3>
+<p>
+    <strong>We support H.R. 40.</strong> We also recognize that study is not substitute for action. While Congress studies the legacy of slavery, SOLVY builds the infrastructure to close the wealth gap.
+</p>
+<ul class="checklist">
+    <li>Every swipe of a SOLVY Card™ generates interchange revenue</li>
+    <li>70% of that revenue flows directly to Black and Brown members</li>
+    <li>Not charity — ongoing ownership</li>
+    <li>Not one-time payment — continuous wealth building</li>
+</ul>
+2. Manifesto Page (solvy-platform/manifesto.html)
+The "About → Manifesto" statement. The technical-mission bridge.
+
+Hero:
+
+<section class="hero">
+    <div class="hero-container">
+        <h1>The <span>SOLVY</span> Manifesto</h1>
+        <p class="hero-subtitle">Digital encoding of protection. Mathematical expression of "leave them better."</p>
+    </div>
+</section>
+The 70/20/10 Model:
+
+<section class="manifesto-section">
+    <h2>The 70/20/10 Model</h2>
+    <p>SOLVY's distribution model is not arbitrary economics—it is digital protection encoded in protocol:</p>
+    
+    <div class="split-diagram">
+        <div class="split-row">
+            <div class="split-percent">70%</div>
+            <div>
+                <div class="split-label">Patronage Dividends</div>
+                <div class="split-meaning">Direct descendant protection—revenue that returns to those who generate it</div>
+            </div>
+        </div>
+        <div class="split-row">
+            <div class="split-percent">20%</div>
+            <div>
+                <div class="split-label">Community Pool</div>
+                <div class="split-meaning">The grandmother's blanket—collective care for members in need</div>
+            </div>
+        </div>
+        <div class="split-row">
+            <div class="split-percent">10%</div>
+            <div>
+                <div class="split-label">Operations</div>
+                <div class="split-meaning">The fist, maintained—protocol sustainability and growth</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quote-box">
+        "When you spend with SOLVY, you are not consuming. You are building. The iron fist in plastic—spending as protection, not exploitation."
+    </div>
+</section>
+Narrative-Technical Bridge:
+
+<section class="manifesto-section">
+    <h2>The Narrative-Technical Bridge</h2>
+    <p>Traditional financial systems separate story from structure. SOLVY encodes them together:</p>
+
+    <table class="tech-table">
+        <tr>
+            <th>Technical Component</th>
+            <th>Lineage Encoding</th>
+        </tr>
+        <tr>
+            <td><strong>The MAN</strong><br>(Mandatory Audit Network)</td>
+            <td>Digital continuation of grandmother "witness"—the community watching the money. Every transaction visible, every allocation auditable.</td>
+        </tr>
+        <tr>
+            <td><strong>DECIDEY Platform</strong></td>
+            <td>Transmission of IBC knowledge—scaling what was learned through struggle into collective education.</td>
+        </tr>
+        <tr>
+            <td><strong>70/20/10 Split</strong></td>
+            <td>Mathematical expression of "leave them better"—70% direct protection, 20% community blanket, 10% fist maintenance.</td>
+        </tr>
+        <tr>
+            <td><strong>SOLVY Card</strong></td>
+            <td>The iron fist in plastic—spending as protection, not consumption. Every swipe builds equity.</td>
+        </tr>
+        <tr>
+            <td><strong>MOLI</strong><br>(Membership Owned Life Insurance)</td>
+            <td>The eventual vehicle for perpetual protection—transaction revenue becoming generational security.</td>
+        </tr>
+    </table>
+</section>
+On Self-Sovereign Identity:
+
+<section class="manifesto-section">
+    <h2>On Self-Sovereign Identity</h2>
+    <p>True sovereignty is not isolation. It is autonomy with protection. SOLVY implements this through:</p>
+    
+    <p><strong>Data Sovereignty:</strong> Your transaction history stays on your device, not in corporate databases. You control access. You control disclosure. You are not the product.</p>
+    
+    <p><strong>Economic Sovereignty:</strong> You own 70% of the revenue your transactions generate. Not as charity. Not as reward. As ownership.</p>
+    
+    <p><strong>Governance Sovereignty:</strong> One member = One vote. The protocol serves its users, not distant shareholders.</p>
+
+    <div class="quote-box">
+        "The system that profits from your labor must carry responsibility for your survival. This is not ideology—it is structural stability."
+    </div>
+</section>
+3. SOVEREIGNITITY Goal / Marketing Position (solvy-platform/sovereignty-vs-hustle.html)
+The "About → Sovereignty" page. Hard marketing contrast between hustle culture and SOLVY ownership.
+
+Hero Positioning:
+
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-badge">⚠️ The Truth About "Freedom"</div>
+        <h1>The "Free Agent" Is a <span>Lie</span></h1>
+        <p class="hero-subtitle">"Side hustle" and "entrepreneurial freedom" are marketing ploys used to mask economic desperation.</p>
+        <p>They tell you that working three jobs is "grinding." That poverty is "hustle." That exploitation is "opportunity." SOLVY rejects this entire framework. Real sovereignty isn't working harder for someone else's profit—it's owning the infrastructure that generates wealth.</p>
+        <a href="#the-difference" class="btn-primary">See the Difference →</a>
+    </div>
+</section>
+The Core Manifesto Quote:
+
+<section class="manifesto-section">
+    <div class="manifesto-container">
+        <p class="manifesto-quote">"The 70/20/10 distribution model is not arbitrary economics—it is the digital encoding of protection. When you spend with SOLVY, you are not consuming. You are building."</p>
+        <p class="manifesto-attribution">— SOLVY Manifesto</p>
+    </div>
+</section>
+Hustle vs. SOLVY Comparison:
+
+<div class="comparison-grid">
+    <div class="comparison-card hustle">
+        <h3>❌ The "Free Agent" Myth</h3>
+        <ul>
+            <li><strong>Risk offloaded to you</strong> — No benefits, no security, all liability</li>
+            <li><strong>Profit captured by platforms</strong> — Uber, DoorDash, Fiverr take the upside</li>
+            <li><strong>"Do what you love"</strong> — Translation: accept lower pay for passion</li>
+            <li><strong>Grind culture</strong> — Working 60+ hours is "dedication," not exploitation</li>
+            <li><strong>Individual isolation</strong> — You vs. the market, no collective protection</li>
+            <li><strong>Constant precarity</strong> — No safety net, no stability, no future</li>
+        </ul>
+        <p style="color: #ef4444; font-style: italic; margin-top: 1rem;">Result: You hustle. They profit. Nothing changes.</p>
+    </div>
+
+    <div class="comparison-card solvy">
+        <h3>✅ SOLVY Sovereignty</h3>
+        <ul>
+            <li><strong>Risk shared collectively</strong> — 70/20/10 distributes both profit and protection</li>
+            <li><strong>Profit flows to members</strong> — Interchange revenue returns to you, not shareholders</li>
+            <li><strong>"Own your spend"</strong> — Every transaction builds your equity</li>
+            <li><strong>Cooperative governance</strong> — One member = One vote on major decisions</li>
+            <li><strong>Collective infrastructure</strong> — The grandmother's blanket: mutual protection</li>
+            <li><strong>Perpetual ownership</strong> — Member pool builds generational wealth</li>
+        </ul>
+        <p style="color: #9333ea; font-style: italic; margin-top: 1rem;">Result: You own. You decide. You benefit.</p>
+    </div>
+</div>
+The Six Marketing Pillars (SOLVY Alternative):
+
+<div class="principles-grid">
+    <div class="principle-card">
+        <div class="principle-number">01</div>
+        <h3>Data Sovereignty</h3>
+        <p>Your transaction data stays on your device. Not sold. Not harvested. Not exploited. You control your own financial history.</p>
+    </div>
+    <div class="principle-card">
+        <div class="principle-number">02</div>
+        <h3>Revenue Ownership</h3>
+        <p>70% of interchange fees flow directly to the Member Pool. When the cooperative succeeds, you succeed. Period.</p>
+    </div>
+    <div class="principle-card">
+        <div class="principle-number">03</div>
+        <h3>Transparent Governance</h3>
+        <p>The MAN (Mandatory Audit Network) means every dollar is visible. No hidden fees. No extraction. No betrayal possible.</p>
+    </div>
+    <div class="principle-card">
+        <div class="principle-number">04</div>
+        <h3>Collective Protection</h3>
+        <p>The 20% Community Pool is the grandmother's blanket—collective care for members in need. The 10% Sovereign Fund maintains the fist.</p>
+    </div>
+    <div class="principle-card">
+        <div class="principle-number">05</div>
+        <h3>Democratic Control</h3>
+        <p>One member = One vote. Major decisions require member approval. You don't just use SOLVY—you govern it.</p>
+    </div>
+    <div class="principle-card">
+        <div class="principle-number">06</div>
+        <h3>Lineage Protection</h3>
+        <p>The 70/20/10 model encodes protection: 70% direct descendant benefit, 20% community blanket, 10% protocol maintenance.</p>
+    </div>
+</div>
+Primary CTA:
+
+<section class="cta-section">
+    <h2>Stop Hustling. <span>Start Owning.</span></h2>
+    <p>The infrastructure of exploitation is already built. The infrastructure of ownership is what we're building now.</p>
+    <a href="./onboarding.html" class="btn-primary">Join the First Circle →</a>
+    <p style="margin-top: 2rem; color: #64748b; font-size: 0.9rem;">$100 equity contribution • Limited to 100 founding members</p>
+</section>
+If you also want the top-level About page (about.html) marketing copy—the "What is SOLVY?" elevator pitch and the trademark guide—let me know and I'll paste that too.

@@ -16,6 +16,9 @@ const { handleWebhook } = require('./api/webhooks/unit');
 const { getUnitToken } = require('./api/auth/unit-token');
 const { createCheckoutSession, getSessionStatus } = require('./api/stripe/checkout');
 const { handleStripeWebhook, listDeposits } = require('./api/stripe/webhook');
+const marketplace = require('./api/marketplace/data-pool');
+const emailRoutes = require('./api/email');
+const { handleAgentMailWebhook } = require('./api/email');
 
 // Middleware
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
@@ -120,6 +123,79 @@ app.get('/api/stripe/deposits', listDeposits);
  */
 app.post('/webhooks/stripe', handleStripeWebhook);
 
+// ==================== DATA MARKETPLACE ROUTES ====================
+
+/**
+ * GET /api/marketplace/pools
+ * List all available data pools
+ */
+app.get('/api/marketplace/pools', marketplace.listPools);
+
+/**
+ * POST /api/marketplace/pools
+ * Create a new data pool (manager/admin)
+ */
+app.post('/api/marketplace/pools', marketplace.createPool);
+
+/**
+ * POST /api/marketplace/contribute
+ * Member submits anonymized aggregate data to a pool
+ */
+app.post('/api/marketplace/contribute', marketplace.contribute);
+
+/**
+ * GET /api/marketplace/pools/:poolId/dataset
+ * Get bundled dataset as JSON
+ */
+app.get('/api/marketplace/pools/:poolId/dataset', marketplace.getDatasetJson);
+
+/**
+ * GET /api/marketplace/pools/:poolId/dataset.csv
+ * Download bundled dataset as CSV
+ */
+app.get('/api/marketplace/pools/:poolId/dataset.csv', marketplace.downloadDatasetCsv);
+
+/**
+ * POST /api/marketplace/pools/:poolId/sale
+ * Record a dataset sale
+ */
+app.post('/api/marketplace/pools/:poolId/sale', marketplace.recordSale);
+
+/**
+ * GET /api/marketplace/revenue
+ * Get overall marketplace revenue summary
+ */
+app.get('/api/marketplace/revenue', marketplace.getRevenue);
+
+/**
+ * GET /api/marketplace/member/:memberHash/earnings
+ * Get a member's estimated earnings from data pool contributions
+ */
+app.get('/api/marketplace/member/:memberHash/earnings', marketplace.getMemberEarnings);
+
+/**
+ * GET /api/marketplace/pools/:poolId/status/:memberHash
+ * Check if a member has contributed to a pool
+ */
+app.get('/api/marketplace/pools/:poolId/status/:memberHash', marketplace.getContributionStatus);
+
+// ==================== EMAIL ROUTES (AgentMail) ====================
+
+/**
+ * POST /api/email/send-welcome
+ * POST /api/email/send-deposit
+ * POST /api/email/send-pool-receipt
+ * POST /api/email/support-reply
+ * GET  /api/email/support-inbox
+ */
+app.use('/api/email', emailRoutes);
+
+/**
+ * POST /webhooks/agentmail
+ * AgentMail inbound email webhook
+ */
+app.post('/webhooks/agentmail', handleAgentMailWebhook);
+
 // ==================== SERVER START ====================
 
 const PORT = process.env.SOLVY_PORT || 3000;
@@ -139,6 +215,12 @@ app.listen(PORT, () => {
   console.log('  POST /webhooks/unit             - Unit webhooks');
   console.log('  POST /api/stripe/create-checkout-session - Stripe checkout');
   console.log('  POST /webhooks/stripe           - Stripe webhooks');
+  console.log('  GET  /api/marketplace/pools     - Data marketplace pools');
+  console.log('  POST /api/marketplace/contribute - Submit anonymized data');
+  console.log('  GET  /api/marketplace/revenue   - Data pool revenue summary');
+  console.log('  POST /api/email/send-welcome    - Send welcome email (AgentMail)');
+  console.log('  POST /api/email/support-reply   - Send support reply (AgentMail)');
+  console.log('  POST /webhooks/agentmail        - Inbound email webhook');
   console.log('');
 });
 

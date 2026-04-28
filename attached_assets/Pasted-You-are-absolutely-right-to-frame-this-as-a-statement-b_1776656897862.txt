@@ -1,0 +1,100 @@
+You are absolutely right to frame this as a **statement block**. Unit.co provides the *infrastructure*—the bank accounts, cards, payments, and compliance rails . But you are building an *intelligent operating system* on top of that infrastructure.
+
+The phrase "complete embedded banking platform" describes what Unit.co provides. The statement block below describes what **you** do with it. This distinction is critical for underwriters.
+
+---
+
+## The Statement Block (For Your Underwriting Package)
+
+Insert this as a prominent section in your due diligence document, ideally right after the Unit.co account structure table.
+
+> ### 🧠 Beyond Infrastructure: The SOLVY Intelligence Layer
+>
+> **Unit.co provides the engine. We provide the intelligence.**
+>
+> Our partnership with Unit.co gives us a complete embedded banking platform—business accounts, individual accounts, virtual and physical debit cards, payment processing, and regulatory compliance . This is the foundation.
+>
+> **On top of this foundation, we are building an AI-driven financial operations layer powered by DeepSeek.**
+>
+> DeepSeek acts as our **"Sovereign Accountant"** —an autonomous agent that continuously prepares, categorizes, and reconciles financial data across every account in the SOLVY Ecosystem .
+>
+> **What this means in practice:**
+>
+> - **Continuous Reconciliation:** DeepSeek processes every transaction from Unit.co, automatically categorizing expenses, matching invoices, and flagging anomalies. It transforms raw payment data into decision-ready financial intelligence .
+> - **Handoff-Ready Books:** The system prepares complete, audit-ready accounting packages that can be handed directly to our external accountants (Block Advisors). This reduces monthly close time from days to minutes .
+> - **Multi-Entity Consolidation:** DeepSeek seamlessly consolidates financial data across all our entities—SA Nathan LLC, Evergreen Beauty Lounge, SOLVY, and future DECIDEY NGO—providing a unified financial dashboard for the entire cooperative .
+> - **Tax & Compliance Preparation:** By understanding transaction context, DeepSeek automatically applies appropriate tax categories and flags potential compliance issues before they reach the accountant .
+>
+> **The result is a "State Change" for the Cooperative**
+>
+> Where traditional businesses spend thousands on bookkeepers and months closing their books, SOLVY operates with near real-time financial intelligence. We are not just issuing cards; we are demonstrating a scalable, tech-enabled financial cooperative where the overhead is low, the data is clean, and the focus remains on member value.
+
+---
+
+## Why This Statement Block Is Powerful
+
+| Element | Why It Works for Underwriting |
+| :--- | :--- |
+| **"Unit.co provides the engine. We provide the intelligence."** | Shows you understand the division of labor. Unit.co is your partner, not your entire solution. |
+| **DeepSeek as "Sovereign Accountant"** | Framing it as an *agent* (not a script) signals you are leveraging cutting-edge AI to solve a real operational problem—costly bookkeeping . |
+| **Handoff-ready accounting** | Directly addresses an underwriter's concern: "How will this messy startup manage its books?" You have a plan that is automated, accurate, and supervised by professionals. |
+| **Multi-entity consolidation** | You have four distinct entities (LLC, EBL, SOLVY, DECIDEY). Consolidating their books manually is a nightmare. Automating it proves you have a scalable back office . |
+| **Tax & compliance prep** | Shows you are not trying to hide from regulators. You are building automated compliance into your core workflow . |
+
+---
+
+## How Unit.co Fits (The Infrastructure)
+
+Based on the search results, Unit.co gives you the raw building blocks :
+
+| Unit.co Capability | What It Does for SOLVY |
+| :--- | :--- |
+| **Account Creation** | Instantly open business, individual, and future non-profit accounts . |
+| **Card Issuance** | Issue both virtual and physical debit cards to every member . |
+| **Payment Processing** | Handle deposits, withdrawals, and card swipes . |
+| **Transaction Data** | Provide raw transaction data via API . |
+| **White-Label UI** | Ready-made front-end components to launch faster . |
+
+But raw transaction data is not intelligence. DeepSeek transforms that raw data into structured, categorized, accountant-ready information .
+
+---
+
+## The Diagram (Add to Your Docs)
+
+You can also include this simple text diagram to visualize the separation of concerns:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    SOLVY ECOSYSTEM (You)                         │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │           DeepSeek "Sovereign Accountant"                │    │
+│  │  • Automates reconciliation                              │    │
+│  │  • Categorizes transactions                              │    │
+│  │  • Prepares handoff packages for accountants             │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│                              │                                   │
+│                              │ (Raw transaction data)            │
+│                              ▼                                   │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │                    Unit.co                               │    │
+│  │  • Business & individual accounts                        │    │
+│  │  • Virtual & physical debit cards                        │    │
+│  │  • Payment processing & compliance                       │    │
+│  └─────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Summary – What to Submit
+
+| Document Section | Status |
+| :--- | :--- |
+| **Unit.co Account Type RFP Table** | ✅ Added (from previous response) |
+| **SOLVY Intelligence Layer Statement Block** | ✅ Added (this response) |
+| **DeepSeek as "Sovereign Accountant" Explanation** | ✅ Included |
+| **Diagram of Tech Stack** | ✅ Optional but recommended |
+
+This statement block transforms your application from "we want a card program" into "we are building an intelligent, scalable financial cooperative with a clear plan for back-office efficiency." Underwriters will notice the difference.
+
+Would you like me to integrate this statement block and the account type table into a single, updated `due_diligence.html` file?

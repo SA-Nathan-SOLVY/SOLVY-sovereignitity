@@ -1,4 +1,10 @@
-version: '3.8'
+version: '3.9'
+
+networks:
+  gitea:
+    external: true
+  solvy:
+    external: false
 
 services:
   solvy-api:
@@ -10,14 +16,66 @@ services:
       - UNIT_API_URL=${UNIT_API_URL}
       - UNIT_ORG_ID=${UNIT_ORG_ID}
       - SOLVY_ENV=production
-      - SOLVY_WEBHOOK_SECRET=${SOLVY_WEBHOOK_SECRET}
       - SOLVY_PORT=3000
+      - SOLVY_WEBHOOK_SECRET=${SOLVY_WEBHOOK_SECRET}
+      - DATABASE_URL=postgresql://solvy:${DB_PASSWORD}@db:5432/solvy
+      - JWT_SECRET=${JWT_SECRET}
+      - AGENTMAIL_API_KEY=${AGENTMAIL_API_KEY}
+      - AGENTMAIL_SUPPORT_INBOX_ID=${AGENTMAIL_SUPPORT_INBOX_ID}
+      - AGENTMAIL_NOREPLY_INBOX_ID=${AGENTMAIL_NOREPLY_INBOX_ID}
+      - AGENTMAIL_HELLO_INBOX_ID=${AGENTMAIL_HELLO_INBOX_ID}
+      - AGENTMAIL_WEBHOOK_SECRET=${AGENTMAIL_WEBHOOK_SECRET}
     ports:
       - "3000:3000"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - gitea
-    
-  # Nginx reverse proxy (routes api.ebl.beauty to solvy-api)
+      - solvy
+
+  db:
+    image: postgres:15-alpine
+    container_name: solvy-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=solvy
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=solvy
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U solvy -d solvy"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - solvy
+
   nginx:
     image: nginx:alpine
     container_name: solvy-nginx
@@ -30,9 +88,10 @@ services:
       - ../solvy-platform:/usr/share/nginx/html:ro
     depends_on:
       - solvy-api
+      - db
     networks:
       - gitea
+      - solvy
 
-networks:
-  gitea:
-    external: true  # Use existing Gitea network
+volumes:
+  postgres_data:

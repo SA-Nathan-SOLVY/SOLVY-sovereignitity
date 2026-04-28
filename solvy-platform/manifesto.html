@@ -180,6 +180,16 @@
             background: rgba(147, 51, 234, 0.15);
             margin: 0.5rem 0;
         }
+        .nav-group-left, .nav-group-center, .nav-group-right {
+            display: inline-flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .mobile-group-left, .mobile-group-center, .mobile-group-right {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
         @media (max-width: 1024px) {
             .nav-links, .nav-cta { display: none; }
             .hamburger { display: flex; }
@@ -197,24 +207,29 @@
                 <span class="nav-logo-text">SOLVY</span>
             </a>
             <div class="nav-links">
-                <div class="nav-dropdown">
-                    <a href="about.html">About</a>
-                    <div class="dropdown-menu">
-                        <a href="manifesto.html">📜 Manifesto</a>
-                        <a href="heritage.html">🏛️ Heritage</a>
-                        <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                <div class="nav-group-left">
+                    <div class="nav-dropdown">
+                        <a href="sps-pilot/index.html">Partners</a>
+                        <div class="dropdown-menu">
+                            <a href="index.html">🌟 Evergreen Beauty Lounge</a>
+                            <a href="sps-pilot/index.html">SPS Pilot</a>
+                            <a href="decidey/decidey-ngo.html">DECIDEY</a>
+                        </div>
                     </div>
+                    <a href="card/solvy-card.html">💳 SOLVY Card™</a>
                 </div>
-                <a href="card/solvy-card.html">💳 SOLVY Card™</a>
-                <div class="nav-dropdown">
-                    <a href="sps-pilot/index.html">Partners</a>
-                    <div class="dropdown-menu">
-                        <a href="index.html">🌟 Evergreen Beauty Lounge</a>
-                        <a href="sps-pilot/index.html">SPS Pilot</a>
-                        <a href="decidey/decidey-ngo.html">DECIDEY</a>
+                <div class="nav-group-center">
+                    <div class="nav-dropdown">
+                        <a href="about.html">About</a>
+                        <div class="dropdown-menu">
+                            <a href="manifesto.html">📜 Manifesto</a>
+                            <a href="heritage.html">🏛️ Heritage</a>
+                            <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                        </div>
                     </div>
+                    <a href="community/communities.html">Community</a>
+                    <a href="data-marketplace.html">🛢️ Data Marketplace</a>
                 </div>
-                <a href="community/communities.html">Community</a>
             </div>
             <div class="nav-cta">
                 <a href="onboarding.html" class="btn-primary">Join First Circle</a>
@@ -226,19 +241,31 @@
             </div>
         </div>
         <div class="mobile-menu" id="mobileMenu">
-            <a href="about.html">About</a>
-            <a href="manifesto.html">📜 Manifesto</a>
-            <a href="heritage.html">🏛️ Heritage</a>
-            <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            <div class="mobile-group-center">
+                <a href="about.html">About</a>
+                <a href="manifesto.html">📜 Manifesto</a>
+                <a href="heritage.html">🏛️ Heritage</a>
+                <a href="sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            </div>
             <div class="mobile-divider"></div>
-            <a href="card/solvy-card.html">💳 SOLVY Card™</a>
+            <div class="mobile-group-left">
+                <a href="card/solvy-card.html">💳 SOLVY Card™</a>
+            </div>
             <div class="mobile-divider"></div>
-            <a href="index.html">🌟 Evergreen Beauty Lounge</a>
-            <a href="sps-pilot/index.html">SPS Pilot</a>
-            <a href="decidey/decidey-ngo.html">DECIDEY</a>
+            <div class="mobile-group-left">
+                <a href="index.html">🌟 Evergreen Beauty Lounge</a>
+                <a href="sps-pilot/index.html">SPS Pilot</a>
+                <a href="decidey/decidey-ngo.html">DECIDEY</a>
+            </div>
             <div class="mobile-divider"></div>
-            <a href="community/communities.html">Community</a>
-            <a href="internal/man-portal.html" style="color: #94a3b8; font-size: 0.85rem;">📊 MAN Portal</a>
+            <div class="mobile-group-center">
+                <a href="community/communities.html">Community</a>
+                <a href="data-marketplace.html">🛢️ Data Marketplace</a>
+            </div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-group-right">
+                <a href="internal/man-portal.html" style="color: #94a3b8; font-size: 0.85rem;">📊 MAN Portal</a>
+            </div>
         </div>
     </nav>
 <!-- Hero -->

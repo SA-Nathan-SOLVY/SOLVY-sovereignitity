@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SOLVY Operations Dashboard</title>
+    <style>
+        /* SOLVY Dashboard Styling */
+        .solvy-dashboard {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .dashboard-header h1 {
+            color: #1a365d;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .dashboard-header p {
+            color: #718096;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #2a6ebb, #3b82f6);
+        }
+        
+        .metric-label {
+            font-size: 0.95rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .metric-value {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1a365d;
+            margin: 15px 0;
+            line-height: 1;
+        }
+        
+        .metric-change {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        .metric-change.positive {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .metric-change.negative {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .metric-description {
+            font-size: 0.95rem;
+            color: #4a5568;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+        
+        .metric-icon {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 1.5rem;
+            opacity: 0.1;
+            color: #2a6ebb;
+        }
+        
+        .dashboard-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .last-updated {
+            background: #f7fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        /* Color coding for specific metrics */
+        .card-member::before { background: linear-gradient(90deg, #2a6ebb, #3b82f6); }
+        .card-volume::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .card-revenue::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .card-pool::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+    </style>
+</head>
+<body>
+    <div class="solvy-dashboard">
+        <!-- Header Section -->
+        <div class="dashboard-header">
+            <h1>SOLVY Operations Dashboard</h1>
+            <p>Real-time visibility into cooperative activities and member engagement. This dashboard updates automatically as members use their SOLVY Cards.</p>
+        </div>
+        
+        <!-- Four Key Metrics Cards -->
+        <div class="metrics-grid">
+            <!-- Card 1: Active Members -->
+            <div class="metric-card card-member">
+                <div class="metric-label">Active Sovereign Members</div>
+                <div class="metric-value" id="memberCount">142</div>
+                <div class="metric-change positive">+8 this month</div>
+                <div class="metric-description">Founding members building the cooperative through daily card usage.</div>
+                <div class="metric-icon">👥</div>
+            </div>
+            
+            <!-- Card 2: Total Spending Volume -->
+            <div class="metric-card card-volume">
+                <div class="metric-label">Total Spending Volume</div>
+                <div class="metric-value" id="totalVolume">$187,425</div>
+                <div class="metric-change positive">+12.5% from last month</div>
+                <div class="metric-description">Combined economic activity through SOLVY Cards, generating interchange revenue.</div>
+                <div class="metric-icon">💰</div>
+            </div>
+            
+            <!-- Card 3: Interchange Revenue -->
+            <div class="metric-card card-revenue">
+                <div class="metric-label">Interchange Revenue Generated</div>
+                <div class="metric-value" id="totalRevenue">$3,467</div>
+                <div class="metric-change positive">+$412 this period</div>
+                <div class="metric-description">Revenue earned through member transactions, funding cooperative operations.</div>
+                <div class="metric-icon">📈</div>
+            </div>
+            
+            <!-- Card 4: Member Profit Pool -->
+            <div class="metric-card card-pool">
+                <div class="metric-label">Member Profit Share Pool</div>
+                <div class="metric-value" id="poolAmount">$693</div>
+                <div class="metric-change positive">Next distribution: Q1 2026</div>
+                <div class="metric-description">20% of all revenue, waiting to be distributed to members based on patronage.</div>
+                <div class="metric-icon">🏦</div>
+            </div>
+        </div>
+        
+        <!-- Footer with Update Info -->
+        <div class="dashboard-footer">
+            <div class="last-updated">
+                Last updated: <span id="updateTime">December 15, 2025, 2:30 PM EST</span>
+            </div>
+            <p style="margin-top: 10px;">This dashboard updates automatically. Values represent real cooperative activity.</p>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // SOLVY OPERATIONS DASHBOARD - DATA CONFIGURATION
+        // =============================================
+        // UPDATE THESE VALUES TO CHANGE THE DASHBOARD DISPLAY
+        // =============================================
+        
+        // Core metrics data - update these values as your cooperative grows
+        const dashboardData = {
+            activeMembers: 142,              // Total active members
+            totalSpending: 187425,           // Total spending volume in dollars
+            interchangeRate: 0.0185,         // Average interchange rate (1.85%)
+            lastMonthChange: 0.125,          // 12.5% growth from last month
+            monthlyNewMembers: 8,            // New members this month
+            revenueGrowth: 412,              // Revenue increase this period
+            
+            // DO NOT EDIT BELOW THIS LINE unless you know what you're doing
+            get interchangeRevenue() {
+                return this.totalSpending * this.interchangeRate;
+            },
+            get profitPool() {
+                return this.interchangeRevenue * 0.20;
+            },
+            get formattedSpending() {
+                return this.formatCurrency(this.totalSpending);
+            },
+            get formattedRevenue() {
+                return this.formatCurrency(this.interchangeRevenue);
+            },
+            get formattedPool() {
+                return this.formatCurrency(this.profitPool);
+            },
+            formatCurrency(value) {
+                if (value >= 1000000) {
+                    return '$' + (value / 1000000).toFixed(1) + 'M';
+                } else if (value >= 1000) {
+                    return '$' + (value / 1000).toFixed(0) + 'K';
+                }
+                return '$' + value.toFixed(0);
+            }
+        };
+        
+        // =============================================
+        // DASHBOARD INITIALIZATION
+        // =============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update all metric displays with current data
+            document.getElementById('memberCount').textContent = dashboardData.activeMembers;
+            document.getElementById('totalVolume').textContent = dashboardData.formattedSpending;
+            document.getElementById('totalRevenue').textContent = dashboardData.formattedRevenue;
+            document.getElementById('poolAmount').textContent = dashboardData.formattedPool;
+            
+            // Set the current date and time
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            };
+            document.getElementById('updateTime').textContent = now.toLocaleDateString('en-US', options);
+            
+            // Optional: Auto-refresh every 5 minutes (300,000 milliseconds)
+            // Uncomment the line below if you want live updates
+            // setInterval(updateDashboard, 300000);
+        });
+        
+        // Optional function to simulate live updates
+        function updateDashboard() {
+            // In a real implementation, this would fetch data from your backend
+            // For now, we'll just update the timestamp
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            };
+            document.getElementById('updateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+    </script>
+</body>
+</html>
