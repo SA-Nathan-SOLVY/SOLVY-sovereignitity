@@ -91,3 +91,13 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Logo dropdown hover */
+.logo-dropdown-menu {
+  display: none !important;
+}
+
+.logo-dropdown-menu:hover,
+[style*="position: relative"]:hover .logo-dropdown-menu {
+  display: block !important;
+}
