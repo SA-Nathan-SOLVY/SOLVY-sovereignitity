@@ -1,11 +1,28 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { Browser } from '@capacitor/browser'
 
 function Layout({ children }) {
+  const location = useLocation()
+  const isActive = (path) => location.pathname === path
+
+  const openPWA = async () => {
+    await Browser.open({ url: 'https://ebl.beauty' })
+  }
+
+  const navItems = [
+    { path: '/', label: 'Home', icon: '🏠' },
+    { path: '/card', label: 'Card', icon: '💳' },
+    { path: '/services', label: 'Services', icon: '✨' },
+    { path: '/receipts', label: 'Receipts', icon: '🧾' },
+    { path: '/more', label: 'More', icon: '⚙️' },
+  ]
+
   return (
-    <div className="app">
+    <div className="app" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Top Header */}
       <nav style={{
-        padding: '1rem 2rem',
-        background: 'rgba(15, 23, 42, 0.9)',
+        padding: '0.75rem 1rem',
+        background: 'rgba(15, 23, 42, 0.95)',
         backdropFilter: 'blur(10px)',
         position: 'sticky',
         top: 0,
@@ -20,28 +37,60 @@ function Layout({ children }) {
           alignItems: 'center'
         }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <img src="/SolvyLogo-1024.png" alt="SOLVY" style={{ height: 40 }} />
-            <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff' }}>SOLVY</span>
+            <img src="/SolvyLogo-1024.png" alt="SOLVY" style={{ height: 32 }} />
+            <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#fff' }}>SOLVY</span>
           </Link>
-          <div style={{ display: 'flex', gap: '2rem' }}>
-            <Link to="/" style={{ color: '#fff', opacity: 0.8 }}>Home</Link>
-            <Link to="/card" style={{ color: '#fff', opacity: 0.8 }}>Card</Link>
-            <Link to="/banking" style={{ color: '#fff', opacity: 0.8 }}>Banking</Link>
-          </div>
+          <button 
+            onClick={openPWA}
+            style={{
+              background: 'transparent',
+              color: '#22c55e',
+              border: '1px solid #22c55e',
+              padding: '0.35rem 0.7rem',
+              borderRadius: '6px',
+              fontSize: '0.75rem',
+              cursor: 'pointer'
+            }}
+          >
+            Full Platform ↗
+          </button>
         </div>
       </nav>
-      <main>{children}</main>
-      <footer style={{
-        padding: '2rem',
-        textAlign: 'center',
+      
+      <main style={{ flex: 1 }}>{children}</main>
+      
+      {/* Mobile Bottom Navigation */}
+      <nav style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'rgba(15, 23, 42, 0.95)',
+        backdropFilter: 'blur(10px)',
         borderTop: '1px solid rgba(255,255,255,0.1)',
-        color: '#94a3b8'
+        display: 'flex',
+        justifyContent: 'space-around',
+        padding: '0.4rem 0',
+        zIndex: 100
       }}>
-        <p>Product of SA Nathan LLC</p>
-        <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-          SOLVY Ecosystem™ — Building generational wealth
-        </p>
-      </footer>
+        {navItems.map(({ path, label, icon }) => (
+          <Link key={path} to={path} style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.15rem',
+            color: isActive(path) ? '#22c55e' : '#94a3b8',
+            textDecoration: 'none',
+            fontSize: '0.65rem',
+            padding: '0.3rem 0.5rem',
+            borderRadius: '8px',
+            background: isActive(path) ? 'rgba(34,197,94,0.1)' : 'transparent'
+          }}>
+            <span style={{ fontSize: '1.1rem' }}>{icon}</span>
+            {label}
+          </Link>
+        ))}
+      </nav>
     </div>
   )
 }

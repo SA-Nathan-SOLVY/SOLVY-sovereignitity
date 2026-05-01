@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="io.ionic.libs.ioncameralib" >
+
+    <uses-sdk android:minSdkVersion="24" />
+
+    <application android:requestLegacyExternalStorage="true" >
+        <activity
+            android:name="io.ionic.libs.ioncameralib.view.IONCAMRLoadingActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="io.ionic.libs.ioncameralib.view.IONCAMRImageEditorActivity"
+            android:enableOnBackInvokedCallback="true"
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            tools:targetApi="33" />
+        <activity
+            android:name="io.ionic.libs.ioncameralib.view.IONCAMROpenPhotoPickerActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <!-- Trigger Google Play services to install the backported photo picker module. -->
+        <service
+            android:name="com.google.android.gms.metadata.ModuleDependencies"
+            android:enabled="false"
+            android:exported="false"
+            tools:ignore="MissingClass" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+            </intent-filter>
+
+            <meta-data
+                android:name="photopicker_activity:0:required"
+                android:value="" />
+        </service>
+
+        <provider
+            android:name="io.ionic.libs.ioncameralib.IONCAMRFileProvider"
+            android:authorities="${applicationId}.camera.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/ioncamera_paths" />
+        </provider>
+    </application>
+
+</manifest>

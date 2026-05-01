@@ -1,17 +1,21 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
-import Home from './pages/Home'
+import Dashboard from './pages/Dashboard'
 import Card from './pages/Card'
-import Banking from './pages/Banking'
+import Services from './pages/Services'
+import Receipts from './pages/Receipts'
+import More from './pages/More'
 
 function App() {
   return (
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/card" element={<Card />} />
-          <Route path="/banking" element={<Banking />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/receipts" element={<Receipts />} />
+          <Route path="/more" element={<More />} />
         </Routes>
       </Layout>
     </Router>

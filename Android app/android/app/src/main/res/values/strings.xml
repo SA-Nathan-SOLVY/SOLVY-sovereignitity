@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SOLVY Card</string>
+    <string name="title_activity_main">SOLVY Card</string>
+    <string name="package_name">com.solvy.cards</string>
+    <string name="custom_url_scheme">com.solvy.cards</string>
+</resources>
