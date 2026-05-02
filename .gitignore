@@ -27,6 +27,16 @@ out/
 *.backup
 tools/archives/
 
+# Native build artifacts
+*.ipa
+*.apk
+*.xcarchive/
+DistributionSummary.plist
+solvy-cards/builds/*.ipa
+solvy-cards/builds/*.apk
+solvy-cards/builds/*.xcarchive/
+solvy-cards/builds/dSYMs/
+
 # Git internals
 *.pack
 *.idx
