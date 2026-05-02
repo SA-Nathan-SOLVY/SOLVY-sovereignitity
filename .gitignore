@@ -95,3 +95,4 @@ ops/**/ssl/
 *.pages
 *.numbers
 SOLVY-Card/
+android/keystore.jks
