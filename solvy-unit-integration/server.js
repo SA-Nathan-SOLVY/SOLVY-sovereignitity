@@ -9,6 +9,7 @@ const express = require('express');
 const app = express();
 
 // Import handlers
+const { setupBankingRoutes } = require('../solvy-platform/api/banking-router');
 const { createCustomer } = require('./api/unit/customer');
 const { createDepositAccount, getBalance } = require('./api/unit/account');
 const { createCard } = require('./api/unit/card');
@@ -22,6 +23,9 @@ const { handleAgentMailWebhook } = require('./api/email');
 
 // Middleware
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
+
+// Vendor-agnostic banking routes (Unit.co OR Treasury Prime)
+setupBankingRoutes(app);
 
 // Health check
 app.get('/health', (req, res) => {
@@ -209,11 +213,16 @@ app.listen(PORT, () => {
   console.log('');
   console.log('Endpoints:');
   console.log('  GET  /health                    - Health check');
-  console.log('  POST /api/members/onboard       - Onboard new member');
-  console.log('  GET  /api/accounts/:id/balance  - Get balance');
+  console.log('  GET  /api/banking/status        - Active banking vendor');
+  console.log('  GET  /api/banking/balance       - Get balance (vendor-agnostic)');
+  console.log('  GET  /api/banking/transactions  - Get transactions');
+  console.log('  GET  /api/banking/cards         - List cards');
+  console.log('  POST /api/banking/card/freeze   - Freeze/unfreeze card');
+  console.log('  POST /api/banking/onboard       - Onboard member + card');
+  console.log('  POST /api/members/onboard       - Onboard new member (Unit legacy)');
+  console.log('  GET  /api/accounts/:id/balance  - Get balance (Unit legacy)');
   console.log('  POST /api/auth/unit-token       - Unit JWT token');
   console.log('  POST /webhooks/unit             - Unit webhooks');
-  console.log('  POST /api/stripe/create-checkout-session - Stripe checkout');
   console.log('  POST /webhooks/stripe           - Stripe webhooks');
   console.log('  GET  /api/marketplace/pools     - Data marketplace pools');
   console.log('  POST /api/marketplace/contribute - Submit anonymized data');

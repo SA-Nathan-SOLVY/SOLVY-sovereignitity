@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Underwriting — Treasury Prime | SOLVY Card™</title>
+    <meta name="description" content="SOLVY Card underwriting information for Treasury Prime banking partnership.">
+    <link rel="icon" type="image/png" href="/SolvyLogo-1024.png">
+    <style>
+        :root {
+            --solvy-green: #22c55e;
+            --solvy-dark: #0f172a;
+            --solvy-gray: #94a3b8;
+            --solvy-purple: #a855f7;
+            --tp-teal: #009ba7;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: var(--solvy-dark);
+            color: #fff;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 2rem;
+            border-bottom: 1px solid rgba(0, 155, 167, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--solvy-green);
+            text-decoration: none;
+        }
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--tp-teal);
+            background: rgba(0, 155, 167, 0.1);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid rgba(0, 155, 167, 0.3);
+            margin-bottom: 2rem;
+        }
+        header img { height: 60px; margin-bottom: 1rem; }
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--tp-teal), #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        h2 {
+            color: var(--tp-teal);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+        }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 155, 167, 0.2);
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .label { color: var(--solvy-gray); font-size: 0.9rem; }
+        .value { font-weight: 600; }
+        .badge {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--solvy-green);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge.live {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--solvy-green);
+        }
+        .vendor-banner {
+            background: linear-gradient(135deg, rgba(0, 155, 167, 0.15) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(0, 155, 167, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .vendor-banner p {
+            color: var(--solvy-gray);
+            font-size: 0.9rem;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .feature-item {
+            background: rgba(0, 155, 167, 0.1);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        .feature-item .check { color: var(--solvy-green); margin-right: 0.5rem; }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--solvy-gray);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(0, 155, 167, 0.1);
+            margin-top: 2rem;
+        }
+        @media (max-width: 600px) {
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo-text">SOLVY</a>
+            <div class="nav-links">
+                <a href="/underwriting">← All Partners</a>
+                <a href="/underwriting/unit">Unit.co →</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Treasury Prime Underwriting</h1>
+            <p style="color: var(--solvy-gray); margin-top: 0.5rem;">Parallel Banking Partner — API-First Integration</p>
+        </header>
+
+        <div class="vendor-banner">
+            <p><strong>Status:</strong> <span class="badge live">✅ Sandbox Active — API Integration In Progress</span></p>
+            <p style="margin-top: 0.5rem;">Sponsor Banks: Multiple (Multi-bank redundancy) | Card Processor: Marqeta | Integration: REST API + Webhooks</p>
+        </div>
+
+        <div class="section">
+            <h2>🏢 Business Entity</h2>
+            <div class="info-row"><span class="label">Legal Name</span><span class="value">SA Nathan LLC</span></div>
+            <div class="info-row"><span class="label">Entity Type</span><span class="value">Limited Liability Company</span></div>
+            <div class="info-row"><span class="label">Formation State</span><span class="value">Wyoming</span></div>
+            <div class="info-row"><span class="label">EIN</span><span class="value">[Available Upon Request]</span></div>
+            <div class="info-row"><span class="label">Capital Commitment</span><span class="value">$225,000 Passive Investor Funding</span></div>
+            <div class="info-row"><span class="label">Contact Email</span><span class="value">hello@ebl.beauty</span></div>
+        </div>
+
+        <div class="section">
+            <h2>💳 Treasury Prime Card Program</h2>
+            <div class="info-row"><span class="label">Program Name</span><span class="value">SOLVY Card™</span></div>
+            <div class="info-row"><span class="label">Card Type</span><span class="value">Cooperative Debit Card</span></div>
+            <div class="info-row"><span class="label">Sponsor Banks</span><span class="value">Multiple FDIC-Insured Partners</span></div>
+            <div class="info-row"><span class="label">Card Processor</span><span class="value">Marqeta</span></div>
+            <div class="info-row"><span class="label">Card Networks</span><span class="value">Visa / Mastercard</span></div>
+            <div class="info-row"><span class="label">Integration Type</span><span class="value">REST API + Webhooks</span></div>
+            <div class="info-row"><span class="label">Authentication</span><span class="value">HTTP Basic Auth (API Keys)</span></div>
+            <div class="info-row"><span class="label">Sandbox Status</span><span class="value"><span class="badge live">✅ Active</span></span></div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Treasury Prime Advantages</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><span class="check">✅</span> Multi-bank redundancy</div>
+                <div class="feature-item"><span class="check">✅</span> FedNow instant payments</div>
+                <div class="feature-item"><span class="check">✅</span> Mobile check deposit</div>
+                <div class="feature-item"><span class="check">✅</span> Green Dot cash loads (90K+ locations)</div>
+                <div class="feature-item"><span class="check">✅</span> Apple Pay / Google Pay</div>
+                <div class="feature-item"><span class="check">✅</span> Real-time card auth controls</div>
+                <div class="feature-item"><span class="check">✅</span> Wire transfers</div>
+                <div class="feature-item"><span class="check">✅</span> 1099-INT filing support</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Program Economics</h2>
+            <div class="info-row"><span class="label">Revenue Model</span><span class="value">Interchange Fee Sharing</span></div>
+            <div class="info-row"><span class="label">Average Interchange</span><span class="value">~1.50% of transaction volume</span></div>
+            <div class="info-row"><span class="label">SOLVY Net Share</span><span class="value">~0.90-1.00% (negotiated)</span></div>
+            <div class="info-row"><span class="label">Member Dividend</span><span class="value">70% of SOLVY share</span></div>
+            <div class="info-row"><span class="label">Community Pool</span><span class="value">20% of SOLVY share</span></div>
+            <div class="info-row"><span class="label">Operations Reserve</span><span class="value">10% of SOLVY share</span></div>
+            <div class="info-row"><span class="label">Target Members (Year 1)</span><span class="value">1,000</span></div>
+            <div class="info-row"><span class="label">Expected Annual Dividends</span><span class="value">$128,520+</span></div>
+        </div>
+
+        <div class="section">
+            <h2>🌐 Digital Presence</h2>
+            <div class="info-row"><span class="label">Primary Domain</span><span class="value"><a href="https://ebl.beauty" style="color: var(--tp-teal)">ebl.beauty</a></span></div>
+            <div class="info-row"><span class="label">Card Domain</span><span class="value"><a href="https://solvy.cards" style="color: var(--tp-teal)">solvy.cards</a></span></div>
+            <div class="info-row"><span class="label">API Domain</span><span class="value"><a href="https://api.ebl.beauty" style="color: var(--tp-teal)">api.ebl.beauty</a></span></div>
+            <div class="info-row"><span class="label">Custom Frontend</span><span class="value">React PWA (ebl.beauty)</span></div>
+        </div>
+
+        <div class="section">
+            <h2>🛡️ Risk & Compliance</h2>
+            <div class="info-row"><span class="label">KYC Provider</span><span class="value">Treasury Prime Integrated KYC</span></div>
+            <div class="info-row"><span class="label">AML Policy</span><span class="value">BSA/AML via Treasury Prime + Sponsor Banks</span></div>
+            <div class="info-row"><span class="label">Fraud Monitoring</span><span class="value">Real-time Auth Stream + Card Controls</span></div>
+            <div class="info-row"><span class="label">Dispute Handling</span><span class="value">Reg E Compliance + Cardholder Disputes API</span></div>
+            <div class="info-row"><span class="label">Cooperative Structure</span><span class="value">Member-owned | Patronage Dividends | 1099-INT</span></div>
+        </div>
+
+        <div class="section">
+            <h2>📱 App Distribution</h2>
+            <div class="info-row"><span class="label">iOS App</span><span class="value">PWA / Custom App (Planned)</span></div>
+            <div class="info-row"><span class="label">Android App</span><span class="value">PWA / Custom App (Planned)</span></div>
+            <div class="info-row"><span class="label">Web App</span><span class="value">PWA at ebl.beauty (Live)</span></div>
+            <div class="info-row"><span class="label">Mobile Wallets</span><span class="value">Apple Pay + Google Pay (Treasury Prime)</span></div>
+        </div>
+
+        <div class="section">
+            <h2>📋 Sandbox Status</h2>
+            <div class="info-row"><span class="label">Organization</span><span class="value">SA Nathan-EBL Logo</span></div>
+            <div class="info-row"><span class="label">Sandbox URL</span><span class="value">app.sandbox.treasuryprime.com</span></div>
+            <div class="info-row"><span class="label">API Environment</span><span class="value">api.sandbox.treasuryprime.com</span></div>
+            <div class="info-row"><span class="label">Pre-funded Accounts</span><span class="value">✅ $5,000 each</span></div>
+            <div class="info-row"><span class="label">Invite Expires</span><span class="value">May 13, 2026</span></div>
+            <div class="info-row"><span class="label">Production Target</span><span class="value">June 19, 2026 (Juneteenth)</span></div>
+        </div>
+
+        <footer>
+            <p>SOLVY Ecosystem™ — Product of SA Nathan LLC</p>
+            <p style="margin-top: 0.5rem;">Building generational wealth through cooperative economic ownership.</p>
+        </footer>
+    </div>
+</body>
+</html>

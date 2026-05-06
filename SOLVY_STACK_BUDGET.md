@@ -68,8 +68,12 @@
 | **ebl.beauty** | Porkbun/Namecheap | - | $15 |
 | **solvy.coop** | Reserved | - | $30 |
 | **api.ebl.beauty** | Subdomain | - | $0 |
-| **Cloudflare** | DNS + CDN (Free tier) | $0 | $0 |
-| **Subtotal** | | **$4** | **$45** |
+| **Cloudflare** | DNS + CDN + WAF (Pro tier) | $20 | $240 |
+| **Subtotal** | | **$24** | **$285** |
+
+> **Receipt**: Cloudflare Pro Plan — $240/yr (purchased May 4, 2026)
+> - Covers: solvy.cards + ebl.beauty (WAF, bot detection, CDN, image optimization)
+> - Added by: Kimi Code CLI
 
 ### 1.4 SSL Certificates
 

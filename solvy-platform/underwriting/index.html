@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Underwriting — SOLVY Card™</title>
+    <meta name="description" content="SOLVY Card underwriting information for banking partners.">
+    <link rel="icon" type="image/png" href="/SolvyLogo-1024.png">
+    <style>
+        :root {
+            --solvy-green: #22c55e;
+            --solvy-dark: #0f172a;
+            --solvy-gray: #94a3b8;
+            --solvy-purple: #a855f7;
+            --unit-blue: #2563eb;
+            --tp-teal: #009ba7;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: var(--solvy-dark);
+            color: #fff;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 2rem;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--solvy-green);
+            text-decoration: none;
+        }
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--solvy-green);
+            background: rgba(34, 197, 94, 0.1);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: var(--solvy-gray);
+            margin-top: 0.5rem;
+        }
+
+        /* Partner Cards */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .partner-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .partner-card:hover {
+            transform: translateY(-2px);
+        }
+        .partner-card.unit {
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+        .partner-card.unit:hover {
+            border-color: rgba(37, 99, 235, 0.6);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
+        }
+        .partner-card.tp {
+            border-color: rgba(0, 155, 167, 0.3);
+        }
+        .partner-card.tp:hover {
+            border-color: rgba(0, 155, 167, 0.6);
+            box-shadow: 0 8px 20px rgba(0, 155, 167, 0.15);
+        }
+        .partner-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .partner-card.unit .partner-name {
+            color: #60a5fa;
+        }
+        .partner-card.tp .partner-name {
+            color: #22d3ee;
+        }
+        .partner-desc {
+            color: var(--solvy-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .partner-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: auto;
+            align-self: flex-start;
+        }
+        .partner-card.unit .partner-status {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+        }
+        .partner-card.tp .partner-status {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--solvy-green);
+        }
+        .partner-features {
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+        .partner-features li {
+            margin-bottom: 0.35rem;
+            list-style: none;
+        }
+        .partner-features li::before {
+            content: "✓ ";
+            color: var(--solvy-green);
+            font-weight: bold;
+        }
+
+        /* Overview Section */
+        .overview {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .overview h2 {
+            color: var(--solvy-green);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .label { color: var(--solvy-gray); font-size: 0.9rem; }
+        .value { font-weight: 600; }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--solvy-gray);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 700px) {
+            .partners-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo-text">SOLVY</a>
+            <div class="nav-links">
+                <a href="/">← Back to Site</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>SOLVY Card™ — Underwriting</h1>
+            <p class="subtitle">Banking Partner Due Diligence Portal</p>
+        </header>
+
+        <div class="overview">
+            <h2>🏢 Organization Overview</h2>
+            <div class="info-row"><span class="label">Legal Name</span><span class="value">SA Nathan LLC</span></div>
+            <div class="info-row"><span class="label">Entity Type</span><span class="value">Limited Liability Company (Cooperative Structure)</span></div>
+            <div class="info-row"><span class="label">Formation</span><span class="value">Wyoming, 2024</span></div>
+            <div class="info-row"><span class="label">Capital</span><span class="value">$225,000 committed</span></div>
+            <div class="info-row"><span class="label">Mission</span><span class="value">Cooperative banking for underserved communities</span></div>
+            <div class="info-row"><span class="label">Website</span><span class="value"><a href="https://ebl.beauty" style="color: var(--solvy-green)">ebl.beauty</a></span></div>
+            <div class="info-row"><span class="label">Contact</span><span class="value">hello@ebl.beauty</span></div>
+        </div>
+
+        <h2 style="text-align: center; margin-bottom: 1.5rem; color: #e2e8f0;">Select Banking Partner</h2>
+
+        <div class="partners-grid">
+            <a href="/underwriting/unit" class="partner-card unit">
+                <div class="partner-name">Unit.co</div>
+                <div class="partner-desc">Primary Banking Partner — White Label App Integration</div>
+                <ul class="partner-features">
+                    <li>Sponsor Bank: Thread Bank</li>
+                    <li>Card Network: Visa</li>
+                    <li>White Label App (Ready To Launch)</li>
+                    <li>JWT Authentication</li>
+                </ul>
+                <span class="partner-status">⏳ Sandbox Complete — Production Pending</span>
+            </a>
+
+            <a href="/underwriting/treasuryprime" class="partner-card tp">
+                <div class="partner-name">Treasury Prime</div>
+                <div class="partner-desc">Parallel Banking Partner — API-First Integration</div>
+                <ul class="partner-features">
+                    <li>Multi-bank redundancy</li>
+                    <li>Card Processor: Marqeta</li>
+                    <li>REST API + Webhooks</li>
+                    <li>FedNow, Check Deposit, Green Dot</li>
+                </ul>
+                <span class="partner-status">✅ Sandbox Active — Integration In Progress</span>
+            </a>
+        </div>
+
+        <div class="overview">
+            <h2>📊 Cooperative Economics (All Partners)</h2>
+            <div class="info-row"><span class="label">Revenue Model</span><span class="value">Interchange Fee Sharing</span></div>
+            <div class="info-row"><span class="label">Member Dividend</span><span class="value">70% of interchange revenue</span></div>
+            <div class="info-row"><span class="label">Community Pool</span><span class="value">20% of interchange revenue</span></div>
+            <div class="info-row"><span class="label">Operations</span><span class="value">10% of interchange revenue</span></div>
+            <div class="info-row"><span class="label">Target Members (Year 1)</span><span class="value">1,000</span></div>
+            <div class="info-row"><span class="label">Launch Date</span><span class="value">June 19, 2026 (Juneteenth)</span></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>SOLVY Ecosystem™ — Product of SA Nathan LLC</p>
+        <p style="margin-top: 0.5rem;">Building generational wealth through cooperative economic ownership.</p>
+    </footer>
+</body>
+</html>

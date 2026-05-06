@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentations | SOLVY Ecosystem™</title>
+    <meta name="description" content="SOLVY Ecosystem presentations and partnership decks.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 2rem;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .nav-logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #22c55e;
+            letter-spacing: -0.02em;
+        }
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover {
+            color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+        }
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .presentation-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.2s;
+        }
+        .presentation-card:hover {
+            border-color: rgba(34, 197, 94, 0.5);
+            transform: translateY(-2px);
+        }
+        .file-icon {
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+        .file-info {
+            flex: 1;
+        }
+        .file-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            color: #f1f5f9;
+        }
+        .file-info p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .file-size {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+        .btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.35);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(34, 197, 94, 0.4);
+            color: #22c55e;
+            margin-left: 0.5rem;
+        }
+        .btn-secondary:hover {
+            background: rgba(34, 197, 94, 0.1);
+        }
+        .note {
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #eab308;
+            font-size: 0.9rem;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(34, 197, 94, 0.1);
+            margin-top: 3rem;
+        }
+        @media (max-width: 600px) {
+            .presentation-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero h1 { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="nav-logo-text">SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">← Back to Site</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Presentations</h1>
+        <p>Partnership decks, pitch materials, and strategic documents for the SOLVY Ecosystem™.</p>
+        <div style="margin-top: 1.5rem;">
+            <a href="addendum.html" style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(234, 179, 8, 0.15); color: #eab308; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; border: 1px solid rgba(234, 179, 8, 0.3);">
+                ⚠️ Important Addendum: solvy.cards vs solvy.chain status
+            </a>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="presentation-card">
+            <div class="file-icon">📊</div>
+            <div class="file-info">
+                <h3>SOLVY Data Flywheel — SPS Partnership</h3>
+                <p>Strategic partnership presentation for SPS Joint Venture (Pilot Partner #2).</p>
+                <p class="file-size">PDF • 55 MB</p>
+            </div>
+            <div>
+                <a href="https://drive.google.com/file/d/1bofwKak3F70NXNusOQssWtzcFpLGqfth/view?usp=share_link" class="btn" target="_blank">View on Google Drive</a>
+                <a href="https://drive.google.com/file/d/1bofwKak3F70NXNusOQssWtzcFpLGqfth/view?usp=share_link" class="btn btn-secondary" target="_blank">Open</a>
+            </div>
+        </div>
+
+        <div class="presentation-card">
+            <div class="file-icon">🏛️</div>
+            <div class="file-info">
+                <h3>SOVEREIGNITITY — Cooperative Neobank for IBC</h3>
+                <p>IBC practitioner presentation outlining the cooperative neobank architecture.</p>
+                <p class="file-size">PDF • 33 MB</p>
+            </div>
+            <div>
+                <a href="https://drive.google.com/file/d/1KNMlc4G1JglAAUuI_0VH2b5viBj1xzUC/view?usp=share_link" class="btn" target="_blank">View on Google Drive</a>
+                <a href="https://drive.google.com/file/d/1KNMlc4G1JglAAUuI_0VH2b5viBj1xzUC/view?usp=share_link" class="btn btn-secondary" target="_blank">Open</a>
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>⚠️ Large files:</strong> These PDFs are 30–55 MB. If they don't load, use the Download button and open locally, or visit the <a href="../sps/index.html" style="color: #eab308;">SPS page</a> which has a lightweight slideshow version.
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 SA Nathan LLC. SOLVY Ecosystem™ — Product of SA Nathan LLC.</p>
+    </footer>
+</body>
+</html>
