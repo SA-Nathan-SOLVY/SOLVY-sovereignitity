@@ -20,6 +20,7 @@ const { handleStripeWebhook, listDeposits } = require('./api/stripe/webhook');
 const marketplace = require('./api/marketplace/data-pool');
 const emailRoutes = require('./api/email');
 const { handleAgentMailWebhook } = require('./api/email');
+const moliRoutes = require('./api/moli');
 
 // Middleware
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
@@ -194,6 +195,9 @@ app.get('/api/marketplace/pools/:poolId/status/:memberHash', marketplace.getCont
  */
 app.use('/api/email', emailRoutes);
 
+// MOLI Policy Service Request routes (PDF generation + Mailcow SMTP)
+app.use('/api/moli', moliRoutes);
+
 /**
  * POST /webhooks/agentmail
  * AgentMail inbound email webhook
@@ -230,6 +234,10 @@ app.listen(PORT, () => {
   console.log('  POST /api/email/send-welcome    - Send welcome email (AgentMail)');
   console.log('  POST /api/email/support-reply   - Send support reply (AgentMail)');
   console.log('  POST /webhooks/agentmail        - Inbound email webhook');
+  console.log('');
+  console.log('  POST /api/moli/submit           - MOLI policy service request');
+  console.log('  GET  /api/moli/status           - MOLI service status');
+  console.log('  POST /api/moli/test-pdf         - Generate test PDF');
   console.log('');
 });
 
