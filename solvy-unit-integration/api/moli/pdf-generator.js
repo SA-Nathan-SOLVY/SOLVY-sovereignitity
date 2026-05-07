@@ -130,7 +130,7 @@ async function generateMoliPDF(data) {
       y -= 14;
     }
     
-    y = drawLabelValue('MEC Acknowledgment', '✓ CONFIRMED — Policyholder acknowledges MEC tax implications', y, { color: rgb(0.13, 0.55, 0.13) });
+    y = drawLabelValue('MEC Acknowledgment', '[CONFIRMED] Policyholder acknowledges MEC tax implications', y, { color: rgb(0.13, 0.55, 0.13) });
     y -= 8;
   }
   
@@ -184,7 +184,7 @@ async function generateMoliPDF(data) {
   y -= 20;
   
   if (data.esignConsent) {
-    drawText('✓ ESIGN Consent Confirmed', leftMargin, y, { size: 9, color: rgb(0.13, 0.55, 0.13), bold: true });
+    drawText('[CONFIRMED] ESIGN Consent Confirmed', leftMargin, y, { size: 9, color: rgb(0.13, 0.55, 0.13), bold: true });
   }
   
   // ===== FOOTER =====
