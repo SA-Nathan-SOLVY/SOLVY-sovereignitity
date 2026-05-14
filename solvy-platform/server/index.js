@@ -27,7 +27,26 @@ const config = require('./config');
 const metricsRoutes = require('./routes/metrics');
 const supportRoutes = require('./routes/support');
 
+// Prometheus metrics (optional — install with: npm install prom-client)
+let customMetrics = null;
+try {
+  customMetrics = require('./routes/metrics-custom');
+  console.log('[METRICS] Prometheus custom metrics loaded');
+} catch (err) {
+  console.log('[METRICS] prom-client not installed — custom metrics disabled');
+  console.log('[METRICS] Run: npm install prom-client  to enable');
+}
+
 const app = express();
+
+// ============================================================================
+// PROMETHEUS METRICS MIDDLEWARE (must be first to capture all requests)
+// ============================================================================
+if (customMetrics) {
+  app.use(customMetrics.metricsMiddleware);
+  app.use('/metrics', customMetrics.router);
+  console.log('[METRICS] /metrics endpoint registered for Prometheus scraping');
+}
 
 // ============================================================================
 // STATIC FILES (Admin dashboard, etc.)

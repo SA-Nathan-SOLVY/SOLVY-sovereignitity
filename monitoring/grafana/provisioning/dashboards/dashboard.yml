@@ -1,0 +1,19 @@
+# ============================================================
+# SOLVY Ecosystem™ — Grafana Dashboard Provider
+# ============================================================
+# Tells Grafana where to find provisioned dashboards.
+# ============================================================
+
+apiVersion: 1
+
+providers:
+  - name: "SOLVY Dashboards"
+    orgId: 1
+    folder: "SOLVY"
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards
+      foldersFromFilesStructure: false

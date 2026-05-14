@@ -1,0 +1,89 @@
+# ============================================================
+# SOLVY Ecosystem™ — Blackbox Exporter Configuration
+# ============================================================
+# Probes HTTP/HTTPS endpoints for uptime, latency, and SSL cert expiry.
+#
+# Modules:
+#   http_2xx          — Basic HTTP probe (follow redirects, check 2xx)
+#   http_2xx_with_auth — HTTP probe with SOLVY admin API key header
+#   http_post_2xx     — HTTP POST probe (for support endpoint)
+#   icmp              — Ping probe (alternative reachability check)
+# ============================================================
+
+modules:
+
+  # ----------------------------------------------------------
+  # Standard HTTP 2xx Probe
+  # ----------------------------------------------------------
+  http_2xx:
+    prober: http
+    timeout: 10s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0", "HTTP/2"]
+      valid_status_codes: [200, 201, 204]
+      method: GET
+      follow_redirects: true
+      fail_if_ssl: false
+      tls_config:
+        insecure_skip_verify: false
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: true
+      headers:
+        User-Agent: "SOLVY-Blackbox-Exporter/1.0"
+
+  # ----------------------------------------------------------
+  # HTTP Probe with SOLVY Admin API Key
+  # Used for protected endpoints like /api/metrics/summary
+  # ----------------------------------------------------------
+  http_2xx_with_auth:
+    prober: http
+    timeout: 10s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0", "HTTP/2"]
+      valid_status_codes: [200, 201, 204]
+      method: GET
+      follow_redirects: true
+      tls_config:
+        insecure_skip_verify: false
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: true
+      headers:
+        User-Agent: "SOLVY-Blackbox-Exporter/1.0"
+        Authorization: "Bearer ${ADMIN_API_KEY}"
+      # If the API key is not set, the probe will fail with 401.
+      # Set ADMIN_API_KEY environment variable when running blackbox exporter.
+
+  # ----------------------------------------------------------
+  # HTTP POST Probe
+  # ----------------------------------------------------------
+  http_post_2xx:
+    prober: http
+    timeout: 10s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200, 201, 202, 204]
+      method: POST
+      follow_redirects: true
+      headers:
+        Content-Type: "application/json"
+        User-Agent: "SOLVY-Blackbox-Exporter/1.0"
+      body: '{"ping": true}'
+
+  # ----------------------------------------------------------
+  # ICMP (Ping) Probe
+  # ----------------------------------------------------------
+  icmp:
+    prober: icmp
+    timeout: 5s
+    icmp:
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: true
+
+  # ----------------------------------------------------------
+  # TCP Connection Probe (for checking if port is open)
+  # ----------------------------------------------------------
+  tcp_connect:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      preferred_ip_protocol: "ip4"

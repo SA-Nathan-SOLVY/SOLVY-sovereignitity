@@ -1,0 +1,31 @@
+[Unit]
+Description=Prometheus Node Exporter
+Documentation=https://github.com/prometheus/node_exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=node-exporter
+Group=node-exporter
+ExecStart=/usr/local/bin/node_exporter \
+  --path.procfs=/proc \
+  --path.sysfs=/sys \
+  --path.rootfs=/ \
+  --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc|run|var/lib/docker/.+)($$|/) \
+  --collector.netclass.ignored-devices=^(lo|docker.+) \
+  --collector.netdev.device-exclude=^(lo|docker.+) \
+  --web.listen-address=:9100 \
+  --web.telemetry-path=/metrics
+
+Restart=always
+RestartSec=5
+
+# Security hardening
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/node_exporter
+
+[Install]
+WantedBy=multi-user.target

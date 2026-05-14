@@ -1,0 +1,146 @@
+# ============================================================
+# SOLVY Ecosystem™ — Alertmanager Configuration
+# ============================================================
+# Routes alerts to email notifications.
+# Uses self-hosted MailCow at mail.ebl.beauty:587
+#
+# Alert severity routing:
+#   critical → immediate email + optional Discord
+#   warning  → batched email digest (every 30 min)
+#
+# Environment variables (loaded at runtime):
+#   SMTP_FROM      — sender address (e.g., alerts@ebl.beauty)
+#   SMTP_USER      — MailCow SMTP username
+#   SMTP_PASS      — MailCow SMTP password
+#   DISCORD_WEBHOOK — (optional) Discord webhook URL
+# ============================================================
+
+global:
+  smtp_smarthost: "mail.ebl.beauty:587"
+  smtp_from: "${SMTP_FROM:-alerts@ebl.beauty}"
+  smtp_auth_username: "${SMTP_USER:-alerts@ebl.beauty}"
+  smtp_auth_password: "${SMTP_PASS:-}"
+  smtp_require_tls: true
+
+  # Resolve timeout — how long before an alert is considered resolved
+  resolve_timeout: 5m
+
+# Route tree — how alerts are grouped and sent
+templates:
+  - "/etc/alertmanager/templates/*.tmpl"
+
+route:
+  # Default receiver
+  receiver: "default-email"
+
+  # Group alerts by these labels
+  group_by: ["alertname", "severity", "instance"]
+
+  # Wait before sending first notification (allows grouping)
+  group_wait: 30s
+
+  # Interval between notifications for the same group
+  group_interval: 5m
+
+  # Interval before re-sending a resolved alert
+  repeat_interval: 4h
+
+  # Child routes for severity-based routing
+  routes:
+    # Critical alerts → immediate email + Discord
+    - match:
+        severity: critical
+      receiver: "critical-alerts"
+      group_wait: 10s
+      repeat_interval: 1h
+      continue: true
+
+    # Warning alerts → batched email (less frequent)
+    - match:
+        severity: warning
+      receiver: "warning-email"
+      group_wait: 2m
+      repeat_interval: 30m
+
+# Receivers — where alerts are sent
+receivers:
+
+  # ----------------------------------------------------------
+  # Default Email — all alerts
+  # ----------------------------------------------------------
+  - name: "default-email"
+    email_configs:
+      - to: "${ALERT_EMAIL_TO:-sean@ebl.beauty}"
+        send_resolved: true
+        headers:
+          Subject: "[SOLVY Alert] {{ .GroupLabels.alertname }}"
+        html: |
+          <h2>🔔 SOLVY Monitoring Alert</h2>
+          <p><strong>Alert:</strong> {{ .GroupLabels.alertname }}</p>
+          <p><strong>Severity:</strong> {{ .GroupLabels.severity }}</p>
+          <p><strong>Instance:</strong> {{ .GroupLabels.instance }}</p>
+          <hr/>
+          {{ range .Alerts }}
+          <p><strong>Status:</strong> {{ .Status }}</p>
+          <p><strong>Started:</strong> {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}</p>
+          <p><strong>Summary:</strong> {{ .Annotations.summary }}</p>
+          <p><strong>Description:</strong> {{ .Annotations.description }}</p>
+          {{ if .Annotations.runbook_url }}
+          <p><strong>Runbook:</strong> <a href="{{ .Annotations.runbook_url }}">{{ .Annotations.runbook_url }}</a></p>
+          {{ end }}
+          <hr/>
+          {{ end }}
+
+  # ----------------------------------------------------------
+  # Critical Alerts — immediate notification
+  # ----------------------------------------------------------
+  - name: "critical-alerts"
+    email_configs:
+      - to: "${ALERT_EMAIL_TO:-sean@ebl.beauty}, evergreen@ebl.beauty"
+        send_resolved: true
+        headers:
+          Subject: "🚨 [CRITICAL] SOLVY Alert: {{ .GroupLabels.alertname }}"
+        html: |
+          <h2 style="color:#dc2626;">🚨 CRITICAL SOLVY Alert</h2>
+          <p><strong>Alert:</strong> {{ .GroupLabels.alertname }}</p>
+          <p><strong>Severity:</strong> {{ .GroupLabels.severity }}</p>
+          <p><strong>Instance:</strong> {{ .GroupLabels.instance }}</p>
+          <hr/>
+          {{ range .Alerts }}
+          <p><strong>Status:</strong> {{ .Status }}</p>
+          <p><strong>Started:</strong> {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}</p>
+          <p><strong>Summary:</strong> {{ .Annotations.summary }}</p>
+          <p><strong>Description:</strong> {{ .Annotations.description }}</p>
+          {{ if .Annotations.runbook_url }}
+          <p><strong>Runbook:</strong> <a href="{{ .Annotations.runbook_url }}">{{ .Annotations.runbook_url }}</a></p>
+          {{ end }}
+          <hr/>
+          {{ end }}
+    # Uncomment below to add Discord notifications for critical alerts
+    # discord_configs:
+    #   - webhook_url: "${DISCORD_WEBHOOK}"
+    #     title: "🚨 CRITICAL: {{ .GroupLabels.alertname }}"
+    #     message: |
+    #       {{ range .Alerts }}
+    #       **{{ .Annotations.summary }}**
+    #       {{ .Annotations.description }}
+    #       Instance: {{ .Labels.instance }}
+    #       {{ end }}
+
+  # ----------------------------------------------------------
+  # Warning Alerts — batched digest
+  # ----------------------------------------------------------
+  - name: "warning-email"
+    email_configs:
+      - to: "${ALERT_EMAIL_TO:-sean@ebl.beauty}"
+        send_resolved: true
+        headers:
+          Subject: "⚠️ [WARNING] SOLVY Alert: {{ .GroupLabels.alertname }}"
+
+# Inhibition rules — suppress less severe alerts when more severe ones fire
+inhibit_rules:
+  - source_match:
+      severity: "critical"
+    target_match:
+      severity: "warning"
+    equal: ["alertname", "instance"]

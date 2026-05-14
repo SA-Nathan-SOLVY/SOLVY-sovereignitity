@@ -1,0 +1,135 @@
+# ============================================================
+# SOLVY Ecosystem™ — Prometheus Configuration
+# ============================================================
+# Scrape targets for monitoring the Hetzner VPS + SOLVY app
+# Domain: ebl.beauty | VPS IP: 46.62.235.95
+#
+# Reload config without restart:
+#   curl -X POST http://localhost:9090/-/reload
+# ============================================================
+
+global:
+  scrape_interval: 15s          # How often to scrape targets
+  scrape_timeout: 10s           # How long until a scrape times out
+  evaluation_interval: 15s      # How often to evaluate rules
+  external_labels:
+    instance: "solvy-hetzner-vps"
+    env: "production"
+
+# Alertmanager integration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager:9093"]
+
+# Load alerting rules
+rule_files:
+  - "alerting_rules.yml"
+
+# Scrape configurations
+scrape_configs:
+
+  # ------------------------------------------------------------
+  # 1. Prometheus itself
+  # ------------------------------------------------------------
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+        labels:
+          service: "prometheus"
+
+  # ------------------------------------------------------------
+  # 2. Node Exporter — System metrics (CPU, memory, disk, network)
+  # Runs as systemd service on the host, port 9100
+  # ------------------------------------------------------------
+  - job_name: "node-exporter"
+    static_configs:
+      - targets: ["host.docker.internal:9100"]
+        labels:
+          service: "node-exporter"
+          host: "solvy-vps"
+    # Fallback: if host.docker.internal doesn't resolve, use the VPS IP
+    # static_configs:
+    #   - targets: ["46.62.235.95:9100"]
+
+  # ------------------------------------------------------------
+  # 3. Blackbox Exporter — HTTP endpoint probing
+  # ------------------------------------------------------------
+  - job_name: "blackbox-http"
+    metrics_path: /probe
+    params:
+      module: ["http_2xx"]
+    static_configs:
+      - targets:
+          # SOLVY backend health endpoint (internal)
+          - "http://localhost:3000/health"
+          # Public frontend
+          - "https://ebl.beauty"
+          - "https://www.ebl.beauty"
+          # Public API endpoints
+          - "https://ebl.beauty/api/metrics/summary"
+          - "https://ebl.beauty/api/health"
+          # Alternative domains (uncomment if using)
+          # - "https://solvy.cards"
+          # - "https://www.solvy.cards"
+        labels:
+          service: "solvy-app"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: "blackbox:9115"
+
+  # API-specific probe with authentication header
+  - job_name: "blackbox-api-protected"
+    metrics_path: /probe
+    params:
+      module: ["http_2xx_with_auth"]
+    static_configs:
+      - targets:
+          - "https://ebl.beauty/api/metrics/summary"
+        labels:
+          service: "solvy-api"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: "blackbox:9115"
+
+  # ------------------------------------------------------------
+  # 4. SOLVY Node.js Backend — Custom application metrics
+  # Requires prom-client npm package + /metrics endpoint
+  # See: monitoring/README-MONITORING.md → "Custom API Metrics"
+  # ------------------------------------------------------------
+  - job_name: "solvy-backend"
+    static_configs:
+      - targets: ["host.docker.internal:3000"]
+        labels:
+          service: "solvy-api"
+          app: "solvy-nodejs"
+    metrics_path: "/metrics"
+    # Fallback if host.docker.internal doesn't work:
+    # static_configs:
+    #   - targets: ["46.62.235.95:3000"]
+
+  # ------------------------------------------------------------
+  # 5. Grafana
+  # ------------------------------------------------------------
+  - job_name: "grafana"
+    static_configs:
+      - targets: ["grafana:3000"]
+        labels:
+          service: "grafana"
+
+  # ------------------------------------------------------------
+  # 6. Blackbox Exporter itself
+  # ------------------------------------------------------------
+  - job_name: "blackbox-exporter"
+    static_configs:
+      - targets: ["blackbox:9115"]
+        labels:
+          service: "blackbox"

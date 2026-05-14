@@ -1,0 +1,306 @@
+# ============================================================
+# SOLVY Ecosystem™ — Prometheus Alerting Rules
+# ============================================================
+# Alertmanager routes these to email (and optional Discord).
+# See: alertmanager/alertmanager.yml
+#
+# Labels automatically added by Prometheus:
+#   severity: warning | critical
+#   team:     solvy-ops
+# ============================================================
+
+groups:
+
+  # ==========================================================
+  # Group: System Health — CPU, Memory, Disk
+  # ==========================================================
+  - name: system_health
+    interval: 15s
+    rules:
+
+      # --------------------------------------------------------
+      # High CPU Usage (>90% for 5 minutes)
+      # --------------------------------------------------------
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+        for: 5m
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is above 90% for more than 5 minutes. Current: {{ $value | humanize }}%."
+          runbook_url: "https://wiki.ebl.beauty/runbooks/high-cpu"
+
+      # --------------------------------------------------------
+      # Critical CPU Usage (>95% for 2 minutes)
+      # --------------------------------------------------------
+      - alert: CriticalCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 95
+        for: 2m
+        labels:
+          severity: critical
+          team: solvy-ops
+        annotations:
+          summary: "CRITICAL: CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is above 95% for more than 2 minutes. Current: {{ $value | humanize }}%."
+          runbook_url: "https://wiki.ebl.beauty/runbooks/high-cpu"
+
+      # --------------------------------------------------------
+      # High Memory Usage (>85% for 5 minutes)
+      # --------------------------------------------------------
+      - alert: HighMemoryUsage
+        expr: |
+          (
+            node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes
+          ) / node_memory_MemTotal_bytes * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is above 85% for more than 5 minutes. Current: {{ $value | humanize }}%."
+          runbook_url: "https://wiki.ebl.beauty/runbooks/high-memory"
+
+      # --------------------------------------------------------
+      # Critical Memory Usage (>95% for 2 minutes)
+      # --------------------------------------------------------
+      - alert: CriticalMemoryUsage
+        expr: |
+          (
+            node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes
+          ) / node_memory_MemTotal_bytes * 100 > 95
+        for: 2m
+        labels:
+          severity: critical
+          team: solvy-ops
+        annotations:
+          summary: "CRITICAL: Memory usage on {{ $labels.instance }}"
+          description: "Memory usage is above 95%. Current: {{ $value | humanize }}%. Risk of OOM kills."
+
+      # --------------------------------------------------------
+      # Low Disk Space (<10% free)
+      # --------------------------------------------------------
+      - alert: LowDiskSpace
+        expr: |
+          (
+            node_filesystem_avail_bytes{fstype!="tmpfs",fstype!="ramfs",fstype!="squashfs",fstype!="overlay"}
+            / node_filesystem_size_bytes{fstype!="tmpfs",fstype!="ramfs",fstype!="squashfs",fstype!="overlay"}
+          ) * 100 < 10
+        for: 5m
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Disk {{ $labels.device }} on {{ $labels.instance }} has less than 10% free. Current: {{ $value | humanizePercentage }} free."
+          runbook_url: "https://wiki.ebl.beauty/runbooks/low-disk"
+
+      # --------------------------------------------------------
+      # Critical Disk Space (<5% free)
+      # --------------------------------------------------------
+      - alert: CriticalDiskSpace
+        expr: |
+          (
+            node_filesystem_avail_bytes{fstype!="tmpfs",fstype!="ramfs",fstype!="squashfs",fstype!="overlay"}
+            / node_filesystem_size_bytes{fstype!="tmpfs",fstype!="ramfs",fstype!="squashfs",fstype!="overlay"}
+          ) * 100 < 5
+        for: 2m
+        labels:
+          severity: critical
+          team: solvy-ops
+        annotations:
+          summary: "CRITICAL: Disk space on {{ $labels.instance }}"
+          description: "Disk {{ $labels.device }} has less than 5% free. Service may fail."
+
+      # --------------------------------------------------------
+      # High Disk I/O Load (>80% for 5 minutes)
+      # --------------------------------------------------------
+      - alert: HighDiskIO
+        expr: rate(node_disk_io_time_seconds_total[5m]) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "High disk I/O on {{ $labels.instance }}"
+          description: "Disk {{ $labels.device }} I/O utilization is above 80%."
+
+  # ==========================================================
+  # Group: Network Health
+  # ==========================================================
+  - name: network_health
+    interval: 15s
+    rules:
+
+      # --------------------------------------------------------
+      # Unusual Network Ingress (>500 Mbps sustained)
+      # --------------------------------------------------------
+      - alert: HighNetworkIngress
+        expr: rate(node_network_receive_bytes_total[5m]) * 8 / 1024 / 1024 > 500
+        for: 5m
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "High network ingress on {{ $labels.instance }}"
+          description: "Network receive rate is above 500 Mbps. Possible DDoS or large transfer."
+
+      # --------------------------------------------------------
+      # Unusual Network Egress (>500 Mbps sustained)
+      # --------------------------------------------------------
+      - alert: HighNetworkEgress
+        expr: rate(node_network_transmit_bytes_total[5m]) * 8 / 1024 / 1024 > 500
+        for: 5m
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "High network egress on {{ $labels.instance }}"
+          description: "Network transmit rate is above 500 Mbps. Check for data exfiltration."
+
+  # ==========================================================
+  # Group: API Endpoint Health (Blackbox Probes)
+  # ==========================================================
+  - name: api_health
+    interval: 15s
+    rules:
+
+      # --------------------------------------------------------
+      # API Endpoint Down (probe fails for 1 minute)
+      # --------------------------------------------------------
+      - alert: APIEndpointDown
+        expr: probe_success == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: solvy-ops
+        annotations:
+          summary: "API endpoint down: {{ $labels.instance }}"
+          description: "Endpoint {{ $labels.instance }} has been unreachable for over 1 minute. HTTP status: {{ $probe_http_status_code }}."
+          runbook_url: "https://wiki.ebl.beauty/runbooks/api-down"
+
+      # --------------------------------------------------------
+      # API Slow Response (>2 seconds for 2 minutes)
+      # --------------------------------------------------------
+      - alert: APISlowResponse
+        expr: probe_duration_seconds > 2
+        for: 2m
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "Slow API response: {{ $labels.instance }}"
+          description: "Endpoint {{ $labels.instance }} response time is {{ $value | humanizeDuration }}."
+
+      # --------------------------------------------------------
+      # SSL Certificate Expiring (<14 days)
+      # --------------------------------------------------------
+      - alert: SSLCertificateExpiringSoon
+        expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 14
+        for: 1h
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "SSL certificate expiring soon: {{ $labels.instance }}"
+          description: "SSL certificate for {{ $labels.instance }} expires in {{ $value | humanizeDuration }}. Renew via Certbot."
+
+      # --------------------------------------------------------
+      # SSL Certificate Expiring (<7 days)
+      # --------------------------------------------------------
+      - alert: SSLCertificateExpiringCritical
+        expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 7
+        for: 1h
+        labels:
+          severity: critical
+          team: solvy-ops
+        annotations:
+          summary: "CRITICAL: SSL certificate expiring: {{ $labels.instance }}"
+          description: "SSL certificate for {{ $labels.instance }} expires in {{ $value | humanizeDuration }}. Renew immediately."
+
+  # ==========================================================
+  # Group: Node Exporter Availability
+  # ==========================================================
+  - name: exporter_health
+    interval: 15s
+    rules:
+
+      # --------------------------------------------------------
+      # Node Exporter Not Reachable
+      # --------------------------------------------------------
+      - alert: NodeExporterDown
+        expr: up{job="node-exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: solvy-ops
+        annotations:
+          summary: "Node Exporter down on {{ $labels.instance }}"
+          description: "Node Exporter has been unreachable for over 1 minute. System metrics unavailable."
+
+      # --------------------------------------------------------
+      # Prometheus Target Missing
+      # --------------------------------------------------------
+      - alert: PrometheusTargetMissing
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "Prometheus target missing: {{ $labels.job }}"
+          description: "Target {{ $labels.instance }} in job {{ $labels.job }} has been down for 2 minutes."
+
+  # ==========================================================
+  # Group: SOLVY Application Custom Metrics
+  # (Only active if /metrics endpoint is implemented)
+  # ==========================================================
+  - name: solvy_app_metrics
+    interval: 15s
+    rules:
+
+      # --------------------------------------------------------
+      # SOLVY Backend Down (custom /metrics endpoint missing)
+      # --------------------------------------------------------
+      - alert: SolvyBackendMetricsMissing
+        expr: up{job="solvy-backend"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          team: solvy-ops
+        annotations:
+          summary: "SOLVY backend metrics endpoint unreachable"
+          description: "The /metrics endpoint on the SOLVY backend is not responding. Custom app metrics unavailable (app may still be running)."
+
+      # --------------------------------------------------------
+      # High Error Rate on API (if http_requests_total counter with status=5xx)
+      # --------------------------------------------------------
+      - alert: SolvyHighErrorRate
+        expr: |
+          (
+            rate(http_requests_total{job="solvy-backend",status=~"5.."}[5m])
+            /
+            rate(http_requests_total{job="solvy-backend"}[5m])
+          ) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+          team: solvy-ops
+        annotations:
+          summary: "High error rate on SOLVY API"
+          description: "Error rate is above 5% for more than 2 minutes."
+
+      # --------------------------------------------------------
+      # Support Ticket Backlog Alert (if exposed as metric)
+      # --------------------------------------------------------
+      # - alert: SolvySupportTicketBacklog
+      #   expr: solvy_support_tickets_open > 10
+      #   for: 10m
+      #   labels:
+      #     severity: warning
+      #     team: solvy-support
+      #   annotations:
+      #     summary: "Support ticket backlog > 10"
+      #     description: "There are {{ $value }} open support tickets."

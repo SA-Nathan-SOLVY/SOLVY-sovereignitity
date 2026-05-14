@@ -1,0 +1,170 @@
+version: "3.8"
+
+# ============================================================
+# SOLVY Ecosystem™ — Monitoring Stack (Prometheus + Grafana)
+# ============================================================
+# Deploy alongside SOLVY app on Hetzner VPS
+# Domain: ebl.beauty | VPS: 46.62.235.95
+#
+# Usage:
+#   cd /opt/monitoring && docker-compose up -d
+#
+# Services:
+#   - Prometheus (port 9090) — metrics collection
+#   - Grafana (port 3001)    — dashboards & visualization
+#   - Node Exporter (port 9100) — system metrics
+#   - Blackbox Exporter (port 9115) — HTTP endpoint probing
+#   - Alertmanager (port 9093) — alert routing & notifications
+#
+# Security: Prometheus & Alertmanager bind to localhost only.
+#           Grafana exposed via nginx reverse proxy on HTTPS.
+# ============================================================
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  alertmanager-data:
+
+services:
+
+  # ------------------------------------------------------------
+  # Prometheus — Time-series database for metrics
+  # ------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: solvy-prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--web.enable-lifecycle"          # allow config reload via SIGHUP
+      - "--web.listen-address=0.0.0.0:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alerting_rules.yml:/etc/prometheus/alerting_rules.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - monitoring
+    # Bind to localhost only — accessed via nginx or internal network
+    ports:
+      - "127.0.0.1:9090:9090"
+    labels:
+      - "solvy.service=prometheus"
+
+  # ------------------------------------------------------------
+  # Grafana — Dashboards & Visualization
+  # ------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: solvy-grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana_admin_password
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=https://grafana.ebl.beauty/
+      - GF_SERVER_DOMAIN=grafana.ebl.beauty
+      - GF_SERVER_SERVE_FROM_SUB_PATH=false
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_SECURITY_DISABLE_GRAVATAR=true
+      - GF_SECURITY_ANGULAR_SUPPORT_ENABLED=false
+      - GF_FEATURE_TOGGLES_ENABLE=publicDashboards
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/solvy-dashboard.json
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/provisioning/dashboards:/var/lib/grafana/dashboards:ro
+    secrets:
+      - grafana_admin_password
+    networks:
+      - monitoring
+    # Grafana exposed on 3001; nginx proxies 443 → 3001
+    ports:
+      - "127.0.0.1:3001:3000"
+    depends_on:
+      - prometheus
+    labels:
+      - "solvy.service=grafana"
+
+  # ------------------------------------------------------------
+  # Node Exporter — System metrics (CPU, memory, disk, network)
+  # ------------------------------------------------------------
+  # NOTE: We run node_exporter as a HOST systemd service on port 9100
+  # instead of a container, to get accurate host-level metrics.
+  # This container definition is provided for Docker-only deployments.
+  # See scripts/install-node-exporter.sh for the recommended approach.
+  # ------------------------------------------------------------
+  # node-exporter:
+  #   image: prom/node-exporter:v1.8.1
+  #   container_name: solvy-node-exporter
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /proc:/host/proc:ro
+  #     - /sys:/host/sys:ro
+  #     - /:/rootfs:ro
+  #   command:
+  #     - "--path.procfs=/host/proc"
+  #     - "--path.rootfs=/rootfs"
+  #     - "--path.sysfs=/host/sys"
+  #     - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+  #   networks:
+  #     - monitoring
+  #   ports:
+  #     - "127.0.0.1:9100:9100"
+
+  # ------------------------------------------------------------
+  # Blackbox Exporter — HTTP/HTTPS endpoint probing
+  # ------------------------------------------------------------
+  blackbox:
+    image: prom/blackbox-exporter:v0.25.0
+    container_name: solvy-blackbox
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/blackbox_exporter/config.yml"
+    volumes:
+      - ./blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+    networks:
+      - monitoring
+    ports:
+      - "127.0.0.1:9115:9115"
+    depends_on:
+      - prometheus
+    labels:
+      - "solvy.service=blackbox"
+
+  # ------------------------------------------------------------
+  # Alertmanager — Route alerts to email (and optional Discord)
+  # ------------------------------------------------------------
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: solvy-alertmanager
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--storage.path=/alertmanager"
+      - "--web.listen-address=0.0.0.0:9093"
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    networks:
+      - monitoring
+    ports:
+      - "127.0.0.1:9093:9093"
+    depends_on:
+      - prometheus
+    labels:
+      - "solvy.service=alertmanager"
+
+# ------------------------------------------------------------
+# Secrets (create files before starting)
+# ------------------------------------------------------------
+secrets:
+  grafana_admin_password:
+    file: ./secrets/grafana_admin_password.txt
