@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Ecosystem™ — Data Sovereignty</title>
+    <link rel="icon" href="/assets/favicon.ico">
+    <style>
+        :root {
+            --solvy-dark: #0f172a;
+            --solvy-darker: #020617;
+            --solvy-card: #1e293b;
+            --solvy-border: #334155;
+            --solvy-green: #22c55e;
+            --solvy-green-dim: rgba(34, 197, 94, 0.15);
+            --solvy-gold: #f59e0b;
+            --solvy-gold-dim: rgba(245, 158, 11, 0.15);
+            --solvy-text: #e2e8f0;
+            --solvy-muted: #94a3b8;
+            --solvy-dim: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--solvy-darker);
+            color: var(--solvy-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--solvy-green);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-links a {
+            color: var(--solvy-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-left: 1.5rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--solvy-green); }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 4rem 1.5rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .badge {
+            background: var(--solvy-gold-dim);
+            color: var(--solvy-gold);
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .hero h1 span {
+            color: var(--solvy-green);
+        }
+        .hero p {
+            color: var(--solvy-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Sovereignty Statement */
+        .statement {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-left: 4px solid var(--solvy-green);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        .statement h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--solvy-green);
+        }
+        .statement ul {
+            list-style: none;
+        }
+        .statement li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--solvy-muted);
+        }
+        .statement li::before {
+            content: '🔒';
+            position: absolute;
+            left: 0;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .card {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .card p {
+            color: var(--solvy-muted);
+            font-size: 0.9rem;
+        }
+        .card input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-top: 0.75rem;
+            border-radius: 10px;
+            border: 1px solid var(--solvy-border);
+            background: var(--solvy-dark);
+            color: var(--solvy-text);
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .card input:focus { border-color: var(--solvy-green); }
+        .card button {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .card button:hover { opacity: 0.9; }
+        .confirmation {
+            color: var(--solvy-green);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .confirmation.visible { display: block; }
+
+        /* Architecture Diagram */
+        .architecture {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .architecture h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .arch-flow {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: var(--solvy-muted);
+            overflow-x: auto;
+            line-height: 1.8;
+        }
+        .arch-flow .green { color: var(--solvy-green); }
+        .arch-flow .gold { color: var(--solvy-gold); }
+        .arch-flow .red { color: var(--solvy-red); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--solvy-dim);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--solvy-border);
+            margin-top: 3rem;
+        }
+        footer strong { color: var(--solvy-green); }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">👑 SOLVY</a>
+            <div class="nav-links">
+                <a href="/banking/index.html">Banking</a>
+                <a href="/card/solvy-card.html">Card</a>
+                <a href="/community/communities.html">Community</a>
+                <a href="/privacy-sovereignty.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="badge">⚡ Sovereign by Design</div>
+        <h1>Data sovereignty is not a <span>promise</span>.</h1>
+        <p>It is <strong>enforced by our architecture</strong>. We built it that way on purpose. No trust required — only code.</p>
+    </div>
+
+    <!-- Sovereignty Statement -->
+    <div class="statement">
+        <h2>🔐 What "Sovereignty" Means for You</h2>
+        <ul>
+            <li>Your transaction history lives on your device — not on our servers.</li>
+            <li>No central database stores your individual spending.</li>
+            <li>Only aggregated, anonymized totals ever leave your device.</li>
+            <li>We cannot see your data. No one can. Only you.</li>
+            <li>If our server is hacked, the attacker sees only totals — never your shopping history.</li>
+        </ul>
+    </div>
+
+    <!-- Architecture Flow -->
+    <div class="architecture">
+        <h2>How It Works</h2>
+        <div class="arch-flow">
+<span class="green">Your Device (Browser)</span>
+  ├─ manDB.js              → Stores full transactions locally (IndexedDB)
+  ├─ aggregationService.js → Computes totals, strips all individual data
+  └─ HTTPS POST            → Sends: totalVolume, categorySums, memberHash
+
+<span class="gold">Network</span>
+  └─ Encrypted TLS         → Only aggregate fields travel over wire
+
+<span class="green">Central Server</span>
+  └─ SQLite                → Stores: member_hash, total_volume, category_sums
+                             <span class="red">NEVER stores: merchant names, exact timestamps, tx IDs</span>
+
+<span class="gold">Admin Dashboard</span>
+  └─ Views only totals     → "Members spent $125K this month"
+                             <span class="red">Cannot see: who bought what, where, or when</span>
+        </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards">
+        <div class="card">
+            <h3>🤖 24/7 AI Assistant</h3>
+            <p>Need help with your SOLVY Card, account, or understanding cooperative economics? Our AI assistant is always available.</p>
+            <p style="margin-top:0.75rem; font-size:0.8rem; color:var(--solvy-dim);">
+                <em>Coming soon: embed your preferred AI widget here (ChatGPT, Claude, or a privacy-first local LLM).</em>
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>📧 Prefer a Human?</h3>
+            <p>Leave your email and a real person from the cooperative will reply within 24 hours.</p>
+            <input type="email" id="humanEmail" placeholder="your@email.com">
+            <button onclick="requestHuman()">Request Human Support</button>
+            <div class="confirmation" id="emailConfirmation">✅ We'll be in touch within 24 hours.</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <strong>SOLVY Ecosystem™</strong> — Cooperative Neobank | Data Sovereign by Design | Member Owned<br>
+        Product of SA Nathan LLC
+    </footer>
+
+    <script>
+        function requestHuman() {
+            const email = document.getElementById('humanEmail').value.trim();
+            const confirmation = document.getElementById('emailConfirmation');
+
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            // In production, send to your backend endpoint:
+            // fetch('/api/support/request-human', { method: 'POST', body: JSON.stringify({ email }) })
+
+            confirmation.classList.add('visible');
+            document.getElementById('humanEmail').value = '';
+
+            setTimeout(() => {
+                confirmation.classList.remove('visible');
+            }, 4000);
+        }
+    </script>
+
+    <!-- AI Chat Widget — Privacy First (no data sent to servers) -->
+    <script src="/js/components/ai-chat-widget.js"></script>
+</body>
+</html>

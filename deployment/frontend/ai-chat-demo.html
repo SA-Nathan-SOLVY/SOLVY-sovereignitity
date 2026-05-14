@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY AI Chat — Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #22c55e; }
+        p { color: #94a3b8; max-width: 500px; margin-bottom: 2rem; }
+        .hint {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 500px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .hint h3 { color: #f59e0b; margin-bottom: 0.75rem; font-size: 1rem; }
+        .hint ul { color: #94a3b8; padding-left: 1.25rem; }
+        .hint li { margin: 0.4rem 0; }
+        code {
+            background: #020617;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <h1>👑 SOLVY AI Chat Widget</h1>
+    <p>The floating chat button in the bottom-right corner is live. Click it to start a conversation. All messages stay in your browser — no data is sent to any server.</p>
+
+    <div class="hint">
+        <h3>💡 Try asking:</h3>
+        <ul>
+            <li>"How does the 70/20/10 split work?"</li>
+            <li>"What is a cooperative?"</li>
+            <li>"Where is my data stored?"</li>
+            <li>"I lost my card"</li>
+            <li>"I want to speak to a human"</li>
+        </ul>
+    </div>
+
+    <p style="margin-top:2rem; font-size:0.8rem; color:#64748b;">
+        <strong>Privacy note:</strong> This is an FAQ-based bot. No LLM, no API calls, no data leaves your device.
+        Conversation history is stored in <code>sessionStorage</code> and cleared when you close the tab.
+    </p>
+
+    <!-- The Chat Widget -->
+    <script src="/js/components/ai-chat-widget.js"></script>
+</body>
+</html>

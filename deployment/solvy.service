@@ -1,0 +1,33 @@
+[Unit]
+Description=SOLVY Ecosystem API Server
+Documentation=https://ebl.beauty
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/solvy/backend
+ExecStart=/usr/bin/node /var/www/solvy/backend/index.js
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/var/www/solvy/logs/systemd-out.log
+StandardError=append:/var/www/solvy/logs/systemd-error.log
+
+# Environment
+Environment="NODE_ENV=production"
+Environment="PORT=3000"
+EnvironmentFile=/var/www/solvy/backend/.env
+
+# Security
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/solvy/data /var/www/solvy/logs
+
+# Resource limits
+LimitAS=1G
+LimitRSS=512M
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

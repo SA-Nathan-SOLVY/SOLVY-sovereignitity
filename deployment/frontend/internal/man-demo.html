@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAN Demo | SOLVY Ecosystem</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        h1 { color: #22c55e; }
+        h2 { color: #22c55e; margin-top: 2rem; }
+        .card {
+            background: #1e293b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        button {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            font-weight: 600;
+        }
+        button:hover {
+            background: #16a34a;
+        }
+        .metric {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+            min-width: 150px;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        #log {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .log-entry { margin: 0.25rem 0; }
+        .log-success { color: #22c55e; }
+        .log-info { color: #3b82f6; }
+        .log-error { color: #ef4444; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            color: #22c55e;
+            font-weight: 600;
+        }
+            .mobile-menu.active { display: flex; }
+        }
+
+            .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+        }
+        .footer-col h4 {
+            color: #9333ea;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-col a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+        }
+        .footer-col a:hover {
+            color: #9333ea;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .footer-bottom img {
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+        .footer-bottom p {
+            color: #64748b;
+        }
+    
+        /* Professional Navbar */
+            .mobile-menu.active { display: flex; }
+        }
+
+    
+        /* Professional Navbar */
+            .mobile-menu.active { display: flex; }
+        }
+
+    
+        /* Professional Navbar */
+        .navbar {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo img {
+            height: 42px;
+            width: auto;
+        }
+        .nav-logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+        .nav-links a, .nav-dropdown > a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .nav-links a:hover, .nav-links a.active, .nav-dropdown:hover > a {
+            color: #ec4899;
+            background: rgba(147, 51, 234, 0.1);
+        }
+        .nav-dropdown {
+            position: relative;
+        }
+        .nav-dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.6rem;
+            opacity: 0.7;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.25rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: #cbd5e1;
+            font-size: 0.85rem;
+        }
+        .dropdown-menu a:hover {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .nav-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .nav-cta {
+            display: flex;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.35);
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 0.5rem;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 2.5px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: rgba(15, 23, 42, 0.99);
+            padding: 1rem;
+            gap: 0.25rem;
+            border-top: 1px solid rgba(147, 51, 234, 0.15);
+        }
+        .mobile-menu a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .mobile-menu a:hover, .mobile-menu a.active {
+            background: rgba(147, 51, 234, 0.15);
+            color: #ec4899;
+        }
+        .mobile-divider {
+            height: 1px;
+            background: rgba(147, 51, 234, 0.15);
+            margin: 0.5rem 0;
+        }
+        .nav-group-left, .nav-group-center, .nav-group-right {
+            display: inline-flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .mobile-group-left, .mobile-group-center, .mobile-group-right {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        @media (max-width: 1024px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu.active { display: flex; }
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../assets/SolvyLogo-1024.png" alt="SOLVY" style="height: 42px; width: auto;">
+                <span class="nav-logo-text">SOLVY</span>
+            </a>
+            <div class="nav-links">
+                <div class="nav-group-left">
+                    <div class="nav-dropdown">
+                        <a href="../sps-pilot/index.html">Partners</a>
+                        <div class="dropdown-menu">
+                            <a href="../index.html">🌟 Evergreen Beauty Lounge</a>
+                            <a href="../sps-pilot/index.html">SPS Pilot</a>
+                            <a href="../decidey/decidey-ngo.html">DECIDEY</a>
+                        </div>
+                    </div>
+                    <a href="../card/solvy-card.html">💳 SOLVY Card™</a>
+                </div>
+                <div class="nav-group-center">
+                    <div class="nav-dropdown">
+                        <a href="../about.html">About</a>
+                        <div class="dropdown-menu">
+                            <a href="../manifesto.html">📜 Manifesto</a>
+                            <a href="../heritage.html">🏛️ Heritage</a>
+                            <a href="../sovereignty-vs-hustle.html">✊ Sovereignty</a>
+                        </div>
+                    </div>
+                    <a href="../community/communities.html">Community</a>
+                    <a href="../data-marketplace.html">🛢️ Data Marketplace</a>
+                </div>
+            </div>
+            <div class="nav-cta">
+                <a href="../onboarding.html" class="btn-primary">Join First Circle</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-group-center">
+                <a href="../about.html">About</a>
+                <a href="../manifesto.html">📜 Manifesto</a>
+                <a href="../heritage.html">🏛️ Heritage</a>
+                <a href="../sovereignty-vs-hustle.html">✊ Sovereignty</a>
+            </div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-group-left">
+                <a href="../card/solvy-card.html">💳 SOLVY Card™</a>
+            </div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-group-left">
+                <a href="../index.html">🌟 Evergreen Beauty Lounge</a>
+                <a href="../sps-pilot/index.html">SPS Pilot</a>
+                <a href="../decidey/decidey-ngo.html">DECIDEY</a>
+            </div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-group-center">
+                <a href="../community/communities.html">Community</a>
+                <a href="../data-marketplace.html">🛢️ Data Marketplace</a>
+            </div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-group-right">
+                <a href="../internal/man-portal.html" style="color: #94a3b8; font-size: 0.85rem;">📊 MAN Portal</a>
+            </div>
+        </div>
+    </nav>
+<h1>🔐 MAN Portal Demo</h1>
+    <p>Mandatory Audit Network — Local-first transaction tracking</p>
+
+    <div class="card">
+        <h2>📊 Current Metrics (70/20/10 Split)</h2>
+        <div id="metrics">
+            <p>Loading...</p>
+        </div>
+        <button onclick="refreshMetrics()">Refresh</button>
+    </div>
+
+    <div class="card">
+        <h2>💳 Simulate Transactions</h2>
+        <p>Add test transactions to see 70/20/10 calculation in action:</p>
+        <button onclick="addTransaction(47.32, 'Walmart Supercenter')">+ $47.32 Walmart</button>
+        <button onclick="addTransaction(124.87, 'Costco Wholesale')">+ $124.87 Costco</button>
+        <button onclick="addTransaction(23.45, 'Walgreens')">+ $23.45 Walgreens</button>
+        <button onclick="addTransaction(200.00, 'Sephora')">+ $200.00 Sephora</button>
+    </div>
+
+    <div class="card">
+        <h2>🗳️ Create Test Proposal</h2>
+        <button onclick="createProposal()">Create Sample Proposal</button>
+    </div>
+
+    <div class="card">
+        <h2>📜 Recent Transactions</h2>
+        <div id="transactions">
+            <p>No transactions yet.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📋 Audit Log</h2>
+        <div id="log">
+            <p class="log-info">Waiting for database...</p>
+        </div>
+    </div>
+
+    <!-- Load MAN Database -->
+    <script src="../js/manDB.js"></script>
+    <script>
+        // Demo controller
+        let db;
+
+        // Wait for database
+        window.addEventListener('MANDBReady', async (e) => {
+            db = e.detail;
+            log('Database initialized', 'success');
+            await refreshMetrics();
+            await refreshTransactions();
+            await refreshAuditLog();
+        });
+
+        function log(message, type = 'info') {
+            const logEl = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        async function refreshMetrics() {
+            if (!db) return;
+            
+            const metrics = await db.getMetrics();
+            const container = document.getElementById('metrics');
+            
+            container.innerHTML = `
+                <div class="metric">
+                    <div class="metric-value">$${metrics.total_member_pool.toFixed(2)}</div>
+                    <div class="metric-label">Member Pool (70%)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$${metrics.total_operations_pool.toFixed(2)}</div>
+                    <div class="metric-label">Operations (20%)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$${metrics.total_sovereign_pool.toFixed(2)}</div>
+                    <div class="metric-label">Sovereign Fund (10%)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">$${metrics.total_volume.toFixed(2)}</div>
+                    <div class="metric-label">Total Volume</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${metrics.transaction_count}</div>
+                    <div class="metric-label">Transactions</div>
+                </div>
+            `;
+            
+            log('Metrics refreshed', 'info');
+        }
+
+        async function addTransaction(amount, merchant) {
+            if (!db) {
+                log('Database not ready', 'error');
+                return;
+            }
+
+            try {
+                // Add transaction
+                const txId = await db.addTransaction({
+                    amount: amount,
+                    merchant: merchant,
+                    status: 'settled'
+                });
+                
+                log(`Transaction added: ${merchant} $${amount}`, 'success');
+                
+                // Process metrics (calculates 70/20/10)
+                await db.processTransactionMetrics(amount);
+                log(`70/20/10 split calculated for $${amount}`, 'info');
+                
+                // Refresh displays
+                await refreshMetrics();
+                await refreshTransactions();
+                await refreshAuditLog();
+                
+            } catch (error) {
+                log(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function refreshTransactions() {
+            if (!db) return;
+            
+            const transactions = await db.getTransactions();
+            const container = document.getElementById('transactions');
+            
+            if (transactions.length === 0) {
+                container.innerHTML = '<p>No transactions yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr><th>Time</th><th>Merchant</th><th>Amount</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        ${transactions.slice(0, 10).map(tx => `
+                            <tr>
+                                <td>${new Date(tx.timestamp).toLocaleTimeString()}</td>
+                                <td>${tx.merchant}</td>
+                                <td>$${tx.amount.toFixed(2)}</td>
+                                <td>${tx.status}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        async function createProposal() {
+            if (!db) return;
+            
+            const proposalId = await db.createProposal({
+                title: 'Pool anonymized data for better interchange rates',
+                description: 'Allow SOLVY to pool anonymized transaction data to negotiate higher interchange rates with our processor.',
+                threshold_type: 'volume',
+                threshold_value: 1000000, // $1M
+                vote_end: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+            });
+            
+            log(`Proposal created: ${proposalId}`, 'success');
+            await refreshAuditLog();
+        }
+
+        async function refreshAuditLog() {
+            if (!db) return;
+            
+            const entries = await db.getAuditLog({ limit: 20 });
+            const logEl = document.getElementById('log');
+            
+            // Keep the latest 50 entries
+            while (logEl.children.length > 50) {
+                logEl.removeChild(logEl.firstChild);
+            }
+        }
+    </script>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>SOLVY Card™</h4>
+                <a href="../card/solvy-card.html">Get Started</a>
+                <a href="../card/card-customizer.html">Customize</a>
+            </div>
+            <div class="footer-col">
+                <h4>Pilot Partners</h4>
+                <a href="../index.html">🌟 Evergreen Beauty Lounge</a>
+                <a href="../sps-pilot/index.html">SPS Pilot</a>
+                <a href="../decidey/decidey-ngo.html">DECIDEY</a>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="../community/communities.html">Cooperative</a>
+                <a href="../operations/operations-dashboard.html">Operations</a>
+            </div>
+            <div class="footer-col">
+                <h4 style="color: #ffb347;">Internal</h4>
+                <a href="../internal/man-portal.html" style="color: #ffb347;">📊 MAN Portal</a>
+                <span style="color: #64748b; font-size: 0.75rem; display: block; margin-top: 0.5rem;">Member-only transparency</span>
+            </div>
+        </div>
+        <div class="footer-bottom" style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div style="margin-bottom: 1rem;">
+                <img src="../assets/solvy-full-logo.png" alt="SOLVY" style="height: 60px; width: auto;">
+            </div>
+            <p>© 2026 SOLVY Ecosystem™ — A cooperative financial platform</p>
+            <p style="margin-top: 0.5rem; color: #94a3b8;">SOLVY Card™ is a product of SA Nathan LLC</p>
+            <p style="margin-top: 0.5rem; color: #9333ea;">SOLVY (Solutions Valued You)</p>
+            <p style="margin-top: 1rem; font-size: 0.8rem; color: #64748b;">Made with 🤖 Kimi Code</p>
+        </div>
+    </footer>
+</body>
+</html>

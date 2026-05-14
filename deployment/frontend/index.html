@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Ecosystem™ — Cooperative Neobank for Generational Wealth</title>
+    <meta name="description" content="Join the SOLVY cooperative. Member-owned banking where your spending builds wealth. Data sovereignty by design. 70/20/10 profit sharing.">
+    <meta property="og:title" content="SOLVY Ecosystem™ — Cooperative Neobank">
+    <meta property="og:description" content="Banking built for us. Your spending builds generational wealth.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ebl.beauty">
+    <link rel="canonical" href="https://ebl.beauty">
+    <style>
+        :root {
+            --solvy-dark: #0f172a;
+            --solvy-darker: #020617;
+            --solvy-card: #1e293b;
+            --solvy-border: #334155;
+            --solvy-green: #22c55e;
+            --solvy-green-dim: rgba(34, 197, 94, 0.15);
+            --solvy-green-glow: rgba(34, 197, 94, 0.3);
+            --solvy-gold: #f59e0b;
+            --solvy-gold-dim: rgba(245, 158, 11, 0.15);
+            --solvy-blue: #3b82f6;
+            --solvy-purple: #a855f7;
+            --solvy-text: #e2e8f0;
+            --solvy-muted: #94a3b8;
+            --solvy-dim: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--solvy-darker);
+            color: var(--solvy-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ================================================================
+           NAVBAR
+        ================================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+            transition: all 0.3s;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--solvy-green);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-links a {
+            color: var(--solvy-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--solvy-green); }
+        .nav-cta {
+            background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .nav-cta:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .nav-mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--solvy-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ================================================================
+           HERO
+        ================================================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 1.5rem 4rem;
+            position: relative;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(245, 158, 11, 0.06) 0%, transparent 50%),
+                var(--solvy-darker);
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--solvy-green-dim);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: var(--solvy-green);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            max-width: 900px;
+            animation: fadeInUp 0.6s 0.1s ease both;
+        }
+        .hero h1 span {
+            color: var(--solvy-green);
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--solvy-muted);
+            max-width: 640px;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s 0.2s ease both;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.6s 0.3s ease both;
+        }
+        .btn {
+            padding: 0.85rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+            color: white;
+            box-shadow: 0 4px 20px var(--solvy-green-glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px var(--solvy-green-glow);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--solvy-text);
+            border: 1px solid var(--solvy-border);
+        }
+        .btn-secondary:hover {
+            border-color: var(--solvy-green);
+            background: var(--solvy-green-dim);
+        }
+        .hero-note {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--solvy-dim);
+            animation: fadeInUp 0.6s 0.4s ease both;
+        }
+
+        /* ================================================================
+           SECTIONS
+        ================================================================ */
+        .section {
+            padding: 5rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-header h2 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+        .section-header p {
+            color: var(--solvy-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ================================================================
+           FEATURE CARDS
+        ================================================================ */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .feature-card {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s, border-color 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .feature-card:hover {
+            border-color: var(--solvy-green);
+            transform: translateY(-4px);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--solvy-green);
+        }
+        .feature-card p {
+            color: var(--solvy-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ================================================================
+           70/20/10 SECTION
+        ================================================================ */
+        .split-section {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+        }
+        .split-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .split-block {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+        .split-block.member {
+            background: var(--solvy-green-dim);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .split-block.community {
+            background: var(--solvy-gold-dim);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        .split-block.sovereign {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        .split-percent {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .split-block.member .split-percent { color: var(--solvy-green); }
+        .split-block.community .split-percent { color: var(--solvy-gold); }
+        .split-block.sovereign .split-percent { color: var(--solvy-purple); }
+        .split-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .split-desc {
+            font-size: 0.85rem;
+            color: var(--solvy-muted);
+        }
+
+        /* ================================================================
+           HOW IT WORKS
+        ================================================================ */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+        .step-card {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .step-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .step-number {
+            position: absolute;
+            top: -12px;
+            left: 1.5rem;
+            background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .step-card h4 {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .step-card p {
+            color: var(--solvy-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ================================================================
+           SOVEREIGNTY SECTION
+        ================================================================ */
+        .sovereignty-section {
+            background:
+                radial-gradient(ellipse at 50% 50%, rgba(34, 197, 94, 0.05) 0%, transparent 70%),
+                var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .sovereignty-quote {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: 700;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+        .sovereignty-quote span {
+            color: var(--solvy-green);
+        }
+        .sovereignty-list {
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto 1.5rem;
+            list-style: none;
+        }
+        .sovereignty-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--solvy-muted);
+        }
+        .sovereignty-list li::before {
+            content: '🔒';
+            position: absolute;
+            left: 0;
+        }
+
+        /* ================================================================
+           TESTIMONIALS
+        ================================================================ */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .testimonial-card {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+        .testimonial-text {
+            font-style: italic;
+            color: var(--solvy-text);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .testimonial-author {
+            color: var(--solvy-green);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .testimonial-location {
+            color: var(--solvy-dim);
+            font-size: 0.8rem;
+        }
+        .testimonial-note {
+            text-align: center;
+            color: var(--solvy-dim);
+            font-size: 0.8rem;
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+
+        /* ================================================================
+           FINAL CTA
+        ================================================================ */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 1.5rem;
+            background:
+                radial-gradient(ellipse at 50% 50%, rgba(34, 197, 94, 0.08) 0%, transparent 60%),
+                var(--solvy-darker);
+        }
+        .cta-section h2 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .cta-section p {
+            color: var(--solvy-muted);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+        .cta-disclaimer {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--solvy-dim);
+        }
+
+        /* ================================================================
+           FOOTER
+        ================================================================ */
+        .footer {
+            background: var(--solvy-dark);
+            border-top: 1px solid var(--solvy-border);
+            padding: 3rem 1.5rem 2rem;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--solvy-green);
+            margin-bottom: 0.5rem;
+        }
+        .footer-desc {
+            color: var(--solvy-muted);
+            font-size: 0.85rem;
+        }
+        .footer-col h4 {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--solvy-text);
+        }
+        .footer-col a {
+            display: block;
+            color: var(--solvy-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.3rem 0;
+            transition: color 0.2s;
+        }
+        .footer-col a:hover { color: var(--solvy-green); }
+        .footer-bottom {
+            border-top: 1px solid var(--solvy-border);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: var(--solvy-dim);
+            font-size: 0.75rem;
+        }
+        .footer-bottom strong {
+            color: var(--solvy-green);
+        }
+
+        /* ================================================================
+           ANIMATIONS
+        ================================================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ================================================================
+           RESPONSIVE
+        ================================================================ */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-mobile-toggle { display: block; }
+            .hero { padding-top: 5rem; }
+            .section { padding: 3rem 1rem; }
+            .split-section, .sovereignty-section { padding: 2rem 1rem; }
+            .features-grid, .steps-grid, .testimonials-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">👑 SOLVY</a>
+            <div class="nav-links">
+                <a href="#how-it-works">How It Works</a>
+                <a href="#split">70/20/10</a>
+                <a href="#sovereignty">Data Sovereignty</a>
+                <a href="#features">Features</a>
+            </div>
+            <a href="/banking/index.html" class="nav-cta">Member Login →</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-badge">⚡ Member-Owned Cooperative</div>
+        <h1>Banking Built <span>for Us</span></h1>
+        <p class="hero-subtitle">
+            A cooperative neobank where your spending builds generational wealth.
+            No shareholders. Just members. You vote. You profit. You decide.
+        </p>
+        <div class="hero-cta">
+            <a href="/onboarding.html" class="btn btn-primary">Join the Cooperative</a>
+            <a href="/banking/index.html" class="btn btn-secondary">Member Login →</a>
+        </div>
+        <p class="hero-note">
+            Membership requires identity verification. Deposits are FDIC-insured through Thread Bank, N.A.
+        </p>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features">
+        <div class="section-header">
+            <h2>What Makes SOLVY Different</h2>
+            <p>Three principles that define everything we build.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">👑</div>
+                <h3>Member Owned</h3>
+                <p>SOLVY is a cooperative, not a corporation. Every member is an owner. You have a vote in how the cooperative operates, and you share in the profits through patronage dividends.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Wealth Building</h3>
+                <p>Every swipe of your SOLVY Card generates interchange revenue. 70% goes back to members as patronage dividends. Your everyday spending builds collective wealth for the cooperative.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Data Sovereignty</h3>
+                <p>Your transaction history stays on your device — not our servers. We built a system where we <em>cannot</em> access your individual data, even if we wanted to. Privacy is architecture, not policy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 70/20/10 -->
+    <section class="section" id="split">
+        <div class="section-header">
+            <h2>The 70/20/10 Model</h2>
+            <p>Every dollar of interchange revenue is shared transparently.</p>
+        </div>
+        <div class="split-section">
+            <div class="split-grid">
+                <div class="split-block member">
+                    <div class="split-percent">70%</div>
+                    <div class="split-label">Member Pool</div>
+                    <div class="split-desc">Distributed to members as patronage dividends based on card usage.</div>
+                </div>
+                <div class="split-block community">
+                    <div class="split-percent">20%</div>
+                    <div class="split-label">Community Development</div>
+                    <div class="split-desc">Invested in cooperative projects voted on by members.</div>
+                </div>
+                <div class="split-block sovereign">
+                    <div class="split-percent">10%</div>
+                    <div class="split-label">Sovereign Fund</div>
+                    <div class="split-desc">Emergency reserve and generational wealth builder for the cooperative.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="how-it-works">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Four steps from joining to earning.</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h4>Join</h4>
+                <p>Complete member onboarding and identity verification (KYC). Become a cooperative owner.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h4>Spend</h4>
+                <p>Use your SOLVY Visa Card anywhere Visa is accepted. Groceries, gas, dining — every purchase counts.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h4>Earn</h4>
+                <p>Interchange revenue (about 1.5% per transaction) flows into the member pool automatically.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h4>Profit</h4>
+                <p>Receive quarterly patronage dividends based on your card usage. The more you use, the more you earn.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Sovereignty -->
+    <section class="section" id="sovereignty">
+        <div class="sovereignty-section">
+            <div class="sovereignty-quote">
+                "Data sovereignty is not a promise.<br>It is <span>enforced by our architecture</span>."
+            </div>
+            <ul class="sovereignty-list">
+                <li>Your full transaction history lives on your device (IndexedDB)</li>
+                <li>Only aggregated, anonymized totals ever leave your device</li>
+                <li>No central database stores your individual spending history</li>
+                <li>We cannot see your data. No one can. Only you.</li>
+            </ul>
+            <a href="/privacy-sovereignty.html" class="btn btn-secondary">Learn More About Data Sovereignty →</a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section">
+        <div class="section-header">
+            <h2>What Members Say</h2>
+            <p>Real voices from the cooperative.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"I finally have a card that works for my community. Knowing that my spending builds wealth for all of us changes everything."</p>
+                <div class="testimonial-author">Member</div>
+                <div class="testimonial-location">Chicago, IL</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The 70/20/10 split means my spending actually matters. I'm not just a customer — I'm an owner. That feeling is priceless."</p>
+                <div class="testimonial-author">Member</div>
+                <div class="testimonial-location">Atlanta, GA</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Knowing my data stays on my device gives me real peace of mind. No bank has ever offered me that level of transparency."</p>
+                <div class="testimonial-author">Member</div>
+                <div class="testimonial-location">Houston, TX</div>
+            </div>
+        </div>
+        <p class="testimonial-note">Testimonials from founding members. Share your story at hello@ebl.beauty.</p>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta-section">
+        <h2>Ready to Bank Differently?</h2>
+        <p>Join the SOLVY cooperative and turn your everyday spending into collective wealth. Membership is open to all.</p>
+        <a href="/onboarding.html" class="btn btn-primary">Join SOLVY Today</a>
+        <p class="cta-disclaimer">
+            Membership requires identity verification. Deposits are FDIC-insured up to $250,000 through Thread Bank, N.A.<br>
+            SOLVY Ecosystem™ — Product of SA Nathan LLC
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">👑 SOLVY</div>
+                    <p class="footer-desc">A cooperative neobank building generational wealth through collective economic ownership.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <a href="/banking/index.html">Member Portal</a>
+                    <a href="/internal/man-portal.html">MAN Portal</a>
+                    <a href="/card/solvy-card.html">SOLVY Card</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Learn</h4>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#split">70/20/10 Model</a>
+                    <a href="/privacy-sovereignty.html">Data Sovereignty</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <a href="mailto:support@ebl.beauty">Email Support</a>
+                    <a href="/privacy-sovereignty.html#human">Contact Human</a>
+                    <a href="/ai-chat-demo.html">AI Assistant</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <strong>SOLVY Ecosystem™</strong> — Product of SA Nathan LLC. All rights reserved.<br>
+                Member deposits are FDIC-insured up to $250,000 through Thread Bank, N.A.<br>
+                <em>"Leave them better than I received." — The Sheila Mandate</em>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chat Widget -->
+    <script src="/js/components/ai-chat-widget.js"></script>
+
+    <!-- Scroll Animation -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .step-card').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Ecosystem™ — Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --solvy-dark: #0f172a;
+            --solvy-darker: #020617;
+            --solvy-card: #1e293b;
+            --solvy-border: #334155;
+            --solvy-green: #22c55e;
+            --solvy-green-dim: rgba(34, 197, 94, 0.15);
+            --solvy-gold: #f59e0b;
+            --solvy-gold-dim: rgba(245, 158, 11, 0.15);
+            --solvy-blue: #3b82f6;
+            --solvy-purple: #a855f7;
+            --solvy-red: #ef4444;
+            --solvy-text: #e2e8f0;
+            --solvy-muted: #94a3b8;
+            --solvy-dim: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--solvy-darker);
+            color: var(--solvy-text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .login-card {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .login-logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--solvy-green);
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+        .login-subtitle {
+            color: var(--solvy-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .login-input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--solvy-border);
+            background: var(--solvy-dark);
+            color: var(--solvy-text);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .login-input:focus {
+            border-color: var(--solvy-green);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 0.85rem;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .login-btn:hover { opacity: 0.9; }
+        .login-error {
+            color: var(--solvy-red);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            display: none;
+        }
+        .login-error.visible { display: block; }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        .dashboard.visible { display: block; }
+
+        /* Header */
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--solvy-border);
+        }
+        .dash-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .dash-brand-logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--solvy-green);
+            letter-spacing: -0.02em;
+        }
+        .dash-brand-badge {
+            background: var(--solvy-gold-dim);
+            color: var(--solvy-gold);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .dash-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .btn {
+            padding: 0.6rem 1.1rem;
+            border-radius: 10px;
+            border: 1px solid var(--solvy-border);
+            background: var(--solvy-card);
+            color: var(--solvy-text);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .btn:hover {
+            border-color: var(--solvy-green);
+            background: var(--solvy-green-dim);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+            border: none;
+            color: white;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+        }
+        .btn-ghost {
+            background: transparent;
+            border: none;
+            color: var(--solvy-muted);
+            font-size: 0.8rem;
+        }
+        .btn-ghost:hover {
+            color: var(--solvy-text);
+            background: transparent;
+        }
+
+        /* Summary Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .metric-card:hover {
+            border-color: var(--solvy-green);
+            transform: translateY(-2px);
+        }
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--solvy-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--solvy-text);
+        }
+        .metric-value.green { color: var(--solvy-green); }
+        .metric-value.gold { color: var(--solvy-gold); }
+        .metric-value.blue { color: var(--solvy-blue); }
+        .metric-value.purple { color: var(--solvy-purple); }
+        .metric-note {
+            font-size: 0.75rem;
+            color: var(--solvy-dim);
+            margin-top: 0.25rem;
+        }
+
+        /* Chart Section */
+        .section {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--solvy-text);
+        }
+        .chart-container {
+            position: relative;
+            height: 320px;
+        }
+
+        /* Period Info */
+        .period-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--solvy-muted);
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Loading */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .loading-overlay.visible { display: flex; }
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--solvy-border);
+            border-top-color: var(--solvy-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Error Banner */
+        .error-banner {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--solvy-red);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .error-banner.visible { display: block; }
+
+        /* Footer */
+        .dash-footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--solvy-dim);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--solvy-border);
+            margin-top: 2rem;
+        }
+        .dash-footer strong {
+            color: var(--solvy-green);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dash-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .chart-container {
+                height: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo">👑 SOLVY</div>
+            <div class="login-subtitle">Cooperative Admin Dashboard</div>
+            <input
+                type="password"
+                class="login-input"
+                id="adminKeyInput"
+                placeholder="Enter admin key"
+                autocomplete="off"
+            >
+            <button class="login-btn" onclick="doLogin()">Unlock Dashboard</button>
+            <div class="login-error" id="loginError">Invalid admin key. Access denied.</div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <!-- Header -->
+        <div class="dash-header">
+            <div class="dash-brand">
+                <div class="dash-brand-logo">👑 SOLVY</div>
+                <div class="dash-brand-badge">Admin</div>
+            </div>
+            <div class="dash-actions">
+                <button class="btn" onclick="loadDashboardData()">🔄 Refresh</button>
+                <button class="btn-ghost" onclick="doLogout()">Log Out</button>
+            </div>
+        </div>
+
+        <!-- Period -->
+        <div class="period-bar" id="periodBar">
+            📅 Loading period data...
+        </div>
+
+        <!-- Error Banner -->
+        <div class="error-banner" id="errorBanner"></div>
+
+        <!-- Summary Cards -->
+        <div class="cards-grid" id="cardsGrid">
+            <!-- Injected by JS -->
+        </div>
+
+        <!-- Category Chart -->
+        <div class="section">
+            <div class="section-title">📊 Spending by Category</div>
+            <div class="chart-container">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="dash-footer">
+            <strong>Data Sovereignty Guarantee:</strong> This dashboard shows only aggregated, anonymized totals across all members.
+            No individual member data — transactions, merchant names, or exact balances — is ever displayed or accessible.
+            Members own their data. The cooperative only sees what it needs to share profits fairly.<br><br>
+            SOLVY Ecosystem™ — Product of SA Nathan LLC
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // CONFIGURATION
+        // ============================================================
+
+        // Change this to your deployed server URL in production
+        const API_BASE = window.location.origin.includes('localhost')
+            ? 'http://localhost:3000'
+            : window.location.origin;
+
+        // Hardcoded admin key for development — CHANGE IN PRODUCTION
+        const ADMIN_KEY = 'admin123';
+
+        // Chart instance (destroyed and recreated on refresh)
+        let categoryChartInstance = null;
+
+        // ============================================================
+        // AUTHENTICATION
+        // ============================================================
+
+        function checkAuth() {
+            const key = sessionStorage.getItem('solvy_admin_key');
+            if (key === ADMIN_KEY) {
+                showDashboard();
+                loadDashboardData();
+            } else {
+                showLogin();
+            }
+        }
+
+        function doLogin() {
+            const input = document.getElementById('adminKeyInput').value.trim();
+            if (input === ADMIN_KEY) {
+                sessionStorage.setItem('solvy_admin_key', input);
+                document.getElementById('loginError').classList.remove('visible');
+                showDashboard();
+                loadDashboardData();
+            } else {
+                document.getElementById('loginError').classList.add('visible');
+            }
+        }
+
+        function doLogout() {
+            sessionStorage.removeItem('solvy_admin_key');
+            showLogin();
+        }
+
+        function showLogin() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').classList.remove('visible');
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').classList.add('visible');
+        }
+
+        // Allow Enter key to submit login
+        document.getElementById('adminKeyInput')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') doLogin();
+        });
+
+        // ============================================================
+        // DATA FETCHING
+        // ============================================================
+
+        async function loadDashboardData() {
+            setLoading(true);
+            hideError();
+
+            try {
+                const response = await fetch(`${API_BASE}/api/metrics/summary`, {
+                    headers: {
+                        'Authorization': `Bearer ${ADMIN_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.status === 401) {
+                    showError('Invalid or missing API key. Please log in again.');
+                    doLogout();
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                renderDashboard(data);
+
+            } catch (err) {
+                console.error('[Dashboard] Failed to load data:', err);
+                showError(`Failed to load dashboard data. ${err.message}`);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // ============================================================
+        // RENDERING
+        // ============================================================
+
+        function renderDashboard(data) {
+            renderPeriod(data.period);
+            renderCards(data);
+            renderCategoryChart(data.categorySums || {});
+        }
+
+        function renderPeriod(period) {
+            const el = document.getElementById('periodBar');
+            if (period && period.start && period.end) {
+                const start = new Date(period.start).toLocaleDateString();
+                const end = new Date(period.end).toLocaleDateString();
+                el.innerHTML = `📅 Reporting period: <strong>${start}</strong> – <strong>${end}</strong>`;
+            } else {
+                el.innerHTML = `📅 Reporting period: <strong>All time</strong>`;
+            }
+        }
+
+        function renderCards(data) {
+            const cards = [
+                {
+                    label: 'Total Volume (All Members)',
+                    value: formatCurrency(data.totalVolumeAllMembers || 0),
+                    color: 'green',
+                    note: `${data.totalTransactionCount || 0} total transactions`
+                },
+                {
+                    label: 'Total Interchange Earned',
+                    value: formatCurrency(data.totalInterchangeAllMembers || 0),
+                    color: 'gold',
+                    note: 'Estimated at 1.5% of volume'
+                },
+                {
+                    label: 'Member Pool (70%)',
+                    value: formatCurrency(data.totalMemberPoolAllMembers || 0),
+                    color: 'green',
+                    note: 'Distributed to members as patronage'
+                },
+                {
+                    label: 'Operations Fund (20%)',
+                    value: formatCurrency(data.totalOperationsFund || 0),
+                    color: 'blue',
+                    note: 'Running the cooperative'
+                },
+                {
+                    label: 'Sovereign Fund (10%)',
+                    value: formatCurrency(data.totalSovereignFund || 0),
+                    color: 'purple',
+                    note: 'Emergency reserve & generational wealth'
+                },
+                {
+                    label: 'Active Members',
+                    value: data.totalMembers || 0,
+                    color: 'gold',
+                    note: 'Members with submitted aggregates'
+                }
+            ];
+
+            document.getElementById('cardsGrid').innerHTML = cards.map(card => `
+                <div class="metric-card">
+                    <div class="metric-label">${card.label}</div>
+                    <div class="metric-value ${card.color}">${card.value}</div>
+                    <div class="metric-note">${card.note}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderCategoryChart(categorySums) {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            const labels = Object.keys(categorySums);
+            const values = Object.values(categorySums);
+
+            if (categoryChartInstance) {
+                categoryChartInstance.destroy();
+            }
+
+            if (labels.length === 0) {
+                // No data yet
+                return;
+            }
+
+            const colors = [
+                '#22c55e', '#3b82f6', '#f59e0b', '#a855f7',
+                '#ef4444', '#06b6d4', '#84cc16', '#f97316'
+            ];
+
+            categoryChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Spending by Category',
+                        data: values,
+                        backgroundColor: labels.map((_, i) => colors[i % colors.length]),
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            titleColor: '#e2e8f0',
+                            bodyColor: '#e2e8f0',
+                            borderColor: '#334155',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: (context) => {
+                                    return formatCurrency(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false, drawBorder: false },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            grid: { color: '#334155', drawBorder: false },
+                            ticks: {
+                                color: '#94a3b8',
+                                callback: (val) => '$' + (val >= 1000 ? (val/1000).toFixed(1) + 'k' : val)
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ============================================================
+        // UTILITIES
+        // ============================================================
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(value);
+        }
+
+        function setLoading(isLoading) {
+            document.getElementById('loadingOverlay').classList.toggle('visible', isLoading);
+        }
+
+        function showError(message) {
+            const el = document.getElementById('errorBanner');
+            el.textContent = message;
+            el.classList.add('visible');
+        }
+
+        function hideError() {
+            document.getElementById('errorBanner').classList.remove('visible');
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+
+        checkAuth();
+    </script>
+</body>
+</html>

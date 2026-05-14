@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLVY Back Office — Cooperative Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --solvy-dark: #0f172a;
+            --solvy-darker: #020617;
+            --solvy-card: #1e293b;
+            --solvy-border: #334155;
+            --solvy-green: #22c55e;
+            --solvy-green-dim: rgba(34, 197, 94, 0.15);
+            --solvy-gold: #f59e0b;
+            --solvy-gold-dim: rgba(245, 158, 11, 0.15);
+            --solvy-blue: #3b82f6;
+            --solvy-purple: #a855f7;
+            --solvy-red: #ef4444;
+            --solvy-text: #e2e8f0;
+            --solvy-muted: #94a3b8;
+            --solvy-dim: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--solvy-darker);
+            color: var(--solvy-text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ================================================================
+           LOGIN SCREEN
+        ================================================================ */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .login-card {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .login-logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--solvy-green);
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+        .login-subtitle {
+            color: var(--solvy-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .login-input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--solvy-border);
+            background: var(--solvy-dark);
+            color: var(--solvy-text);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .login-input:focus { border-color: var(--solvy-green); }
+        .login-btn {
+            width: 100%;
+            padding: 0.85rem;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .login-btn:hover { opacity: 0.9; }
+        .login-error {
+            color: var(--solvy-red);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            display: none;
+        }
+        .login-error.visible { display: block; }
+
+        /* ================================================================
+           DASHBOARD LAYOUT
+        ================================================================ */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+        }
+        .dashboard.visible { display: grid; grid-template-columns: 260px 1fr; }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--solvy-dark);
+            border-right: 1px solid var(--solvy-border);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--solvy-green);
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            color: var(--solvy-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        .nav-item:hover {
+            background: var(--solvy-green-dim);
+            color: var(--solvy-text);
+        }
+        .nav-item.active {
+            background: var(--solvy-green-dim);
+            color: var(--solvy-green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        .nav-badge {
+            margin-left: auto;
+            background: var(--solvy-red);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid var(--solvy-border);
+            font-size: 0.75rem;
+            color: var(--solvy-dim);
+        }
+        .sidebar-footer button {
+            background: none;
+            border: none;
+            color: var(--solvy-muted);
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 0;
+            margin-top: 0.5rem;
+        }
+        .sidebar-footer button:hover { color: var(--solvy-text); }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--solvy-border);
+        }
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .page-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--solvy-border);
+            background: var(--solvy-card);
+            color: var(--solvy-text);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            border-color: var(--solvy-green);
+            background: var(--solvy-green-dim);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--solvy-green), #16a34a);
+            border: none;
+            color: white;
+        }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-sm {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.75rem;
+        }
+
+        /* ================================================================
+           METRICS TAB
+        ================================================================ */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 14px;
+            padding: 1.25rem;
+        }
+        .metric-label {
+            font-size: 0.7rem;
+            color: var(--solvy-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.4rem;
+        }
+        .metric-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+        .metric-value.green { color: var(--solvy-green); }
+        .metric-value.gold { color: var(--solvy-gold); }
+        .metric-value.blue { color: var(--solvy-blue); }
+        .metric-value.purple { color: var(--solvy-purple); }
+        .metric-note {
+            font-size: 0.75rem;
+            color: var(--solvy-dim);
+            margin-top: 0.25rem;
+        }
+
+        .chart-section {
+            background: var(--solvy-card);
+            border: 1px solid var(--solvy-border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .chart-section h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* ================================================================
+           SUPPORT TAB
+        ================================================================ */
+        .filter-bar {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .filter-bar select {
+            padding: 0.4rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--solvy-border);
+            background: var(--solvy-card);
+            color: var(--solvy-text);
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .data-table th {
+            text-align: left;
+            padding: 0.75rem;
+            color: var(--solvy-muted);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--solvy-border);
+            background: var(--solvy-dark);
+        }
+        .data-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            vertical-align: top;
+        }
+        .data-table tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        .data-table td.message-cell {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .status-pending { background: rgba(245, 158, 11, 0.15); color: var(--solvy-gold); }
+        .status-in_progress { background: rgba(59, 130, 246, 0.15); color: var(--solvy-blue); }
+        .status-resolved { background: rgba(34, 197, 94, 0.15); color: var(--solvy-green); }
+        .status-replied { background: rgba(168, 85, 247, 0.15); color: var(--solvy-purple); }
+        .status-closed { background: rgba(100, 116, 139, 0.15); color: var(--solvy-muted); }
+
+        .status-select {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--solvy-border);
+            background: var(--solvy-dark);
+            color: var(--solvy-text);
+            font-size: 0.8rem;
+            cursor: pointer;
+            outline: none;
+        }
+        .status-select:focus { border-color: var(--solvy-green); }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--solvy-muted);
+        }
+
+        /* ================================================================
+           UTILITIES
+        ================================================================ */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .loading-overlay.visible { display: flex; }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--solvy-border);
+            border-top-color: var(--solvy-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-banner {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--solvy-red);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+        .error-banner.visible { display: block; }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        .last-updated {
+            color: var(--solvy-dim);
+            font-size: 0.75rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .dashboard.visible { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .mobile-nav {
+                display: flex;
+                gap: 0.5rem;
+                padding: 0.75rem 1rem;
+                background: var(--solvy-dark);
+                border-bottom: 1px solid var(--solvy-border);
+                overflow-x: auto;
+            }
+            .mobile-nav .nav-item {
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+            .main-content { padding: 1rem; }
+            .metrics-grid { grid-template-columns: 1fr 1fr; }
+            .data-table { font-size: 0.75rem; }
+            .data-table th, .data-table td { padding: 0.5rem; }
+            .data-table td.message-cell { max-width: 150px; }
+        }
+        @media (min-width: 901px) {
+            .mobile-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo">👑 SOLVY</div>
+            <div class="login-subtitle">Back Office — Cooperative Dashboard</div>
+            <input type="password" class="login-input" id="adminKeyInput" placeholder="Enter admin key" autocomplete="off">
+            <button class="login-btn" onclick="doLogin()">Unlock Dashboard</button>
+            <div class="login-error" id="loginError">Invalid admin key. Access denied.</div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <!-- Mobile Nav -->
+        <div class="mobile-nav">
+            <button class="nav-item active" onclick="switchTab('metrics')" data-tab="metrics">📊 Metrics</button>
+            <button class="nav-item" onclick="switchTab('support')" data-tab="support">🎫 Support <span class="nav-badge" id="mobilePendingBadge" style="display:none">0</span></button>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">👑 SOLVY</div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" onclick="switchTab('metrics')" data-tab="metrics">
+                    📊 Cooperative Metrics
+                </button>
+                <button class="nav-item" onclick="switchTab('support')" data-tab="support">
+                    🎫 Support Requests
+                    <span class="nav-badge" id="pendingBadge" style="display:none">0</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div>Data Sovereign by Design</div>
+                <div>Product of SA Nathan LLC</div>
+                <button onclick="doLogout()">Log Out</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Error Banner -->
+            <div class="error-banner" id="errorBanner"></div>
+
+            <!-- Metrics Tab -->
+            <div class="tab-panel active" id="tab-metrics">
+                <div class="page-header">
+                    <div>
+                        <div class="page-title">📊 Cooperative Metrics</div>
+                        <div class="last-updated" id="metricsLastUpdated">Last updated: —</div>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn" onclick="loadMetrics()">🔄 Refresh</button>
+                    </div>
+                </div>
+
+                <div class="metrics-grid" id="metricsGrid">
+                    <!-- Injected by JS -->
+                </div>
+
+                <div class="chart-section">
+                    <h3>Spending by Category</h3>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Tab -->
+            <div class="tab-panel" id="tab-support">
+                <div class="page-header">
+                    <div>
+                        <div class="page-title">🎫 Support Requests</div>
+                        <div class="last-updated" id="supportLastUpdated">Last updated: —</div>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn" onclick="toggleAutoRefresh()" id="autoRefreshBtn">⏸ Auto: Off</button>
+                        <button class="btn btn-primary" onclick="loadSupportRequests()">🔄 Refresh</button>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <label style="color:var(--solvy-muted); font-size:0.85rem;">Filter:</label>
+                    <select id="statusFilter" onchange="loadSupportRequests()">
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="replied">Replied</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                </div>
+
+                <div id="supportTableContainer">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Time</th>
+                                <th>Member</th>
+                                <th>Message</th>
+                                <th>Page</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supportTableBody">
+                            <tr><td colspan="6" class="empty-state">Loading support requests...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ============================================================
+        // CONFIG
+        // ============================================================
+        const API_BASE = window.location.origin.includes('localhost')
+            ? 'http://localhost:3000'
+            : window.location.origin;
+        const ADMIN_KEY = 'admin123'; // CHANGE IN PRODUCTION
+
+        let categoryChartInstance = null;
+        let autoRefreshInterval = null;
+        let isAutoRefresh = false;
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function checkAuth() {
+            const key = sessionStorage.getItem('solvy_admin_key');
+            if (key === ADMIN_KEY) {
+                showDashboard();
+                loadMetrics();
+                loadSupportRequests();
+            } else {
+                showLogin();
+            }
+        }
+
+        function doLogin() {
+            const input = document.getElementById('adminKeyInput').value.trim();
+            if (input === ADMIN_KEY) {
+                sessionStorage.setItem('solvy_admin_key', input);
+                document.getElementById('loginError').classList.remove('visible');
+                showDashboard();
+                loadMetrics();
+                loadSupportRequests();
+            } else {
+                document.getElementById('loginError').classList.add('visible');
+            }
+        }
+
+        function doLogout() {
+            sessionStorage.removeItem('solvy_admin_key');
+            stopAutoRefresh();
+            showLogin();
+        }
+
+        function showLogin() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').classList.remove('visible');
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').classList.add('visible');
+        }
+
+        document.getElementById('adminKeyInput')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') doLogin();
+        });
+
+        // ============================================================
+        // TABS
+        // ============================================================
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.querySelectorAll(`[data-tab="${tabName}"]`).forEach(n => n.classList.add('active'));
+        }
+
+        // ============================================================
+        // METRICS
+        // ============================================================
+        async function loadMetrics() {
+            setLoading(true);
+            hideError();
+
+            try {
+                const res = await fetch(`${API_BASE}/api/metrics/summary`, {
+                    headers: { 'Authorization': `Bearer ${ADMIN_KEY}` }
+                });
+
+                if (res.status === 401) { handleAuthError(); return; }
+                if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+                const data = await res.json();
+                renderMetrics(data);
+                document.getElementById('metricsLastUpdated').textContent =
+                    'Last updated: ' + new Date().toLocaleTimeString();
+
+            } catch (err) {
+                showError(`Failed to load metrics: ${err.message}`);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function renderMetrics(data) {
+            const cards = [
+                { label: 'Total Volume', value: fmtCurrency(data.totalVolumeAllMembers), color: 'green', note: 'All members combined' },
+                { label: 'Total Interchange', value: fmtCurrency(data.totalInterchangeAllMembers), color: 'gold', note: '~1.5% of volume' },
+                { label: 'Member Pool (70%)', value: fmtCurrency(data.totalMemberPoolAllMembers), color: 'green', note: 'Patronage dividends' },
+                { label: 'Operations (20%)', value: fmtCurrency(data.totalOperationsFund), color: 'blue', note: 'Running the cooperative' },
+                { label: 'Sovereign Fund (10%)', value: fmtCurrency(data.totalSovereignFund), color: 'purple', note: 'Emergency reserve' },
+                { label: 'Active Members', value: data.totalMembers || 0, color: 'gold', note: 'Members with submitted aggregates' }
+            ];
+
+            document.getElementById('metricsGrid').innerHTML = cards.map(c => `
+                <div class="metric-card">
+                    <div class="metric-label">${c.label}</div>
+                    <div class="metric-value ${c.color}">${c.value}</div>
+                    <div class="metric-note">${c.note}</div>
+                </div>
+            `).join('');
+
+            renderCategoryChart(data.categorySums || {});
+        }
+
+        function renderCategoryChart(categorySums) {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            const labels = Object.keys(categorySums);
+            const values = Object.values(categorySums);
+
+            if (categoryChartInstance) categoryChartInstance.destroy();
+            if (labels.length === 0) return;
+
+            const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#a855f7', '#ef4444', '#06b6d4', '#84cc16'];
+
+            categoryChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Spending',
+                        data: values,
+                        backgroundColor: labels.map((_, i) => colors[i % colors.length]),
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            titleColor: '#e2e8f0',
+                            bodyColor: '#e2e8f0',
+                            borderColor: '#334155',
+                            borderWidth: 1,
+                            callbacks: { label: (c) => fmtCurrency(c.raw) }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', callback: (v) => '$' + (v >= 1000 ? (v/1000).toFixed(1) + 'k' : v) } }
+                    }
+                }
+            });
+        }
+
+        // ============================================================
+        // SUPPORT REQUESTS
+        // ============================================================
+        async function loadSupportRequests() {
+            setLoading(true);
+            hideError();
+
+            try {
+                const status = document.getElementById('statusFilter').value;
+                const url = new URL(`${API_BASE}/api/support/requests`);
+                if (status) url.searchParams.set('status', status);
+
+                const res = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${ADMIN_KEY}` }
+                });
+
+                if (res.status === 401) { handleAuthError(); return; }
+                if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+                const data = await res.json();
+                renderSupportTable(data.requests || []);
+
+                // Update pending badge
+                const pending = data.pendingCount || 0;
+                document.getElementById('pendingBadge').textContent = pending;
+                document.getElementById('pendingBadge').style.display = pending > 0 ? 'inline-block' : 'none';
+                document.getElementById('mobilePendingBadge').textContent = pending;
+                document.getElementById('mobilePendingBadge').style.display = pending > 0 ? 'inline-block' : 'none';
+
+                document.getElementById('supportLastUpdated').textContent =
+                    'Last updated: ' + new Date().toLocaleTimeString();
+
+            } catch (err) {
+                showError(`Failed to load support requests: ${err.message}`);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function renderSupportTable(requests) {
+            const tbody = document.getElementById('supportTableBody');
+
+            if (requests.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No support requests found.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = requests.map(req => {
+                const date = new Date(req.createdAt).toLocaleString();
+                const statusClass = `status-${(req.status || 'pending').toLowerCase().replace(' ', '_')}`;
+                const statusLabel = (req.status || 'Pending').replace('_', ' ');
+
+                return `
+                    <tr data-id="${req.id}">
+                        <td><code style="font-size:0.8rem; color:var(--solvy-green);">${req.ticketId}</code></td>
+                        <td style="white-space:nowrap; color:var(--solvy-muted); font-size:0.8rem;">${date}</td>
+                        <td>
+                            <div style="font-weight:600;">${escapeHtml(req.memberName || '—')}</div>
+                            <div style="font-size:0.75rem; color:var(--solvy-muted);">${escapeHtml(req.memberEmail)}</div>
+                        </td>
+                        <td class="message-cell" title="${escapeHtml(req.message)}">${escapeHtml(req.message)}</td>
+                        <td style="font-size:0.8rem; color:var(--solvy-muted);">${escapeHtml(req.pageUrl || '—')}</td>
+                        <td>
+                            <span class="status-badge ${statusClass}">${statusLabel}</span>
+                            <br>
+                            <select class="status-select" onchange="updateStatus(${req.id}, this.value)">
+                                <option value="pending" ${req.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="in_progress" ${req.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
+                                <option value="replied" ${req.status === 'replied' ? 'selected' : ''}>Replied</option>
+                                <option value="resolved" ${req.status === 'resolved' ? 'selected' : ''}>Resolved</option>
+                                <option value="closed" ${req.status === 'closed' ? 'selected' : ''}>Closed</option>
+                            </select>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function updateStatus(id, status) {
+            try {
+                const res = await fetch(`${API_BASE}/api/support/requests/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${ADMIN_KEY}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+
+                if (!res.ok) throw new Error('Update failed');
+
+                // Refresh to show updated status
+                loadSupportRequests();
+
+            } catch (err) {
+                showError('Failed to update status. Please try again.');
+            }
+        }
+
+        // ============================================================
+        // AUTO REFRESH
+        // ============================================================
+        function toggleAutoRefresh() {
+            const btn = document.getElementById('autoRefreshBtn');
+            if (isAutoRefresh) {
+                stopAutoRefresh();
+                btn.textContent = '▶ Auto: Off';
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn');
+            } else {
+                startAutoRefresh();
+                btn.textContent = '⏸ Auto: On (60s)';
+                btn.classList.remove('btn');
+                btn.classList.add('btn-primary');
+            }
+        }
+
+        function startAutoRefresh() {
+            isAutoRefresh = true;
+            loadSupportRequests();
+            autoRefreshInterval = setInterval(() => {
+                if (document.getElementById('tab-support').classList.contains('active')) {
+                    loadSupportRequests();
+                }
+            }, 60000);
+        }
+
+        function stopAutoRefresh() {
+            isAutoRefresh = false;
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
+
+        // ============================================================
+        // UTILITIES
+        // ============================================================
+        function fmtCurrency(value) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value || 0);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+
+        function setLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('visible', show);
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('errorBanner');
+            el.textContent = msg;
+            el.classList.add('visible');
+        }
+
+        function hideError() {
+            document.getElementById('errorBanner').classList.remove('visible');
+        }
+
+        function handleAuthError() {
+            showError('Session expired. Please log in again.');
+            doLogout();
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        checkAuth();
+    </script>
+</body>
+</html>
