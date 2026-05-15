@@ -16,6 +16,8 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { Pool } from 'pg';
@@ -65,7 +67,19 @@ function getStripe() {
 // ── App ───────────────────────────────────────────────────────────────────────
 const app = express();
 
-app.use(cors());
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://nitty.ebl.beauty,https://ebl.beauty').split(',').map(o => o.trim());
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
+    }
+  },
+  credentials: true,
+}));
+app.use(helmet());
 
 // Stripe webhook must receive raw body BEFORE json middleware
 app.post(
@@ -88,10 +102,37 @@ app.post(
   }
 );
 
+// Rate limiting
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({ error: 'Too many requests — please slow down' }),
+});
+const strictLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({ error: 'Too many requests — please slow down' }),
+});
+app.use('/api/', apiLimiter);
+app.use('/api/founding-member/apply', strictLimiter);
+
 app.use(express.json());
 
+const API_KEY = process.env.API_KEY;
+function requireApiKey(req, res, next) {
+  const key = req.headers['x-api-key'];
+  if (!API_KEY || !key || key !== API_KEY) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+  next();
+}
+
 // ── API: Unit.co banking token ────────────────────────────────────────────────
-app.get('/api/unit/token', async (req, res) => {
+app.get('/api/unit/token', requireApiKey, async (req, res) => {
   const { UNIT_API_TOKEN, UNIT_CUSTOMER_ID } = process.env;
   if (!UNIT_API_TOKEN || !UNIT_CUSTOMER_ID)
     return res.status(503).json({ error: 'Unit banking not configured' });
@@ -122,7 +163,8 @@ app.get('/api/unit/token', async (req, res) => {
     if (!token) return res.status(502).json({ error: 'No token in Unit response' });
     res.json({ token });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Unit token error:', err.message);
+    res.status(500).json({ error: 'Banking token generation failed' });
   }
 });
 
@@ -134,12 +176,24 @@ app.get('/api/stripe/publishable-key', (_req, res) => {
 });
 
 // ── API: Founding member apply ────────────────────────────────────────────────
-app.post('/api/founding-member/apply', async (req, res) => {
+app.post('/api/founding-member/apply', strictLimiter, async (req, res) => {
   const { email, firstName, lastName, phone,
           addressLine1, addressCity, addressState, addressZip } = req.body;
 
   if (!email || !firstName || !lastName)
     return res.status(400).json({ error: 'Email, first name, and last name are required' });
+
+  // Input validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email) || email.length > 254) {
+    return res.status(400).json({ error: 'Invalid email address' });
+  }
+  if (firstName.length > 100 || lastName.length > 100) {
+    return res.status(400).json({ error: 'Name too long' });
+  }
+  if (phone && phone.length > 50) {
+    return res.status(400).json({ error: 'Phone number too long' });
+  }
 
   try {
     const existing = await pool.query(
@@ -175,7 +229,7 @@ app.post('/api/founding-member/apply', async (req, res) => {
     res.json({ success: true, member: result.rows[0], customerId: customer.id });
   } catch (err) {
     console.error('Apply error:', err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Application failed' });
   }
 });
 
@@ -199,7 +253,7 @@ app.post('/api/founding-member/checkout', async (req, res) => {
     res.json({ url: session.url, sessionId: session.id });
   } catch (err) {
     console.error('Checkout error:', err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Checkout creation failed' });
   }
 });
 
@@ -225,7 +279,8 @@ app.get('/api/founding-member/verify/:sessionId', async (req, res) => {
       res.json({ success: false, status: session.payment_status });
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Verify error:', err);
+    res.status(500).json({ error: 'Verification failed' });
   }
 });
 

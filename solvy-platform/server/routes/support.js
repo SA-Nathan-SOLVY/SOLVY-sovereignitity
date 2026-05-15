@@ -25,7 +25,8 @@ const transporter = nodemailer.createTransport({
     pass: process.env.MAILCOW_PASS || ''
   },
   tls: {
-    rejectUnauthorized: false // Accept self-signed certs in dev
+    rejectUnauthorized: process.env.NODE_ENV === 'production',
+    minVersion: 'TLSv1.2'
   }
 });
 
@@ -59,6 +60,16 @@ const supportRateLimiter = rateLimit({
 // ============================================================================
 // SECURITY HELPERS
 // ============================================================================
+
+function escapeHtml(unsafe) {
+  if (!unsafe) return '';
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 function requireApiKey(req, res, next) {
   const providedKey = req.headers.authorization?.replace(/^Bearer\s+/i, '')
@@ -173,7 +184,7 @@ router.post('/support/escalate', supportRateLimiter, (req, res) => {
     const memberIdHash = body.memberIdHash || null;
     const timestamp = new Date().toISOString();
 
-    const pageUrl = body.pageUrl || req.headers.referer || 'Unknown';
+    const pageUrl = req.headers.referer || 'Unknown';
     const memberName = body.memberName || body.name || 'Not provided';
 
     // Store ticket in database
@@ -230,7 +241,7 @@ router.post('/support/escalate', supportRateLimiter, (req, res) => {
           <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 1rem 0;">
           <p style="color: #64748b; font-weight: 600; margin-bottom: 0.5rem;">Message:</p>
           <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; color: #334155; line-height: 1.6;">
-            ${body.message.replace(/\n/g, '<br>')}
+            ${escapeHtml(body.message).replace(/\n/g, '<br>')}
           </div>
         </div>
         <div style="background: #0f172a; padding: 1rem 1.5rem; border-radius: 0 0 12px 12px; color: #94a3b8; font-size: 0.8rem;">
@@ -380,10 +391,9 @@ This is an automated notification from the SOLVY support system.
     }, (err, info) => {
       if (err) {
         console.error('[EMAIL] Support request email failed:', err);
-        // Still return success to member — don't expose internal errors
-        return res.json({
-          status: 'accepted',
-          message: 'Your request has been sent. We will reply within 24 hours.'
+        return res.status(500).json({
+          status: 'error',
+          message: 'Failed to send request. Please try again or email us directly.'
         });
       }
 
@@ -396,9 +406,9 @@ This is an automated notification from the SOLVY support system.
 
   } catch (error) {
     console.error('[API] Support request error:', error);
-    res.json({
-      status: 'accepted',
-      message: 'Your request has been sent. We will reply within 24 hours.'
+    res.status(500).json({
+      status: 'error',
+      message: 'Failed to send request. Please try again or email us directly.'
     });
   }
 });

@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, NextFunction } from 'express'
 import { memberStore, CreateMemberInput } from '../models/Member'
 import { emailService } from '../services/emailService'
 import Stripe from 'stripe'
@@ -8,8 +8,17 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2024-12-18.acacia'
 })
 
+const API_KEY = process.env.API_KEY
+function requireApiKey(req: Request, res: Response, next: NextFunction) {
+  const key = req.headers['x-api-key']
+  if (!API_KEY || !key || key !== API_KEY) {
+    return res.status(403).json({ error: 'Unauthorized' })
+  }
+  next()
+}
+
 // Create a new member (signup)
-router.post('/signup', async (req: Request, res: Response) => {
+router.post('/signup', requireApiKey, async (req: Request, res: Response) => {
   try {
     const { clerkId, email, firstName, lastName, phoneNumber, businessName, businessType } = req.body
 
@@ -90,7 +99,7 @@ router.post('/signup', async (req: Request, res: Response) => {
 })
 
 // Get member by ID
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:id', requireApiKey, async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const member = await memberStore.findById(id)
@@ -112,7 +121,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 // Get member by Clerk ID
-router.get('/clerk/:clerkId', async (req: Request, res: Response) => {
+router.get('/clerk/:clerkId', requireApiKey, async (req: Request, res: Response) => {
   try {
     const { clerkId } = req.params
     const member = await memberStore.findByClerkId(clerkId)
@@ -134,7 +143,7 @@ router.get('/clerk/:clerkId', async (req: Request, res: Response) => {
 })
 
 // Update member
-router.patch('/:id', async (req: Request, res: Response) => {
+router.patch('/:id', requireApiKey, async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const updates = req.body
@@ -161,8 +170,8 @@ router.patch('/:id', async (req: Request, res: Response) => {
   }
 })
 
-// List all members (admin only - add auth middleware later)
-router.get('/', async (req: Request, res: Response) => {
+// List all members (admin only)
+router.get('/', requireApiKey, async (req: Request, res: Response) => {
   try {
     const members = await memberStore.list()
     res.json({

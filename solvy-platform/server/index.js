@@ -44,8 +44,17 @@ const app = express();
 // ============================================================================
 if (customMetrics) {
   app.use(customMetrics.metricsMiddleware);
-  app.use('/metrics', customMetrics.router);
-  console.log('[METRICS] /metrics endpoint registered for Prometheus scraping');
+  // /metrics is protected by IP whitelist (localhost only) for Prometheus scraping
+  app.use('/metrics', (req, res, next) => {
+    const clientIp = req.ip || req.connection.remoteAddress;
+    // Allow localhost and private network ranges only
+    const allowed = ['127.0.0.1', '::1', '::ffff:127.0.0.1'];
+    if (!allowed.includes(clientIp)) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    next();
+  }, customMetrics.router);
+  console.log('[METRICS] /metrics endpoint registered (localhost-only access)');
 }
 
 // ============================================================================

@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
 import { Pool } from 'pg';
+import rateLimit from 'express-rate-limit';
 import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync, getUncachableStripeClient, getStripePublishableKey } from './stripeClient';
 import { WebhookHandlers } from './webhookHandlers';
@@ -311,10 +312,41 @@ app.post(
   }
 );
 
-app.use(cors());
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://solvy.cards,https://www.solvy.cards,https://nitty.ebl.beauty,https://ebl.beauty').split(',').map(o => o.trim());
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (ALLOWED_ORIGINS.includes(origin) || ALLOWED_ORIGINS.includes('*')) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
+    }
+  },
+  credentials: true,
+}));
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({ error: 'Too many requests — please slow down' }),
+});
+const strictLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({ error: 'Too many requests — please slow down' }),
+});
+app.use('/api/', apiLimiter);
+app.use('/api/contact', strictLimiter);
+app.use('/api/founding-member/apply', strictLimiter);
+app.use('/api/prelaunch/commit', strictLimiter);
+
 app.use(express.json());
 
-app.get('/api/unit/token', async (req, res) => {
+app.get('/api/unit/token', requireStaffToken, async (req, res) => {
   try {
     const unitApiToken = process.env.UNIT_API_TOKEN;
     const unitCustomerId = process.env.UNIT_CUSTOMER_ID;
@@ -356,11 +388,11 @@ app.get('/api/unit/token', async (req, res) => {
     res.json({ token });
   } catch (error: any) {
     console.error('Unit token error:', error.message);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Banking token generation failed' });
   }
 });
 
-app.get('/api/unit/prefill', async (req, res) => {
+app.get('/api/unit/prefill', requireStaffToken, async (req, res) => {
   try {
     const { email, customerId } = req.query as Record<string, string>;
 
@@ -403,11 +435,11 @@ app.get('/api/unit/prefill', async (req, res) => {
     });
   } catch (error: any) {
     console.error('Unit prefill error:', error.message);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Member lookup failed' });
   }
 });
 
-app.get('/api/unit/users', async (req, res) => {
+app.get('/api/unit/users', requireStaffToken, async (req, res) => {
   try {
     const { email, memberId } = req.query as Record<string, string>;
 
@@ -467,7 +499,7 @@ app.get('/api/unit/users', async (req, res) => {
     });
   } catch (error: any) {
     console.error('Unit users error:', error.message);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'User lookup failed' });
   }
 });
 
@@ -509,22 +541,26 @@ app.get('/api/prelaunch/commitments', requireStaffToken, async (req, res) => {
   }
 });
 
-// Staff-only gate for underwriting endpoints
-const STAFF_CODE = process.env.STAFF_ACCESS_CODE || 'SOLVY-STAFF-2025';
+// Staff-only gate for underwriting endpoints — NO DEFAULT
+const STAFF_CODE = process.env.STAFF_ACCESS_CODE;
+if (!STAFF_CODE) {
+  console.error('[SECURITY] STAFF_ACCESS_CODE not set. Staff endpoints will be inaccessible.');
+}
 
 // Partner review tokens — 4 slots, no company names stored here
 const UW_TOKENS: Record<string, string> = {
-  A: process.env.UW_TOKEN_A || 'SOLVY-UW-A-2025',
-  B: process.env.UW_TOKEN_B || 'SOLVY-UW-B-2025',
-  C: process.env.UW_TOKEN_C || 'SOLVY-UW-C-2025',
-  D: process.env.UW_TOKEN_D || 'SOLVY-UW-D-2025',
+  A: process.env.UW_TOKEN_A || '',
+  B: process.env.UW_TOKEN_B || '',
+  C: process.env.UW_TOKEN_C || '',
+  D: process.env.UW_TOKEN_D || '',
 };
 
 function resolvePartnerSlot(token: string): string | null {
+  if (!token) return null;
   for (const [slot, val] of Object.entries(UW_TOKENS)) {
-    if (val === token) return slot;
+    if (val && val === token) return slot;
   }
-  if (token === STAFF_CODE) return 'ADMIN';
+  if (STAFF_CODE && token === STAFF_CODE) return 'ADMIN';
   return null;
 }
 
@@ -612,8 +648,8 @@ app.post('/api/uw/upload', requireStaffToken, upload.single('file'), async (req,
 });
 
 app.get('/api/uw/files/:id', async (req, res) => {
-  const staffToken = (req.headers['x-staff-token'] as string) || (req.query.token as string);
-  const reviewToken = (req.headers['x-review-token'] as string) || (req.query.token as string);
+  const staffToken = req.headers['x-staff-token'] as string;
+  const reviewToken = req.headers['x-review-token'] as string;
   const isStaff = staffToken === STAFF_CODE;
   const isPartner = !!resolvePartnerSlot(reviewToken);
   if (!isStaff && !isPartner) return res.status(403).json({ error: 'Unauthorized' });
@@ -700,7 +736,7 @@ app.get('/api/uwreview/summary', async (req, res) => {
 
 function requireStaffToken(req: express.Request, res: express.Response, next: express.NextFunction) {
   const token = req.headers['x-staff-token'];
-  if (!token || token !== STAFF_CODE) {
+  if (!STAFF_CODE || !token || token !== STAFF_CODE) {
     return res.status(403).json({ error: 'Staff access required. This page is for internal use only.' });
   }
   next();
@@ -808,21 +844,40 @@ app.post('/api/founding-member/apply', async (req, res) => {
       return res.status(400).json({ error: 'Email, first name, and last name are required' });
     }
 
-    const existing = await pool.query('SELECT id FROM founding_members WHERE email = $1', [email]);
+    // Input validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email) || email.length > 254) {
+      return res.status(400).json({ error: 'Invalid email address' });
+    }
+    if (firstName.length > 100 || lastName.length > 100) {
+      return res.status(400).json({ error: 'Name too long' });
+    }
+    if (phone && !/^[\d\s\-\+\(\)]+$/.test(phone)) {
+      return res.status(400).json({ error: 'Invalid phone number' });
+    }
+    if (addressZip && !/^\d{5}(-\d{4})?$/.test(addressZip)) {
+      return res.status(400).json({ error: 'Invalid ZIP code' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanFirstName = firstName.trim();
+    const cleanLastName = lastName.trim();
+
+    const existing = await pool.query('SELECT id FROM founding_members WHERE email = $1', [cleanEmail]);
     if (existing.rows.length > 0) {
       return res.status(409).json({ error: 'Member with this email already exists' });
     }
 
     const stripe = await getUncachableStripeClient();
     const customer = await stripe.customers.create({
-      email,
-      name: `${firstName} ${lastName}`,
-      phone,
+      email: cleanEmail,
+      name: `${cleanFirstName} ${cleanLastName}`,
+      phone: phone?.trim(),
       address: {
-        line1: addressLine1,
-        city: addressCity,
-        state: addressState,
-        postal_code: addressZip,
+        line1: addressLine1?.trim(),
+        city: addressCity?.trim(),
+        state: addressState?.trim(),
+        postal_code: addressZip?.trim(),
         country: 'US',
       },
       metadata: {
@@ -838,12 +893,12 @@ app.post('/api/founding-member/apply', async (req, res) => {
       INSERT INTO founding_members (email, first_name, last_name, phone, address_line1, address_city, address_state, address_zip, stripe_customer_id, member_number, status)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'pending_payment')
       RETURNING *
-    `, [email, firstName, lastName, phone, addressLine1, addressCity, addressState, addressZip, customer.id, memberNumber]);
+    `, [cleanEmail, cleanFirstName, cleanLastName, phone, addressLine1, addressCity, addressState, addressZip, customer.id, memberNumber]);
 
     // Send welcome email (non-blocking)
     sendMemberWelcome({
-      email,
-      firstName,
+      email: cleanEmail,
+      firstName: cleanFirstName,
       memberNumber,
     }).catch((err: any) => console.error('[Email] Welcome email failed:', err.message));
 
@@ -854,7 +909,7 @@ app.post('/api/founding-member/apply', async (req, res) => {
     });
   } catch (error: any) {
     console.error('Application error:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Application failed' });
   }
 });
 
@@ -923,7 +978,7 @@ app.get('/api/founding-member/verify/:sessionId', async (req, res) => {
 
 // ─── First Circle Deposits listing ──────────────────────────────────────────
 
-app.get('/api/stripe/deposits', async (req, res) => {
+app.get('/api/stripe/deposits', requireStaffToken, async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT id, session_id, member_id, member_name, customer_email,
@@ -933,7 +988,8 @@ app.get('/api/stripe/deposits', async (req, res) => {
     );
     res.json({ success: true, count: result.rowCount, deposits: result.rows });
   } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+    console.error('Deposits error:', error.message);
+    res.status(500).json({ success: false, error: 'Failed to retrieve deposits' });
   }
 });
 
@@ -1132,7 +1188,7 @@ app.get('/api/data-pools', async (req, res) => {
   }
 });
 
-app.get('/api/data-pools/my-optins', async (req, res) => {
+app.get('/api/data-pools/my-optins', strictLimiter, async (req, res) => {
   try {
     const { email } = req.query as Record<string, string>;
     if (!email) return res.status(400).json({ error: 'email is required' });
@@ -1278,22 +1334,38 @@ app.get('/api/data-pools/export/:poolId', async (req, res) => {
 
 // ─── Contact Form ─────────────────────────────────────────────────────────────
 
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact', strictLimiter, async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
     if (!name || !email || !message) {
       return res.status(400).json({ error: 'name, email, and message are required' });
     }
+    // Input validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email) || email.length > 254) {
+      return res.status(400).json({ error: 'Invalid email address' });
+    }
+    if (name.length > 200 || (subject && subject.length > 200)) {
+      return res.status(400).json({ error: 'Input too long' });
+    }
+    if (message.length > 5000) {
+      return res.status(400).json({ error: 'Message too long (max 5000 characters)' });
+    }
+    // Sanitize newlines to prevent header injection
+    const cleanName = name.trim().replace(/[\r\n]/g, ' ');
+    const cleanEmail = email.trim().toLowerCase().replace(/[\r\n]/g, '');
+    const cleanSubject = (subject ?? 'General Inquiry').trim().replace(/[\r\n]/g, ' ');
+    const cleanMessage = message.trim();
     await sendContactNotification({
-      fromName: name.trim(),
-      fromEmail: email.trim().toLowerCase(),
-      subject: (subject ?? 'General Inquiry').trim(),
-      message: message.trim(),
+      fromName: cleanName,
+      fromEmail: cleanEmail,
+      subject: cleanSubject,
+      message: cleanMessage,
     });
     res.json({ success: true });
   } catch (error: any) {
     console.error('Contact form error:', error.message);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Failed to send message' });
   }
 });
 

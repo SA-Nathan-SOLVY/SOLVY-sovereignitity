@@ -564,7 +564,8 @@
         const API_BASE = window.location.origin.includes('localhost')
             ? 'http://localhost:3000'
             : window.location.origin;
-        const ADMIN_KEY = 'admin123'; // CHANGE IN PRODUCTION
+        // Admin key is fetched from server or set via env — NEVER hardcode
+        const ADMIN_KEY = (typeof window !== 'undefined' && window.__SOLVY_ADMIN_KEY) ? window.__SOLVY_ADMIN_KEY : '';
 
         let categoryChartInstance = null;
         let autoRefreshInterval = null;
@@ -574,6 +575,12 @@
         // AUTH
         // ============================================================
         function checkAuth() {
+            if (!ADMIN_KEY) {
+                document.getElementById('loginError').textContent = 'Admin key not configured on server. Set ADMIN_API_KEY env var.';
+                document.getElementById('loginError').classList.add('visible');
+                showLogin();
+                return;
+            }
             const key = sessionStorage.getItem('solvy_admin_key');
             if (key === ADMIN_KEY) {
                 showDashboard();

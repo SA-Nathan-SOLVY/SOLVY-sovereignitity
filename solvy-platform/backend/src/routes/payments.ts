@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, NextFunction } from 'express'
 import Stripe from 'stripe'
 import { memberStore } from '../models/Member'
 
@@ -7,8 +7,17 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2024-12-18.acacia'
 })
 
+const API_KEY = process.env.API_KEY
+function requireApiKey(req: Request, res: Response, next: NextFunction) {
+  const key = req.headers['x-api-key']
+  if (!API_KEY || !key || key !== API_KEY) {
+    return res.status(403).json({ error: 'Unauthorized' })
+  }
+  next()
+}
+
 // Create payment intent
-router.post('/create-payment-intent', async (req: Request, res: Response) => {
+router.post('/create-payment-intent', requireApiKey, async (req: Request, res: Response) => {
   try {
     const { amount, currency = 'usd', memberId, description } = req.body
 
@@ -64,7 +73,7 @@ router.post('/create-payment-intent', async (req: Request, res: Response) => {
 })
 
 // Get payment intent status
-router.get('/payment-intent/:id', async (req: Request, res: Response) => {
+router.get('/payment-intent/:id', requireApiKey, async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const paymentIntent = await stripe.paymentIntents.retrieve(id)
@@ -87,7 +96,7 @@ router.get('/payment-intent/:id', async (req: Request, res: Response) => {
 })
 
 // List payments for a member
-router.get('/member/:memberId', async (req: Request, res: Response) => {
+router.get('/member/:memberId', requireApiKey, async (req: Request, res: Response) => {
   try {
     const { memberId } = req.params
     const member = await memberStore.findById(memberId)
@@ -134,7 +143,7 @@ router.get('/member/:memberId', async (req: Request, res: Response) => {
 })
 
 // Refund a payment
-router.post('/refund', async (req: Request, res: Response) => {
+router.post('/refund', requireApiKey, async (req: Request, res: Response) => {
   try {
     const { paymentIntentId, amount } = req.body
 

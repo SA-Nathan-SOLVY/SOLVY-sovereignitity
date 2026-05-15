@@ -16,7 +16,7 @@ const config = {
   },
 
   security: {
-    adminApiKey: process.env.ADMIN_API_KEY || 'development-key-change-me',
+    adminApiKey: process.env.ADMIN_API_KEY,
     memberHashSalt: process.env.MEMBER_HASH_SALT || 'solvy_aggregation_salt_2025',
     rateLimitWindowMs: 15 * 60 * 1000, // 15 minutes
     rateLimitMax: 100 // requests per window

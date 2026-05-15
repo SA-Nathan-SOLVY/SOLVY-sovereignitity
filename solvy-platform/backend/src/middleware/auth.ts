@@ -8,8 +8,8 @@ import jwt from 'jsonwebtoken'
  */
 
 // Staff access code — set in environment, never commit the real value
-const STAFF_CODE = process.env.STAFF_ACCESS_CODE || 'SOLVY-STAFF-2025'
-const JWT_SECRET = process.env.JWT_SECRET || 'solvy-dev-secret-change-in-production'
+const STAFF_CODE = process.env.STAFF_ACCESS_CODE
+const JWT_SECRET = process.env.JWT_SECRET
 
 // Extend Express Request to include user
 export interface AuthenticatedRequest extends Request {
