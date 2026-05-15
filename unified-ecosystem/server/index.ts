@@ -15,6 +15,7 @@ import {
   sendPrelaunchAck,
   sendContactNotification,
 } from './emailService';
+import bankingRouter from './bankingRouter';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -343,6 +344,8 @@ app.use('/api/', apiLimiter);
 app.use('/api/contact', strictLimiter);
 app.use('/api/founding-member/apply', strictLimiter);
 app.use('/api/prelaunch/commit', strictLimiter);
+app.use('/api/banking', strictLimiter);
+app.use('/api/tax/export', strictLimiter);
 
 app.use(express.json());
 
@@ -1332,7 +1335,201 @@ app.get('/api/data-pools/export/:poolId', async (req, res) => {
   }
 });
 
-// ─── Contact Form ─────────────────────────────────────────────────────────────
+  // ─── Banking Routes ──────────────────────────────────────────────────────────
+
+  app.use('/api/banking', bankingRouter);
+
+  // ─── Tax Export (Staff-only) ─────────────────────────────────────────────────
+
+  app.get('/api/tax/export', requireStaffToken, async (req, res) => {
+    try {
+      const { from, to, format = 'json' } = req.query as Record<string, string>;
+
+      // Input validation
+      if (!from || !to) {
+        return res.status(400).json({ error: 'from and to date parameters are required (YYYY-MM-DD)' });
+      }
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+      if (!dateRegex.test(from) || !dateRegex.test(to)) {
+        return res.status(400).json({ error: 'Invalid date format. Use YYYY-MM-DD' });
+      }
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
+      if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+        return res.status(400).json({ error: 'Invalid date range' });
+      }
+      if (fromDate > toDate) {
+        return res.status(400).json({ error: 'from date must be before to date' });
+      }
+      if (toDate > new Date()) {
+        return res.status(400).json({ error: 'to date cannot be in the future' });
+      }
+      const maxRange = 365 * 24 * 60 * 60 * 1000;
+      if (toDate.getTime() - fromDate.getTime() > maxRange) {
+        return res.status(400).json({ error: 'Date range cannot exceed 1 year' });
+      }
+      if (format !== 'json' && format !== 'csv') {
+        return res.status(400).json({ error: 'format must be json or csv' });
+      }
+
+      interface TaxEvent {
+        category: string;
+        source: string;
+        event_id: string;
+        date: string;
+        gross: number;
+        patronage_70pct: number;
+        operations_20pct: number;
+        sovereign_fund_10pct: number;
+        description: string;
+        customer: string;
+        notes: string;
+      }
+
+      const events: TaxEvent[] = [];
+
+      // 1. Stripe charges (EBL revenue)
+      try {
+        const stripe = await getUncachableStripeClient();
+        const charges = await stripe.charges.list({
+          limit: 100,
+          created: {
+            gte: Math.floor(fromDate.getTime() / 1000),
+            lte: Math.floor(toDate.getTime() / 1000),
+          },
+        });
+        for (const charge of charges.data) {
+          if (charge.status !== 'succeeded') continue;
+          events.push({
+            category: 'revenue',
+            source: 'stripe_charge',
+            event_id: charge.id,
+            date: new Date(charge.created * 1000).toISOString().split('T')[0],
+            gross: charge.amount / 100,
+            patronage_70pct: (charge.amount / 100) * 0.70,
+            operations_20pct: (charge.amount / 100) * 0.20,
+            sovereign_fund_10pct: (charge.amount / 100) * 0.10,
+            description: charge.description || 'EBL Payment',
+            customer: charge.customer?.email || 'unknown',
+            notes: `Receipt: ${charge.receipt_url || 'N/A'}`,
+          });
+        }
+      } catch (stripeErr: any) {
+        console.error('[Tax] Stripe fetch failed:', stripeErr.message);
+      }
+
+      // 2. Member fees (founding members who joined in range)
+      try {
+        const memberResult = await pool.query(
+          `SELECT member_number, email, created_at
+             FROM founding_members
+            WHERE created_at >= $1
+              AND created_at <= $2
+              AND status = 'active'`,
+          [from, to]
+        );
+        for (const m of memberResult.rows) {
+          const fee = 4.99;
+          events.push({
+            category: 'member_fee',
+            source: 'founding_member',
+            event_id: m.member_number,
+            date: new Date(m.created_at).toISOString().split('T')[0],
+            gross: fee,
+            patronage_70pct: fee * 0.70,
+            operations_20pct: fee * 0.20,
+            sovereign_fund_10pct: fee * 0.10,
+            description: 'Founding Member Monthly Fee',
+            customer: m.email,
+            notes: '',
+          });
+        }
+      } catch (dbErr: any) {
+        console.error('[Tax] Member fetch failed:', dbErr.message);
+      }
+
+      // 3. Data pool sales
+      try {
+        const salesResult = await pool.query(
+          `SELECT id, pool_name, buyer, gross_amount, sale_date, notes
+             FROM data_pool_sales
+            WHERE sale_date >= $1
+              AND sale_date <= $2`,
+          [from, to]
+        );
+        for (const s of salesResult.rows) {
+          events.push({
+            category: 'data_sale',
+            source: 'data_marketplace',
+            event_id: s.id,
+            date: new Date(s.sale_date).toISOString().split('T')[0],
+            gross: parseFloat(s.gross_amount),
+            patronage_70pct: parseFloat(s.gross_amount) * 0.70,
+            operations_20pct: parseFloat(s.gross_amount) * 0.20,
+            sovereign_fund_10pct: parseFloat(s.gross_amount) * 0.10,
+            description: `Data Pool: ${s.pool_name}`,
+            customer: s.buyer,
+            notes: s.notes || '',
+          });
+        }
+      } catch (dbErr: any) {
+        console.error('[Tax] Data pool fetch failed:', dbErr.message);
+      }
+
+      // Sort by date descending
+      events.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+      // Calculate totals
+      const totals = events.reduce(
+        (acc, e) => ({
+          gross: acc.gross + e.gross,
+          patronage_70pct: acc.patronage_70pct + e.patronage_70pct,
+          operations_20pct: acc.operations_20pct + e.operations_20pct,
+          sovereign_fund_10pct: acc.sovereign_fund_10pct + e.sovereign_fund_10pct,
+        }),
+        { gross: 0, patronage_70pct: 0, operations_20pct: 0, sovereign_fund_10pct: 0 }
+      );
+
+      if (format === 'csv') {
+        const headers = ['category', 'source', 'event_id', 'date', 'gross', 'patronage_70pct', 'operations_20pct', 'sovereign_fund_10pct', 'description', 'customer', 'notes'];
+        const escapeCsv = (val: string | number) => {
+          const str = String(val ?? '');
+          if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+            return `"${str.replace(/"/g, '""')}"`;
+          }
+          return str;
+        };
+        const rows = events.map((e) =>
+          headers.map((h) => escapeCsv((e as any)[h])).join(',')
+        );
+        const totalRow = headers.map((h) =>
+          escapeCsv(h === 'date' ? 'TOTAL' : h === 'description' ? `${events.length} events` : (totals as any)[h] || '')
+        ).join(',');
+        const csv = [headers.join(','), ...rows, totalRow].join('\n');
+
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename="solvy-tax-export-${from}-to-${to}.csv"`);
+        return res.send(csv);
+      }
+
+      res.json({
+        period: { from, to },
+        event_count: events.length,
+        totals: {
+          gross: Math.round(totals.gross * 100) / 100,
+          patronage_70pct: Math.round(totals.patronage_70pct * 100) / 100,
+          operations_20pct: Math.round(totals.operations_20pct * 100) / 100,
+          sovereign_fund_10pct: Math.round(totals.sovereign_fund_10pct * 100) / 100,
+        },
+        events,
+      });
+    } catch (err: any) {
+      console.error('[Tax] Export error:', err.message);
+      res.status(500).json({ error: 'Tax export failed' });
+    }
+  });
+
+  // ─── Contact Form ─────────────────────────────────────────────────────────────
 
 app.post('/api/contact', strictLimiter, async (req, res) => {
   try {
