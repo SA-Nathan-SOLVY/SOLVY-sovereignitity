@@ -45,7 +45,7 @@ app.use(express.json({ limit: '10kb' }));
 
 // MailCow SMTP Configuration
 const transporter = nodemailer.createTransport({
-  host: process.env.MAILCOW_HOST || 'mail.ebl.beauty',
+  host: process.env.MAILCOW_HOST || '46.62.235.95', // Direct VPS IP — mail.ebl.beauty is Cloudflare-proxied (SMTP blocked)
   port: 587,
   secure: false,
   auth: {

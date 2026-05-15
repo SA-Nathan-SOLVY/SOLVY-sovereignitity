@@ -170,7 +170,7 @@ router.get('/status', (req, res) => {
     version: '1.0.0',
     validRequestTypes: VALID_REQUEST_TYPES,
     smtpConfigured: !!(process.env.MAILCOW_SMTP_PASS || process.env.MAILCOW_PASS),
-    smtpHost: process.env.MAILCOW_SMTP_HOST || process.env.MAILCOW_HOST || 'mail.ebl.beauty',
+    smtpHost: process.env.MAILCOW_SMTP_HOST || process.env.MAILCOW_HOST || '46.62.235.95', // Direct VPS IP — mail.ebl.beauty is Cloudflare-proxied (SMTP blocked)
     timestamp: new Date().toISOString(),
   });
 });

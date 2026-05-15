@@ -9,7 +9,7 @@
 const nodemailer = require('nodemailer');
 
 // Mailcow SMTP configuration from environment
-const SMTP_HOST = process.env.MAILCOW_SMTP_HOST || process.env.MAILCOW_HOST || 'mail.ebl.beauty';
+const SMTP_HOST = process.env.MAILCOW_SMTP_HOST || process.env.MAILCOW_HOST || '46.62.235.95'; // Direct VPS IP — mail.ebl.beauty is Cloudflare-proxied (SMTP blocked)
 const SMTP_USER = process.env.MAILCOW_SMTP_USER || process.env.MAILCOW_USER || 'support@ebl.beauty';
 const SMTP_PASS = process.env.MAILCOW_SMTP_PASS || process.env.MAILCOW_PASS || '';
 const SMTP_PORT = parseInt(process.env.MAILCOW_SMTP_PORT || '587', 10);
