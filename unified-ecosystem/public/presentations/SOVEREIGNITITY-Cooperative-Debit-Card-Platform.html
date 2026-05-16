@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLVY Ecosystem™ — Cooperative Debit Card Platform</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --solvy-dark: #0f172a;
+      --solvy-card: #1e293b;
+      --solvy-purple: #9333ea;
+      --solvy-purple-light: #a855f7;
+      --solvy-green: #22c55e;
+      --solvy-gold: #fbbf24;
+      --solvy-text: #e2e8f0;
+      --solvy-text-dim: #94a3b8;
+      --solvy-border: #334155;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--solvy-dark);
+      color: var(--solvy-text);
+      overflow: hidden;
+      height: 100vh;
+    }
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 80px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(100px);
+      transition: all 0.5s ease;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+    }
+    .slide.prev {
+      transform: translateX(-100px);
+    }
+
+    /* Title Slide */
+    .slide-title { text-align: center; }
+    .slide-title .logo {
+      font-size: 4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--solvy-purple-light), var(--solvy-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    .slide-title .tagline {
+      font-size: 1.5rem;
+      color: var(--solvy-gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .slide-title .subtitle {
+      font-size: 1.25rem;
+      color: var(--solvy-text-dim);
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    .slide-title .meta {
+      margin-top: 48px;
+      font-size: 0.875rem;
+      color: var(--solvy-text-dim);
+      line-height: 1.8;
+    }
+
+    /* Content Slides */
+    .slide-content { max-width: 1000px; width: 100%; }
+    .slide-content h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--solvy-text);
+    }
+    .slide-content .slide-label {
+      font-size: 0.875rem;
+      color: var(--solvy-purple-light);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 32px;
+    }
+    .slide-content p, .slide-content li {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--solvy-text-dim);
+      margin-bottom: 16px;
+    }
+    .slide-content ul { list-style: none; padding: 0; }
+    .slide-content li {
+      position: relative;
+      padding-left: 28px;
+    }
+    .slide-content li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--solvy-purple-light);
+    }
+    .slide-content strong { color: var(--solvy-text); }
+
+    /* Stats / Cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .stat-card {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+    .stat-card .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--solvy-green);
+    }
+    .stat-card .stat-label {
+      font-size: 0.875rem;
+      color: var(--solvy-text-dim);
+      margin-top: 8px;
+    }
+
+    /* Table */
+    .slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+    .slide-table th, .slide-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--solvy-border);
+    }
+    .slide-table th {
+      color: var(--solvy-purple-light);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .slide-table td {
+      color: var(--solvy-text-dim);
+    }
+    .slide-table tr:hover td {
+      color: var(--solvy-text);
+    }
+
+    /* Team */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .team-card {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .team-card h4 {
+      color: var(--solvy-text);
+      font-size: 1.125rem;
+      margin-bottom: 8px;
+    }
+    .team-card p {
+      font-size: 0.9375rem;
+      margin-bottom: 0;
+    }
+
+    /* Roadmap */
+    .roadmap {
+      display: flex;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .roadmap-phase {
+      flex: 1;
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .roadmap-phase h4 {
+      color: var(--solvy-purple-light);
+      margin-bottom: 12px;
+    }
+    .roadmap-phase p { font-size: 0.9375rem; margin-bottom: 8px; }
+
+    /* CTA Slide */
+    .slide-cta { text-align: center; }
+    .slide-cta h2 {
+      font-size: 3rem;
+      background: linear-gradient(135deg, var(--solvy-purple-light), var(--solvy-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+    }
+    .slide-cta .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--solvy-purple), var(--solvy-purple-light));
+      color: white;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-top: 32px;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 8px 20px;
+      border-radius: 24px;
+      border: 1px solid var(--solvy-border);
+    }
+    .nav button {
+      background: none;
+      border: none;
+      color: var(--solvy-text);
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .nav button:hover { background: var(--solvy-card); }
+    .nav .slide-counter {
+      font-size: 0.875rem;
+      color: var(--solvy-text-dim);
+      min-width: 60px;
+      text-align: center;
+    }
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--solvy-purple), var(--solvy-green));
+      transition: width 0.3s;
+      z-index: 100;
+    }
+
+    /* Print */
+    @media print {
+      .slide { position: static; opacity: 1; transform: none; page-break-after: always; }
+      .nav, .progress-bar { display: none; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .slide { padding: 40px 24px; }
+      .slide-content h2 { font-size: 1.75rem; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+      .roadmap { flex-direction: column; }
+      .slide-title .logo { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progress"></div>
+
+  <div class="deck" id="deck">
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide slide-title active">
+      <div class="logo">SOLVY™</div>
+      <div class="tagline">Own your spend. Own your future.</div>
+      <div class="subtitle">The cooperative debit card platform that shares profit with members — not shareholders.</div>
+      <div class="meta">
+        <strong>Entity:</strong> SA Nathan LLC (Texas)<br>
+        <strong>Mission:</strong> Generational wealth for ADOS, Indigenous, Global South, and marginalized communities<br>
+        <strong>Launch:</strong> June 19, 2026 (Juneteenth) &nbsp;|&nbsp; <strong>First Circle:</strong> 100 founding members
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Problem -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Problem</div>
+      <h2>Economic Exclusion is Systemic</h2>
+      <ul>
+        <li><strong>63 million</strong> Americans are unbanked or underbanked</li>
+        <li>Black households have <strong>1/10th</strong> the wealth of white households</li>
+        <li>Immigrant entrepreneurs pay <strong>25% higher</strong> interest rates</li>
+        <li>Transaction data is sold <strong>without consent</strong></li>
+      </ul>
+      <p style="margin-top: 24px; font-size: 1.25rem; color: var(--solvy-text);"><strong>The Iron Fist Was Never For Us.</strong></p>
+    </div>
+
+    <!-- SLIDE 3: Solution -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Solution</div>
+      <h2>SOLVY Ecosystem™</h2>
+      <p style="font-size: 1.25rem; color: var(--solvy-text); margin-bottom: 24px;">Cooperative-owned debit card + financial platform</p>
+      <ul>
+        <li>Members join with <strong>$100 equity contribution</strong></li>
+        <li>Receive <strong>SOLVY Card™</strong> (virtual + physical)</li>
+        <li>Spend normally — every swipe generates revenue</li>
+        <li><strong>70%</strong> of interchange returned as patronage dividends</li>
+      </ul>
+      <div class="stat-grid" style="margin-top: 32px;">
+        <div class="stat-card"><div class="stat-value">70%</div><div class="stat-label">Member Dividends</div></div>
+        <div class="stat-card"><div class="stat-value">20%</div><div class="stat-label">Community Pool</div></div>
+        <div class="stat-card"><div class="stat-value">10%</div><div class="stat-label">Operations</div></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Technology -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Technology</div>
+      <h2>Progressive Web App + Stripe Issuing</h2>
+      <div class="team-grid" style="margin-top: 8px;">
+        <div class="team-card">
+          <h4>Frontend</h4>
+          <p>React PWA — works on any device, offline-capable</p>
+        </div>
+        <div class="team-card">
+          <h4>Banking</h4>
+          <p>Stripe Treasury + Stripe Issuing</p>
+        </div>
+        <div class="team-card">
+          <h4>Cards</h4>
+          <p>Visa / Mastercard debit, NFC tap-to-pay</p>
+        </div>
+        <div class="team-card">
+          <h4>Data</h4>
+          <p>Local-first architecture — privacy by design</p>
+        </div>
+      </div>
+      <ul style="margin-top: 24px;">
+        <li>Instant virtual cards</li>
+        <li>Real-time dividend tracking</li>
+        <li>Data sovereignty controls</li>
+      </ul>
+    </div>
+
+    <!-- SLIDE 5: Market -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Market</div>
+      <h2>Independent Beauty Contractors</h2>
+      <p><strong>Target:</strong> 100,000+ IBCs in Texas alone</p>
+      <ul>
+        <li>Cash-heavy businesses → <strong>high interchange</strong></li>
+        <li>Underserved by traditional banks</li>
+        <li>Community-oriented → <strong>word-of-mouth growth</strong></li>
+        <li>Strong transaction volume: <strong>$1,200–$4,000/month</strong></li>
+      </ul>
+      <div class="stat-grid" style="margin-top: 24px;">
+        <div class="stat-card"><div class="stat-value">✅</div><div class="stat-label">Evergreen Beauty Lounge (Live)</div></div>
+        <div class="stat-card"><div class="stat-value">🔄</div><div class="stat-label">SPS Joint Venture</div></div>
+        <div class="stat-card"><div class="stat-value">🔄</div><div class="stat-label">Operation HOPE</div></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Economics -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Economics</div>
+      <h2>Revenue Model: Interchange Sharing</h2>
+      <table class="slide-table">
+        <tr><th>Metric</th><th>Amount</th></tr>
+        <tr><td>Monthly spending</td><td>$1,200 – $4,000</td></tr>
+        <tr><td>Interchange generated</td><td>$18 – $60</td></tr>
+        <tr><td>SOLVY share (1.2%)</td><td>$14 – $48</td></tr>
+        <tr><td><strong>Member dividend (70%)</strong></td><td><strong>$10 – $34/month</strong></td></tr>
+        <tr><td><strong>Annual member return</strong></td><td><strong>$120 – $408</strong></td></tr>
+        <tr><td><strong>ROI on $100 equity</strong></td><td><strong>120% – 408%</strong></td></tr>
+      </table>
+    </div>
+
+    <!-- SLIDE 7: Traction -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Traction</div>
+      <h2>Foundation Phase Progress</h2>
+      <div class="team-grid" style="margin-top: 8px;">
+        <div class="team-card">
+          <h4>Legal</h4>
+          <p>✅ SA Nathan LLC (Texas) formed<br>🔄 MSB registration pending</p>
+        </div>
+        <div class="team-card">
+          <h4>Technical</h4>
+          <p>✅ Website deployed (ebl.beauty)<br>✅ Stripe Issuing sandbox active<br>🔄 Production underwriting</p>
+        </div>
+        <div class="team-card">
+          <h4>Partnerships</h4>
+          <p>✅ Evergreen Beauty Lounge<br>🔄 SPS Joint Venture<br>🔄 Operation HOPE</p>
+        </div>
+        <div class="team-card">
+          <h4>Members</h4>
+          <p>45 confirmed, 55 pending<br>First Circle target: 100</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Funding -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Funding</div>
+      <h2>Grant & Investment Pipeline</h2>
+      <div class="roadmap">
+        <div class="roadmap-phase">
+          <h4>Federal Grants</h4>
+          <p>CDFI Fund: $500K–$5M</p>
+          <p>MBDA Business Center: $200K–$1M</p>
+          <p>SBA Community Navigator: $1M–$5M</p>
+        </div>
+        <div class="roadmap-phase">
+          <h4>Private Funding</h4>
+          <p>Gold House Ventures: $150K</p>
+          <p>Black Renaissance Fund</p>
+          <p>California SEED 3.0: $5K–$50K</p>
+        </div>
+        <div class="roadmap-phase">
+          <h4>Cooperative Equity</h4>
+          <p>First Circle: 100 × $100 = $10K</p>
+          <p>Year 1 Target: 1,000 × $100 = $100K</p>
+          <p><strong>Total Pipeline: $50M+</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Impact -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Impact</div>
+      <h2>The Sheila Mandate</h2>
+      <p style="font-size: 1.5rem; font-style: italic; color: var(--solvy-gold); margin: 24px 0;">"Leave them better than I received."</p>
+      <p style="color: var(--solvy-text-dim);">— Sheila McDaniel, Grantor</p>
+      <ul style="margin-top: 32px;">
+        <li>Economic infrastructure for descendants of slavery</li>
+        <li>Data sovereignty for the surveilled</li>
+        <li>Generational wealth for the excluded</li>
+      </ul>
+      <p style="margin-top: 24px; font-size: 1.25rem; color: var(--solvy-green);"><strong>51% of distributions to the Descendant Class. Guaranteed.</strong></p>
+    </div>
+
+    <!-- SLIDE 10: Team -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Team</div>
+      <h2>Leadership</h2>
+      <div class="team-grid" style="margin-top: 8px;">
+        <div class="team-card">
+          <h4>Evergreen Mayo, CEO</h4>
+          <p>Strategic vision, compliance oversight<br>Lineage keeper of the Sheila Mandate</p>
+        </div>
+        <div class="team-card">
+          <h4>AI Development Partners</h4>
+          <p><strong>Kimi Code & Replit</strong> — Full-stack, deployment, Stripe integration<br><strong>DeepSeek AI</strong> — Technical advisor</p>
+        </div>
+        <div class="team-card">
+          <h4>Technical Team</h4>
+          <p>Stripe Issuing integration specialists<br>Security & compliance engineers</p>
+        </div>
+        <div class="team-card">
+          <h4>Advisors</h4>
+          <p>Legal: [Engaging]<br>Banking: [Stripe partnership]<br>Community: Operation HOPE</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Roadmap -->
+    <div class="slide slide-content">
+      <div class="slide-label">The Roadmap</div>
+      <h2>Timeline to Scale</h2>
+      <div class="roadmap">
+        <div class="roadmap-phase">
+          <h4>Phase 1: Foundation</h4>
+          <p>Now – June 2026</p>
+          <p>✅ Legal structure</p>
+          <p>🔄 Stripe production approval</p>
+          <p>🔄 First Circle onboarding</p>
+          <p><strong>Launch: June 19, 2026</strong></p>
+        </div>
+        <div class="roadmap-phase">
+          <h4>Phase 2: Growth</h4>
+          <p>July – Dec 2026</p>
+          <p>1,000 members</p>
+          <p>First dividend distribution</p>
+          <p>CDFI certification</p>
+          <p>Multi-state expansion</p>
+        </div>
+        <div class="roadmap-phase">
+          <h4>Phase 3: Scale</h4>
+          <p>2027 – 2028</p>
+          <p>10,000+ members</p>
+          <p>Credit union charter</p>
+          <p>MOLI life insurance</p>
+          <p>Self-sovereign identity</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Ask -->
+    <div class="slide slide-cta">
+      <h2>Join the First Circle</h2>
+      <p style="font-size: 1.25rem; color: var(--solvy-text-dim); max-width: 600px; margin: 0 auto;">
+        100 founding members. $100 equity stake.<br>
+        Own your spend. Own your future.
+      </p>
+      <div style="margin-top: 40px; color: var(--solvy-text-dim);">
+        <p>✓ SOLVY Card™ (virtual + physical)</p>
+        <p>✓ Ownership stake in cooperative</p>
+        <p>✓ Patronage dividends (70% of revenue)</p>
+        <p>✓ Founding member status</p>
+      </div>
+      <a href="https://ebl.beauty/onboarding.html" class="cta-button" target="_blank">Apply Now →</a>
+      <p style="margin-top: 24px; font-size: 0.875rem; color: var(--solvy-text-dim);">Launch: June 19, 2026</p>
+    </div>
+
+    <!-- SLIDE 13: Contact -->
+    <div class="slide slide-content">
+      <div class="slide-label">Contact</div>
+      <h2>SOLVY Ecosystem™</h2>
+      <div class="team-grid" style="margin-top: 8px;">
+        <div class="team-card">
+          <h4>Website</h4>
+          <p><a href="https://ebl.beauty" style="color: var(--solvy-purple-light); text-decoration: none;">ebl.beauty</a></p>
+        </div>
+        <div class="team-card">
+          <h4>Email</h4>
+          <p><a href="mailto:team@solvy.cards" style="color: var(--solvy-purple-light); text-decoration: none;">team@solvy.cards</a></p>
+        </div>
+        <div class="team-card">
+          <h4>Entity</h4>
+          <p>SA Nathan LLC (Texas)</p>
+        </div>
+        <div class="team-card">
+          <h4>Community</h4>
+          <p><a href="https://decidey.ebl.beauty" style="color: var(--solvy-purple-light); text-decoration: none;">decidey.ebl.beauty</a></p>
+        </div>
+      </div>
+      <p style="margin-top: 40px; text-align: center; font-size: 1.5rem; color: var(--solvy-gold);">
+        👑 SOLVY Ecosystem™<br>
+        <span style="font-size: 1rem; color: var(--solvy-text-dim);">Own your spend. Own your future.</span>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="nav">
+    <button onclick="prevSlide()">◀</button>
+    <span class="slide-counter" id="counter">1 / 13</span>
+    <button onclick="nextSlide()">▶</button>
+  </div>
+
+  <script>
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+
+    function updateSlides() {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'prev');
+        if (i === current) slide.classList.add('active');
+        else if (i < current) slide.classList.add('prev');
+      });
+      document.getElementById('counter').textContent = `${current + 1} / ${total}`;
+      document.getElementById('progress').style.width = `${((current + 1) / total) * 100}%`;
+    }
+
+    function nextSlide() {
+      if (current < total - 1) { current++; updateSlides(); }
+    }
+    function prevSlide() {
+      if (current > 0) { current--; updateSlides(); }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Touch support
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+    document.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+    });
+
+    updateSlides();
+  </script>
+</body>
+</html>

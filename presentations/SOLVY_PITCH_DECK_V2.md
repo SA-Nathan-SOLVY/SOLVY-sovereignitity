@@ -63,11 +63,11 @@
 
 # SLIDE 4: The Technology
 
-## Progressive Web App + Unit.co Banking
+## Progressive Web App + Stripe Issuing
 
 **Stack:**
 - **Frontend:** React PWA (works on any device)
-- **Banking:** Unit.co + Thread Bank (FDIC insured)
+- **Banking:** Stripe Treasury + Stripe Issuing
 - **Cards:** Visa/Mastercard debit (NFC enabled)
 - **Data:** Local-first architecture (privacy by design)
 - **Identity:** Self-sovereign identity (Phase 2)
@@ -137,7 +137,7 @@
 
 **Technical:**
 - ✅ Website deployed (ebl.beauty)
-- ✅ Unit sandbox active
+- ✅ Stripe Issuing sandbox active
 - 🔄 Production underwriting (in progress)
 
 **Partnerships:**
@@ -200,22 +200,21 @@
 
 ## Leadership
 
-**Sean Mayo, Managing Member**
-- Trust Protector (passive per TDIU)
+**Evergreen Mayo, CEO**
 - Strategic vision, compliance oversight
 - Lineage keeper of the Sheila Mandate
 
 **AI Development Partners**
-- **Kimi Code & Replit** — Primary development partner (full-stack, deployment, Unit.co integration)
+- **Kimi Code & Replit** — Primary development partner (full-stack, deployment, Stripe integration)
 - **DeepSeek AI** — Technical advisor (mathematical modeling, business logic)
 
 **Technical Team**
-- Unit.co integration specialists
+- Stripe Issuing integration specialists
 - Security & compliance engineers
 
 **Advisors**
 - Legal: [Engaging]
-- Banking: [Unit.co partnership]
+- Banking: [Stripe partnership]
 - Community: Operation HOPE (pending)
 
 **First Circle Members:** 100 founding owners
@@ -228,7 +227,7 @@
 
 **Phase 1: Foundation (Now - June 2026)**
 - ✅ Legal structure
-- 🔄 Unit production approval
+- 🔄 Stripe production approval
 - 🔄 First Circle onboarding
 - **Launch:** June 19, 2026 (Juneteenth)
 
@@ -306,4 +305,4 @@ Own your spend. Own your future.
 
 **Document ID:** SOLVY-PITCH-V2-2026-001  
 **Format:** Markdown (convert to Google Slides / PowerPoint)  
-**Last Updated:** March 31, 2026
+**Last Updated:** May 15, 2026
