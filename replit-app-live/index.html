@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
 
     <!-- Apple PWA -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="SOLVY" />
 
     <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="manifest.json" />
 
     <!-- Theme -->
     <meta name="theme-color" content="#7c3aed" />
@@ -25,25 +25,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
     <!-- SEO / Description -->
-    <meta name="description" content="America's First Cooperative P2P Payment Platform for Black, Brown, Immigrant & Diaspora Communities. Apply for your SOLVY Card today." />
-    <meta name="keywords" content="SOLVY, cooperative, P2P payment, Black-owned, fintech, debit card, remittance" />
+    <meta name="description" content="America's first cooperative P2P payment platform. No credit check, no minimum balance. Apply for your SOLVY Card and earn cooperative ownership with every swipe." />
+    <meta name="keywords" content="SOLVY, cooperative payment platform, P2P payments, debit card, fintech, diaspora, underserved communities, cooperative ownership, SOLVY card" />
     <meta name="author" content="SOLVY Ecosystem" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://solvy.cards/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://solvy.cards/" />
+    <meta property="og:site_name" content="SOLVY" />
     <meta property="og:title" content="SOLVY — America's First Cooperative P2P Payment Platform" />
-    <meta property="og:description" content="Democratizing financial access for Black, Brown, immigrant and diaspora communities through cooperative ownership." />
+    <meta property="og:description" content="No credit check. No minimum balance. Join America's first cooperative-owned payment platform and earn a share of every transaction." />
     <meta property="og:image" content="https://solvy.cards/SolvyLogo-1024.png" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:image:alt" content="SOLVY cooperative payment platform logo" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="SOLVY Card" />
-    <meta name="twitter:description" content="America's First Cooperative P2P Payment Platform" />
+    <meta name="twitter:site" content="@SOLVYcard" />
+    <meta name="twitter:title" content="SOLVY — America's First Cooperative P2P Payment Platform" />
+    <meta name="twitter:description" content="No credit check. No minimum balance. Earn cooperative ownership with every swipe." />
     <meta name="twitter:image" content="https://solvy.cards/SolvyLogo-1024.png" />
+    <meta name="twitter:image:alt" content="SOLVY cooperative payment platform" />
 
-    <!-- Robots -->
-    <meta name="robots" content="index, follow" />
+    <title>SOLVY — America's First Cooperative P2P Payment Platform</title>
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -53,25 +60,33 @@
         {
           "@type": "Organization",
           "@id": "https://solvy.cards/#organization",
-          "name": "SOLVY Ecosystem™",
-          "alternateName": "SA Nathan LLC",
-          "url": "https://solvy.cards/",
+          "name": "SOLVY",
+          "legalName": "SOLVY Cooperative Debit Card Platform",
+          "url": "https://solvy.cards",
           "logo": {
             "@type": "ImageObject",
             "url": "https://solvy.cards/SolvyLogo-1024.png",
             "width": 1024,
             "height": 1024
           },
-          "description": "America's First Cooperative P2P Payment Platform for Black, Brown, Immigrant & Diaspora Communities.",
-          "sameAs": [
-            "https://ebl.beauty"
-          ]
+          "description": "America's first cooperative P2P debit card platform. No credit check, no minimum balance. Earn cooperative ownership with every swipe.",
+          "foundingLocation": {
+            "@type": "Place",
+            "name": "United States"
+          },
+          "sameAs": [],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "url": "https://solvy.cards/start-here"
+          }
         },
         {
           "@type": "WebSite",
           "@id": "https://solvy.cards/#website",
-          "url": "https://solvy.cards/",
-          "name": "SOLVY Ecosystem™",
+          "url": "https://solvy.cards",
+          "name": "SOLVY",
+          "description": "America's first cooperative P2P debit card platform",
           "publisher": {
             "@id": "https://solvy.cards/#organization"
           },
@@ -79,7 +94,7 @@
             "@type": "SearchAction",
             "target": {
               "@type": "EntryPoint",
-              "urlTemplate": "https://solvy.cards/?q={search_term_string}"
+              "urlTemplate": "https://solvy.cards/start-here"
             },
             "query-input": "required name=search_term_string"
           }
@@ -87,33 +102,37 @@
         {
           "@type": "FinancialProduct",
           "@id": "https://solvy.cards/#solvy-card",
-          "name": "SOLVY Card™",
-          "description": "Cooperative debit card platform with 70/20/10 economic model. 70% member patronage dividends, 20% community development, 10% operations reserve.",
+          "name": "SOLVY Card",
+          "description": "A cooperative debit card with no credit check, no minimum balance, and P2P payment capabilities. Members earn cooperative ownership with every purchase.",
+          "url": "https://solvy.cards/",
           "provider": {
             "@id": "https://solvy.cards/#organization"
           },
+          "feesAndCommissionsSpecification": "Monthly membership: $4.99 (or $49.99/year). No credit check. No minimum balance. No application fee.",
           "offers": {
             "@type": "Offer",
-            "price": "0",
+            "price": "4.99",
             "priceCurrency": "USD",
-            "description": "No monthly fee. Interchange revenue distributed per cooperative patronage model."
-          },
-          "category": "Debit Card",
-          "audience": {
-            "@type": "Audience",
-            "audienceType": "Black, Brown, Immigrant & Diaspora Communities"
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "4.99",
+              "priceCurrency": "USD",
+              "referenceQuantity": {
+                "@type": "QuantitativeValue",
+                "value": 1,
+                "unitCode": "MON"
+              }
+            }
           }
         }
       ]
     }
     </script>
 
-    <title>SOLVY — America's First Cooperative P2P Payment Platform</title>
-
     <!-- Unit.co web components -->
     <script async src="https://ui.s.unit.sh/release/latest/components-extended.js"></script>
-    <script type="module" crossorigin src="/assets/index-CbHCDk2Q.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-B8d8tldZ.css">
+    <script type="module" crossorigin src="assets/index-CwlVn_dF.js"></script>
+    <link rel="stylesheet" crossorigin href="assets/index-CMYtavMR.css">
   </head>
   <body>
     <div id="root"></div>
@@ -133,4 +152,5 @@
         });
       }
     </script>
+  </body>
 </html>
