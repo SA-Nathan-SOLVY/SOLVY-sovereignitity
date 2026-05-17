@@ -81,6 +81,12 @@ app.use(cors({
 }));
 app.use(helmet());
 
+// Explicitly declare indexable for search engines
+app.use((req, res, next) => {
+  res.setHeader('X-Robots-Tag', 'index, follow');
+  next();
+});
+
 // Stripe webhook must receive raw body BEFORE json middleware
 app.post(
   '/api/stripe/webhook',
