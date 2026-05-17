@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+
+    <!-- Apple PWA -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SOLVY" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#7c3aed" />
+    <meta name="background-color" content="#0f172a" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- SEO / Description -->
+    <meta name="description" content="America's First Cooperative P2P Payment Platform for Black, Brown, Immigrant & Diaspora Communities. Apply for your SOLVY Card today." />
+    <meta name="keywords" content="SOLVY, cooperative, P2P payment, Black-owned, fintech, debit card, remittance" />
+    <meta name="author" content="SOLVY Ecosystem" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://solvy.cards/" />
+    <meta property="og:title" content="SOLVY — America's First Cooperative P2P Payment Platform" />
+    <meta property="og:description" content="Democratizing financial access for Black, Brown, immigrant and diaspora communities through cooperative ownership." />
+    <meta property="og:image" content="https://solvy.cards/SolvyLogo-1024.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SOLVY Card" />
+    <meta name="twitter:description" content="America's First Cooperative P2P Payment Platform" />
+    <meta name="twitter:image" content="https://solvy.cards/SolvyLogo-1024.png" />
+
+    <title>SOLVY — America's First Cooperative P2P Payment Platform</title>
+
+    <!-- Unit.co web components -->
+    <script async src="https://ui.s.unit.sh/release/latest/components-extended.js"></script>
+    <script type="module" crossorigin src="/assets/index-CbHCDk2Q.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-B8d8tldZ.css">
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').then(
+            function (registration) {
+              console.log('[SOLVY SW] Registered:', registration.scope);
+            },
+            function (err) {
+              console.warn('[SOLVY SW] Registration failed:', err);
+            }
+          );
+        });
+      }
+    </script>
+</html>
