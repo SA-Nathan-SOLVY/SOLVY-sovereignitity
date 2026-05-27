@@ -10,7 +10,7 @@
 const db = new Dexie('solvy_local_db');
 
 // Database schema definition
-db.version(1).stores({
+db.version(2).stores({
   // Transaction store - all transaction history stored locally
   transactions: `
     ++id,
@@ -20,6 +20,8 @@ db.version(1).stores({
     category,
     status,
     cardId,
+    vendorId,
+    vendorName,
     *tags,
     pendingSync
   `,
@@ -71,6 +73,69 @@ db.version(1).stores({
     payload,
     createdAt,
     retryCount
+  `,
+  
+  // Budget definitions - spending limits per category
+  budgets: `
+    ++id,
+    category,
+    limitAmount,
+    period,
+    alertThreshold,
+    createdAt,
+    updatedAt
+  `,
+  
+  // Income entries - track all income sources
+  income_entries: `
+    ++id,
+    date,
+    amount,
+    source,
+    category,
+    recurring,
+    frequency,
+    notes,
+    createdAt
+  `,
+  
+  // Budget periods - track monthly/weekly budget performance
+  budget_periods: `
+    ++id,
+    startDate,
+    endDate,
+    period,
+    totalIncome,
+    totalExpenses,
+    totalBudgeted,
+    status,
+    createdAt
+  `,
+  
+  // Savings goals - member-defined financial goals
+  savings_goals: `
+    ++id,
+    name,
+    targetAmount,
+    currentAmount,
+    deadline,
+    category,
+    autoAllocate,
+    allocationPercent,
+    status,
+    createdAt,
+    updatedAt
+  `,
+  
+  // Budget alerts - notifications for budget thresholds
+  budget_alerts: `
+    ++id,
+    budgetId,
+    type,
+    message,
+    threshold,
+    triggeredAt,
+    acknowledged
   `
 });
 
@@ -270,6 +335,54 @@ async function getPendingTransactions() {
 }
 
 /**
+ * Check if a vendor transaction already exists
+ * @param {string} vendorId - Vendor transaction ID
+ * @returns {Promise<boolean>} - True if exists
+ */
+async function transactionExists(vendorId) {
+  if (!vendorId) return false;
+  const count = await db.transactions
+    .where('vendorId')
+    .equals(vendorId)
+    .count();
+  return count > 0;
+}
+
+/**
+ * Get transaction by vendor ID
+ * @param {string} vendorId - Vendor transaction ID
+ * @returns {Promise<Object|null>} - Transaction or null
+ */
+async function getTransactionByVendorId(vendorId) {
+  return await db.transactions
+    .where('vendorId')
+    .equals(vendorId)
+    .first();
+}
+
+/**
+ * Add or update a vendor transaction (idempotent)
+ * @param {Object} transaction - Transaction data with vendorId
+ * @returns {Promise<Object>} - { id, created: boolean }
+ */
+async function upsertVendorTransaction(transaction) {
+  const existing = await getTransactionByVendorId(transaction.vendorId);
+  
+  if (existing) {
+    // Update existing transaction
+    await db.transactions.update(existing.id, {
+      ...transaction,
+      updatedAt: new Date().toISOString()
+    });
+    return { id: existing.id, created: false };
+  }
+  
+  // Add new transaction
+  const id = await addTransaction(transaction);
+  return { id, created: true };
+}
+
+/**
  * Clear all local data (for logout/data reset)
  */
 async function clearAllLocalData() {
@@ -279,6 +392,11 @@ async function clearAllLocalData() {
   await db.dataPoolContributions.clear();
   await db.votes.clear();
   await db.syncQueue.clear();
+  await db.budgets.clear();
+  await db.income_entries.clear();
+  await db.budget_periods.clear();
+  await db.savings_goals.clear();
+  await db.budget_alerts.clear();
 }
 
 /**
@@ -288,12 +406,17 @@ async function clearAllLocalData() {
 async function exportAllData() {
   return {
     exportDate: new Date().toISOString(),
-    version: '1.0',
+    version: '2.0',
     transactions: await db.transactions.toArray(),
     spending_patterns: await db.spending_patterns.toArray(),
     card_activity: await db.card_activity.toArray(),
     dataPoolContributions: await db.dataPoolContributions.toArray(),
-    votes: await db.votes.toArray()
+    votes: await db.votes.toArray(),
+    budgets: await db.budgets.toArray(),
+    income_entries: await db.income_entries.toArray(),
+    budget_periods: await db.budget_periods.toArray(),
+    savings_goals: await db.savings_goals.toArray(),
+    budget_alerts: await db.budget_alerts.toArray()
   };
 }
 
@@ -311,6 +434,18 @@ async function importData(data) {
   if (data.card_activity) {
     await db.card_activity.bulkAdd(data.card_activity);
   }
+  if (data.budgets) {
+    await db.budgets.bulkAdd(data.budgets);
+  }
+  if (data.income_entries) {
+    await db.income_entries.bulkAdd(data.income_entries);
+  }
+  if (data.budget_periods) {
+    await db.budget_periods.bulkAdd(data.budget_periods);
+  }
+  if (data.savings_goals) {
+    await db.savings_goals.bulkAdd(data.savings_goals);
+  }
 }
 
 /**
@@ -322,12 +457,18 @@ async function getDatabaseStats() {
     transactionCount,
     pendingSyncCount,
     categoryCount,
-    activityCount
+    activityCount,
+    budgetCount,
+    incomeCount,
+    goalsCount
   ] = await Promise.all([
     db.transactions.count(),
     db.transactions.where('pendingSync').equals(1).count(),
     db.spending_patterns.count(),
-    db.card_activity.count()
+    db.card_activity.count(),
+    db.budgets.count(),
+    db.income_entries.count(),
+    db.savings_goals.count()
   ]);
   
   return {
@@ -335,8 +476,243 @@ async function getDatabaseStats() {
     pendingSyncCount,
     categoryCount,
     activityCount,
+    budgetCount,
+    incomeCount,
+    goalsCount,
     storageUsed: 'calculated-on-demand'
   };
+}
+
+// ============================================================================
+// BUDGET MANAGEMENT METHODS
+// ============================================================================
+
+/**
+ * Create or update a budget category limit
+ * @param {Object} budget - Budget data
+ * @returns {Promise<number>} - Budget ID
+ */
+async function setBudget(budget) {
+  const data = {
+    ...budget,
+    period: budget.period || 'monthly',
+    alertThreshold: budget.alertThreshold || 0.8,
+    updatedAt: new Date().toISOString(),
+    createdAt: budget.createdAt || new Date().toISOString()
+  };
+  
+  if (budget.id) {
+    await db.budgets.update(budget.id, data);
+    return budget.id;
+  }
+  return await db.budgets.add(data);
+}
+
+/**
+ * Get all budgets
+ * @returns {Promise<Array>} - Budgets
+ */
+async function getBudgets() {
+  return await db.budgets.toArray();
+}
+
+/**
+ * Get budget for a specific category
+ * @param {string} category - Category name
+ * @returns {Promise<Object|null>} - Budget or null
+ */
+async function getBudgetByCategory(category) {
+  return await db.budgets.where('category').equals(category).first();
+}
+
+/**
+ * Delete a budget
+ * @param {number} id - Budget ID
+ */
+async function deleteBudget(id) {
+  await db.budgets.delete(id);
+  await db.budget_alerts.where('budgetId').equals(id).delete();
+}
+
+/**
+ * Add an income entry
+ * @param {Object} income - Income data
+ * @returns {Promise<number>} - Income ID
+ */
+async function addIncome(income) {
+  const data = {
+    ...income,
+    date: income.date || new Date().toISOString(),
+    createdAt: new Date().toISOString()
+  };
+  return await db.income_entries.add(data);
+}
+
+/**
+ * Get income entries by date range
+ * @param {Date} startDate - Start date
+ * @param {Date} endDate - End date
+ * @returns {Promise<Array>} - Income entries
+ */
+async function getIncomeByDateRange(startDate, endDate) {
+  return await db.income_entries
+    .where('date')
+    .between(startDate.toISOString(), endDate.toISOString())
+    .toArray();
+}
+
+/**
+ * Get total income for a date range
+ * @param {Date} startDate - Start date
+ * @param {Date} endDate - End date
+ * @returns {Promise<number>} - Total income
+ */
+async function getTotalIncome(startDate, endDate) {
+  const entries = await getIncomeByDateRange(startDate, endDate);
+  return entries.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+}
+
+/**
+ * Create or update a savings goal
+ * @param {Object} goal - Goal data
+ * @returns {Promise<number>} - Goal ID
+ */
+async function setSavingsGoal(goal) {
+  const data = {
+    ...goal,
+    currentAmount: goal.currentAmount || 0,
+    status: goal.status || 'active',
+    updatedAt: new Date().toISOString(),
+    createdAt: goal.createdAt || new Date().toISOString()
+  };
+  
+  if (goal.id) {
+    await db.savings_goals.update(goal.id, data);
+    return goal.id;
+  }
+  return await db.savings_goals.add(data);
+}
+
+/**
+ * Get all savings goals
+ * @returns {Promise<Array>} - Goals
+ */
+async function getSavingsGoals() {
+  return await db.savings_goals.toArray();
+}
+
+/**
+ * Add funds to a savings goal
+ * @param {number} id - Goal ID
+ * @param {number} amount - Amount to add
+ */
+async function contributeToSavingsGoal(id, amount) {
+  const goal = await db.savings_goals.get(id);
+  if (!goal) return false;
+  
+  const newAmount = (parseFloat(goal.currentAmount) || 0) + amount;
+  const status = newAmount >= goal.targetAmount ? 'completed' : goal.status;
+  
+  await db.savings_goals.update(id, {
+    currentAmount: newAmount,
+    status,
+    updatedAt: new Date().toISOString()
+  });
+  return true;
+}
+
+/**
+ * Create a budget period record
+ * @param {Object} period - Period data
+ * @returns {Promise<number>} - Period ID
+ */
+async function createBudgetPeriod(period) {
+  const data = {
+    ...period,
+    status: period.status || 'active',
+    createdAt: new Date().toISOString()
+  };
+  return await db.budget_periods.add(data);
+}
+
+/**
+ * Get budget periods
+ * @returns {Promise<Array>} - Budget periods
+ */
+async function getBudgetPeriods() {
+  return await db.budget_periods.toArray();
+}
+
+/**
+ * Add a budget alert
+ * @param {Object} alert - Alert data
+ * @returns {Promise<number>} - Alert ID
+ */
+async function addBudgetAlert(alert) {
+  return await db.budget_alerts.add({
+    ...alert,
+    triggeredAt: new Date().toISOString(),
+    acknowledged: false
+  });
+}
+
+/**
+ * Get unacknowledged budget alerts
+ * @returns {Promise<Array>} - Alerts
+ */
+async function getBudgetAlerts() {
+  return await db.budget_alerts
+    .where('acknowledged')
+    .equals(0)
+    .toArray();
+}
+
+/**
+ * Acknowledge a budget alert
+ * @param {number} id - Alert ID
+ */
+async function acknowledgeBudgetAlert(id) {
+  await db.budget_alerts.update(id, { acknowledged: true });
+}
+
+/**
+ * Get budget vs actual spending for a date range
+ * @param {Date} startDate - Start date
+ * @param {Date} endDate - End date
+ * @returns {Promise<Array>} - Budget performance by category
+ */
+async function getBudgetVsActual(startDate, endDate) {
+  const budgets = await getBudgets();
+  const transactions = await getTransactionsByDateRange(startDate, endDate);
+  
+  // Group transactions by category
+  const actualByCategory = transactions.reduce((acc, t) => {
+    const cat = t.category || 'uncategorized';
+    acc[cat] = (acc[cat] || 0) + (parseFloat(t.amount) || 0);
+    return acc;
+  }, {});
+  
+  // Build comparison
+  const allCategories = new Set([
+    ...budgets.map(b => b.category),
+    ...Object.keys(actualByCategory)
+  ]);
+  
+  return Array.from(allCategories).map(category => {
+    const budget = budgets.find(b => b.category === category);
+    const actual = actualByCategory[category] || 0;
+    const limit = budget ? budget.limitAmount : 0;
+    
+    return {
+      category,
+      budgeted: limit,
+      actual: Math.round(actual * 100) / 100,
+      remaining: Math.round((limit - actual) * 100) / 100,
+      percentUsed: limit > 0 ? Math.round((actual / limit) * 100) : 0,
+      alertThreshold: budget ? budget.alertThreshold : 0.8,
+      overBudget: actual > limit && limit > 0
+    };
+  });
 }
 
 // ============================================================================
@@ -525,11 +901,31 @@ window.solvyDB = {
   queueForSync,
   markTransactionSynced,
   getPendingTransactions,
+  transactionExists,
+  getTransactionByVendorId,
+  upsertVendorTransaction,
   clearAllLocalData,
   exportAllData,
   importData,
   getDatabaseStats,
-  syncAggregatedMetrics
+  syncAggregatedMetrics,
+  // Budget management
+  setBudget,
+  getBudgets,
+  getBudgetByCategory,
+  deleteBudget,
+  addIncome,
+  getIncomeByDateRange,
+  getTotalIncome,
+  setSavingsGoal,
+  getSavingsGoals,
+  contributeToSavingsGoal,
+  createBudgetPeriod,
+  getBudgetPeriods,
+  addBudgetAlert,
+  getBudgetAlerts,
+  acknowledgeBudgetAlert,
+  getBudgetVsActual
 };
 
 // Export for module systems
@@ -545,11 +941,31 @@ if (typeof module !== 'undefined' && module.exports) {
     queueForSync,
     markTransactionSynced,
     getPendingTransactions,
+    transactionExists,
+    getTransactionByVendorId,
+    upsertVendorTransaction,
     clearAllLocalData,
     exportAllData,
     importData,
     getDatabaseStats,
     syncAggregatedMetrics,
-    OfflineSyncManager
+    OfflineSyncManager,
+    // Budget management
+    setBudget,
+    getBudgets,
+    getBudgetByCategory,
+    deleteBudget,
+    addIncome,
+    getIncomeByDateRange,
+    getTotalIncome,
+    setSavingsGoal,
+    getSavingsGoals,
+    contributeToSavingsGoal,
+    createBudgetPeriod,
+    getBudgetPeriods,
+    addBudgetAlert,
+    getBudgetAlerts,
+    acknowledgeBudgetAlert,
+    getBudgetVsActual
   };
 }

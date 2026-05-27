@@ -554,6 +554,7 @@
                 <a href="/index.html">Home</a>
                 <a href="/card/solvy-card.html">Card</a>
                 <a href="/banking/index.html" class="active">Banking</a>
+                <a href="/accounting/index.html">Accounting</a>
                 <a href="/community/communities.html">Community</a>
             </div>
             <div class="nav-cta">
@@ -915,6 +916,7 @@
     <!-- Dexie.js and SOLVY Local DB -->
     <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
     <script src="/js/services/db.js"></script>
+    <script src="/js/services/budget-service.js"></script>
     <script src="/js/components/ai-chat-widget.js"></script>
     <script>
         // ============================================
@@ -1137,8 +1139,26 @@
 
             if (tabName === 'transactions') {
                 loadMemberExpenses();
+                // Auto-sync vendor transactions when viewing transactions tab
+                syncVendorTransactionsSilent();
             }
         };
+
+        /**
+         * Silently sync vendor transactions from banking API
+         */
+        async function syncVendorTransactionsSilent() {
+            try {
+                const accountId = localStorage.getItem('solvy_account_id') || 'demo-account';
+                const result = await BudgetService.syncVendorTransactions(accountId);
+                if (result.imported > 0) {
+                    console.log(`[Banking] Auto-synced ${result.imported} transactions`);
+                    await loadMemberExpenses();
+                }
+            } catch (error) {
+                console.log('[Banking] Transaction sync not available:', error.message);
+            }
+        }
     </script>
 
     <div class="banking-footer">

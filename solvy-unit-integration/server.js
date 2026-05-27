@@ -21,6 +21,7 @@ const marketplace = require('./api/marketplace/data-pool');
 const emailRoutes = require('./api/email');
 const { handleAgentMailWebhook } = require('./api/email');
 const moliRoutes = require('./api/moli');
+const budgetAIRoutes = require('../solvy-platform/api/budget-ai');
 
 // Middleware
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
@@ -198,6 +199,9 @@ app.use('/api/email', emailRoutes);
 // MOLI Policy Service Request routes (PDF generation + Mailcow SMTP)
 app.use('/api/moli', moliRoutes);
 
+// SOLVY Accounting AI Analysis routes (DeepSeek integration)
+app.use('/api/budget', budgetAIRoutes);
+
 /**
  * POST /webhooks/agentmail
  * AgentMail inbound email webhook
@@ -238,6 +242,10 @@ app.listen(PORT, () => {
   console.log('  POST /api/moli/submit           - MOLI policy service request');
   console.log('  GET  /api/moli/status           - MOLI service status');
   console.log('  POST /api/moli/test-pdf         - Generate test PDF');
+  console.log('');
+  console.log('  POST /api/budget/ai-analysis    - AI budget insights (anonymized)');
+  console.log('  GET  /api/budget/ai-status      - AI service status');
+  console.log('  POST /api/budget/tax-prep       - AI tax preparation analysis');
   console.log('');
 });
 

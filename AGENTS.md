@@ -71,6 +71,8 @@ SOVEREIGNITITY-Stack/
 │   ├── banking/                 # Member banking portal
 │   │   ├── index.html           # Banking dashboard (4 tabs)
 │   │   └── UNIT-INTEGRATION.md  # Architecture docs
+│   ├── accounting/              # SOLVY Accounting™ — Budget & expense tracking
+│   │   └── index.html           # Member budget dashboard
 │   ├── card/                    # SOLVY Card™ product pages
 │   ├── api/                     # Backend API handlers
 │   │   ├── unit-token.js        # JWT generation for Unit Elements
@@ -78,6 +80,7 @@ SOVEREIGNITITY-Stack/
 │   │   ├── data-pool.js         # Privacy-focused data aggregation
 │   │   ├── moli-loans.js        # MOLI policy loan requests
 │   │   ├── metrics.js           # Transaction metrics
+│   │   ├── budget-ai.js         # AI budget analysis (DeepSeek integration)
 │   │   ├── auth-server.js       # Authentication
 │   │   └── webhooks/            # Webhook handlers
 │   │       ├── unit.js          # Unit.co transaction webhooks
@@ -90,6 +93,7 @@ SOVEREIGNITITY-Stack/
 │   │   │   └── threshold-widget.js
 │   │   └── services/            # Business logic
 │   │       ├── db.js            # IndexedDB wrapper (Dexie.js)
+│   │       ├── budget-service.js # Budget tracking & AI data preparation
 │   │       ├── data-pool.js     # Data pooling service
 │   │       ├── voting-service.js
 │   │       ├── encryption-service.js
@@ -440,6 +444,9 @@ ngrok http 3000
 | `/api/metrics` | GET | Member transaction metrics |
 | `/api/webhooks/unit` | POST | Unit transaction events |
 | `/api/moli/loan-request` | POST | MOLI policy loan request |
+| `/api/budget/ai-analysis` | POST | AI budget insights (anonymized aggregates only) |
+| `/api/budget/ai-status` | GET | Check AI service availability |
+| `/api/budget/tax-prep` | POST | AI tax preparation analysis |
 
 ---
 
@@ -526,6 +533,8 @@ Clear description of the work.
 
 ### Modifying Database Schema (IndexedDB)
 
+**Current Version: 2** (added `budgets`, `income_entries`, `budget_periods`, `savings_goals`, `budget_alerts`)
+
 1. Update version number in `js/services/db.js`
 2. Add migration logic in upgrade callback
 3. Update `SOVEREIGNITITY_DATA_ARCHITECTURE.md`
@@ -554,6 +563,15 @@ Clear description of the work.
    - Set `AGENTMAIL_WEBHOOK_SECRET` for HMAC verification
    - Returns `{ action: 'escalated' | 'faq' | 'classify', ... }`
 6. **Testing:** Create test inboxes with `createInbox({ clientId: 'test-...' })`
+
+### Working with SOLVY Accounting™ (Budget Tracking)
+
+1. **Local-first data:** All budgets, income, and goals stay in IndexedDB
+2. **Auto-categorization:** `BudgetService.autoCategorize(merchant)` matches merchant names to categories
+3. **AI integration:** `BudgetService.requestAIAnalysis()` sends anonymized aggregates to `/api/budget/ai-analysis`
+4. **Tax export:** `BudgetService.exportTaxSummary(year)` generates JSON for tax preparation
+5. **Budget alerts:** Automatically generated when spending exceeds 80% or 100% of budget limit
+6. **Adding to navigation:** Update both desktop `.nav-links` and mobile `.mobile-group-*` menus
 
 ---
 
@@ -605,7 +623,7 @@ pm2 restart solvy-api
 
 ---
 
-*Last Updated: April 9, 2026*  
-*Document Version: 1.0*
+*Last Updated: May 27, 2026*  
+*Document Version: 1.1*
 
 **Foundation first. The iron fist, digital.** 🛡️

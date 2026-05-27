@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLVY Accounting™ — Budget & Expense Tracking</title>
+  <link rel="icon" type="image/png" href="../assets/SolvyLogo-1024.png">
+  <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.min.js"></script>
+  <script src="../js/services/db.js"></script>
+  <script src="../js/services/budget-service.js"></script>
+  <style>
+    :root {
+      --solvy-dark: #0f172a;
+      --solvy-darker: #020617;
+      --solvy-card: #1e293b;
+      --solvy-border: #334155;
+      --solvy-green: #22c55e;
+      --solvy-green-dim: rgba(34, 197, 94, 0.15);
+      --solvy-green-glow: rgba(34, 197, 94, 0.3);
+      --solvy-gold: #f59e0b;
+      --solvy-gold-dim: rgba(245, 158, 11, 0.15);
+      --solvy-blue: #3b82f6;
+      --solvy-purple: #a855f7;
+      --solvy-red: #ef4444;
+      --solvy-red-dim: rgba(239, 68, 68, 0.15);
+      --solvy-text: #e2e8f0;
+      --solvy-muted: #94a3b8;
+      --solvy-dim: #64748b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--solvy-dark);
+      color: var(--solvy-text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--solvy-border);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--solvy-text);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .nav-logo img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--solvy-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--solvy-green);
+    }
+
+    .nav-cta {
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+      padding: 8px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    /* Mobile menu */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--solvy-text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 28px;
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .page-header p {
+      color: var(--solvy-muted);
+      font-size: 0.9rem;
+    }
+
+    .page-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+    }
+
+    .btn-primary:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--solvy-card);
+      color: var(--solvy-text);
+      border: 1px solid var(--solvy-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--solvy-border);
+    }
+
+    .btn-gold {
+      background: var(--solvy-gold);
+      color: var(--solvy-darker);
+    }
+
+    .btn-gold:hover {
+      background: #d97706;
+    }
+
+    .btn-danger {
+      background: var(--solvy-red);
+      color: white;
+    }
+
+    /* Summary Cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .summary-card {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .summary-card.income::before { background: var(--solvy-green); }
+    .summary-card.expenses::before { background: var(--solvy-red); }
+    .summary-card.net::before { background: var(--solvy-blue); }
+    .summary-card.budget::before { background: var(--solvy-purple); }
+
+    .summary-label {
+      font-size: 0.75rem;
+      color: var(--solvy-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .summary-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .summary-change {
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .summary-change.positive { color: var(--solvy-green); }
+    .summary-change.negative { color: var(--solvy-red); }
+    .summary-change.neutral { color: var(--solvy-muted); }
+
+    /* Alerts Banner */
+    .alerts-banner {
+      background: var(--solvy-red-dim);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      display: none;
+    }
+
+    .alerts-banner.visible {
+      display: block;
+    }
+
+    .alerts-banner h3 {
+      font-size: 0.85rem;
+      color: var(--solvy-red);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .alert-item {
+      font-size: 0.8rem;
+      color: var(--solvy-text);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+    }
+
+    .alert-item:last-child { border-bottom: none; }
+
+    /* Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Panels */
+    .panel {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .panel-title {
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-subtitle {
+      font-size: 0.75rem;
+      color: var(--solvy-muted);
+    }
+
+    /* Budget Bars */
+    .budget-item {
+      margin-bottom: 16px;
+    }
+
+    .budget-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+    }
+
+    .budget-category {
+      font-weight: 500;
+    }
+
+    .budget-numbers {
+      color: var(--solvy-muted);
+      font-size: 0.8rem;
+    }
+
+    .budget-numbers.over {
+      color: var(--solvy-red);
+      font-weight: 600;
+    }
+
+    .budget-bar-bg {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .budget-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s ease;
+    }
+
+    .budget-bar-fill.safe { background: var(--solvy-green); }
+    .budget-bar-fill.warning { background: var(--solvy-gold); }
+    .budget-bar-fill.danger { background: var(--solvy-red); }
+
+    /* Income/Expense Lists */
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .list-item:last-child { border-bottom: none; }
+
+    .list-item-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .list-item-title {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .list-item-meta {
+      font-size: 0.75rem;
+      color: var(--solvy-muted);
+    }
+
+    .list-item-amount {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .list-item-amount.income { color: var(--solvy-green); }
+    .list-item-amount.expense { color: var(--solvy-red); }
+
+    /* Goals */
+    .goal-item {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .goal-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .goal-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .goal-deadline {
+      font-size: 0.75rem;
+      color: var(--solvy-muted);
+    }
+
+    .goal-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .goal-bar-bg {
+      flex: 1;
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .goal-bar-fill {
+      height: 100%;
+      background: var(--solvy-green);
+      border-radius: 3px;
+      transition: width 0.6s ease;
+    }
+
+    .goal-percent {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--solvy-green);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+      color: var(--solvy-muted);
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--solvy-darker);
+      border: 1px solid var(--solvy-border);
+      border-radius: 8px;
+      color: var(--solvy-text);
+      font-size: 0.9rem;
+    }
+
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--solvy-green);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--solvy-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* AI Analysis Result */
+    .ai-result {
+      background: var(--solvy-green-dim);
+      border: 1px solid var(--solvy-green-glow);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      display: none;
+    }
+
+    .ai-result.visible {
+      display: block;
+    }
+
+    .ai-result h4 {
+      color: var(--solvy-green);
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-result p {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--solvy-text);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--solvy-border);
+      padding-bottom: 0;
+    }
+
+    .tab {
+      padding: 10px 18px;
+      background: none;
+      border: none;
+      color: var(--solvy-muted);
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      color: var(--solvy-green);
+      border-bottom-color: var(--solvy-green);
+    }
+
+    .tab:hover {
+      color: var(--solvy-text);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--solvy-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--solvy-dim);
+      font-size: 0.75rem;
+      border-top: 1px solid var(--solvy-border);
+      margin-top: 40px;
+    }
+
+    /* Loading */
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: var(--solvy-green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--solvy-darker); }
+    ::-webkit-scrollbar-thumb { background: var(--solvy-border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--solvy-muted); }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="../welcome.html" class="nav-logo">
+      <img src="../assets/SolvyLogo-1024.png" alt="SOLVY">
+      <span>SOLVY</span>
+    </a>
+    <div class="nav-links">
+      <a href="../banking/index.html">Banking</a>
+      <a href="../card/solvy-card.html">Card</a>
+      <a href="index.html" class="active">Accounting</a>
+      <a href="../community/communities.html">Community</a>
+    </div>
+    <a href="../banking/index.html" class="nav-cta">Member Portal →</a>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>📊 SOLVY Accounting™</h1>
+      <p>Budget tracking, expense management, and financial intelligence — all on your device.</p>
+      <div class="page-actions">
+        <button class="btn btn-primary" onclick="openModal('incomeModal')">➕ Add Income</button>
+        <button class="btn btn-secondary" onclick="openModal('budgetModal')">⚙️ Set Budgets</button>
+        <button class="btn btn-secondary" onclick="openModal('goalModal')">🎯 New Goal</button>
+        <button class="btn btn-gold" onclick="requestAIInsights('full')">🤖 AI Insights</button>
+        <button class="btn btn-secondary" onclick="openModal('taxModal')">📄 Tax Export</button>
+        <button class="btn btn-secondary" onclick="syncTransactions()">🔄 Sync Card</button>
+      </div>
+      <div id="syncStatus" style="font-size: 0.8rem; color: var(--solvy-muted); margin-top: 8px; display: none;"></div>
+    </div>
+
+    <!-- Alerts Banner -->
+    <div id="alertsBanner" class="alerts-banner">
+      <h3>⚠️ Budget Alerts</h3>
+      <div id="alertsList"></div>
+    </div>
+
+    <!-- AI Result Panel -->
+    <div id="aiResult" class="ai-result">
+      <h4>🤖 AI Financial Insights</h4>
+      <div id="aiContent"></div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid" id="summaryGrid">
+      <div class="summary-card income">
+        <div class="summary-label">Total Income</div>
+        <div class="summary-value" id="totalIncome">$0.00</div>
+        <div class="summary-change neutral" id="incomeChange">— vs last month</div>
+      </div>
+      <div class="summary-card expenses">
+        <div class="summary-label">Total Expenses</div>
+        <div class="summary-value" id="totalExpenses">$0.00</div>
+        <div class="summary-change neutral" id="expenseChange">— vs last month</div>
+      </div>
+      <div class="summary-card net">
+        <div class="summary-label">Net Cash Flow</div>
+        <div class="summary-value" id="netCashFlow">$0.00</div>
+        <div class="summary-change neutral">Income minus expenses</div>
+      </div>
+      <div class="summary-card budget">
+        <div class="summary-label">Budget Used</div>
+        <div class="summary-value" id="budgetUsed">0%</div>
+        <div class="summary-change neutral" id="overBudgetCount">0 categories over budget</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('overview')">Overview</button>
+      <button class="tab" onclick="switchTab('income')">Income</button>
+      <button class="tab" onclick="switchTab('expenses')">Expenses</button>
+      <button class="tab" onclick="switchTab('recurring')">Recurring</button>
+      <button class="tab" onclick="switchTab('goals')">Savings Goals</button>
+    </div>
+
+    <!-- Overview Tab -->
+    <div id="tab-overview" class="tab-content active">
+      <div class="dashboard-grid">
+        <!-- Budget Performance -->
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">📈 Budget Performance</div>
+              <div class="panel-subtitle">This month vs your limits</div>
+            </div>
+          </div>
+          <div id="budgetPerformance"></div>
+        </div>
+
+        <!-- Expense Breakdown -->
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">💸 Expense Breakdown</div>
+              <div class="panel-subtitle">Where your money goes</div>
+            </div>
+          </div>
+          <div id="expenseBreakdown"></div>
+        </div>
+      </div>
+      
+      <!-- Quick AI Actions -->
+      <div class="dashboard-grid" style="margin-top: 24px;">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">💳 Debt Payoff Strategy</div>
+              <div class="panel-subtitle">AI-powered debt elimination plan</div>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--solvy-muted); margin-bottom: 14px;">Get a personalized debt payoff plan using Avalanche or Snowball methods.</p>
+          <button class="btn btn-primary" onclick="requestAIInsights('debt')" style="width: 100%;">Analyze My Debt →</button>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">📈 Savings Optimization</div>
+              <div class="panel-subtitle">Build wealth faster</div>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--solvy-muted); margin-bottom: 14px;">Discover opportunities to increase your savings rate and reach goals sooner.</p>
+          <button class="btn btn-primary" onclick="requestAIInsights('savings')" style="width: 100%;">Optimize Savings →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Income Tab -->
+    <div id="tab-income" class="tab-content">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">💰 Income This Month</div>
+            <div class="panel-subtitle">All income sources</div>
+          </div>
+        </div>
+        <div id="incomeList"></div>
+      </div>
+    </div>
+
+    <!-- Expenses Tab -->
+    <div id="tab-expenses" class="tab-content">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">🧾 Recent Expenses</div>
+            <div class="panel-subtitle">From your SOLVY Card™ transactions</div>
+          </div>
+        </div>
+        <div id="expenseList"></div>
+      </div>
+    </div>
+
+    <!-- Recurring Income Tab -->
+    <div id="tab-recurring" class="tab-content">
+      <div class="dashboard-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">🔄 Detected Recurring Income</div>
+              <div class="panel-subtitle">Auto-detected from your income history</div>
+            </div>
+          </div>
+          <div id="recurringList"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">💡 Income Suggestions</div>
+              <div class="panel-subtitle">Potential income to track</div>
+            </div>
+          </div>
+          <div id="incomeSuggestions"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Goals Tab -->
+    <div id="tab-goals" class="tab-content">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">🎯 Savings Goals</div>
+            <div class="panel-subtitle">Track your financial milestones</div>
+          </div>
+        </div>
+        <div id="goalsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>SOLVY Accounting™ — Product of SA Nathan LLC</p>
+    <p>Your financial data stays on your device. <a href="../privacy.html" style="color: var(--solvy-green);">Learn more</a></p>
+  </div>
+
+  <!-- Add Income Modal -->
+  <div class="modal-overlay" id="incomeModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">➕ Add Income</div>
+        <button class="modal-close" onclick="closeModal('incomeModal')">×</button>
+      </div>
+      <form onsubmit="handleAddIncome(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Amount</label>
+            <input type="number" step="0.01" class="form-input" id="incomeAmount" required placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-input" id="incomeDate" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Source</label>
+          <input type="text" class="form-input" id="incomeSource" required placeholder="e.g. VA Benefits">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="incomeCategory">
+            <option value="Salary">Salary</option>
+            <option value="VA Benefits">VA Benefits</option>
+            <option value="SSDI">SSDI</option>
+            <option value="SSI">SSI</option>
+            <option value="Business Income">Business Income</option>
+            <option value="Investment Income">Investment Income</option>
+            <option value="Freelance">Freelance</option>
+            <option value="Other Income">Other Income</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notes (optional)</label>
+          <input type="text" class="form-input" id="incomeNotes" placeholder="Any details...">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Add Income</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Set Budgets Modal -->
+  <div class="modal-overlay" id="budgetModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">⚙️ Set Budget Limits</div>
+        <button class="modal-close" onclick="closeModal('budgetModal')">×</button>
+      </div>
+      <div id="budgetFormContainer"></div>
+    </div>
+  </div>
+
+  <!-- New Goal Modal -->
+  <div class="modal-overlay" id="goalModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">🎯 Create Savings Goal</div>
+        <button class="modal-close" onclick="closeModal('goalModal')">×</button>
+      </div>
+      <form onsubmit="handleAddGoal(event)">
+        <div class="form-group">
+          <label class="form-label">Goal Name</label>
+          <input type="text" class="form-input" id="goalName" required placeholder="e.g. Emergency Fund">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Target Amount</label>
+            <input type="number" step="0.01" class="form-input" id="goalTarget" required placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Deadline (optional)</label>
+            <input type="date" class="form-input" id="goalDeadline">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="goalCategory">
+            <option value="Emergency Fund">Emergency Fund</option>
+            <option value="Mortgage Down Payment">Mortgage Down Payment</option>
+            <option value="Business Investment">Business Investment</option>
+            <option value="Education">Education</option>
+            <option value="Travel">Travel</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Goal</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Tax Export Modal -->
+  <div class="modal-overlay" id="taxModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">📄 Tax Export</div>
+        <button class="modal-close" onclick="closeModal('taxModal')">×</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tax Year</label>
+        <select class="form-select" id="taxYear">
+          <option value="2026">2026</option>
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Export Format</label>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-primary" onclick="downloadTaxJSON()" style="flex: 1;">📊 JSON Summary</button>
+          <button class="btn btn-secondary" onclick="downloadTaxCSV()" style="flex: 1;">📋 CSV Summary</button>
+          <button class="btn btn-secondary" onclick="downloadTransactionsCSV()" style="flex: 1;">🧾 Full CSV</button>
+        </div>
+      </div>
+      <div style="margin-top: 14px; padding: 12px; background: rgba(34,197,94,0.06); border-radius: 8px; font-size: 0.8rem; color: var(--solvy-muted);">
+        💡 <strong>Privacy Note:</strong> Your data is processed locally. The exported file contains only your categorized financial summary — no individual merchant details.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // UI CONTROLLERS
+    // ============================================================
+
+    let currentDashboardData = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Set default date in income form
+      document.getElementById('incomeDate').valueAsDate = new Date();
+      
+      // Load dashboard
+      await loadDashboard();
+    });
+
+    async function loadDashboard() {
+      try {
+        currentDashboardData = await BudgetService.getDashboardData();
+        renderSummary(currentDashboardData);
+        renderBudgetPerformance(currentDashboardData.categories);
+        renderAlerts(currentDashboardData.alerts);
+        renderGoals(currentDashboardData.savingsGoals);
+        renderRecurringIncome(currentDashboardData.recurringIncome);
+        
+        // Load breakdowns
+        const { start, end } = BudgetService.getCurrentMonthRange();
+        const expenseBreakdown = await BudgetService.getExpenseBreakdown(start, end);
+        renderExpenseBreakdown(expenseBreakdown);
+        
+        const incomeBreakdown = await BudgetService.getIncomeBreakdown(start, end);
+        renderIncomeList(incomeBreakdown);
+        
+        const recentTxs = await window.solvyDB.getTransactionsByDateRange(start, end);
+        renderExpenseList(recentTxs.slice(0, 20));
+        
+        // Load income suggestions
+        const suggestions = await BudgetService.detectIncomeFromTransactions();
+        renderIncomeSuggestions(suggestions);
+      } catch (error) {
+        console.error('[Accounting] Failed to load dashboard:', error);
+      }
+    }
+
+    function renderSummary(data) {
+      const s = data.summary;
+      document.getElementById('totalIncome').textContent = formatCurrency(s.totalIncome);
+      document.getElementById('totalExpenses').textContent = formatCurrency(s.totalExpenses);
+      document.getElementById('netCashFlow').textContent = formatCurrency(s.netCashFlow);
+      document.getElementById('budgetUsed').textContent = s.budgetUtilization + '%';
+      document.getElementById('overBudgetCount').textContent = 
+        data.overBudgetCount + ' categories over budget';
+
+      // Change indicators
+      const incChange = document.getElementById('incomeChange');
+      incChange.className = 'summary-change ' + (data.comparison.incomeChange >= 0 ? 'positive' : 'negative');
+      incChange.innerHTML = (data.comparison.incomeChange >= 0 ? '↑' : '↓') + ' ' + 
+        Math.abs(data.comparison.incomeChange) + '% vs last month';
+
+      const expChange = document.getElementById('expenseChange');
+      expChange.className = 'summary-change ' + (data.comparison.expenseChange <= 0 ? 'positive' : 'negative');
+      expChange.innerHTML = (data.comparison.expenseChange >= 0 ? '↑' : '↓') + ' ' + 
+        Math.abs(data.comparison.expenseChange) + '% vs last month';
+    }
+
+    function renderBudgetPerformance(categories) {
+      const container = document.getElementById('budgetPerformance');
+      if (!categories || categories.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><p>No budget data yet. Set your budget limits to start tracking.</p></div>';
+        return;
+      }
+
+      container.innerHTML = categories
+        .filter(c => c.budgeted > 0 || c.actual > 0)
+        .map(c => {
+          let barClass = 'safe';
+          if (c.percentUsed >= 100) barClass = 'danger';
+          else if (c.percentUsed >= (c.alertThreshold * 100)) barClass = 'warning';
+
+          const overClass = c.overBudget ? 'over' : '';
+          
+          return `
+            <div class="budget-item">
+              <div class="budget-header">
+                <span class="budget-category">${c.category}</span>
+                <span class="budget-numbers ${overClass}">
+                  ${formatCurrency(c.actual)} / ${formatCurrency(c.budgeted)}
+                  ${c.overBudget ? ' ⚠️ OVER' : ''}
+                </span>
+              </div>
+              <div class="budget-bar-bg">
+                <div class="budget-bar-fill ${barClass}" style="width: ${Math.min(c.percentUsed, 100)}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+    }
+
+    function renderExpenseBreakdown(breakdown) {
+      const container = document.getElementById('expenseBreakdown');
+      if (!breakdown || breakdown.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">💳</div><p>No expenses yet. Use your SOLVY Card™ to see transactions here.</p></div>';
+        return;
+      }
+
+      const total = breakdown.reduce((s, e) => s + e.amount, 0);
+      container.innerHTML = breakdown.map(e => {
+        const pct = total > 0 ? Math.round((e.amount / total) * 100) : 0;
+        return `
+          <div class="list-item">
+            <div class="list-item-info">
+              <span class="list-item-title">${e.category}</span>
+              <span class="list-item-meta">${pct}% of total</span>
+            </div>
+            <span class="list-item-amount expense">-${formatCurrency(e.amount)}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderIncomeList(incomeBreakdown) {
+      const container = document.getElementById('incomeList');
+      if (!incomeBreakdown || incomeBreakdown.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">💰</div><p>No income recorded. Click "Add Income" to start tracking.</p></div>';
+        return;
+      }
+
+      container.innerHTML = incomeBreakdown.map(i => `
+        <div class="list-item">
+          <div class="list-item-info">
+            <span class="list-item-title">${i.category}</span>
+            <span class="list-item-meta">${i.category}</span>
+          </div>
+          <span class="list-item-amount income">+${formatCurrency(i.amount)}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderExpenseList(transactions) {
+      const container = document.getElementById('expenseList');
+      if (!transactions || transactions.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🧾</div><p>No transactions yet. Expenses from your SOLVY Card™ will appear here automatically.</p></div>';
+        return;
+      }
+
+      container.innerHTML = transactions.map(t => {
+        const date = new Date(t.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        return `
+          <div class="list-item">
+            <div class="list-item-info">
+              <span class="list-item-title">${t.merchant || 'Unknown'}</span>
+              <span class="list-item-meta">${date} · ${t.category || 'Other'}</span>
+            </div>
+            <span class="list-item-amount expense">-${formatCurrency(t.amount)}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderGoals(goals) {
+      const container = document.getElementById('goalsList');
+      if (!goals || goals.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎯</div><p>No savings goals yet. Create one to start building wealth.</p></div>';
+        return;
+      }
+
+      container.innerHTML = goals.map(g => {
+        const pct = g.targetAmount > 0 ? Math.min(Math.round((g.currentAmount / g.targetAmount) * 100), 100) : 0;
+        const deadline = g.deadline ? new Date(g.deadline).toLocaleDateString() : 'No deadline';
+        return `
+          <div class="goal-item">
+            <div class="goal-header">
+              <span class="goal-name">${g.name}</span>
+              <span class="goal-deadline">${deadline}</span>
+            </div>
+            <div class="goal-progress">
+              <div class="goal-bar-bg">
+                <div class="goal-bar-fill" style="width: ${pct}%"></div>
+              </div>
+              <span class="goal-percent">${pct}%</span>
+            </div>
+            <div style="margin-top: 6px; font-size: 0.75rem; color: var(--solvy-muted);">
+              ${formatCurrency(g.currentAmount)} of ${formatCurrency(g.targetAmount)}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAlerts(alerts) {
+      const banner = document.getElementById('alertsBanner');
+      const list = document.getElementById('alertsList');
+      
+      if (!alerts || alerts.length === 0) {
+        banner.classList.remove('visible');
+        return;
+      }
+
+      banner.classList.add('visible');
+      list.innerHTML = alerts.map(a => `
+        <div class="alert-item">${a.message}</div>
+      `).join('');
+    }
+
+    // ============================================================
+    // FORM HANDLERS
+    // ============================================================
+
+    async function handleAddIncome(event) {
+      event.preventDefault();
+      
+      const income = {
+        amount: parseFloat(document.getElementById('incomeAmount').value),
+        date: new Date(document.getElementById('incomeDate').value).toISOString(),
+        source: document.getElementById('incomeSource').value,
+        category: document.getElementById('incomeCategory').value,
+        notes: document.getElementById('incomeNotes').value
+      };
+
+      await window.solvyDB.addIncome(income);
+      closeModal('incomeModal');
+      event.target.reset();
+      document.getElementById('incomeDate').valueAsDate = new Date();
+      await loadDashboard();
+    }
+
+    async function handleAddGoal(event) {
+      event.preventDefault();
+      
+      const goal = {
+        name: document.getElementById('goalName').value,
+        targetAmount: parseFloat(document.getElementById('goalTarget').value),
+        deadline: document.getElementById('goalDeadline').value || null,
+        category: document.getElementById('goalCategory').value
+      };
+
+      await window.solvyDB.setSavingsGoal(goal);
+      closeModal('goalModal');
+      event.target.reset();
+      await loadDashboard();
+    }
+
+    // ============================================================
+    // BUDGET FORM
+    // ============================================================
+
+    async function renderBudgetForm() {
+      const budgets = await window.solvyDB.getBudgets();
+      const container = document.getElementById('budgetFormContainer');
+      
+      container.innerHTML = `
+        <form onsubmit="handleSaveBudgets(event)">
+          ${budgets.map(b => `
+            <div class="form-row" style="margin-bottom: 10px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">${b.category}</label>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <input type="number" step="0.01" class="form-input budget-limit-input" 
+                  data-category="${b.category}" 
+                  value="${b.limitAmount > 0 ? b.limitAmount : ''}" 
+                  placeholder="No limit">
+              </div>
+            </div>
+          `).join('')}
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Save Budgets</button>
+        </form>
+      `;
+    }
+
+    async function handleSaveBudgets(event) {
+      event.preventDefault();
+      
+      const inputs = document.querySelectorAll('.budget-limit-input');
+      for (const input of inputs) {
+        const category = input.dataset.category;
+        const limit = parseFloat(input.value) || 0;
+        
+        const existing = await window.solvyDB.getBudgetByCategory(category);
+        await window.solvyDB.setBudget({
+          id: existing?.id,
+          category,
+          limitAmount: limit,
+          period: 'monthly',
+          alertThreshold: 0.8
+        });
+      }
+      
+      closeModal('budgetModal');
+      await loadDashboard();
+    }
+
+    // ============================================================
+    // AI INSIGHTS
+    // ============================================================
+
+    async function requestAIInsights(type = 'full') {
+      const resultPanel = document.getElementById('aiResult');
+      const content = document.getElementById('aiContent');
+      
+      const typeLabels = { full: 'AI Insights', debt: 'Debt Analysis', savings: 'Savings Analysis' };
+      
+      resultPanel.classList.add('visible');
+      content.innerHTML = `<div class="loading"></div> ${typeLabels[type] || 'AI Insights'} analysis...`;
+      
+      const result = await BudgetService.requestAIAnalysis(type);
+      
+      if (result.success && result.insights) {
+        content.innerHTML = `<p>${result.insights.replace(/\n/g, '<br>')}</p>`;
+      } else if (result.offline) {
+        const localInsights = result.fallbackInsights || generateLocalInsights();
+        content.innerHTML = `<p><strong>📱 Offline Mode:</strong><br>${localInsights.replace(/\n/g, '<br>')}</p>`;
+      } else {
+        content.innerHTML = `<p style="color: var(--solvy-red);">Unable to connect to AI service. ${result.error || ''}</p>`;
+      }
+    }
+
+    function generateLocalInsights() {
+      if (!currentDashboardData) return 'No data available for analysis.';
+      
+      const s = currentDashboardData.summary;
+      const insights = [];
+      
+      if (s.netCashFlow < 0) {
+        insights.push(`⚠️ You're spending ${formatCurrency(Math.abs(s.netCashFlow))} more than you earn this month.`);
+      } else {
+        insights.push(`✅ Positive cash flow of ${formatCurrency(s.netCashFlow)}. Great job!`);
+      }
+      
+      if (currentDashboardData.overBudgetCount > 0) {
+        insights.push(`🚨 ${currentDashboardData.overBudgetCount} budget categories are over limit.`);
+      }
+      
+      const topExpense = currentDashboardData.categories[0];
+      if (topExpense) {
+        insights.push(`💡 Your highest spending category is ${topExpense.category} at ${formatCurrency(topExpense.actual)}.`);
+      }
+      
+      if (s.budgetUtilization > 90) {
+        insights.push(`📊 You're using ${s.budgetUtilization}% of your total budget. Consider reviewing discretionary spending.`);
+      }
+      
+      return insights.join('<br>');
+    }
+
+    // ============================================================
+    // TAX EXPORT
+    // ============================================================
+
+    async function downloadTaxJSON() {
+      const year = parseInt(document.getElementById('taxYear').value);
+      const summary = await BudgetService.exportTaxSummary(year);
+      
+      const dataStr = JSON.stringify(summary, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `solvy-tax-summary-${year}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      closeModal('taxModal');
+    }
+
+    async function downloadTaxCSV() {
+      const year = parseInt(document.getElementById('taxYear').value);
+      const csv = await BudgetService.exportTaxCSV(year);
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `solvy-tax-summary-${year}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      closeModal('taxModal');
+    }
+
+    async function downloadTransactionsCSV() {
+      const year = parseInt(document.getElementById('taxYear').value);
+      const csv = await BudgetService.exportTransactionsCSV(year);
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `solvy-transactions-${year}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      closeModal('taxModal');
+    }
+
+    // ============================================================
+    // RECURRING INCOME
+    // ============================================================
+
+    function renderRecurringIncome(recurring) {
+      const container = document.getElementById('recurringList');
+      if (!recurring || recurring.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔄</div><p>No recurring income detected yet. Add at least 2 income entries of the same type to detect patterns.</p></div>';
+        return;
+      }
+
+      container.innerHTML = recurring.map(r => {
+        const nextDate = r.nextExpected ? new Date(r.nextExpected).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Unknown';
+        const confidenceColor = r.confidence === 'high' ? 'var(--solvy-green)' : 'var(--solvy-gold)';
+        return `
+          <div class="list-item" style="padding: 14px 0;">
+            <div class="list-item-info">
+              <span class="list-item-title">${r.source}</span>
+              <span class="list-item-meta">${r.category} · ${r.frequency} · ${r.occurrences} deposits · Next: ${nextDate}</span>
+            </div>
+            <div style="text-align: right;">
+              <span class="list-item-amount income">+${formatCurrency(r.avgAmount)}</span>
+              <div style="font-size: 0.7rem; color: ${confidenceColor};">${r.confidence} confidence</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderIncomeSuggestions(suggestions) {
+      const container = document.getElementById('incomeSuggestions');
+      if (!suggestions || suggestions.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">💡</div><p>No income suggestions from transactions. Large deposits will be detected automatically.</p></div>';
+        return;
+      }
+
+      container.innerHTML = suggestions.map(s => `
+        <div class="list-item" style="padding: 14px 0;">
+          <div class="list-item-info">
+            <span class="list-item-title">${s.merchant}</span>
+            <span class="list-item-meta">${s.suggestion}</span>
+          </div>
+          <span class="list-item-amount income">+${formatCurrency(s.amount)}</span>
+        </div>
+      `).join('');
+    }
+
+    // ============================================================
+    // TRANSACTION SYNC
+    // ============================================================
+
+    async function syncTransactions() {
+      const statusEl = document.getElementById('syncStatus');
+      statusEl.style.display = 'block';
+      statusEl.innerHTML = '<span class="loading" style="width: 12px; height: 12px; border-width: 2px;"></span> Syncing card transactions...';
+      
+      try {
+        // Get account ID from localStorage or use a default
+        const accountId = localStorage.getItem('solvy_account_id') || 'demo-account';
+        const result = await BudgetService.syncVendorTransactions(accountId);
+        
+        if (result.error) {
+          statusEl.innerHTML = `⚠️ Sync issue: ${result.error}`;
+        } else {
+          statusEl.innerHTML = `✅ Synced: ${result.imported} new, ${result.skipped} already exist`;
+          await loadDashboard();
+        }
+      } catch (error) {
+        statusEl.innerHTML = `⚠️ Sync failed: ${error.message}`;
+      }
+      
+      setTimeout(() => {
+        statusEl.style.display = 'none';
+      }, 5000);
+    }
+
+    // ============================================================
+    // UTILITIES
+    // ============================================================
+
+    function formatCurrency(amount) {
+      const num = typeof amount === 'string' ? parseFloat(amount) : (amount || 0);
+      return '$' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tabName).classList.add('active');
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      if (id === 'budgetModal') renderBudgetForm();
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function toggleMobileMenu() {
+      // Simple toggle for mobile - could be expanded
+      alert('Mobile menu - navigate using page links');
+    }
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>
