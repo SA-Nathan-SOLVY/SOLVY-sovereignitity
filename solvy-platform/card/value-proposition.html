@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLVY Card™ Value Proposition — Valuing You</title>
+  <meta name="description" content="SOLVY Card™ is member-owned bill pay. Every interchange dollar returns to members. Compare market cards vs. cooperative ownership.">
+  <link rel="icon" type="image/png" href="../assets/SolvyLogo-1024.png">
+  <style>
+    :root {
+      --solvy-dark: #0f172a;
+      --solvy-darker: #020617;
+      --solvy-card: #1e293b;
+      --solvy-border: #334155;
+      --solvy-green: #22c55e;
+      --solvy-green-dim: rgba(34, 197, 94, 0.15);
+      --solvy-green-glow: rgba(34, 197, 94, 0.3);
+      --solvy-gold: #f59e0b;
+      --solvy-gold-dim: rgba(245, 158, 11, 0.15);
+      --solvy-blue: #3b82f6;
+      --solvy-purple: #a855f7;
+      --solvy-red: #ef4444;
+      --solvy-text: #e2e8f0;
+      --solvy-muted: #94a3b8;
+      --solvy-dim: #64748b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--solvy-dark);
+      color: var(--solvy-text);
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--solvy-border);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--solvy-text);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      color: var(--solvy-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--solvy-green); }
+
+    .nav-cta {
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+      padding: 8px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* Container */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(180deg, var(--solvy-green-dim), transparent);
+      border-bottom: 1px solid var(--solvy-border);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--solvy-green-dim);
+      color: var(--solvy-green);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      border: 1px solid var(--solvy-green-glow);
+    }
+
+    .hero h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .hero h1 span { color: var(--solvy-green); }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--solvy-muted);
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+    }
+
+    .btn-primary:hover { background: #16a34a; }
+
+    .btn-secondary {
+      background: var(--solvy-card);
+      color: var(--solvy-text);
+      border: 1px solid var(--solvy-border);
+    }
+
+    .btn-secondary:hover { background: var(--solvy-border); }
+
+    /* Section */
+    .section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--solvy-border);
+    }
+
+    .section:last-child { border-bottom: none; }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-subtitle {
+      color: var(--solvy-muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--solvy-border);
+      margin-bottom: 28px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    thead { background: var(--solvy-darker); }
+
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 600;
+      color: var(--solvy-muted);
+      border-bottom: 2px solid var(--solvy-border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: top;
+    }
+
+    tr:hover { background: rgba(255,255,255,0.02); }
+
+    .highlight-green { color: var(--solvy-green); font-weight: 600; }
+    .highlight-gold { color: var(--solvy-gold); font-weight: 600; }
+    .highlight-red { color: var(--solvy-red); }
+
+    /* Comparison Table Special */
+    .compare-table th:first-child,
+    .compare-table td:first-child {
+      font-weight: 500;
+      color: var(--solvy-muted);
+    }
+
+    .compare-table .market-col { color: var(--solvy-red); }
+    .compare-table .solvy-col { color: var(--solvy-green); font-weight: 600; }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .info-card {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .info-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .info-card-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .info-card-body {
+      font-size: 0.85rem;
+      color: var(--solvy-muted);
+      line-height: 1.5;
+    }
+
+    /* Flow Diagram */
+    .flow-diagram {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin: 28px 0;
+    }
+
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .flow-box {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      min-width: 140px;
+      text-align: center;
+    }
+
+    .flow-box.member { border-color: var(--solvy-green); background: var(--solvy-green-dim); }
+    .flow-box.bank { border-color: var(--solvy-red); background: var(--solvy-red-dim); }
+    .flow-box.solvy { border-color: var(--solvy-green); background: var(--solvy-green-dim); }
+
+    .flow-arrow {
+      font-size: 1.2rem;
+      color: var(--solvy-muted);
+    }
+
+    .flow-label {
+      font-size: 0.75rem;
+      color: var(--solvy-muted);
+      margin-top: 4px;
+    }
+
+    /* One Pager */
+    .one-pager {
+      background: var(--solvy-card);
+      border: 2px solid var(--solvy-green);
+      border-radius: 16px;
+      padding: 32px;
+      margin: 28px 0;
+      position: relative;
+    }
+
+    .one-pager::before {
+      content: 'ONE-PAGE PITCH';
+      position: absolute;
+      top: -10px;
+      left: 24px;
+      background: var(--solvy-dark);
+      color: var(--solvy-green);
+      padding: 2px 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .one-pager h3 {
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      color: var(--solvy-green);
+    }
+
+    .one-pager ol {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .one-pager li {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .one-pager strong {
+      color: var(--solvy-green);
+    }
+
+    /* Print Button */
+    .print-bar {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 200;
+    }
+
+    .print-btn {
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .print-btn:hover { background: #16a34a; }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      color: var(--solvy-dim);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--solvy-border);
+    }
+
+    /* Print Styles */
+    @media print {
+      body { background: white; color: black; }
+      .navbar, .print-bar, .hero-cta, .footer { display: none; }
+      .hero { background: none; border: none; padding: 20px; }
+      .section { border-bottom: 1px solid #ddd; padding: 24px 0; }
+      .table-wrap { border: 1px solid #ddd; }
+      .info-card { border: 1px solid #ddd; background: #f8f8f8; }
+      .one-pager { border: 2px solid #333; background: #f8f8f8; }
+      th { background: #eee; color: #333; }
+      td { border-bottom: 1px solid #eee; }
+      .highlight-green, .highlight-gold { color: #006400; font-weight: bold; }
+      .highlight-red { color: #8B0000; }
+      .flow-box { border: 1px solid #ccc; background: #f8f8f8; }
+      .flow-box.member, .flow-box.solvy { border-color: #006400; background: #e8f5e9; }
+      .flow-box.bank { border-color: #8B0000; background: #ffebee; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.6rem; }
+      .section-title { font-size: 1.2rem; }
+      table { font-size: 0.8rem; }
+      th, td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="../welcome.html" class="nav-logo">
+      <img src="../assets/SolvyLogo-1024.png" alt="SOLVY">
+      <span>SOLVY</span>
+    </a>
+    <div class="nav-links">
+      <a href="solvy-card.html">Card</a>
+      <a href="value-proposition.html" class="active">Value Prop</a>
+      <a href="../banking/index.html">Banking</a>
+      <a href="../accounting/index.html">Accounting</a>
+    </div>
+    <a href="../onboarding.html" class="nav-cta">Join First Circle</a>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">⚡ Member-Owned Cooperative</div>
+    <h1>SOLVY Card™ — <span>Valuing You</span></h1>
+    <p class="hero-subtitle">
+      Every time you pay a bill, a bank earns money from your money. 
+      SOLVY Card changes that. The value returns to you.
+    </p>
+    <div class="hero-cta">
+      <a href="../onboarding.html" class="btn btn-primary">Join the Cooperative →</a>
+      <a href="#comparison" class="btn btn-secondary">See the Comparison</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- The Problem -->
+    <div class="section">
+      <div class="section-title">🏦 The Current Market</div>
+      <div class="section-subtitle">How everyone else pays bills — and who keeps the value.</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Payment Method</th>
+              <th>Who Gets the Fee</th>
+              <th>Annual Cost (per $5K/month)</th>
+              <th>Ownership</th>
+              <th>Member Benefit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Cash</td>
+              <td>No one</td>
+              <td>$0</td>
+              <td>None</td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <td>Debit Card</td>
+              <td>Bank (interchange)</td>
+              <td>~$0</td>
+              <td>None</td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <td>Credit Card</td>
+              <td>Bank + Card Network</td>
+              <td class="highlight-red">~$900 (1.5% × $60K/yr)</td>
+              <td>None</td>
+              <td>Points (1–2% value)</td>
+            </tr>
+            <tr>
+              <td>Bill Pay (ACH)</td>
+              <td>Bank</td>
+              <td>$0–$120/year</td>
+              <td>None</td>
+              <td>Convenience</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-card" style="border-left: 3px solid var(--solvy-red);">
+        <div class="info-card-body">
+          <strong style="color: var(--solvy-red);">The Problem:</strong> Every time a member pays a bill, someone else (bank, network, processor) earns value from their money. The member earns nothing except maybe points that expire or lose value.
+        </div>
+      </div>
+    </div>
+
+    <!-- The Solution -->
+    <div class="section">
+      <div class="section-title">✅ The SOLVY Card Model</div>
+      <div class="section-subtitle">How members pay bills — and keep the value.</div>
+
+      <div class="cards-grid">
+        <div class="info-card">
+          <div class="info-card-header">
+            <div class="info-card-icon" style="background: var(--solvy-green-dim);">💳</div>
+            <div class="info-card-title">Bill Pay via SOLVY Card</div>
+          </div>
+          <div class="info-card-body">Members pay bills using one card. Convenience of centralized bill pay with ownership benefits.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-header">
+            <div class="info-card-icon" style="background: var(--solvy-gold-dim);">💰</div>
+            <div class="info-card-title">Interchange Revenue</div>
+          </div>
+          <div class="info-card-body">SOLVY captures ~1.5% of every transaction. Revenue stays in the member-owned system.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-header">
+            <div class="info-card-icon" style="background: var(--solvy-green-dim);">🏛️</div>
+            <div class="info-card-title">Ownership Stake</div>
+          </div>
+          <div class="info-card-body">Members own the cooperative. Profit sharing, dividends, or fee reductions — you decide.</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-header">
+            <div class="info-card-icon" style="background: var(--solvy-green-dim);">🗳️</div>
+            <div class="info-card-title">Member Governance</div>
+          </div>
+          <div class="info-card-body">Members vote on fee structure, rewards, and policies. Control over your own financial tool.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison -->
+    <div class="section" id="comparison">
+      <div class="section-title">⚖️ Market vs. SOLVY Card</div>
+      <div class="section-subtitle">Side-by-side comparison of what you get.</div>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="market-col">Market (Bank Card)</th>
+              <th class="solvy-col">SOLVY Card</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Who owns the program</td>
+              <td class="market-col">Bank or card network</td>
+              <td class="solvy-col">Members</td>
+            </tr>
+            <tr>
+              <td>Who keeps interchange revenue</td>
+              <td class="market-col">Bank (100%)</td>
+              <td class="solvy-col">Members (shared)</td>
+            </tr>
+            <tr>
+              <td>Annual fee</td>
+              <td class="market-col">Often $0–$95</td>
+              <td class="solvy-col">$0 (member-owned)</td>
+            </tr>
+            <tr>
+              <td>Reward points</td>
+              <td class="market-col">Yes (1-2% value, restricted)</td>
+              <td class="solvy-col">Profit share (cash value)</td>
+            </tr>
+            <tr>
+              <td>Points expiration</td>
+              <td class="market-col">Yes (often 12-24 months)</td>
+              <td class="solvy-col">No expiration (real equity)</td>
+            </tr>
+            <tr>
+              <td>Redemption options</td>
+              <td class="market-col">Limited (travel, gift cards)</td>
+              <td class="solvy-col">Cash back, fee reduction, reinvestment</td>
+            </tr>
+            <tr>
+              <td>Control over fees</td>
+              <td class="market-col">None (bank sets terms)</td>
+              <td class="solvy-col">Members vote</td>
+            </tr>
+            <tr>
+              <td>Transparency</td>
+              <td class="market-col">Low (complex fee schedules)</td>
+              <td class="solvy-col">High (open book)</td>
+            </tr>
+            <tr>
+              <td>Late fees</td>
+              <td class="market-col">$25–$40</td>
+              <td class="solvy-col">Set by members</td>
+            </tr>
+            <tr>
+              <td>Foreign transaction fees</td>
+              <td class="market-col">1-3%</td>
+              <td class="solvy-col">Set by members</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Financial Illustration -->
+    <div class="section">
+      <div class="section-title">📊 The Math (1,000 Members, $5K/month avg)</div>
+      <div class="section-subtitle">What happens to $900,000 in annual interchange.</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th class="market-col">Market Card (Bank)</th>
+              <th class="solvy-col">SOLVY Card</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Annual interchange revenue</td>
+              <td class="market-col">$900,000 → goes to bank</td>
+              <td class="solvy-col">$900,000 → goes to members</td>
+            </tr>
+            <tr>
+              <td>Member's share (1,000 members)</td>
+              <td class="market-col">$0</td>
+              <td class="solvy-col">~$900/member/year</td>
+            </tr>
+            <tr>
+              <td>Value received</td>
+              <td class="market-col">$900 in points (restricted)</td>
+              <td class="solvy-col">$900 in profit share (cash)</td>
+            </tr>
+            <tr>
+              <td>Ownership equity</td>
+              <td class="market-col">$0</td>
+              <td class="solvy-col">Proportional ownership</td>
+            </tr>
+            <tr>
+              <td>Control</td>
+              <td class="market-col">None</td>
+              <td class="solvy-col">Voting rights</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Ownership Advantage -->
+    <div class="section">
+      <div class="section-title">🔄 The Ownership Advantage</div>
+      <div class="section-subtitle">Where the value flows.</div>
+
+      <div class="flow-diagram">
+        <div class="flow-row">
+          <div class="flow-box member">👤 Member</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Pays Bill</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box bank">🏦 Bank</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Captures Value</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Member Gets Nothing</div>
+        </div>
+        <div style="text-align: center; font-size: 0.8rem; color: var(--solvy-muted); margin: 8px 0;">MARKET MODEL</div>
+
+        <div class="flow-row">
+          <div class="flow-box member">👤 Member</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Pays Bill</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box solvy">👑 SOLVY</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Captures Value</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box solvy">Value Returns to Member</div>
+        </div>
+        <div style="text-align: center; font-size: 0.8rem; color: var(--solvy-green); margin: 8px 0; font-weight: 600;">SOLVY MODEL</div>
+      </div>
+    </div>
+
+    <!-- One-Page Pitch -->
+    <div class="section">
+      <div class="section-title">📄 One-Page Pitch</div>
+      <div class="section-subtitle">Print and share.</div>
+
+      <div class="one-pager">
+        <h3>SOLVY CARD™</h3>
+        <p style="margin-bottom: 16px; font-size: 0.9rem;"><strong>What it is:</strong> A member-owned bill pay card that captures interchange revenue for the people who use it.</p>
+
+        <p style="margin-bottom: 8px; font-weight: 600;">How it works:</p>
+        <ol>
+          <li>You pay your monthly bills ($5,000 average) using SOLVY Card</li>
+          <li>SOLVY earns 1.5% interchange ($75 per month)</li>
+          <li>That $75 goes back to the member-owned cooperative</li>
+          <li>You get profit share, fee reductions, or cash back</li>
+        </ol>
+
+        <p style="margin-bottom: 8px; font-weight: 600;">What you get:</p>
+        <ul style="padding-left: 20px; margin-bottom: 16px; font-size: 0.9rem;">
+          <li><strong>$900 per year</strong> in value (based on $5K/month spending)</li>
+          <li><strong>Ownership stake</strong> in the cooperative</li>
+          <li><strong>Vote</strong> on fees, rewards, and policies</li>
+          <li><strong>No hidden markups</strong></li>
+        </ul>
+
+        <p style="margin-bottom: 8px; font-weight: 600;">What the market gives you:</p>
+        <ul style="padding-left: 20px; margin-bottom: 16px; font-size: 0.9rem; color: var(--solvy-muted);">
+          <li>Points that expire</li>
+          <li>No ownership</li>
+          <li>No control</li>
+          <li>Value goes to the bank</li>
+        </ul>
+
+        <p style="text-align: center; font-size: 1.1rem; font-weight: 700; color: var(--solvy-green); margin-top: 20px;">SOLVY = Valuing You.</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="section" style="text-align: center;">
+      <div class="section-title" style="justify-content: center;">Ready to Own Your Payments?</div>
+      <div class="section-subtitle" style="text-align: center;">Join the cooperative. Keep the value.</div>
+      <a href="../onboarding.html" class="btn btn-primary" style="font-size: 1rem; padding: 14px 32px;">Join First Circle →</a>
+      <p style="margin-top: 12px; font-size: 0.8rem; color: var(--solvy-muted);">$100 one-time equity deposit. FDIC-insured through Thread Bank, N.A.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p><strong>SOLVY Ecosystem™</strong> — Product of SA Nathan LLC</p>
+    <p>Member-owned cooperative banking. Data sovereignty by design.</p>
+    <p style="margin-top: 8px;"><em>"Leave them better than I received." — The Sheila Mandate</em></p>
+  </div>
+
+  <!-- Print Button -->
+  <div class="print-bar">
+    <button class="print-btn" onclick="window.print()">🖨️ Print This Page</button>
+  </div>
+</body>
+</html>
