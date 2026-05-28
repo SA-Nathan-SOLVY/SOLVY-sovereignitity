@@ -73,17 +73,29 @@ ssh root@$SERVER_IP "
     echo '✅ Code updated to:' \$(git log -1 --format='%h %s')
 "
 
-# Step 3: Install backend dependencies
-print_step "Installing backend dependencies..."
+# Step 3: Ensure build tools for native modules (better-sqlite3)
+print_step "Checking build tools for better-sqlite3..."
 ssh root@$SERVER_IP "
-    cd $DEPLOY_DIR/solvy-unit-integration && npm install --production
+    if ! command -v g++ &> /dev/null; then
+        echo 'Installing build-essential for native module compilation...'
+        apt-get update -qq && apt-get install -y -qq build-essential python3 make
+    fi
+    node -v
 "
 
-# Step 4: Copy .env to server
+# Step 4: Install backend dependencies
+print_step "Installing backend dependencies (includes better-sqlite3 native compile)..."
+ssh root@$SERVER_IP "
+    cd $DEPLOY_DIR/solvy-unit-integration && npm install
+    # Verify better-sqlite3 compiled successfully
+    node -e \"require('better-sqlite3'); console.log('better-sqlite3 OK');\"
+"
+
+# Step 5: Copy .env to server
 print_step "Copying environment configuration..."
 rsync -avz solvy-unit-integration/.env root@$SERVER_IP:$DEPLOY_DIR/solvy-unit-integration/.env
 
-# Step 5: Deploy frontend to nginx web root
+# Step 6: Deploy frontend to nginx web root
 print_step "Deploying frontend to nginx..."
 ssh root@$SERVER_IP "
     mkdir -p $FRONTEND_DIR
@@ -91,33 +103,35 @@ ssh root@$SERVER_IP "
     chown -R www-data:www-data $FRONTEND_DIR
 "
 
-# Step 6: Restart services
+# Step 7: Restart services
 print_step "Restarting SOLVY API service..."
 ssh root@$SERVER_IP "
-    # Check if PM2 is managing the service
     if command -v pm2 &> /dev/null; then
         cd $DEPLOY_DIR/solvy-unit-integration
         pm2 restart solvy-api 2>/dev/null || pm2 start server.js --name solvy-api
         pm2 save
     else
-        # Fallback: run with nohup
         cd $DEPLOY_DIR/solvy-unit-integration
         pkill -f 'node server.js' 2>/dev/null || true
         nohup node server.js > /var/log/solvy-api.log 2>&1 &
     fi
 "
 
-# Step 7: Reload nginx
+# Step 8: Reload nginx
 print_step "Reloading nginx..."
 ssh root@$SERVER_IP "nginx -t && systemctl reload nginx"
 
-# Step 8: Health check
+# Step 9: Health checks
 print_step "Running health checks..."
 sleep 3
 
 echo ""
 echo "API Health:"
 curl -s http://$SERVER_IP:3000/health || print_warn "API not responding on port 3000"
+
+echo ""
+echo "Prelaunch API:"
+curl -s http://$SERVER_IP:3000/api/prelaunch/commitments | head -c 200 || print_warn "Prelaunch endpoint not responding"
 
 echo ""
 echo "Frontend:"
