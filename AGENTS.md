@@ -8,7 +8,7 @@
 
 **SOLVY Ecosystem™** is a cooperative financial platform building generational wealth infrastructure for families who survived slavery, displacement, and colonialism through cooperative economic ownership.
 
-- **Entity:** SA Nathan LLC (Wyoming cooperative)
+- **Entity:** SA Nathan LLC (Texas LLC — cooperative structure)
 - **Mission:** "Leave them better than I received." — The Sheila Mandate
 - **Launch Target:** June 19, 2026 (Juneteenth)
 - **Current Phase:** Foundation First (Core infrastructure before advanced features)

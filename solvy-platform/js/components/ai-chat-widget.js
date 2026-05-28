@@ -52,7 +52,7 @@
       },
       {
         keywords: ['cooperative', 'co-op', 'coop', 'what is a cooperative', 'member owned'],
-        response: "A cooperative is a business owned and governed by its members — that's you!\n\nUnlike traditional banks that answer to shareholders, SOLVY answers to its members. You have a vote in how the cooperative operates, and you share in the profits through patronage dividends.\n\nSA Nathan LLC operates as a Wyoming cooperative, which means our legal structure requires member benefit to come first."
+        response: "A cooperative is a business owned and governed by its members — that's you!\n\nUnlike traditional banks that answer to shareholders, SOLVY answers to its members. You have a vote in how the cooperative operates, and you share in the profits through patronage dividends.\n\nSA Nathan LLC operates as a Texas LLC with cooperative structure, which means our legal structure requires member benefit to come first."
       },
       {
         keywords: ['data sovereignty', 'privacy', 'my data', 'who sees my data', 'local storage', 'indexeddb'],
