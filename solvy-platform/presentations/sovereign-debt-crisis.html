@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Crisis & SOLVY's Remedy</title>
+  <link rel="icon" type="image/png" href="../assets/SolvyLogo-1024.png">
+  <style>
+    :root {
+      --solvy-dark: #0f172a;
+      --solvy-darker: #020617;
+      --solvy-card: #1e293b;
+      --solvy-border: #334155;
+      --solvy-green: #22c55e;
+      --solvy-green-dim: rgba(34, 197, 94, 0.15);
+      --solvy-gold: #f59e0b;
+      --solvy-red: #ef4444;
+      --solvy-red-dim: rgba(239, 68, 68, 0.15);
+      --solvy-blue: #3b82f6;
+      --solvy-purple: #a855f7;
+      --solvy-text: #e2e8f0;
+      --solvy-muted: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--solvy-dark);
+      color: var(--solvy-text);
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .slides-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      opacity: 0;
+      transform: translateX(100px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: all;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+
+    .slide-number {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-size: 0.75rem;
+      color: var(--solvy-muted);
+      font-weight: 500;
+    }
+
+    .slide-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    .slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .slide-title span { color: var(--solvy-green); }
+    .slide-title .warning { color: var(--solvy-red); }
+    .slide-title .gold { color: var(--solvy-gold); }
+
+    .slide-subtitle {
+      font-size: 1.1rem;
+      color: var(--solvy-muted);
+      max-width: 640px;
+      text-align: center;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .highlight-box {
+      background: var(--solvy-red-dim);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 12px;
+      padding: 16px 24px;
+      max-width: 600px;
+      text-align: center;
+      margin: 16px 0;
+      font-size: 1rem;
+    }
+
+    .highlight-box.green {
+      background: var(--solvy-green-dim);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      max-width: 800px;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    .stat-card {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-card.danger { border-left: 3px solid var(--solvy-red); }
+    .stat-card.warning { border-left: 3px solid var(--solvy-gold); }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .stat-value.red { color: var(--solvy-red); }
+    .stat-value.gold { color: var(--solvy-gold); }
+    .stat-value.green { color: var(--solvy-green); }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--solvy-muted);
+      line-height: 1.4;
+    }
+
+    .flow-comparison {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 900px;
+      margin: 20px 0;
+    }
+
+    .flow-box {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 12px;
+      padding: 20px;
+      width: 260px;
+      text-align: center;
+    }
+
+    .flow-box.danger { border-color: var(--solvy-red); }
+    .flow-box.solution { border-color: var(--solvy-green); background: var(--solvy-green-dim); }
+
+    .flow-box-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .flow-box-body {
+      font-size: 0.82rem;
+      color: var(--solvy-muted);
+      line-height: 1.5;
+    }
+
+    .arrow-down {
+      text-align: center;
+      color: var(--solvy-muted);
+      font-size: 1.5rem;
+      margin: 8px 0;
+    }
+
+    .cta-btn {
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      display: inline-block;
+      margin-top: 16px;
+      transition: all 0.2s;
+    }
+
+    .cta-btn:hover { background: #16a34a; transform: translateY(-2px); }
+
+    .quote-block {
+      border-left: 3px solid var(--solvy-green);
+      padding-left: 20px;
+      margin: 20px 0;
+      max-width: 600px;
+      font-style: italic;
+      color: var(--solvy-muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .quote-block .author {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--solvy-green);
+      margin-top: 8px;
+      display: block;
+    }
+
+    /* Navigation */
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: var(--solvy-green);
+      transition: width 0.4s ease;
+      z-index: 100;
+    }
+
+    .nav-controls {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      color: var(--solvy-text);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+      border-color: var(--solvy-green);
+    }
+
+    .nav-dots { display: flex; gap: 8px; }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--solvy-border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-dot.active {
+      background: var(--solvy-green);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .auto-play-btn {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      color: var(--solvy-muted);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    .auto-play-btn.active { color: var(--solvy-green); border-color: var(--solvy-green); }
+
+    @media (max-width: 768px) {
+      .slide-title { font-size: 1.5rem; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .flow-comparison { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+    <div class="progress-bar" id="progressBar"></div>
+    <button class="auto-play-btn" id="autoPlayBtn" onclick="toggleAutoPlay()">▶ Auto Play</button>
+
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+      <div class="slide-number">1 / 10</div>
+      <div class="slide-icon">⚠️</div>
+      <div class="slide-title">The Crisis You <span class="warning">Don't See</span> Coming</div>
+      <div class="slide-subtitle">The bond market is breaking. Central banks are trapped. Your money is at risk. SOLVY has a way out.</div>
+      <div class="highlight-box">
+        <strong>Based on analysis by Andrei Jikh</strong><br>
+        Global sovereign debt crisis & bond market instability
+      </div>
+    </div>
+
+    <!-- Slide 2: The Bond Market Trap -->
+    <div class="slide">
+      <div class="slide-number">2 / 10</div>
+      <div class="slide-icon">🪤</div>
+      <div class="slide-title">The <span class="warning">Bond Market Trap</span></div>
+      <div class="slide-subtitle">The backbone of all markets is cracking. Trust in government debt is failing.</div>
+      <div class="stat-grid">
+        <div class="stat-card danger">
+          <div class="stat-value red">↑ Yields</div>
+          <div class="stat-label">Investors demand higher returns due to inflation and solvency fears</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-value red">Trapped</div>
+          <div class="stat-label">Fed can't lower rates (breaks bonds) or keep them high (breaks economy)</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-value red">Distrust</div>
+          <div class="stat-label">Global confidence in government debt is eroding rapidly</div>
+        </div>
+      </div>
+      <div class="quote-block">
+        "The Federal Reserve is caught between two impossible choices: lowering interest rates to support the economy, which would break the bond market, or maintaining high rates, which risks breaking the economy."
+        <span class="author">— Andrei Jikh</span>
+      </div>
+    </div>
+
+    <!-- Slide 3: Inflation -->
+    <div class="slide">
+      <div class="slide-number">3 / 10</div>
+      <div class="slide-icon">📈</div>
+      <div class="slide-title">Inflation is <span class="warning">Eroding Value</span></div>
+      <div class="slide-subtitle">Persistent inflation is destroying the real value of bonds, savings, and wages.</div>
+      <div class="stat-grid">
+        <div class="stat-card warning">
+          <div class="stat-value gold">3.8%</div>
+          <div class="stat-label">CPI — Consumer Price Index</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-value gold">6%</div>
+          <div class="stat-label">PPI — Producer Price Index</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-value red">-Real</div>
+          <div class="stat-label">Real bond returns are negative after inflation</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <strong>The Hidden Tax:</strong> Every dollar in your savings account loses purchasing power daily. The system is designed to inflate away debt — at your expense.
+      </div>
+    </div>
+
+    <!-- Slide 4: Foreign Divestment -->
+    <div class="slide">
+      <div class="slide-number">4 / 10</div>
+      <div class="slide-icon">🏃</div>
+      <div class="slide-title">Foreign Buyers are <span class="warning">Leaving</span></div>
+      <div class="slide-subtitle">Major holders of US debt are selling. Demand is collapsing.</div>
+      <div class="flow-comparison">
+        <div class="flow-box danger">
+          <div class="flow-box-title">🇨🇳 China</div>
+          <div class="flow-box-body">Selling US Treasuries to reduce dollar dependency and geopolitical risk</div>
+        </div>
+        <div class="flow-box danger">
+          <div class="flow-box-title">🇯🇵 Japan</div>
+          <div class="flow-box-body">Selling Treasuries to defend the yen and purchase oil</div>
+        </div>
+        <div class="flow-box danger">
+          <div class="flow-box-title">📉 Result</div>
+          <div class="flow-box-body">Reduced demand for US debt forces higher yields = higher borrowing costs for everyone</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        When the world's largest creditors stop buying your debt, you have only one option left: <strong>print more money.</strong>
+      </div>
+    </div>
+
+    <!-- Slide 5: Unsustainable Math -->
+    <div class="slide">
+      <div class="slide-number">5 / 10</div>
+      <div class="slide-icon">🔢</div>
+      <div class="slide-title">The Math is <span class="warning">Impossible</span></div>
+      <div class="slide-subtitle">The US government has painted itself into a corner with no escape hatch.</div>
+      <div class="stat-grid">
+        <div class="stat-card danger">
+          <div class="stat-value red">$39T+</div>
+          <div class="stat-label">Total US National Debt</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-value red">50%</div>
+          <div class="stat-label">Of tax revenue spent just covering NEW debt additions</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-value red">∞</div>
+          <div class="stat-label">Money printing is the only perceived long-term exit strategy</div>
+        </div>
+      </div>
+      <div class="quote-block">
+        "The US government spends half its tax revenue just to cover new debt additions. The only way out is to print money — which destroys the currency."
+        <span class="author">— Andrei Jikh</span>
+      </div>
+    </div>
+
+    <!-- Slide 6: The Fed's Choice -->
+    <div class="slide">
+      <div class="slide-number">6 / 10</div>
+      <div class="slide-icon">⚖️</div>
+      <div class="slide-title">The Fed's <span class="warning">Impossible Choice</span></div>
+      <div class="slide-subtitle">No matter what they do, something breaks. And you're holding the bag.</div>
+      <div class="flow-comparison">
+        <div class="flow-box danger">
+          <div class="flow-box-title">Lower Rates</div>
+          <div class="flow-box-body">Helps the economy short-term<br><strong>→ Breaks the bond market</strong><br>Yields spike, currency crashes</div>
+        </div>
+        <div class="flow-box" style="display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--solvy-muted);">VS</div>
+        <div class="flow-box danger">
+          <div class="flow-box-title">Keep Rates High</div>
+          <div class="flow-box-body">Stabilizes bonds short-term<br><strong>→ Breaks the economy</strong><br>Recession, unemployment, defaults</div>
+        </div>
+      </div>
+      <div class="highlight-box green">
+        <strong>The Market Knows:</strong> Stocks are at record highs because investors are pricing in the inevitable — the Fed will be forced to print money to bail out the system.
+      </div>
+    </div>
+
+    <!-- Slide 7: What This Means for You -->
+    <div class="slide">
+      <div class="slide-number">7 / 10</div>
+      <div class="slide-icon">💸</div>
+      <div class="slide-title">What This Means for <span class="warning">Your Money</span></div>
+      <div class="slide-subtitle">Traditional safe havens are failing. You need a new strategy.</div>
+      <div class="stat-grid">
+        <div class="stat-card warning">
+          <div class="stat-value gold">📉 Stocks</div>
+          <div class="stat-label">Historically expensive by multiple metrics including adjusted Buffett Indicator</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-value gold">🏦 Bonds</div>
+          <div class="stat-label">Negative real returns. Foreign divestment. Sovereign risk rising.</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-value gold">💵 Cash</div>
+          <div class="stat-label">Losing 3-6% purchasing power annually to inflation</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <strong>The Old Playbook is Broken:</strong> 60/40 portfolios, savings accounts, and government bonds won't protect you in a sovereign debt crisis.
+      </div>
+    </div>
+
+    <!-- Slide 8: SOLVY's Solution -->
+    <div class="slide">
+      <div class="slide-number">8 / 10</div>
+      <div class="slide-icon">🛡️</div>
+      <div class="slide-title">SOLVY's <span>Cooperative Solution</span></div>
+      <div class="slide-subtitle">When the system fails individuals, cooperation becomes survival.</div>
+      <div class="flow-comparison">
+        <div class="flow-box solution">
+          <div class="flow-box-title">🏛️ Ownership</div>
+          <div class="flow-box-body">You own the bank, not Wall Street. Your equity stake grows with the cooperative.</div>
+        </div>
+        <div class="flow-box solution">
+          <div class="flow-box-title">💰 Revenue Share</div>
+          <div class="flow-box-body">70% of interchange returns to members. The value stays in the community.</div>
+        </div>
+        <div class="flow-box solution">
+          <div class="flow-box-title">🗳️ Governance</div>
+          <div class="flow-box-body">Members vote on fees, policies, and expansion. No hidden decisions.</div>
+        </div>
+      </div>
+      <div class="highlight-box green">
+        <strong>SOLVY doesn't fight the system — it replaces it.</strong> A member-owned cooperative where your spending builds wealth for you, not shareholders.
+      </div>
+    </div>
+
+    <!-- Slide 9: The Sheila Mandate -->
+    <div class="slide">
+      <div class="slide-number">9 / 10</div>
+      <div class="slide-icon">👑</div>
+      <div class="slide-title">The <span>Sheila Mandate</span></div>
+      <div class="slide-subtitle">"Leave them better than I received." — The founding principle of SOLVY.</div>
+      <div class="quote-block">
+        "The current financial system extracts value from communities and concentrates it on Wall Street. SOLVY reverses that flow. Every transaction builds cooperative wealth. Every member is an owner. Every generation inherits something better."
+        <span class="author">— SOLVY Manifesto</span>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-value green">70%</div>
+          <div class="stat-label">Member patronage dividends</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value green">20%</div>
+          <div class="stat-label">Community development pool</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value green">10%</div>
+          <div class="stat-label">Operations reserve</div>
+        </div>
+      </div>
+      <div class="highlight-box green">
+        No shareholders. No extraction. Just members building wealth together.
+      </div>
+    </div>
+
+    <!-- Slide 10: CTA -->
+    <div class="slide">
+      <div class="slide-number">10 / 10</div>
+      <div class="slide-icon">✊</div>
+      <div class="slide-title">Don't Wait for the <span class="warning">Collapse</span></div>
+      <div class="slide-subtitle">Build your financial sovereignty now. Join the cooperative before the crisis accelerates.</div>
+      <div class="flow-comparison">
+        <div class="flow-box danger">
+          <div class="flow-box-title">The Market Gives You</div>
+          <div class="flow-box-body">Points that expire<br>No ownership<br>No control<br>Value to Wall Street</div>
+        </div>
+        <div class="flow-box solution">
+          <div class="flow-box-title">SOLVY Gives You</div>
+          <div class="flow-box-body">Cash profit share<br>Ownership equity<br>Voting rights<br>Value to your community</div>
+        </div>
+      </div>
+      <a href="https://ebl.beauty/onboarding.html" class="cta-btn">Join First Circle →</a>
+      <p style="margin-top: 16px; font-size: 0.8rem; color: var(--solvy-muted);">$100 one-time equity deposit. Member-owned. FDIC-insured.</p>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="prevSlide()">←</button>
+    <div class="nav-dots" id="navDots"></div>
+    <button class="nav-btn" onclick="nextSlide()">→</button>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let autoPlayInterval = null;
+    const autoPlayDelay = 7000;
+
+    const dotsContainer = document.getElementById('navDots');
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function updateSlides() {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'prev');
+        if (i === currentSlide) slide.classList.add('active');
+        else if (i < currentSlide) slide.classList.add('prev');
+      });
+      document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+      document.getElementById('progressBar').style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+    }
+
+    function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateSlides(); }
+    function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateSlides(); }
+    function goToSlide(n) { currentSlide = n; updateSlides(); }
+
+    function toggleAutoPlay() {
+      const btn = document.getElementById('autoPlayBtn');
+      if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = null;
+        btn.classList.remove('active');
+        btn.textContent = '▶ Auto Play';
+      } else {
+        autoPlayInterval = setInterval(nextSlide, autoPlayDelay);
+        btn.classList.add('active');
+        btn.textContent = '⏸ Pause';
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+    document.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+    });
+
+    updateSlides();
+  </script>
+</body>
+</html>

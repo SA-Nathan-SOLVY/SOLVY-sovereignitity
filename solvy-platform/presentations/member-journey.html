@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your SOLVY Journey — Member Flow</title>
+  <link rel="icon" type="image/png" href="../assets/SolvyLogo-1024.png">
+  <style>
+    :root {
+      --solvy-dark: #0f172a;
+      --solvy-darker: #020617;
+      --solvy-card: #1e293b;
+      --solvy-border: #334155;
+      --solvy-green: #22c55e;
+      --solvy-green-dim: rgba(34, 197, 94, 0.15);
+      --solvy-green-glow: rgba(34, 197, 94, 0.3);
+      --solvy-gold: #f59e0b;
+      --solvy-blue: #3b82f6;
+      --solvy-purple: #a855f7;
+      --solvy-red: #ef4444;
+      --solvy-text: #e2e8f0;
+      --solvy-muted: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--solvy-dark);
+      color: var(--solvy-text);
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* Slide Container */
+    .slides-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      opacity: 0;
+      transform: translateX(100px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: all;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+
+    /* Slide Content */
+    .slide-number {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-size: 0.75rem;
+      color: var(--solvy-muted);
+      font-weight: 500;
+    }
+
+    .slide-icon {
+      font-size: 4rem;
+      margin-bottom: 24px;
+    }
+
+    .slide-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .slide-title span {
+      color: var(--solvy-green);
+    }
+
+    .slide-subtitle {
+      font-size: 1.1rem;
+      color: var(--solvy-muted);
+      max-width: 600px;
+      text-align: center;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* Flow Steps */
+    .flow-steps {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 900px;
+      margin-bottom: 32px;
+    }
+
+    .flow-step {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      border-radius: 14px;
+      padding: 20px;
+      width: 200px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .flow-step:hover {
+      border-color: var(--solvy-green);
+      transform: translateY(-4px);
+    }
+
+    .flow-step.active-step {
+      border-color: var(--solvy-green);
+      background: var(--solvy-green-dim);
+    }
+
+    .flow-step-num {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .flow-step-icon {
+      font-size: 2rem;
+      margin: 8px 0;
+    }
+
+    .flow-step-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .flow-step-desc {
+      font-size: 0.75rem;
+      color: var(--solvy-muted);
+      line-height: 1.4;
+    }
+
+    /* Arrow between steps */
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      color: var(--solvy-green);
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .flow-steps { flex-direction: column; align-items: center; }
+      .flow-arrow { transform: rotate(90deg); margin: 4px 0; }
+      .slide-title { font-size: 1.5rem; }
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: var(--solvy-green);
+      transition: width 0.4s ease;
+      z-index: 100;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      color: var(--solvy-text);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+      border-color: var(--solvy-green);
+    }
+
+    .nav-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--solvy-border);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-dot.active {
+      background: var(--solvy-green);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .auto-play-btn {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      background: var(--solvy-card);
+      border: 1px solid var(--solvy-border);
+      color: var(--solvy-muted);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    .auto-play-btn.active {
+      color: var(--solvy-green);
+      border-color: var(--solvy-green);
+    }
+
+    /* CTA Button */
+    .cta-btn {
+      background: var(--solvy-green);
+      color: var(--solvy-darker);
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+
+    .cta-btn:hover {
+      background: #16a34a;
+      transform: translateY(-2px);
+    }
+
+    /* Key stats */
+    .stats-row {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      margin: 24px 0;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--solvy-green);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--solvy-muted);
+    }
+
+    /* List items */
+    .benefit-list {
+      list-style: none;
+      max-width: 500px;
+      margin: 20px auto;
+    }
+
+    .benefit-list li {
+      padding: 10px 0;
+      padding-left: 28px;
+      position: relative;
+      font-size: 0.95rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .benefit-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--solvy-green);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="slides-container">
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Auto-play Toggle -->
+    <button class="auto-play-btn" id="autoPlayBtn" onclick="toggleAutoPlay()">▶ Auto Play</button>
+
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+      <div class="slide-number">1 / 8</div>
+      <div class="slide-icon">🗺️</div>
+      <div class="slide-title">Your <span>SOLVY Journey</span></div>
+      <div class="slide-subtitle">From discovery to ownership — how you become a member of the cooperative</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value">8</div><div class="stat-label">Steps</div></div>
+        <div class="stat-item"><div class="stat-value">$100</div><div class="stat-label">To Start</div></div>
+        <div class="stat-item"><div class="stat-value">∞</div><div class="stat-label">Ownership</div></div>
+      </div>
+      <a href="https://ebl.beauty/welcome.html" class="cta-btn">Start Your Journey →</a>
+    </div>
+
+    <!-- Slide 2: Discover -->
+    <div class="slide">
+      <div class="slide-number">2 / 8</div>
+      <div class="slide-icon">👁️</div>
+      <div class="slide-title"><span>Discover</span> SOLVY</div>
+      <div class="slide-subtitle">Learn what makes SOLVY different from every bank you've ever used</div>
+      <div class="flow-steps">
+        <div class="flow-step active-step">
+          <div class="flow-step-num">1</div>
+          <div class="flow-step-icon">🏠</div>
+          <div class="flow-step-title">Welcome Page</div>
+          <div class="flow-step-desc">ebl.beauty/welcome.html</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div class="flow-step-icon">📄</div>
+          <div class="flow-step-title">Value Prop</div>
+          <div class="flow-step-desc">See the math: market vs. SOLVY</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <div class="flow-step-icon">📜</div>
+          <div class="flow-step-title">Manifesto</div>
+          <div class="flow-step-desc">The Sheila Mandate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Learn -->
+    <div class="slide">
+      <div class="slide-number">3 / 8</div>
+      <div class="slide-icon">📚</div>
+      <div class="slide-title"><span>Learn</span> the Model</div>
+      <div class="slide-subtitle">Understand the 70/20/10 split and why ownership matters</div>
+      <ul class="benefit-list">
+        <li><strong>70%</strong> of interchange returns to members as patronage dividends</li>
+        <li><strong>20%</strong> funds community development and cooperative growth</li>
+        <li><strong>10%</strong> covers operations — no shareholders, no profit extraction</li>
+        <li>You <strong>vote</strong> on fee structures, policies, and cooperative decisions</li>
+        <li>Your data stays on <strong>your device</strong> — local-first architecture</li>
+      </ul>
+    </div>
+
+    <!-- Slide 4: Commit -->
+    <div class="slide">
+      <div class="slide-number">4 / 8</div>
+      <div class="slide-icon">🤝</div>
+      <div class="slide-title"><span>Commit</span> to First Circle</div>
+      <div class="slide-subtitle">A $100 one-time equity deposit makes you a founding member</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value">$100</div><div class="stat-label">One-Time Deposit</div></div>
+        <div class="stat-item"><div class="stat-value">$0</div><div class="stat-label">Annual Fee</div></div>
+        <div class="stat-item"><div class="stat-value">Founding</div><div class="stat-label">Member Status</div></div>
+      </div>
+      <ul class="benefit-list">
+        <li>Equity stake in SA Nathan LLC cooperative</li>
+        <li>Voting rights on cooperative governance</li>
+        <li>Priority access to SOLVY Card™ issuance</li>
+        <li>Patronage dividends based on card usage</li>
+      </ul>
+      <a href="https://ebl.beauty/first-circle-deposit.html" class="cta-btn">Join First Circle →</a>
+    </div>
+
+    <!-- Slide 5: Onboard -->
+    <div class="slide">
+      <div class="slide-number">5 / 8</div>
+      <div class="slide-icon">🆔</div>
+      <div class="slide-title"><span>Onboard</span> Securely</div>
+      <div class="slide-subtitle">Identity verification through Unit.co + Thread Bank</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
+          <div class="flow-step-icon">📝</div>
+          <div class="flow-step-title">Identity Check</div>
+          <div class="flow-step-desc">SSN, address, ID verification</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div class="flow-step-icon">🏦</div>
+          <div class="flow-step-title">Account Created</div>
+          <div class="flow-step-desc">FDIC-insured deposit account</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <div class="flow-step-icon">💳</div>
+          <div class="flow-step-title">Card Issued</div>
+          <div class="flow-step-desc">SOLVY Card mailed to you</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Activate -->
+    <div class="slide">
+      <div class="slide-number">6 / 8</div>
+      <div class="slide-icon">⚡</div>
+      <div class="slide-title"><span>Activate</span> Your Card</div>
+      <div class="slide-subtitle">Start using SOLVY Card for everyday purchases and bill pay</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value">~1.5%</div><div class="stat-label">Interchange Generated</div></div>
+        <div class="stat-item"><div class="stat-value">70%</div><div class="stat-label">Returns to You</div></div>
+        <div class="stat-item"><div class="stat-value">$0</div><div class="stat-label">Card Annual Fee</div></div>
+      </div>
+      <ul class="benefit-list">
+        <li>Use SOLVY Card for groceries, gas, bills — everything</li>
+        <li>Track spending in the Accounting dashboard</li>
+        <li>Set budgets and savings goals</li>
+        <li>Every purchase builds cooperative revenue</li>
+      </ul>
+    </div>
+
+    <!-- Slide 7: Grow -->
+    <div class="slide">
+      <div class="slide-number">7 / 8</div>
+      <div class="slide-icon">🌱</div>
+      <div class="slide-title"><span>Grow</span> With the Community</div>
+      <div class="slide-subtitle">Participate, vote, and benefit from collective growth</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-icon">📊</div>
+          <div class="flow-step-title">Accounting</div>
+          <div class="flow-step-desc">Budget, track, save, export taxes</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-icon">👥</div>
+          <div class="flow-step-title">Community</div>
+          <div class="flow-step-desc">Connect with other members</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-icon">🗳️</div>
+          <div class="flow-step-title">Vote</div>
+          <div class="flow-step-desc">Govern cooperative decisions</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-icon">🎯</div>
+          <div class="flow-step-title">Goals</div>
+          <div class="flow-step-desc">Savings milestones & tracking</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Build Wealth -->
+    <div class="slide">
+      <div class="slide-number">8 / 8</div>
+      <div class="slide-icon">👑</div>
+      <div class="slide-title"><span>Build</span> Generational Wealth</div>
+      <div class="slide-subtitle">Leave them better than you received. The Sheila Mandate in action.</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value">$900/yr</div><div class="stat-label">Avg Member Value</div></div>
+        <div class="stat-item"><div class="stat-value">∞</div><div class="stat-label">Ownership Equity</div></div>
+        <div class="stat-item"><div class="stat-value">100%</div><div class="stat-label">Member Controlled</div></div>
+      </div>
+      <ul class="benefit-list">
+        <li>Patronage dividends paid quarterly</li>
+        <li>Ownership stake grows with cooperative</li>
+        <li>Vote on expansion, partners, and policy</li>
+        <li>Transfer ownership to next generation</li>
+        <li><strong>"Leave them better than I received."</strong></li>
+      </ul>
+      <a href="https://ebl.beauty/onboarding.html" class="cta-btn">Begin Your Journey →</a>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="prevSlide()">←</button>
+    <div class="nav-dots" id="navDots"></div>
+    <button class="nav-btn" onclick="nextSlide()">→</button>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let autoPlayInterval = null;
+    const autoPlayDelay = 6000;
+
+    // Create dots
+    const dotsContainer = document.getElementById('navDots');
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function updateSlides() {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'prev');
+        if (i === currentSlide) slide.classList.add('active');
+        else if (i < currentSlide) slide.classList.add('prev');
+      });
+
+      document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+
+      document.getElementById('progressBar').style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlides();
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSlides();
+    }
+
+    function goToSlide(n) {
+      currentSlide = n;
+      updateSlides();
+    }
+
+    function toggleAutoPlay() {
+      const btn = document.getElementById('autoPlayBtn');
+      if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = null;
+        btn.classList.remove('active');
+        btn.textContent = '▶ Auto Play';
+      } else {
+        autoPlayInterval = setInterval(nextSlide, autoPlayDelay);
+        btn.classList.add('active');
+        btn.textContent = '⏸ Pause';
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Touch/swipe support
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+    document.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+    });
+
+    updateSlides();
+  </script>
+</body>
+</html>
