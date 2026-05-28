@@ -26,7 +26,8 @@ set -e
 
 # ─── Configuration ──────────────────────────────────────────────────────────
 SERVER_IP="${SERVER_IP:-$(curl -s ifconfig.me)}"
-DOMAIN="${DOMAIN:-ebl.beauty}"
+DOMAIN="${DOMAIN:-solvy.cards}"
+EBL_DOMAIN="${EBL_DOMAIN:-ebl.beauty}"
 GITEA_DOMAIN="${GITEA_DOMAIN:-gitea.ebl.beauty}"
 GRAFANA_DOMAIN="${GRAFANA_DOMAIN:-grafana.ebl.beauty}"
 DEPLOY_DIR="${DEPLOY_DIR:-/var/www/ebl.beauty}"
@@ -73,7 +74,7 @@ if [[ ! "$UBUNTU_VERSION" =~ ^(22|24)\. ]]; then
 fi
 
 step "SOLVY Ecosystem™ — Complete VPS Setup"
-log "Target: $SERVER_IP ($DOMAIN)"
+log "SOLVY: $DOMAIN | EBL: $EBL_DOMAIN | Server: $SERVER_IP"
 log "User:   $SOLVY_USER"
 log "Ubuntu: $UBUNTU_VERSION"
 
@@ -519,7 +520,7 @@ warn "NEXT STEPS:"
 warn "  1. SSH hardening: edit /etc/ssh/sshd_config (disable root login, change port)"
 warn "  2. Copy .env: cp $DEPLOY_DIR/backend/.env.example $DEPLOY_DIR/backend/.env"
 warn "  3. Edit .env: nano $DEPLOY_DIR/backend/.env  ← FILL IN ALL VALUES"
-warn "  4. SSL cert: certbot --nginx -d $DOMAIN -d www.$DOMAIN"
+warn "  4. SSL cert: certbot --nginx -d $DOMAIN -d www.$DOMAIN -d $EBL_DOMAIN -d www.$EBL_DOMAIN"
 warn "  5. Deploy app: clone repo + run deployment script"
 warn "  6. Grafana password: change $MONITORING_DIR/secrets/grafana_admin_password.txt"
 echo ""

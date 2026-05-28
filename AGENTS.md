@@ -12,7 +12,8 @@
 - **Mission:** "Leave them better than I received." — The Sheila Mandate
 - **Launch Target:** June 19, 2026 (Juneteenth)
 - **Current Phase:** Foundation First (Core infrastructure before advanced features)
-- **Domain:** https://ebl.beauty
+- **Primary Domain:** https://solvy.cards
+- **EBL Client Domain:** https://ebl.beauty (Pilot Partner #1)
 - **Git Server:** https://gitea.ebl.beauty
 
 ### The 70/20/10 Economic Model
@@ -52,7 +53,8 @@ All interchange revenue follows this distribution:
 
 ### Email Service
 - **AgentMail** — AI-native email API for agents (replaces Resend)
-- **Inboxes:** `support@ebl.beauty`, `noreply@ebl.beauty`, `hello@ebl.beauty`
+- **Inboxes:** `support@solvy.cards`, `noreply@solvy.cards`, `hello@solvy.cards`
+- **EBL Inboxes:** `eva@ebl.beauty` (pilot partner contact)
 - **Use Cases:** Transactional emails (welcome, receipts) + 2-way customer support
 - **SDK:** `npm install agentmail`
 - **Console:** https://console.agentmail.to
@@ -234,9 +236,9 @@ SOLVY_WEBHOOK_SECRET=random_secret_for_webhook_verification
 
 # AgentMail — AI-native email (replaces Resend)
 AGENTMAIL_API_KEY=am_...
-AGENTMAIL_SUPPORT_INBOX_ID=      # support@ebl.beauty inbox ID
-AGENTMAIL_NOREPLY_INBOX_ID=      # noreply@ebl.beauty inbox ID
-AGENTMAIL_HELLO_INBOX_ID=        # hello@ebl.beauty inbox ID
+AGENTMAIL_SUPPORT_INBOX_ID=      # support@solvy.cards inbox ID
+AGENTMAIL_NOREPLY_INBOX_ID=      # noreply@solvy.cards inbox ID
+AGENTMAIL_HELLO_INBOX_ID=        # hello@solvy.cards inbox ID
 AGENTMAIL_WEBHOOK_SECRET=        # for inbound webhook verification
 ```
 
@@ -249,7 +251,7 @@ UNIT_PARTNER_ID=your_partner_id
 UNIT_PARTNER_SECRET=your_partner_secret
 UNIT_ORG_ID=your_org_id
 NODE_ENV=sandbox
-ALLOWED_ORIGINS=https://ebl.beauty,https://www.ebl.beauty
+ALLOWED_ORIGINS=https://solvy.cards,https://www.solvy.cards,https://ebl.beauty
 PORT=3000
 ```
 
@@ -364,7 +366,7 @@ ngrok http 3000
    ```
 3. **CORS:** Restrict to known origins only
    ```javascript
-   const allowedOrigins = ['https://ebl.beauty', 'https://www.ebl.beauty'];
+   const allowedOrigins = ['https://solvy.cards', 'https://www.solvy.cards', 'https://ebl.beauty'];
    ```
 4. **Member ID hashing:** Use SHA-256 for any server-side storage
 5. **Encryption:** Use AES-256-GCM for pooled data
@@ -385,7 +387,7 @@ ngrok http 3000
 │                         CLIENT BROWSER                       │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐  │
 │  │  HTML/CSS/JS │  │  IndexedDB   │  │  Unit White Label │  │
-│  │  (ebl.beauty)│  │  (Local data)│  │  App (iFrame)     │  │
+│  │ (solvy.cards)│  │  (Local data)│  │  App (iFrame)     │  │
 │  └──────────────┘  └──────────────┘  └──────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
                              │
@@ -428,6 +430,8 @@ ngrok http 3000
 | `/health` | GET | Health check |
 | `/api/members/onboard` | POST | Complete member onboarding flow |
 | `/api/accounts/:id/balance` | GET | Get account balance |
+| `/api/prelaunch/commit` | POST | Submit prelaunch commitment |
+| `/api/prelaunch/commitments` | GET | List prelaunch commitments |
 | `/webhooks/unit` | POST | Unit.co webhook receiver |
 | `/api/email/send-welcome` | POST | Send welcome email (AgentMail) |
 | `/api/email/support-reply` | POST | Send support reply (AgentMail) |
@@ -591,7 +595,7 @@ pm2 restart solvy-api
 
 **CORS errors in browser:**
 - Check `ALLOWED_ORIGINS` in `.env`
-- Must include `https://ebl.beauty`
+- Must include `https://solvy.cards`
 
 **Unit app doesn't load:**
 - Verify JWT token is being generated
@@ -610,7 +614,7 @@ pm2 restart solvy-api
 - **Project Lead:** SA Nathan LLC
 - **Technical Lead:** See team/TEAM.md
 - **SCRUM Master:** Sean (TDIU compliant, passive role)
-- **Domain:** https://ebl.beauty
+- **Domain:** https://solvy.cards
 - **Git:** https://gitea.ebl.beauty/smayone/solvy-platform
 
 ---
