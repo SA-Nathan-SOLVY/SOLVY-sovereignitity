@@ -22,6 +22,7 @@ const emailRoutes = require('./api/email');
 const { handleAgentMailWebhook } = require('./api/email');
 const moliRoutes = require('./api/moli');
 const budgetAIRoutes = require('../solvy-platform/api/budget-ai');
+const prelaunchRoutes = require('./api/prelaunch');
 
 // Middleware
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
@@ -202,6 +203,20 @@ app.use('/api/moli', moliRoutes);
 // SOLVY Accounting AI Analysis routes (DeepSeek integration)
 app.use('/api/budget', budgetAIRoutes);
 
+// ==================== PRELAUNCH COMMITMENT ROUTES ====================
+
+/**
+ * POST /api/prelaunch/commit
+ * Submit a founding member spending commitment
+ */
+app.post('/api/prelaunch/commit', prelaunchRoutes.handleCommit);
+
+/**
+ * GET /api/prelaunch/commitments
+ * List all prelaunch commitments (public)
+ */
+app.get('/api/prelaunch/commitments', prelaunchRoutes.listCommitments);
+
 /**
  * POST /webhooks/agentmail
  * AgentMail inbound email webhook
@@ -246,6 +261,9 @@ app.listen(PORT, () => {
   console.log('  POST /api/budget/ai-analysis    - AI budget insights (anonymized)');
   console.log('  GET  /api/budget/ai-status      - AI service status');
   console.log('  POST /api/budget/tax-prep       - AI tax preparation analysis');
+  console.log('');
+  console.log('  POST /api/prelaunch/commit      - Submit prelaunch commitment');
+  console.log('  GET  /api/prelaunch/commitments - List prelaunch commitments');
   console.log('');
 });
 

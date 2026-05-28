@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLVY Prelaunch — Founding Member Commitments</title>
+  <meta name="description" content="Secure your place in the SOLVY cooperative. Founding member commitments are open. Every pledge strengthens our card program underwriting.">
+  <link rel="icon" type="image/png" href="./assets/SolvyLogo-1024.png">
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #f5f7fc 0%, #eef2f9 100%);
+      --card: #ffffff;
+      --text: #1a2a3a;
+      --muted: #5a6e7c;
+      --light: #94a3b8;
+      --border: #e2e8f0;
+      --accent: #ffb347;
+      --accent-dim: #fff8e7;
+      --dark: #0f1e2c;
+      --dark-2: #1a3a5c;
+      --green: #2c7a4d;
+      --green-dim: #e6f7e6;
+      --radius: 32px;
+      --radius-sm: 16px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ─── SOLVY Navbar (dark, consistent with site) ─── */
+    .navbar {
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(10px);
+      padding: 0.75rem 2rem;
+      border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    .nav-logo img { height: 36px; width: auto; }
+    .nav-logo-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #22c55e;
+      letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 0.5rem; align-items: center; }
+    .nav-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover { color: #22c55e; background: rgba(34, 197, 94, 0.1); }
+    .nav-cta {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* ─── Main Content ─── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Urgency Banner */
+    .urgency-banner {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 32px;
+      border: 1px solid rgba(255,179,71,0.25);
+    }
+    .urgency-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .urgency-pill {
+      background: rgba(255,179,71,0.18);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .urgency-text { color: #94a3b8; font-size: 0.82rem; }
+    .urgency-link { color: var(--accent); font-weight: 700; font-size: 0.82rem; opacity: 0.5; }
+
+    /* Header */
+    .header { text-align: center; margin-bottom: 48px; }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+    .header-logo img { height: 38px; opacity: 0.9; }
+    .logo-text {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline { font-size: 1.1rem; color: var(--muted); }
+    .header-sub {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    /* Partner Strip */
+    .partner-strip {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .partner-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      font-size: 1.2rem;
+    }
+    .partner-name { font-weight: 700; font-size: 0.82rem; color: var(--dark); line-height: 1.2; }
+    .partner-role { font-size: 0.7rem; color: var(--light); }
+
+    /* Two Columns */
+    .two-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .panel {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      border: 1px solid #eef2f6;
+    }
+    .panel h2 { font-size: 1.3rem; margin-bottom: 12px; color: var(--dark); }
+    .panel p { color: var(--muted); margin-bottom: 16px; }
+    .feature-list { list-style: none; margin: 24px 0; padding: 0; }
+    .feature-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f2f5;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+    }
+    .feature-item:last-child { border-bottom: none; }
+    .check { color: var(--accent); font-weight: bold; flex-shrink: 0; }
+    .pending { color: var(--light); font-weight: bold; flex-shrink: 0; }
+    .alert-box {
+      background: var(--accent-dim);
+      border-left: 4px solid var(--accent);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin-top: 24px;
+      font-size: 0.9rem;
+    }
+
+    /* Form */
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.95rem; }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255,179,71,0.15);
+    }
+    .btn-primary {
+      width: 100%;
+      background: var(--dark);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--dark-2); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+    /* Commitments Table */
+    .commitments-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 32px;
+      border: 1px solid #eef2f6;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      margin-bottom: 32px;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .section-header h2 { font-size: 1.3rem; color: var(--dark); }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { text-align: left; padding: 12px 8px; border-bottom: 1px solid #f0f2f5; }
+    th { font-weight: 600; color: var(--dark); }
+    .status-badge {
+      background: var(--green-dim);
+      color: var(--green);
+      padding: 4px 10px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      display: inline-block;
+    }
+    .total-row {
+      margin-top: 16px;
+      text-align: right;
+      font-weight: 700;
+      border-top: 1px solid #eef2f6;
+      padding-top: 16px;
+      color: var(--dark);
+    }
+    .empty-state { text-align: center; padding: 24px; color: var(--light); }
+
+    /* Contact Section */
+    .contact-section {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 32px;
+      border: 1px solid #eef2f6;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      margin-bottom: 32px;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .status-ok { color: var(--green); font-weight: 600; }
+    .status-err { color: #b91c1c; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 32px;
+      color: #8a9aa8;
+      font-size: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--muted); }
+
+    @media (max-width: 768px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .nav-links { display: none; }
+      .container { padding: 16px; }
+      .panel { padding: 20px; }
+      .header-logo img { height: 28px; }
+      .logo-text { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="welcome.html" class="nav-logo">
+        <img src="./assets/SolvyLogo-1024.png" alt="SOLVY">
+        <span class="nav-logo-text">SOLVY</span>
+      </a>
+      <div class="nav-links">
+        <a href="welcome.html">Home</a>
+        <a href="manifesto.html">Manifesto</a>
+        <a href="card/value-proposition.html">Value Prop</a>
+        <a href="onboarding.html">Join</a>
+      </div>
+      <a href="onboarding.html" class="nav-cta">Join First Circle →</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Urgency Banner -->
+    <div class="urgency-banner">
+      <div class="urgency-left">
+        <span class="urgency-pill">🚀 FUNDING MILESTONE APPROACHING</span>
+        <span class="urgency-text">Unit.co card program in progress · Card program launch target: Juneteenth 2026</span>
+      </div>
+      <span class="urgency-link">Unit.co Review In Progress</span>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-logo">
+        <img src="./assets/SolvyLogo-1024.png" alt="">
+        <div class="logo-text">SOLVY</div>
+        <img src="./assets/SolvyLogo-1024.png" alt="">
+      </div>
+      <div class="tagline">Own your spend. Own your future.</div>
+      <div class="header-sub">
+        Founding member commitments are open. Every commitment strengthens our card program underwriting.
+      </div>
+    </div>
+
+    <!-- Partner Strip -->
+    <div class="partner-strip">
+      <div class="partner-chip"><span>🏦</span><div><div class="partner-name">Unit.co</div><div class="partner-role">Card Issuer</div></div></div>
+      <div class="partner-chip"><span>⛓️</span><div><div class="partner-name">Baanx</div><div class="partner-role">Web3 Infra</div></div></div>
+      <div class="partner-chip"><span>💱</span><div><div class="partner-name">AlchemyPay</div><div class="partner-role">Crypto Bridge</div></div></div>
+      <div class="partner-chip"><span>💳</span><div><div class="partner-name">Stripe</div><div class="partner-role">Merchant Processing</div></div></div>
+      <div class="partner-chip"><span>🔴</span><div><div class="partner-name">Mastercard</div><div class="partner-role">Card Network</div></div></div>
+      <div class="partner-chip"><span>🔵</span><div><div class="partner-name">Visa</div><div class="partner-role">Card Network</div></div></div>
+    </div>
+
+    <!-- Two Columns -->
+    <div class="two-columns">
+      <div class="panel">
+        <h2>Join the cooperative revolution</h2>
+        <p>SOLVY Card is not a bank. It's a cooperative. Every swipe earns interchange revenue shared back to members.</p>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="check">✓</span><span><strong>70%</strong> of profits → Member pool (patronage dividends, benefits)</span></li>
+          <li class="feature-item"><span class="check">✓</span><span><strong>20%</strong> → Community development · <strong>10%</strong> → Operations reserve</span></li>
+          <li class="feature-item"><span class="check">✓</span><span>🏦 <strong>Unit.co</strong> – FDIC-insured card issuance & banking</span></li>
+          <li class="feature-item"><span class="pending">◷</span><span>⛓️ <strong>Baanx</strong> – Web3 card infrastructure <em style="color:#94a3b8;font-size:0.85em">(incoming development)</em></span></li>
+          <li class="feature-item"><span class="pending">◷</span><span>💱 <strong>AlchemyPay</strong> – Fiat/crypto bridge <em style="color:#94a3b8;font-size:0.85em">(not yet confirmed)</em></span></li>
+          <li class="feature-item"><span class="check">✓</span><span>📊 <strong>MAN</strong> – Full transparency portal</span></li>
+          <li class="feature-item"><span class="check">✓</span><span>🎓 <strong>DECIDEY</strong> – Data sovereignty education</span></li>
+        </ul>
+        <div class="alert-box">
+          🔮 <strong>Prelaunch commitment</strong> — Founding member spots are limited. Secure your place in the cooperative.
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Commit to membership</h2>
+        <form id="commitForm">
+          <div class="form-group">
+            <label>Full name *</label>
+            <input type="text" id="cName" required placeholder="e.g., Evergreen Mayo">
+          </div>
+          <div class="form-group">
+            <label>Email address *</label>
+            <input type="email" id="cEmail" required placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label>Monthly spending commitment (USD) *</label>
+            <input type="number" id="cPledge" value="500" step="100" min="10" required>
+          </div>
+          <button type="submit" class="btn-primary" id="submitBtn">📝 Submit commitment</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Commitments Table -->
+    <div class="commitments-section">
+      <div class="section-header">
+        <h2>📋 Prelaunch commitments</h2>
+        <button onclick="exportCSV()" class="btn-secondary">⬇️ Export CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Monthly pledge</th><th>Date</th><th>Status</th></tr>
+          </thead>
+          <tbody id="commitmentsBody">
+            <tr><td colspan="5" class="empty-state">Loading commitments…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="total-row" id="totalRow" style="display:none;"></div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact-section">
+      <h2 style="margin-top:0;margin-bottom:8px;font-size:1.4rem;">💬 Have questions? Reach out.</h2>
+      <p style="color:#5a6e7c;margin-bottom:24px;font-size:0.95rem;">
+        Not ready to commit yet? Send us a message and we'll be in touch. Every inquiry helps us build the cooperative you deserve.
+      </p>
+      <form id="contactForm" class="contact-grid">
+        <div>
+          <label style="display:block;font-weight:500;margin-bottom:6px;font-size:0.9rem;">Your name *</label>
+          <input type="text" id="contactName" required placeholder="Full name">
+        </div>
+        <div>
+          <label style="display:block;font-weight:500;margin-bottom:6px;font-size:0.9rem;">Your email *</label>
+          <input type="email" id="contactEmail" required placeholder="you@example.com">
+        </div>
+        <div style="grid-column:1/-1;">
+          <label style="display:block;font-weight:500;margin-bottom:6px;font-size:0.9rem;">Message *</label>
+          <textarea id="contactMessage" required rows="4" placeholder="Tell us about yourself or ask a question…"></textarea>
+        </div>
+        <div style="grid-column:1/-1;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <button type="submit" class="btn-primary" style="width:auto;padding:12px 28px;" id="contactBtn">📩 Send Message</button>
+          <span id="contactStatus"></span>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p><strong>SOLVY Ecosystem™</strong> — Product of SA Nathan LLC (Texas)</p>
+    <p style="margin-top:4px;">SOLVY (Solutions Valued You) — Member-owned. Generationally minded.</p>
+    <p style="margin-top:8px;"><a href="mailto:team@solvy.cards">team@solvy.cards</a></p>
+  </footer>
+
+  <script>
+    const STORAGE_KEY = 'solvy_prelaunch_commitments';
+    let commitments = [];
+
+    // ─── Load Commitments ───────────────────────────────────────────────────
+    async function loadCommitments() {
+      const tbody = document.getElementById('commitmentsBody');
+      try {
+        const res = await fetch('/api/prelaunch/commitments');
+        if (res.ok) {
+          const data = await res.json();
+          commitments = data.commitments.map(c => ({
+            id: c.id,
+            name: c.name,
+            email: c.email,
+            pledge: parseFloat(c.monthly_pledge),
+            date: c.committed_at?.slice(0, 10) ?? c.created_at?.slice(0, 10),
+            status: c.status,
+          }));
+          renderCommitments();
+          return;
+        }
+      } catch (e) {}
+
+      // Fallback: localStorage
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          commitments = JSON.parse(stored);
+          renderCommitments();
+          return;
+        }
+      } catch (e) {}
+
+      // Default seed
+      commitments = [{ name: 'Evergreen Mayo', email: 'evergreen@ebl.beauty', pledge: 500, date: new Date().toISOString().slice(0, 10), status: 'committed' }];
+      renderCommitments();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+    }
+
+    function renderCommitments() {
+      const tbody = document.getElementById('commitmentsBody');
+      const totalRow = document.getElementById('totalRow');
+
+      if (commitments.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No commitments yet. Be the first.</td></tr>';
+        totalRow.style.display = 'none';
+        return;
+      }
+
+      tbody.innerHTML = commitments.map((c, i) => `
+        <tr>
+          <td>${escapeHtml(c.name)}</td>
+          <td>${escapeHtml(c.email)}</td>
+          <td>$${c.pledge.toFixed(2)}</td>
+          <td>${c.date}</td>
+          <td><span class="status-badge">${c.status}</span></td>
+        </tr>
+      `).join('');
+
+      const total = commitments.reduce((sum, c) => sum + c.pledge, 0);
+      totalRow.innerHTML = `
+        💰 Total monthly committed volume: $${total.toFixed(2)}<br>
+        📈 Annual projected: $${(total * 12).toFixed(2)}
+      `;
+      totalRow.style.display = 'block';
+    }
+
+    // ─── Commitment Form ────────────────────────────────────────────────────
+    document.getElementById('commitForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('cName').value;
+      const email = document.getElementById('cEmail').value;
+      const pledge = document.getElementById('cPledge').value;
+      const btn = document.getElementById('submitBtn');
+
+      if (!name || !email || !pledge) {
+        alert('Please fill all fields.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting…';
+
+      try {
+        const res = await fetch('/api/prelaunch/commit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name.trim(), email: email.trim(), pledge: parseFloat(pledge) }),
+        });
+
+        if (res.ok) {
+          await loadCommitments();
+          document.getElementById('cName').value = '';
+          document.getElementById('cEmail').value = '';
+          document.getElementById('cPledge').value = '500';
+          alert(`Thank you, ${name.trim()}. Your commitment helps build the cooperative.`);
+        } else {
+          throw new Error('Server error');
+        }
+      } catch (err) {
+        // Fallback to localStorage
+        const local = [...commitments, {
+          name: name.trim(),
+          email: email.trim(),
+          pledge: parseFloat(pledge),
+          date: new Date().toISOString().slice(0, 10),
+          status: 'committed',
+        }];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(local));
+        commitments = local;
+        renderCommitments();
+        document.getElementById('cName').value = '';
+        document.getElementById('cEmail').value = '';
+        document.getElementById('cPledge').value = '500';
+        alert(`Thank you, ${name.trim()}. Your commitment has been recorded.`);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '📝 Submit commitment';
+      }
+    });
+
+    // ─── Contact Form ───────────────────────────────────────────────────────
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('contactName').value;
+      const email = document.getElementById('contactEmail').value;
+      const message = document.getElementById('contactMessage').value;
+      const btn = document.getElementById('contactBtn');
+      const status = document.getElementById('contactStatus');
+
+      btn.disabled = true;
+      status.textContent = 'Sending…';
+      status.className = '';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name.trim(), email: email.trim(), subject: 'Prelaunch Interest', message: message.trim() }),
+        });
+
+        if (res.ok) {
+          status.innerHTML = `<span class="status-ok">✓ Received! We'll follow up at ${email}.</span>`;
+          document.getElementById('contactName').value = '';
+          document.getElementById('contactEmail').value = '';
+          document.getElementById('contactMessage').value = '';
+        } else {
+          throw new Error('Server error');
+        }
+      } catch (err) {
+        status.innerHTML = `<span class="status-err">⚠ Could not send. Email us directly: <a href="mailto:team@solvy.cards">team@solvy.cards</a></span>`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '📩 Send Message';
+      }
+    });
+
+    // ─── Export CSV ─────────────────────────────────────────────────────────
+    function exportCSV() {
+      if (!commitments.length) {
+        alert('No commitments to export.');
+        return;
+      }
+      const headers = ['Name', 'Email', 'Monthly Pledge (USD)', 'Date', 'Status'];
+      const rows = commitments.map(c => [c.name, c.email, c.pledge, c.date, c.status]);
+      const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `solvy_commitments_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    // Load on page load
+    loadCommitments();
+  </script>
+
+</body>
+</html>
