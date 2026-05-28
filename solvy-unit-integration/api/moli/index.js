@@ -182,7 +182,7 @@ router.get('/status', (req, res) => {
 router.post('/test-pdf', async (req, res) => {
   try {
     const testData = {
-      policyHolder: 'Sean Mayo',
+      policyHolder: 'Sean Marlon II McDaniel',
       policyNumber: 'MOLI-12345678',
       availableBalance: '$12,450.00',
       requestType: 'Policy Loan',
@@ -191,7 +191,7 @@ router.post('/test-pdf', async (req, res) => {
       bankAccountNumber: '9876543210',
       confirmAccountNumber: '9876543210',
       mecAcknowledged: true,
-      signatureName: 'Sean Mayo',
+      signatureName: 'Sean Marlon II McDaniel',
       signatureDate: new Date().toLocaleDateString('en-US'),
       esignConsent: true,
     };

@@ -41,8 +41,8 @@ function initSchema() {
       VALUES (?, ?, ?, ?, ?)
     `);
     const seeds = [
-      ['Sean Mayo', 'sean.mayo@ebl.beauty', 20000, '2025-06-19', 'committed'],
-      ['Evergreen Mayo', 'evergreen.mayo@ebl.beauty', 10000, '2025-06-19', 'committed'],
+      ['Sean Marlon II McDaniel', 'sean@solvy.cards', 20000, '2025-06-19', 'committed'],
+      ['Eva Mayo', 'eva@solvy.cards', 10000, '2025-06-19', 'committed'],
       ['Sheila McDaniel', 'sheila.mcdaniel@ebl.beauty', 100000, '2025-06-19', 'committed'],
     ];
     const seedTxn = db.transaction((rows) => {

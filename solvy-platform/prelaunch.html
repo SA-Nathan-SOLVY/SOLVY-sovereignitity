@@ -401,7 +401,7 @@
         <form id="commitForm">
           <div class="form-group">
             <label>Full name *</label>
-            <input type="text" id="cName" required placeholder="e.g., Evergreen Mayo">
+            <input type="text" id="cName" required placeholder="e.g., Eva Mayo">
           </div>
           <div class="form-group">
             <label>Email address *</label>
@@ -505,7 +505,7 @@
       } catch (e) {}
 
       // Default seed
-      commitments = [{ name: 'Evergreen Mayo', email: 'evergreen@ebl.beauty', pledge: 500, date: new Date().toISOString().slice(0, 10), status: 'committed' }];
+      commitments = [{ name: 'Eva Mayo', email: 'eva@solvy.cards', pledge: 500, date: new Date().toISOString().slice(0, 10), status: 'committed' }];
       renderCommitments();
     }
 
@@ -624,7 +624,7 @@
           throw new Error('Server error');
         }
       } catch (err) {
-        status.innerHTML = `<span class="status-err">⚠ Could not send. Email us directly: <a href="mailto:team@solvy.cards">team@solvy.cards</a></span>`;
+        status.innerHTML = `<span class="status-err">⚠ Could not send. Email us directly: <a href="mailto:team@solvy.cards">team@solvy.cards</a> · Cofounder: <a href="mailto:smayone@solvy.cards">smayone@solvy.cards</a></span>`;
       } finally {
         btn.disabled = false;
         btn.textContent = '📩 Send Message';

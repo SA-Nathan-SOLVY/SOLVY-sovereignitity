@@ -88,7 +88,7 @@ MAILCOW_USER=noreply@ebl.beauty
 MAILCOW_PASS=your-mailcow-password
 SUPPORT_EMAIL=support@ebl.beauty
 SUPPORT_FROM=noreply@ebl.beauty
-SUPPORT_RECIPIENTS=sean@solvy.cards,evergreen@solvy.cards
+SUPPORT_RECIPIENTS=team@solvy.cards,eva@solvy.cards,sean@solvy.cards,smayone@solvy.cards
 ALLOWED_ORIGINS=https://ebl.beauty,https://www.ebl.beauty
 NODE_ENV=production
 ```
