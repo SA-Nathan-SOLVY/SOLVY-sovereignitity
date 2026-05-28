@@ -120,7 +120,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 16px;
-      max-width: 800px;
+      max-width: 900px;
       width: 100%;
       margin: 20px 0;
     }
@@ -145,6 +145,7 @@
     .stat-value.red { color: var(--solvy-red); }
     .stat-value.gold { color: var(--solvy-gold); }
     .stat-value.green { color: var(--solvy-green); }
+    .stat-value.blue { color: var(--solvy-blue); }
 
     .stat-label {
       font-size: 0.8rem;
@@ -157,7 +158,7 @@
       gap: 20px;
       justify-content: center;
       flex-wrap: wrap;
-      max-width: 900px;
+      max-width: 950px;
       margin: 20px 0;
     }
 
@@ -172,6 +173,7 @@
 
     .flow-box.danger { border-color: var(--solvy-red); }
     .flow-box.solution { border-color: var(--solvy-green); background: var(--solvy-green-dim); }
+    .flow-box.gold { border-color: var(--solvy-gold); background: var(--solvy-gold-dim); }
 
     .flow-box-title {
       font-weight: 700;
@@ -225,6 +227,40 @@
       margin-top: 8px;
       display: block;
     }
+
+    .timeline-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      max-width: 700px;
+      margin: 12px 0;
+      padding: 14px;
+      background: var(--solvy-card);
+      border-radius: 10px;
+      border-left: 3px solid var(--solvy-gold);
+    }
+
+    .timeline-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .timeline-content {
+      font-size: 0.88rem;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--solvy-text);
+    }
+
+    .timeline-desc {
+      color: var(--solvy-muted);
+      line-height: 1.5;
+    }
+
+    .solvy-gold-dim { background: rgba(245, 158, 11, 0.15); }
 
     /* Navigation */
     .progress-bar {
@@ -316,19 +352,19 @@
 
     <!-- Slide 1: Title -->
     <div class="slide active">
-      <div class="slide-number">1 / 10</div>
+      <div class="slide-number">1 / 13</div>
       <div class="slide-icon">⚠️</div>
       <div class="slide-title">The Crisis You <span class="warning">Don't See</span> Coming</div>
-      <div class="slide-subtitle">The bond market is breaking. Central banks are trapped. Your money is at risk. SOLVY has a way out.</div>
+      <div class="slide-subtitle">The bond market is breaking. Central banks are trapped. Nations are decoupling. Your money is at risk. SOLVY has a way out.</div>
       <div class="highlight-box">
-        <strong>Based on analysis by Andrei Jikh</strong><br>
-        Global sovereign debt crisis & bond market instability
+        <strong>Based on analysis by Andrei Jikh + China's strategic decoupling</strong><br>
+        Global sovereign debt crisis, financial fragmentation & cooperative solutions
       </div>
     </div>
 
     <!-- Slide 2: The Bond Market Trap -->
     <div class="slide">
-      <div class="slide-number">2 / 10</div>
+      <div class="slide-number">2 / 13</div>
       <div class="slide-icon">🪤</div>
       <div class="slide-title">The <span class="warning">Bond Market Trap</span></div>
       <div class="slide-subtitle">The backbone of all markets is cracking. Trust in government debt is failing.</div>
@@ -354,7 +390,7 @@
 
     <!-- Slide 3: Inflation -->
     <div class="slide">
-      <div class="slide-number">3 / 10</div>
+      <div class="slide-number">3 / 13</div>
       <div class="slide-icon">📈</div>
       <div class="slide-title">Inflation is <span class="warning">Eroding Value</span></div>
       <div class="slide-subtitle">Persistent inflation is destroying the real value of bonds, savings, and wages.</div>
@@ -377,37 +413,117 @@
       </div>
     </div>
 
-    <!-- Slide 4: Foreign Divestment -->
+    <!-- Slide 4: China's Financial Decoupling -->
     <div class="slide">
-      <div class="slide-number">4 / 10</div>
-      <div class="slide-icon">🏃</div>
-      <div class="slide-title">Foreign Buyers are <span class="warning">Leaving</span></div>
-      <div class="slide-subtitle">Major holders of US debt are selling. Demand is collapsing.</div>
-      <div class="flow-comparison">
-        <div class="flow-box danger">
-          <div class="flow-box-title">🇨🇳 China</div>
-          <div class="flow-box-body">Selling US Treasuries to reduce dollar dependency and geopolitical risk</div>
-        </div>
-        <div class="flow-box danger">
-          <div class="flow-box-title">🇯🇵 Japan</div>
-          <div class="flow-box-body">Selling Treasuries to defend the yen and purchase oil</div>
-        </div>
-        <div class="flow-box danger">
-          <div class="flow-box-title">📉 Result</div>
-          <div class="flow-box-body">Reduced demand for US debt forces higher yields = higher borrowing costs for everyone</div>
+      <div class="slide-number">4 / 13</div>
+      <div class="slide-icon">🇨🇳</div>
+      <div class="slide-title">China's <span class="warning">Strategic Decoupling</span></div>
+      <div class="slide-subtitle">China is actively squeezing U.S. markets and redirecting capital away from the dollar.</div>
+      <div class="timeline-item">
+        <div class="timeline-icon">🚫</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Retail Investment Ban</div>
+          <div class="timeline-desc">China restricts citizens from investing in U.S. stocks and bonds. Brokerages cracked down. U.S. positions liquidated. Capital forced into domestic markets.</div>
         </div>
       </div>
-      <div class="highlight-box">
-        When the world's largest creditors stop buying your debt, you have only one option left: <strong>print more money.</strong>
+      <div class="timeline-item">
+        <div class="timeline-icon">💱</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Yuan Strengthening</div>
+          <div class="timeline-desc">Redirected capital strengthens the yuan while reducing demand for Treasuries. Less Chinese money props up U.S. government debt.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-icon">🎯</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Long-Term Strategy</div>
+          <div class="timeline-desc">This is not reactive — it's a planned, multi-year strategy to reduce dependence on U.S. financial infrastructure and the dollar.</div>
+        </div>
       </div>
     </div>
 
-    <!-- Slide 5: Unsustainable Math -->
+    <!-- Slide 5: Challenging the Petro-Dollar -->
     <div class="slide">
-      <div class="slide-number">5 / 10</div>
+      <div class="slide-number">5 / 13</div>
+      <div class="slide-icon">🛢️</div>
+      <div class="slide-title">The Petro-Dollar is <span class="warning">Under Attack</span></div>
+      <div class="slide-subtitle">China is leveraging the Iran conflict to settle oil trade in yuan — bypassing the dollar entirely.</div>
+      <div class="flow-comparison">
+        <div class="flow-box danger">
+          <div class="flow-box-title">🇺🇸 Old System</div>
+          <div class="flow-box-body">Oil priced in USD<br>SWIFT controls transfers<br>U.S. sanctions weaponized<br>Nations forced into dollar</div>
+        </div>
+        <div class="flow-box" style="display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--solvy-muted);">→</div>
+        <div class="flow-box gold solvy-gold-dim">
+          <div class="flow-box-title">🇨🇳 New System</div>
+          <div class="flow-box-body">Oil priced in Yuan<br>CIPS bypasses SWIFT<br>Sanctions evasion possible<br>Nations gain independence</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <strong>CIPS vs SWIFT:</strong> China's Cross-Border Interbank Payment System processes yuan settlements outside U.S. control. When oil no longer needs dollars, demand for Treasuries collapses further.
+      </div>
+    </div>
+
+    <!-- Slide 6: Gold-Centric Strategy -->
+    <div class="slide">
+      <div class="slide-number">6 / 13</div>
+      <div class="slide-icon">🥇</div>
+      <div class="slide-title">Gold: The <span class="gold">New Neutral Standard</span></div>
+      <div class="slide-subtitle">China is establishing a gold-clearing system in Hong Kong to challenge London and COMEX dominance.</div>
+      <div class="stat-grid">
+        <div class="stat-card warning">
+          <div class="stat-value gold">🏦 HK</div>
+          <div class="stat-label">New gold-clearing hub in Hong Kong</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-value gold">🏛️ London</div>
+          <div class="stat-label">Traditional gold dominance challenged</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-value gold">📊 COMEX</div>
+          <div class="stat-label">Paper gold market faces physical reality</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <strong>Why Gold?</strong> It's a neutral store of value that cannot be frozen, inflated, or politicized. Nations avoiding dollar-based infrastructure need a settlement asset they can trust.
+      </div>
+      <div class="quote-block">
+        "Central banks are accumulating significant quantities of gold as a hedge against fiat currency devaluation."
+        <span class="author">— Andrei Jikh</span>
+      </div>
+    </div>
+
+    <!-- Slide 7: Foreign Divestment Accelerates -->
+    <div class="slide">
+      <div class="slide-number">7 / 13</div>
+      <div class="slide-icon">🏃</div>
+      <div class="slide-title">Foreign Buyers are <span class="warning">Leaving</span></div>
+      <div class="slide-subtitle">Major holders of US debt are selling. Demand is collapsing — and it's not coming back.</div>
+      <div class="flow-comparison">
+        <div class="flow-box danger">
+          <div class="flow-box-title">🇨🇳 China</div>
+          <div class="flow-box-body">Strategic divestment from Treasuries. Capital redirected domestically. Yuan settlement replacing dollar.</div>
+        </div>
+        <div class="flow-box danger">
+          <div class="flow-box-title">🇯🇵 Japan</div>
+          <div class="flow-box-body">Selling Treasuries to defend the yen and purchase oil. U.S. debt is no longer the safe haven it was.</div>
+        </div>
+        <div class="flow-box danger">
+          <div class="flow-box-title">📉 Result</div>
+          <div class="flow-box-body">Reduced demand forces higher yields = higher borrowing costs for U.S. government, mortgages, and credit cards.</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        When the world's largest creditors systematically exit your debt market, you have only one option left: <strong>print more money.</strong>
+      </div>
+    </div>
+
+    <!-- Slide 8: Unsustainable Math -->
+    <div class="slide">
+      <div class="slide-number">8 / 13</div>
       <div class="slide-icon">🔢</div>
       <div class="slide-title">The Math is <span class="warning">Impossible</span></div>
-      <div class="slide-subtitle">The US government has painted itself into a corner with no escape hatch.</div>
+      <div class="slide-subtitle">The U.S. government has painted itself into a corner with no escape hatch.</div>
       <div class="stat-grid">
         <div class="stat-card danger">
           <div class="stat-value red">$39T+</div>
@@ -428,9 +544,9 @@
       </div>
     </div>
 
-    <!-- Slide 6: The Fed's Choice -->
+    <!-- Slide 9: The Fed's Choice -->
     <div class="slide">
-      <div class="slide-number">6 / 10</div>
+      <div class="slide-number">9 / 13</div>
       <div class="slide-icon">⚖️</div>
       <div class="slide-title">The Fed's <span class="warning">Impossible Choice</span></div>
       <div class="slide-subtitle">No matter what they do, something breaks. And you're holding the bag.</div>
@@ -450,9 +566,9 @@
       </div>
     </div>
 
-    <!-- Slide 7: What This Means for You -->
+    <!-- Slide 10: What This Means for You -->
     <div class="slide">
-      <div class="slide-number">7 / 10</div>
+      <div class="slide-number">10 / 13</div>
       <div class="slide-icon">💸</div>
       <div class="slide-title">What This Means for <span class="warning">Your Money</span></div>
       <div class="slide-subtitle">Traditional safe havens are failing. You need a new strategy.</div>
@@ -471,13 +587,13 @@
         </div>
       </div>
       <div class="highlight-box">
-        <strong>The Old Playbook is Broken:</strong> 60/40 portfolios, savings accounts, and government bonds won't protect you in a sovereign debt crisis.
+        <strong>The Old Playbook is Broken:</strong> 60/40 portfolios, savings accounts, and government bonds won't protect you when the global financial system fragments.
       </div>
     </div>
 
-    <!-- Slide 8: SOLVY's Solution -->
+    <!-- Slide 11: SOLVY's Solution -->
     <div class="slide">
-      <div class="slide-number">8 / 10</div>
+      <div class="slide-number">11 / 13</div>
       <div class="slide-icon">🛡️</div>
       <div class="slide-title">SOLVY's <span>Cooperative Solution</span></div>
       <div class="slide-subtitle">When the system fails individuals, cooperation becomes survival.</div>
@@ -500,9 +616,9 @@
       </div>
     </div>
 
-    <!-- Slide 9: The Sheila Mandate -->
+    <!-- Slide 12: The Sheila Mandate -->
     <div class="slide">
-      <div class="slide-number">9 / 10</div>
+      <div class="slide-number">12 / 13</div>
       <div class="slide-icon">👑</div>
       <div class="slide-title">The <span>Sheila Mandate</span></div>
       <div class="slide-subtitle">"Leave them better than I received." — The founding principle of SOLVY.</div>
@@ -529,9 +645,9 @@
       </div>
     </div>
 
-    <!-- Slide 10: CTA -->
+    <!-- Slide 13: CTA -->
     <div class="slide">
-      <div class="slide-number">10 / 10</div>
+      <div class="slide-number">13 / 13</div>
       <div class="slide-icon">✊</div>
       <div class="slide-title">Don't Wait for the <span class="warning">Collapse</span></div>
       <div class="slide-subtitle">Build your financial sovereignty now. Join the cooperative before the crisis accelerates.</div>
