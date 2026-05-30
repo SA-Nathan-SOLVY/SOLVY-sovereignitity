@@ -20,13 +20,16 @@
 const { getVendor, isVendor } = require('./vendor-config');
 const treasuryPrime = require('./adapters/treasuryprime');
 const unit = require('./adapters/unit');
+const lithic = require('./adapters/lithic');
 
 // ============================================
 // VENDOR ROUTER HELPER
 // ============================================
 
 function getAdapter() {
-  return isVendor('unit') ? unit : treasuryPrime;
+  if (isVendor('unit')) return unit;
+  if (isVendor('lithic')) return lithic;
+  return treasuryPrime;
 }
 
 // ============================================
@@ -48,6 +51,10 @@ async function statusHandler(req, res) {
       const ping = await treasuryPrime.ping();
       connected = !!ping;
       message = 'Treasury Prime API connected';
+    } else if (isVendor('lithic')) {
+      const ping = await lithic.ping();
+      connected = !!ping;
+      message = 'Lithic API connected';
     } else {
       connected = true;
       message = 'Unit.co configured';
@@ -236,6 +243,30 @@ async function onboardHandler(req, res) {
       });
     }
     
+    // For Lithic: create account holder → create card
+    if (isVendor('lithic')) {
+      // Step 1: Create account holder (KYC/CIP)
+      const accountHolder = await lithic.createAccountHolder(personData);
+      
+      // Step 2: Create virtual card
+      // Note: Lithic requires an account_token. In sandbox, we may need to use a default.
+      const card = await lithic.createCard({
+        accountToken: accountHolder.token || accountHolder.account_token,
+        type: 'virtual',
+        memo: `SOLVY Card - ${memberId}`
+      });
+      
+      return res.json({
+        success: true,
+        memberId,
+        accountHolderToken: accountHolder.token,
+        cardToken: card.token,
+        cardLastFour: card.last_four,
+        status: card.state,
+        vendor: 'Lithic'
+      });
+    }
+    
     // For Unit.co: generate token for White Label App
     if (isVendor('unit')) {
       const tokenData = await unit.generateToken(memberId, personData);
@@ -286,6 +317,30 @@ async function webhookHandler(req, res) {
           break;
         default:
           console.log('[Webhook] Unhandled event:', event.type);
+      }
+      
+      return res.json({ received: true, type: event.type });
+    }
+    
+    if (isVendor('lithic')) {
+      const signature = req.headers['x-lithic-signature'];
+      const payload = JSON.stringify(req.body);
+      
+      if (!lithic.verifyWebhook(payload, signature)) {
+        return res.status(401).json({ error: 'Invalid webhook signature' });
+      }
+      
+      const event = lithic.processWebhook(req.body);
+      
+      switch (event.type) {
+        case 'transaction.created':
+          console.log('[Webhook] Lithic transaction:', event.data);
+          break;
+        case 'card.created':
+          console.log('[Webhook] Lithic card created:', event.data);
+          break;
+        default:
+          console.log('[Webhook] Unhandled Lithic event:', event.type);
       }
       
       return res.json({ received: true, type: event.type });

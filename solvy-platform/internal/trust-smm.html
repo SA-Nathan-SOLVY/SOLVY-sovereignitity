@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sean Maurice Mayo Special Needs Trust | SOLVY MAN Portal</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f4f6fa;
+            color: #1a2a3a;
+            line-height: 1.6;
+        }
+
+        /* Login Overlay */
+        #loginOverlay {
+            position: fixed;
+            inset: 0;
+            background: #0f1e2c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        .login-box {
+            background: white;
+            padding: 48px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .login-box h1 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #0f1e2c;
+        }
+        .login-box p {
+            color: #5a6e7c;
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #d0d7de;
+            border-radius: 12px;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            outline: none;
+        }
+        .login-box input:focus {
+            border-color: #9333ea;
+            box-shadow: 0 0 0 3px rgba(147,51,234,0.1);
+        }
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .login-box button:hover {
+            opacity: 0.9;
+        }
+        #loginError {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: #0f1e2c;
+            color: #e0e7ef;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .logo-area {
+            padding: 24px 20px;
+            border-bottom: 1px solid #1e3a4d;
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .logo span { color: #ffb347; }
+        .logo-sub {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            margin: 4px 12px;
+            border-radius: 12px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .nav-item:hover {
+            background: #1e3a4d;
+            color: white;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 24px 32px;
+            overflow-x: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        .page-title p {
+            color: #5a6e7c;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .confidential-badge {
+            background: #dc2626;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Document styling */
+        .document-card {
+            background: white;
+            border-radius: 20px;
+            padding: 48px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f6;
+            max-width: 900px;
+        }
+
+        .doc-header {
+            text-align: center;
+            border-bottom: 2px solid #0f1e2c;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+        .doc-header h2 {
+            font-size: 1.5rem;
+            color: #0f1e2c;
+            margin-bottom: 8px;
+        }
+        .doc-header .doc-subtitle {
+            color: #5a6e7c;
+            font-size: 0.9rem;
+        }
+        .doc-header .doc-date {
+            color: #5a6e7c;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        article {
+            margin-bottom: 32px;
+        }
+        article h3 {
+            font-size: 1.15rem;
+            color: #0f1e2c;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        article h4 {
+            font-size: 1rem;
+            color: #1e3a4d;
+            margin: 16px 0 8px;
+        }
+        article p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        article ul {
+            margin: 8px 0 12px 24px;
+        }
+        article li {
+            margin-bottom: 6px;
+        }
+
+        .parties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .party-card {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid #9333ea;
+        }
+        .party-role {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #5a6e7c;
+            margin-bottom: 4px;
+        }
+        .party-name {
+            font-weight: 700;
+            color: #0f1e2c;
+        }
+        .party-detail {
+            font-size: 0.85rem;
+            color: #5a6e7c;
+        }
+
+        .warning-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            color: #7f1d1d;
+        }
+        .warning-box strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { padding: 20px; }
+            .document-card { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay">
+    <div class="login-box">
+        <div style="font-size: 3rem; margin-bottom: 12px;">🔒</div>
+        <h1>Authorized Access Only</h1>
+        <p>This document is restricted to parties explicitly named in the Sean Maurice Mayo Special Needs Trust.</p>
+        <input type="password" id="accessCode" placeholder="Enter access code" autocomplete="off">
+        <button onclick="checkAccess()">Access Document</button>
+        <div id="loginError">Invalid access code. This incident has been logged.</div>
+    </div>
+</div>
+
+<div class="app-container" id="appContent" style="display:none;">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <a href="../index.html" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;">
+                <span style="font-size:1.4rem;font-weight:700;color:#fff;">SOLVY</span>
+            </a>
+            <div class="logo-sub">Mandatory Audit Network</div>
+        </div>
+        <nav>
+            <a href="man-portal.html" class="nav-item">
+                <span>📊</span> Dashboard
+            </a>
+            <a href="trust-expenses.html" class="nav-item">
+                <span>💳</span> Trust Expenses
+            </a>
+            <a href="trust-smm.html" class="nav-item" style="background:#1e3a4d;color:#ffb347;">
+                <span>🛡️</span> SMM Trust
+            </a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="page-title">
+                <h1>Sean Maurice Mayo Special Needs Trust</h1>
+                <p>First-Party Supplemental Needs Trust | 42 U.S.C. § 1396p(d)(4)(A)</p>
+            </div>
+            <div class="confidential-badge">Confidential</div>
+        </div>
+
+        <div class="document-card">
+            <div class="doc-header">
+                <h2>Sean Maurice Mayo Special Needs Trust</h2>
+                <div class="doc-subtitle">First-Party Supplemental Needs Trust</div>
+                <div class="doc-date">Governing Law: Texas (primary) | New York | Arizona</div>
+            </div>
+
+            <!-- PARTIES -->
+            <div class="parties-grid">
+                <div class="party-card">
+                    <div class="party-role">Grantor</div>
+                    <div class="party-name">Sheila Ann McDaniel</div>
+                    <div class="party-detail">New York</div>
+                </div>
+                <div class="party-card">
+                    <div class="party-role">Trustee</div>
+                    <div class="party-name">Sean Marlon II McDaniel</div>
+                    <div class="party-detail">Arizona</div>
+                </div>
+                <div class="party-card">
+                    <div class="party-role">Trust Protector</div>
+                    <div class="party-name">Sean Maurice Mayo</div>
+                    <div class="party-detail">Texas</div>
+                </div>
+                <div class="party-card">
+                    <div class="party-role">Sole Lifetime Beneficiary</div>
+                    <div class="party-name">Sean Maurice Mayo</div>
+                    <div class="party-detail">Texas</div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Restricted Document</strong>
+                This trust instrument contains sensitive legal and financial information. Access is limited to the Grantor, Trustee, Trust Protector, and authorized legal counsel. Unauthorized access or distribution is prohibited.
+            </div>
+
+            <!-- ARTICLE 1 -->
+            <article>
+                <h3>Article 1: Establishing the Trust</h3>
+
+                <h4>Section 1.01 — Funding and Source</h4>
+                <p>The Grantor transfers <strong>$250,000</strong> to this trust. This transfer is a gift from a mother to her disabled adult child under the disabled child exception (<em>42 U.S.C. § 1396p(c)(2)(B)(iii)</em> and <em>SSA POMS SI 01150.121A.2</em>). This transfer is excepted from transfer penalties and shall not affect the Grantor's SSI or Medicaid eligibility.</p>
+
+                <h4>Section 1.02 — Trust Type</h4>
+                <p>This trust is a <strong>first-party Supplemental Needs Trust</strong> under <em>42 U.S.C. § 1396p(d)(4)(A)</em>. The beneficiary, Sean Maurice Mayo, is a disabled individual under age 65 who receives SSI, VA disability benefits, and TDIU.</p>
+
+                <h4>Section 1.03 — Irrevocability</h4>
+                <p>This trust is <strong>irrevocable</strong>. The Grantor cannot alter, amend, revoke, or terminate it.</p>
+            </article>
+
+            <!-- ARTICLE 2 -->
+            <article>
+                <h3>Article 2: Beneficiary & Distributions</h3>
+
+                <h4>Section 2.01 — Sole Lifetime Beneficiary</h4>
+                <p>Sean Maurice Mayo is the sole lifetime beneficiary.</p>
+
+                <h4>Section 2.02 — Distributions</h4>
+                <p>The Trustee shall make <strong>no direct cash distributions</strong> to the beneficiary. All distributions shall be made directly to third-party vendors for the beneficiary's supplemental needs, including but not limited to:</p>
+                <ul>
+                    <li>Medical and dental care not covered by public benefits</li>
+                    <li>Mental health services</li>
+                    <li>Transportation (vehicle purchase, insurance, maintenance, gas)</li>
+                    <li>Home modifications</li>
+                    <li>Furniture, appliances, electronics</li>
+                    <li>Recreation, vacations, hobbies</li>
+                    <li>Education and vocational training</li>
+                    <li>Personal care attendants</li>
+                    <li>Phone, internet, and computer equipment</li>
+                </ul>
+                <p>The Trustee shall not pay for food or shelter items that would reduce the beneficiary's SSI benefits, unless properly reported in accordance with SSA rules.</p>
+            </article>
+
+            <!-- ARTICLE 3 -->
+            <article>
+                <h3>Article 3: Trustee & Trust Protector</h3>
+
+                <h4>Section 3.01 — Trustee</h4>
+                <p>The initial Trustee is <strong>Sean Marlon II McDaniel</strong>. The Trustee has full authority to manage trust assets, make discretionary distributions, file tax returns, and administer the trust. Sean Maurice Mayo shall not serve as Trustee or Co-Trustee.</p>
+
+                <h4>Section 3.02 — Trust Protector</h4>
+                <p>The Trust Protector is <strong>Sean Maurice Mayo</strong>. The Trust Protector has the authority to:</p>
+                <ul>
+                    <li>Remove and appoint successor Trustees</li>
+                    <li>Change the governing law or situs of administration</li>
+                    <li>Amend administrative provisions to preserve benefits eligibility or comply with changes in law</li>
+                </ul>
+                <p>The Trust Protector shall have no day-to-day management authority and no authority to direct distributions or investments.</p>
+            </article>
+
+            <!-- ARTICLE 4 -->
+            <article>
+                <h3>Article 4: Medicaid Payback</h3>
+                <p>Upon the death of Sean Maurice Mayo, the Trustee shall reimburse the state Medicaid agency for benefits paid on his behalf, as required under <em>42 U.S.C. § 1396p(d)(4)(A)</em>. After such reimbursement, any remaining trust assets shall be distributed to the remainder beneficiaries named in Schedule A.</p>
+            </article>
+
+            <!-- ARTICLE 5 -->
+            <article>
+                <h3>Article 5: Spendthrift Provision</h3>
+                <p>This trust is a <strong>spendthrift trust</strong>. No beneficiary may assign, anticipate, encumber, or transfer any interest in the trust's income or principal. Trust assets shall not be subject to attachment, bankruptcy, or any other legal process.</p>
+            </article>
+
+            <!-- FOOTER -->
+            <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #e2e8f0; text-align: center; color: #5a6e7c; font-size: 0.8rem;">
+                <p><strong>Document Classification:</strong> Confidential Legal Instrument</p>
+                <p>Access logged and restricted to named parties only.</p>
+                <p style="margin-top: 8px;">© SA Nathan LLC — SOLVY Ecosystem™ Internal Governance</p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Simple access control — in production, this should be server-side
+    const VALID_CODES = ['SMM-TRUST-2026', 'SHEILA-250K', 'SEAN-MARLO-TRUST'];
+
+    function checkAccess() {
+        const input = document.getElementById('accessCode').value.trim();
+        const error = document.getElementById('loginError');
+
+        if (VALID_CODES.includes(input)) {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('appContent').style.display = 'flex';
+            sessionStorage.setItem('smmTrustAccess', 'granted');
+        } else {
+            error.style.display = 'block';
+            // Log failed attempt (in production, send to server)
+            console.warn('[SMM Trust] Failed access attempt:', new Date().toISOString(), navigator.userAgent);
+        }
+    }
+
+    // Allow Enter key
+    document.getElementById('accessCode')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') checkAccess();
+    });
+
+    // Check session on load
+    if (sessionStorage.getItem('smmTrustAccess') === 'granted') {
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('appContent').style.display = 'flex';
+    }
+</script>
+
+</body>
+</html>

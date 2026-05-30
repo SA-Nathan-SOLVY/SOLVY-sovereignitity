@@ -11,7 +11,7 @@
  * @module vendor-config
  */
 
-const ACTIVE_VENDOR = (process.env.BANKING_VENDOR || 'treasuryprime').toLowerCase();
+const ACTIVE_VENDOR = (process.env.BANKING_VENDOR || 'lithic').toLowerCase();
 
 const VENDORS = {
   unit: {
@@ -49,13 +49,31 @@ const VENDORS = {
       googlePay: true,
       cardAuthLoop: true
     }
+  },
+  lithic: {
+    name: 'Lithic',
+    type: 'api-first',
+    hasIframeApp: false,
+    features: {
+      depositAccounts: false,
+      virtualCards: true,
+      physicalCards: true,
+      ach: false,
+      wires: false,
+      fedNow: false,
+      checkDeposit: false,
+      greenDot: false,
+      applePay: true,
+      googlePay: true,
+      cardAuthLoop: true
+    }
   }
 };
 
 function getVendor() {
   const vendor = VENDORS[ACTIVE_VENDOR];
   if (!vendor) {
-    throw new Error(`Unknown banking vendor: ${ACTIVE_VENDOR}. Use 'unit' or 'treasuryprime'.`);
+    throw new Error(`Unknown banking vendor: ${ACTIVE_VENDOR}. Use 'unit', 'treasuryprime', or 'lithic'.`);
   }
   return { key: ACTIVE_VENDOR, ...vendor };
 }

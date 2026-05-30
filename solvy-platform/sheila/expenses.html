@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Expense Manager | SMM Special Needs Trust</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #f4f6fa;
+            color: #1a2a3a;
+            line-height: 1.6;
+        }
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #0f1e2c;
+            color: #e0e7ef;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+        .logo-area {
+            padding: 24px 20px;
+            border-bottom: 1px solid #1e3a4d;
+            margin-bottom: 24px;
+        }
+        .logo { font-size: 1.6rem; font-weight: 700; }
+        .logo span { color: #ffb347; }
+        .logo-sub { font-size: 0.7rem; opacity: 0.7; margin-top: 4px; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            margin: 4px 12px;
+            border-radius: 12px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: calc(100% - 24px);
+            font-size: 0.95rem;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: #1e3a4d;
+            color: white;
+        }
+        .role-badge {
+            margin: auto 20px 20px;
+            padding: 12px;
+            background: #1e3a4d;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .role-badge .role-label { opacity: 0.6; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+        .role-badge .role-name { font-weight: 700; color: #ffb347; }
+
+        /* Main */
+        .main-content { flex: 1; padding: 24px 32px; overflow-x: auto; }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .page-title h1 { font-size: 1.6rem; font-weight: 600; }
+        .page-title p { color: #5a6e7c; font-size: 0.85rem; margin-top: 4px; }
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-success { background: #16a34a; }
+        .btn-danger { background: #dc2626; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            color: #1a2a3a;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f6;
+        }
+        .stat-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #5a6e7c; margin-bottom: 6px; }
+        .stat-amount { font-size: 1.6rem; font-weight: 700; }
+        .stat-amount.pending { color: #f59e0b; }
+        .stat-amount.approved { color: #16a34a; }
+        .stat-amount.spent { color: #9333ea; }
+        .stat-amount.balance { color: #0f1e2c; }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f6;
+            margin-bottom: 20px;
+        }
+        .card h3 { font-size: 1.1rem; margin-bottom: 16px; color: #0f1e2c; }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.8rem; font-weight: 600; color: #5a6e7c; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 12px 14px;
+            border: 1px solid #d0d7de;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            font-family: inherit;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #9333ea;
+            box-shadow: 0 0 0 3px rgba(147,51,234,0.1);
+        }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+
+        /* Table */
+        .table-wrapper { overflow-x: auto; background: white; border-radius: 16px; border: 1px solid #eef2f6; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #f0f2f5; }
+        th { background: #fafcff; font-weight: 600; color: #2c3e4e; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        tr:hover { background: #f8fafc; }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-approved { background: #dcfce7; color: #166534; }
+        .status-rejected { background: #fee2e2; color: #991b1b; }
+        .status-paid { background: #e0e7ff; color: #3730a3; }
+        .amount { font-family: 'SF Mono', monospace; font-weight: 600; }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15,30,44,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .modal h2 { margin-bottom: 20px; font-size: 1.3rem; }
+        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+
+        /* Tabs */
+        .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; }
+        .tab {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            font-weight: 600;
+            color: #5a6e7c;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        .tab.active { color: #9333ea; border-bottom-color: #9333ea; }
+
+        /* Hidden */
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <a href="../../index.html" style="text-decoration:none;color:inherit;">
+                <div class="logo">SOLVY <span>MAN</span></div>
+            </a>
+            <div class="logo-sub">Trust Expense Management</div>
+        </div>
+        <nav>
+            <button class="nav-item active" onclick="showView('dashboard')">
+                <span>📊</span> Dashboard
+            </button>
+            <button class="nav-item" onclick="showView('requests')">
+                <span>📋</span> My Requests
+            </button>
+            <button class="nav-item trustee-only hidden" onclick="showView('approvals')">
+                <span>✅</span> Trustee Approvals
+            </button>
+            <button class="nav-item" onclick="showView('loans')">
+                <span>🏦</span> Loans to SOLVY
+            </button>
+            <button class="nav-item" onclick="showView('audit')">
+                <span>📜</span> Audit Trail
+            </button>
+            <a href="./index.html" class="nav-item" style="border-top:1px solid #1e3a4d;margin-top:12px;">
+                <span>🏠</span> Sheila's Trust Home
+            </a>
+            <a href="./trust.html" class="nav-item">
+                <span>🛡️</span> Trust Document
+            </a>
+        </nav>
+        <div class="role-badge">
+            <div class="role-label">Logged in as</div>
+            <div class="role-name" id="userRoleDisplay">Sean Maurice Mayo</div>
+            <button class="nav-item" style="margin-top:8px;font-size:0.75rem;opacity:0.7;" onclick="toggleRole()">🔄 Switch Role</button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="page-title">
+                <h1>SMM Special Needs Trust — Expense Manager</h1>
+                <p>Request, approve, pay, and audit all trust distributions</p>
+            </div>
+            <button class="btn-primary" id="topActionBtn" onclick="openModal('requestModal')">+ New Request</button>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Trust Balance</div>
+                <div class="stat-amount balance" id="statBalance">$250,000.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Pending Requests</div>
+                <div class="stat-amount pending" id="statPending">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Approved (Unpaid)</div>
+                <div class="stat-amount approved" id="statApproved">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Total Spent YTD</div>
+                <div class="stat-amount spent" id="statSpent">$0.00</div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD VIEW -->
+        <div id="view-dashboard">
+            <div class="card">
+                <h3>Recent Activity</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>Date</th><th>Vendor</th><th>Category</th><th>Amount</th><th>Status</th><th>Requested By</th></tr>
+                        </thead>
+                        <tbody id="recentTable">
+                            <!-- JS populates -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- MY REQUESTS VIEW -->
+        <div id="view-requests" class="hidden">
+            <div class="card">
+                <h3>My Payment Requests</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Date</th><th>Vendor</th><th>Category</th><th>Amount</th><th>Status</th><th>Trustee Note</th></tr>
+                        </thead>
+                        <tbody id="myRequestsTable">
+                            <!-- JS populates -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRUSTEE APPROVALS VIEW -->
+        <div id="view-approvals" class="hidden">
+            <div class="tabs">
+                <button class="tab active" onclick="showApprovalTab('pending')">Pending</button>
+                <button class="tab" onclick="showApprovalTab('approved')">Approved</button>
+                <button class="tab" onclick="showApprovalTab('rejected')">Rejected</button>
+                <button class="tab" onclick="showApprovalTab('paid')">Paid</button>
+            </div>
+            <div class="card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Date</th><th>Requested By</th><th>Vendor</th><th>Category</th><th>Amount</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="approvalTable">
+                            <!-- JS populates -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOANS VIEW -->
+        <div id="view-loans" class="hidden">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Active Loans</div>
+                    <div class="stat-amount" id="statActiveLoans">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Total Loaned</div>
+                    <div class="stat-amount" id="statTotalLoaned">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Outstanding Balance</div>
+                    <div class="stat-amount pending" id="statLoanBalance">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Repaid YTD</div>
+                    <div class="stat-amount approved" id="statRepaid">$0.00</div>
+                </div>
+            </div>
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <h3>Loan Agreements</h3>
+                    <button class="btn-primary" onclick="openModal('loanModal')">+ New Loan Request</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Date</th><th>Purpose</th><th>Amount</th><th>Term</th><th>Rate</th><th>Status</th><th>Balance</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="loansTable">
+                            <!-- JS populates -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- AUDIT TRAIL VIEW -->
+        <div id="view-audit" class="hidden">
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <h3>Complete Audit Trail</h3>
+                    <button class="btn-outline" onclick="exportAudit()">📥 Export CSV</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>Timestamp</th><th>Action</th><th>Request ID</th><th>User</th><th>Role</th><th>Details</th></tr>
+                        </thead>
+                        <tbody id="auditTable">
+                            <!-- JS populates -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- NEW REQUEST MODAL -->
+<div class="modal-overlay" id="requestModal">
+    <div class="modal">
+        <h2>New Expense Request</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Vendor / Payee Name</label>
+                <input type="text" id="reqVendor" placeholder="e.g. Dr. Smith Medical">
+            </div>
+            <div class="form-group">
+                <label>Amount ($)</label>
+                <input type="number" id="reqAmount" placeholder="0.00" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="reqCategory">
+                    <option value="">Select category...</option>
+                    <option value="Medical/Dental">Medical / Dental (not covered by benefits)</option>
+                    <option value="Mental Health">Mental Health Services</option>
+                    <option value="Transportation">Transportation (vehicle, insurance, gas)</option>
+                    <option value="Home Modifications">Home Modifications</option>
+                    <option value="Furniture/Appliances">Furniture / Appliances</option>
+                    <option value="Electronics">Electronics / Computer Equipment</option>
+                    <option value="Recreation">Recreation / Vacations / Hobbies</option>
+                    <option value="Education">Education / Vocational Training</option>
+                    <option value="Personal Care">Personal Care Attendants</option>
+                    <option value="Communications">Phone / Internet</option>
+                    <option value="Other">Other (explain in notes)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="reqMethod">
+                    <option value="ach">ACH Bank Transfer</option>
+                    <option value="check">Paper Check</option>
+                    <option value="card">Debit Card (Lithic)</option>
+                    <option value="wire">Wire Transfer</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Description / Purpose</label>
+                <textarea id="reqDescription" placeholder="Describe what this expense is for..."></textarea>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Invoice / Receipt (optional)</label>
+                <input type="file" id="reqFile" accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-outline" onclick="closeModal('requestModal')">Cancel</button>
+            <button class="btn-primary" onclick="submitRequest()">Submit Request</button>
+        </div>
+    </div>
+</div>
+
+<!-- APPROVE/REJECT MODAL -->
+<div class="modal-overlay" id="actionModal">
+    <div class="modal">
+        <h2 id="actionTitle">Review Request</h2>
+        <div id="actionDetails" style="background:#f8fafc;padding:16px;border-radius:12px;margin-bottom:20px;"></div>
+        <div class="form-group">
+            <label>Trustee Note (required)</label>
+            <textarea id="actionNote" placeholder="Explain your decision..."></textarea>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-outline" onclick="closeModal('actionModal')">Cancel</button>
+            <button class="btn-primary btn-danger" onclick="executeAction('reject')">Reject</button>
+            <button class="btn-primary btn-success" onclick="executeAction('approve')">Approve</button>
+        </div>
+    </div>
+</div>
+
+<!-- LOAN REQUEST MODAL -->
+<div class="modal-overlay" id="loanModal">
+    <div class="modal">
+        <h2>New Loan Request to SOLVY</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Loan Amount ($)</label>
+                <input type="number" id="loanAmount" placeholder="0.00" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Interest Rate (%)</label>
+                <input type="number" id="loanRate" placeholder="e.g. 4.5" step="0.01" value="0">
+            </div>
+            <div class="form-group">
+                <label>Term (months)</label>
+                <input type="number" id="loanTerm" placeholder="e.g. 12" value="12">
+            </div>
+            <div class="form-group">
+                <label>Payment Frequency</label>
+                <select id="loanFrequency">
+                    <option value="monthly">Monthly</option>
+                    <option value="quarterly">Quarterly</option>
+                    <option value="lump">Lump sum at maturity</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Purpose / Use of Funds</label>
+                <textarea id="loanPurpose" placeholder="Describe how SOLVY Ecosystem will use these funds (operations, card program, legal, etc.)"></textarea>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Repayment Source</label>
+                <textarea id="loanRepaymentSource" placeholder="e.g. Repaid from SOLVY Ecosystem interchange revenue, 70/20/10 operations reserve"></textarea>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-outline" onclick="closeModal('loanModal')">Cancel</button>
+            <button class="btn-primary" onclick="submitLoanRequest()">Submit Loan Request</button>
+        </div>
+    </div>
+</div>
+
+<!-- LOAN APPROVE/REJECT MODAL -->
+<div class="modal-overlay" id="loanActionModal">
+    <div class="modal">
+        <h2 id="loanActionTitle">Review Loan</h2>
+        <div id="loanActionDetails" style="background:#f8fafc;padding:16px;border-radius:12px;margin-bottom:20px;"></div>
+        <div class="form-group">
+            <label>Trustee Note (required)</label>
+            <textarea id="loanActionNote" placeholder="Explain approval/rejection..."></textarea>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-outline" onclick="closeModal('loanActionModal')">Cancel</button>
+            <button class="btn-primary btn-danger" onclick="executeLoanAction('reject')">Reject</button>
+            <button class="btn-primary btn-success" onclick="executeLoanAction('approve')">Approve</button>
+        </div>
+    </div>
+</div>
+
+<!-- REPAYMENT MODAL -->
+<div class="modal-overlay" id="repayModal">
+    <div class="modal">
+        <h2>Make Loan Repayment</h2>
+        <div id="repayDetails" style="background:#f8fafc;padding:16px;border-radius:12px;margin-bottom:20px;"></div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Payment Amount ($)</label>
+                <input type="number" id="repayAmount" placeholder="0.00" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Payment Date</label>
+                <input type="date" id="repayDate">
+            </div>
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="repayMethod">
+                    <option value="ach">ACH from SOLVY Business Account</option>
+                    <option value="check">Business Check</option>
+                    <option value="wire">Wire Transfer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Reference / Confirmation #</label>
+                <input type="text" id="repayRef" placeholder="e.g. ACH-2026-0601">
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-outline" onclick="closeModal('repayModal')">Cancel</button>
+            <button class="btn-primary" onclick="executeRepayment()">Record Repayment</button>
+        </div>
+    </div>
+</div>
+
+<!-- PAY MODAL -->
+<div class="modal-overlay" id="payModal">
+    <div class="modal">
+        <h2>Execute Payment</h2>
+        <div id="payDetails" style="background:#f8fafc;padding:16px;border-radius:12px;margin-bottom:20px;"></div>
+        <div class="form-group">
+            <label>Payment Reference / Confirmation #</label>
+            <input type="text" id="payRef" placeholder="e.g. ACH-2026-001">
+        </div>
+        <div class="form-group">
+            <label>Payment Date</label>
+            <input type="date" id="payDate">
+        </div>
+        <div class="form-group">
+            <label>Attach Receipt / Proof of Payment</label>
+            <input type="file" id="payFile" accept=".pdf,.jpg,.jpeg,.png">
+        </div>
+        <div class="modal-actions">
+            <button class="btn-outline" onclick="closeModal('payModal')">Cancel</button>
+            <button class="btn-primary" onclick="executePayment()">Confirm Payment</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========================
+// STATE
+// ========================
+let currentRole = 'beneficiary'; // 'beneficiary' or 'trustee'
+let currentUser = 'Sean Maurice Mayo';
+let activeRequestId = null;
+
+// Load from localStorage or seed with demo data
+let requests = JSON.parse(localStorage.getItem('smm_requests') || '[]');
+let loans = JSON.parse(localStorage.getItem('smm_loans') || '[]');
+let auditLog = JSON.parse(localStorage.getItem('smm_audit') || '[]');
+
+const TRUST_BALANCE = 250000;
+
+// Seed demo data if empty
+if (requests.length === 0) {
+    seedDemoData();
+}
+
+// ========================
+// ROLE MANAGEMENT
+// ========================
+function toggleRole() {
+    if (currentRole === 'beneficiary') {
+        currentRole = 'trustee';
+        currentUser = 'Sean Marlon II McDaniel';
+    } else {
+        currentRole = 'beneficiary';
+        currentUser = 'Sean Maurice Mayo';
+    }
+    document.getElementById('userRoleDisplay').textContent = currentUser;
+    updateRoleUI();
+    renderAll();
+}
+
+function updateRoleUI() {
+    document.querySelectorAll('.trustee-only').forEach(el => {
+        el.classList.toggle('hidden', currentRole !== 'trustee');
+    });
+    // If beneficiary, hide approvals view
+    if (currentRole === 'beneficiary') {
+        const approv = document.getElementById('view-approvals');
+        if (!approv.classList.contains('hidden')) showView('dashboard');
+    }
+}
+
+// ========================
+// NAVIGATION
+// ========================
+function showView(viewName) {
+    ['dashboard','requests','approvals','loans','audit'].forEach(v => {
+        document.getElementById('view-' + v).classList.add('hidden');
+    });
+    document.getElementById('view-' + viewName).classList.remove('hidden');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    event?.target?.classList.add('active');
+
+    // Update top action button
+    const btn = document.getElementById('topActionBtn');
+    if (viewName === 'loans') {
+        btn.textContent = '+ New Loan';
+        btn.onclick = () => openModal('loanModal');
+    } else {
+        btn.textContent = '+ New Request';
+        btn.onclick = () => openModal('requestModal');
+    }
+
+    renderAll();
+}
+
+function showApprovalTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    renderApprovals(tab);
+}
+
+// ========================
+// MODALS
+// ========================
+function openModal(id) {
+    document.getElementById(id).classList.add('active');
+    if (id === 'payModal') {
+        document.getElementById('payDate').valueAsDate = new Date();
+    }
+}
+function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+    activeRequestId = null;
+}
+
+// ========================
+// REQUEST WORKFLOW
+// ========================
+function submitRequest() {
+    const vendor = document.getElementById('reqVendor').value.trim();
+    const amount = parseFloat(document.getElementById('reqAmount').value);
+    const category = document.getElementById('reqCategory').value;
+    const method = document.getElementById('reqMethod').value;
+    const description = document.getElementById('reqDescription').value.trim();
+
+    if (!vendor || !amount || amount <= 0 || !category) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    const req = {
+        id: 'REQ-' + Date.now(),
+        date: new Date().toISOString(),
+        vendor,
+        amount,
+        category,
+        method,
+        description,
+        status: 'pending',
+        requestedBy: currentUser,
+        trusteeNote: '',
+        paymentRef: '',
+        paymentDate: '',
+        auditTrail: []
+    };
+
+    requests.push(req);
+    saveData();
+    logAudit('REQUEST_CREATED', req.id, `Requested $${amount.toFixed(2)} to ${vendor} for ${category}`);
+
+    closeModal('requestModal');
+    document.getElementById('reqVendor').value = '';
+    document.getElementById('reqAmount').value = '';
+    document.getElementById('reqCategory').value = '';
+    document.getElementById('reqDescription').value = '';
+    renderAll();
+}
+
+function openActionModal(id, action) {
+    activeRequestId = id;
+    const req = requests.find(r => r.id === id);
+    const title = action === 'approve' ? 'Approve Request' : 'Reject Request';
+    document.getElementById('actionTitle').textContent = title;
+    document.getElementById('actionDetails').innerHTML = `
+        <strong>${req.vendor}</strong><br>
+        $${req.amount.toFixed(2)} — ${req.category}<br>
+        <small>${req.description}</small>
+    `;
+    document.getElementById('actionNote').value = '';
+    openModal('actionModal');
+}
+
+function executeAction(action) {
+    const note = document.getElementById('actionNote').value.trim();
+    if (!note) {
+        alert('Trustee note is required.');
+        return;
+    }
+    const req = requests.find(r => r.id === activeRequestId);
+    req.status = action === 'approve' ? 'approved' : 'rejected';
+    req.trusteeNote = note;
+    req.auditTrail.push({
+        timestamp: new Date().toISOString(),
+        action: action.toUpperCase(),
+        by: currentUser,
+        note
+    });
+    saveData();
+    logAudit('REQUEST_' + action.toUpperCase(), req.id, `Trustee: ${note}`);
+    closeModal('actionModal');
+    renderAll();
+}
+
+function openPayModal(id) {
+    activeRequestId = id;
+    const req = requests.find(r => r.id === id);
+    document.getElementById('payDetails').innerHTML = `
+        <strong>${req.vendor}</strong><br>
+        $${req.amount.toFixed(2)} — ${req.category}<br>
+        <small>Requested by: ${req.requestedBy}</small>
+    `;
+    document.getElementById('payRef').value = '';
+    openModal('payModal');
+}
+
+function executePayment() {
+    const ref = document.getElementById('payRef').value.trim();
+    const date = document.getElementById('payDate').value;
+    if (!ref || !date) {
+        alert('Payment reference and date are required.');
+        return;
+    }
+    const req = requests.find(r => r.id === activeRequestId);
+    req.status = 'paid';
+    req.paymentRef = ref;
+    req.paymentDate = date;
+    req.auditTrail.push({
+        timestamp: new Date().toISOString(),
+        action: 'PAID',
+        by: currentUser,
+        note: `Payment ref: ${ref}`
+    });
+    saveData();
+    logAudit('PAYMENT_EXECUTED', req.id, `Ref: ${ref}, Date: ${date}`);
+    closeModal('payModal');
+    renderAll();
+}
+
+// ========================
+// LOAN WORKFLOW
+// ========================
+function submitLoanRequest() {
+    const amount = parseFloat(document.getElementById('loanAmount').value);
+    const rate = parseFloat(document.getElementById('loanRate').value) || 0;
+    const term = parseInt(document.getElementById('loanTerm').value) || 12;
+    const frequency = document.getElementById('loanFrequency').value;
+    const purpose = document.getElementById('loanPurpose').value.trim();
+    const repaymentSource = document.getElementById('loanRepaymentSource').value.trim();
+
+    if (!amount || amount <= 0 || !purpose) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    const loan = {
+        id: 'LOAN-' + Date.now(),
+        date: new Date().toISOString(),
+        amount,
+        rate,
+        term,
+        frequency,
+        purpose,
+        repaymentSource,
+        status: 'pending',
+        requestedBy: currentUser,
+        trusteeNote: '',
+        balance: amount,
+        repayments: []
+    };
+
+    loans.push(loan);
+    saveData();
+    logAudit('LOAN_REQUESTED', loan.id, `Requested $${amount.toFixed(2)} loan to SOLVY for: ${purpose.substring(0, 60)}`);
+
+    closeModal('loanModal');
+    document.getElementById('loanAmount').value = '';
+    document.getElementById('loanRate').value = '0';
+    document.getElementById('loanTerm').value = '12';
+    document.getElementById('loanPurpose').value = '';
+    document.getElementById('loanRepaymentSource').value = '';
+    renderAll();
+}
+
+function openLoanActionModal(id, action) {
+    activeRequestId = id;
+    const loan = loans.find(l => l.id === id);
+    const title = action === 'approve' ? 'Approve Loan' : 'Reject Loan';
+    document.getElementById('loanActionTitle').textContent = title;
+    document.getElementById('loanActionDetails').innerHTML = `
+        <strong>Loan #${loan.id}</strong><br>
+        $${loan.amount.toFixed(2)} at ${loan.rate}% over ${loan.term} months<br>
+        <small>${loan.purpose}</small>
+    `;
+    document.getElementById('loanActionNote').value = '';
+    openModal('loanActionModal');
+}
+
+function executeLoanAction(action) {
+    const note = document.getElementById('loanActionNote').value.trim();
+    if (!note) {
+        alert('Trustee note is required.');
+        return;
+    }
+    const loan = loans.find(l => l.id === activeRequestId);
+    loan.status = action === 'approve' ? 'active' : 'rejected';
+    loan.trusteeNote = note;
+    saveData();
+    logAudit('LOAN_' + action.toUpperCase(), loan.id, `Trustee: ${note}`);
+    closeModal('loanActionModal');
+    renderAll();
+}
+
+function openRepayModal(id) {
+    activeRequestId = id;
+    const loan = loans.find(l => l.id === id);
+    document.getElementById('repayDetails').innerHTML = `
+        <strong>Loan #${loan.id}</strong><br>
+        Original: $${loan.amount.toFixed(2)} | Balance: $${loan.balance.toFixed(2)}<br>
+        <small>${loan.purpose}</small>
+    `;
+    document.getElementById('repayAmount').value = '';
+    document.getElementById('repayDate').valueAsDate = new Date();
+    document.getElementById('repayRef').value = '';
+    openModal('repayModal');
+}
+
+function executeRepayment() {
+    const amount = parseFloat(document.getElementById('repayAmount').value);
+    const date = document.getElementById('repayDate').value;
+    const method = document.getElementById('repayMethod').value;
+    const ref = document.getElementById('repayRef').value.trim();
+
+    if (!amount || amount <= 0 || !date) {
+        alert('Payment amount and date are required.');
+        return;
+    }
+
+    const loan = loans.find(l => l.id === activeRequestId);
+    loan.repayments.push({
+        date,
+        amount,
+        method,
+        ref,
+        recordedBy: currentUser
+    });
+    loan.balance = Math.max(0, loan.balance - amount);
+    if (loan.balance <= 0.01) {
+        loan.status = 'paid';
+    }
+    saveData();
+    logAudit('LOAN_REPAYMENT', loan.id, `Paid $${amount.toFixed(2)} via ${method}. Ref: ${ref}. Balance: $${loan.balance.toFixed(2)}`);
+    closeModal('repayModal');
+    renderAll();
+}
+
+function renderLoans() {
+    const tbody = document.getElementById('loansTable');
+    const sorted = [...loans].sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    tbody.innerHTML = sorted.map(l => {
+        let actions = '';
+        if (l.status === 'pending' && currentRole === 'trustee') {
+            actions = `
+                <button class="btn-primary btn-success" style="padding:6px 12px;font-size:0.75rem;" onclick="openLoanActionModal('${l.id}', 'approve')">Approve</button>
+                <button class="btn-primary btn-danger" style="padding:6px 12px;font-size:0.75rem;" onclick="openLoanActionModal('${l.id}', 'reject')">Reject</button>
+            `;
+        } else if (l.status === 'active') {
+            actions = `<button class="btn-primary" style="padding:6px 12px;font-size:0.75rem;" onclick="openRepayModal('${l.id}')">Repay</button>`;
+        } else {
+            actions = '-';
+        }
+        const repaid = (l.repayments || []).reduce((s,p) => s + p.amount, 0);
+        return `
+            <tr>
+                <td>${l.id}</td>
+                <td>${formatDate(l.date)}</td>
+                <td>${l.purpose.substring(0, 40)}${l.purpose.length > 40 ? '...' : ''}</td>
+                <td class="amount">$${l.amount.toFixed(2)}</td>
+                <td>${l.term} mo</td>
+                <td>${l.rate}%</td>
+                <td><span class="status-badge status-${l.status === 'active' ? 'approved' : l.status}">${l.status}</span></td>
+                <td class="amount">$${l.balance.toFixed(2)}</td>
+                <td>${actions}</td>
+            </tr>
+        `;
+    }).join('') || '<tr><td colspan="9" style="text-align:center;color:#5a6e7c;">No loan agreements</td></tr>';
+}
+
+// ========================
+// RENDERING
+// ========================
+function renderAll() {
+    renderStats();
+    renderRecent();
+    renderMyRequests();
+    renderApprovals('pending');
+    renderLoans();
+    renderAudit();
+}
+
+function renderStats() {
+    const pending = requests.filter(r => r.status === 'pending').length;
+    const approved = requests.filter(r => r.status === 'approved').reduce((s,r) => s + r.amount, 0);
+    const spent = requests.filter(r => r.status === 'paid').reduce((s,r) => s + r.amount, 0);
+    const activeLoans = loans.filter(l => l.status === 'active');
+    const totalLoaned = loans.filter(l => l.status === 'active' || l.status === 'paid').reduce((s,l) => s + l.amount, 0);
+    const outstanding = activeLoans.reduce((s,l) => s + l.balance, 0);
+    const repaid = loans.reduce((s,l) => s + (l.repayments || []).reduce((r,p) => r + p.amount, 0), 0);
+    document.getElementById('statPending').textContent = pending;
+    document.getElementById('statApproved').textContent = '$' + approved.toFixed(2);
+    document.getElementById('statSpent').textContent = '$' + spent.toFixed(2);
+    document.getElementById('statBalance').textContent = '$' + (TRUST_BALANCE - spent - outstanding).toFixed(2);
+    document.getElementById('statActiveLoans').textContent = activeLoans.length;
+    document.getElementById('statTotalLoaned').textContent = '$' + totalLoaned.toFixed(2);
+    document.getElementById('statLoanBalance').textContent = '$' + outstanding.toFixed(2);
+    document.getElementById('statRepaid').textContent = '$' + repaid.toFixed(2);
+}
+
+function renderRecent() {
+    const tbody = document.getElementById('recentTable');
+    const recent = [...requests].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
+    tbody.innerHTML = recent.map(r => `
+        <tr>
+            <td>${formatDate(r.date)}</td>
+            <td>${r.vendor}</td>
+            <td>${r.category}</td>
+            <td class="amount">$${r.amount.toFixed(2)}</td>
+            <td><span class="status-badge status-${r.status}">${r.status}</span></td>
+            <td>${r.requestedBy}</td>
+        </tr>
+    `).join('') || '<tr><td colspan="6" style="text-align:center;color:#5a6e7c;">No activity yet</td></tr>';
+}
+
+function renderMyRequests() {
+    const tbody = document.getElementById('myRequestsTable');
+    const mine = requests.filter(r => r.requestedBy === currentUser).sort((a,b) => new Date(b.date) - new Date(a.date));
+    tbody.innerHTML = mine.map(r => `
+        <tr>
+            <td>${r.id}</td>
+            <td>${formatDate(r.date)}</td>
+            <td>${r.vendor}</td>
+            <td>${r.category}</td>
+            <td class="amount">$${r.amount.toFixed(2)}</td>
+            <td><span class="status-badge status-${r.status}">${r.status}</span></td>
+            <td>${r.trusteeNote || '-'}</td>
+        </tr>
+    `).join('') || '<tr><td colspan="7" style="text-align:center;color:#5a6e7c;">No requests submitted yet</td></tr>';
+}
+
+function renderApprovals(filter) {
+    const tbody = document.getElementById('approvalTable');
+    const filtered = requests.filter(r => r.status === filter).sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    tbody.innerHTML = filtered.map(r => {
+        let actions = '';
+        if (filter === 'pending') {
+            actions = `
+                <button class="btn-primary btn-success" style="padding:6px 12px;font-size:0.75rem;" onclick="openActionModal('${r.id}', 'approve')">Approve</button>
+                <button class="btn-primary btn-danger" style="padding:6px 12px;font-size:0.75rem;" onclick="openActionModal('${r.id}', 'reject')">Reject</button>
+            `;
+        } else if (filter === 'approved') {
+            actions = `<button class="btn-primary" style="padding:6px 12px;font-size:0.75rem;" onclick="openPayModal('${r.id}')">Pay Now</button>`;
+        } else {
+            actions = '-';
+        }
+        return `
+            <tr>
+                <td>${r.id}</td>
+                <td>${formatDate(r.date)}</td>
+                <td>${r.requestedBy}</td>
+                <td>${r.vendor}</td>
+                <td>${r.category}</td>
+                <td class="amount">$${r.amount.toFixed(2)}</td>
+                <td>${actions}</td>
+            </tr>
+        `;
+    }).join('') || `<tr><td colspan="7" style="text-align:center;color:#5a6e7c;">No ${filter} requests</td></tr>`;
+}
+
+function renderAudit() {
+    const tbody = document.getElementById('auditTable');
+    const sorted = [...auditLog].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    tbody.innerHTML = sorted.map(a => `
+        <tr>
+            <td>${formatDateTime(a.timestamp)}</td>
+            <td><strong>${a.action}</strong></td>
+            <td>${a.requestId}</td>
+            <td>${a.user}</td>
+            <td>${a.role}</td>
+            <td>${a.details}</td>
+        </tr>
+    `).join('') || '<tr><td colspan="6" style="text-align:center;color:#5a6e7c;">No audit records</td></tr>';
+}
+
+// ========================
+// EXPORT
+// ========================
+function exportAudit() {
+    const csv = [
+        ['Timestamp','Action','Request ID','User','Role','Details'].join(','),
+        ...auditLog.map(a => [
+            a.timestamp, a.action, a.requestId, a.user, a.role,
+            '"' + (a.details || '').replace(/"/g,'""') + '"'
+        ].join(','))
+    ].join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `SMM-Trust-Audit-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// ========================
+// HELPERS
+// ========================
+function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+function formatDateTime(iso) {
+    const d = new Date(iso);
+    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function logAudit(action, requestId, details) {
+    auditLog.push({
+        timestamp: new Date().toISOString(),
+        action,
+        requestId,
+        user: currentUser,
+        role: currentRole,
+        details
+    });
+    saveData();
+}
+
+function saveData() {
+    localStorage.setItem('smm_requests', JSON.stringify(requests));
+    localStorage.setItem('smm_loans', JSON.stringify(loans));
+    localStorage.setItem('smm_audit', JSON.stringify(auditLog));
+}
+
+function seedDemoData() {
+    // Demo loan
+    const demoLoan = {
+        id: 'LOAN-20260501001',
+        date: '2026-05-01T09:00:00Z',
+        amount: 25000.00,
+        rate: 0,
+        term: 24,
+        frequency: 'quarterly',
+        purpose: 'SOLVY Ecosystem launch capital — card program setup, legal fees, Hetzner VPS infrastructure, and Unit.co sandbox integration for First Circle pilot',
+        repaymentSource: 'Repaid from SOLVY Ecosystem operations reserve (10% of interchange revenue) upon profitability',
+        status: 'active',
+        requestedBy: 'Sean Maurice Mayo',
+        trusteeNote: 'Approved — mission-aligned investment in cooperative infrastructure. Zero interest to maximize member dividends.',
+        balance: 22500.00,
+        repayments: [
+            { date: '2026-05-15', amount: 2500.00, method: 'ach', ref: 'ACH-SOLVY-20260515-001', recordedBy: 'Sean Marlon II McDaniel' }
+        ]
+    };
+    loans.push(demoLoan);
+    logAudit('LOAN_REQUESTED', demoLoan.id, `Requested $${demoLoan.amount.toFixed(2)} loan to SOLVY`);
+    logAudit('LOAN_APPROVE', demoLoan.id, demoLoan.trusteeNote);
+    logAudit('LOAN_REPAYMENT', demoLoan.id, `Paid $2500.00 via ACH. Ref: ACH-SOLVY-20260515-001. Balance: $22500.00`);
+
+    const demo = [
+        {
+            id: 'REQ-20260515001',
+            date: '2026-05-15T10:30:00Z',
+            vendor: 'Houston Neurology Associates',
+            amount: 450.00,
+            category: 'Medical/Dental',
+            method: 'ach',
+            description: 'Specialist consultation not covered by VA benefits',
+            status: 'paid',
+            requestedBy: 'Sean Maurice Mayo',
+            trusteeNote: 'Approved — medical necessity, not covered by existing benefits',
+            paymentRef: 'ACH-2026-0515-001',
+            paymentDate: '2026-05-16',
+            auditTrail: []
+        },
+        {
+            id: 'REQ-20260520002',
+            date: '2026-05-20T14:15:00Z',
+            vendor: 'AutoZone / Mobile Mechanic',
+            amount: 285.50,
+            category: 'Transportation',
+            method: 'card',
+            description: 'Vehicle repair — brake pads and oil change for transport to medical appointments',
+            status: 'approved',
+            requestedBy: 'Sean Maurice Mayo',
+            trusteeNote: 'Approved — transportation is essential for medical access',
+            paymentRef: '',
+            paymentDate: '',
+            auditTrail: []
+        },
+        {
+            id: 'REQ-20260528003',
+            date: '2026-05-28T09:00:00Z',
+            vendor: 'Best Buy',
+            amount: 899.99,
+            category: 'Electronics',
+            method: 'card',
+            description: 'Laptop for vocational training program and telehealth appointments',
+            status: 'pending',
+            requestedBy: 'Sean Maurice Mayo',
+            trusteeNote: '',
+            paymentRef: '',
+            paymentDate: '',
+            auditTrail: []
+        }
+    ];
+    requests = demo;
+    demo.forEach(r => {
+        logAudit('REQUEST_CREATED', r.id, `Requested $${r.amount.toFixed(2)} to ${r.vendor} for ${r.category}`);
+        if (r.status === 'approved' || r.status === 'paid') {
+            logAudit('REQUEST_APPROVED', r.id, r.trusteeNote);
+        }
+        if (r.status === 'paid') {
+            logAudit('PAYMENT_EXECUTED', r.id, `Ref: ${r.paymentRef}`);
+        }
+    });
+    saveData();
+}
+
+// ========================
+// INIT
+// ========================
+updateRoleUI();
+renderAll();
+</script>
+
+</body>
+</html>
