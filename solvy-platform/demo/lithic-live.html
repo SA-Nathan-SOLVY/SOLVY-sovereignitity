@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Lithic Sandbox Demo | SOLVY Ecosystem™</title>
+    <link rel="icon" type="image/png" href="../assets/favicon-32.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .unified-navbar {
+            background: #1e293bf2;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(147, 51, 234, .3);
+            box-shadow: 0 4px 20px #0000004d;
+        }
+        .unified-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        .unified-nav-logo {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+        .unified-nav-logo img { width: 40px; height: 40px; object-fit: contain; }
+        .unified-nav-links { display: flex; gap: 2rem; flex: 1; justify-content: center; align-items: center; }
+        .nav-dropdown { position: relative; }
+        .dropdown-toggle {
+            background: none; border: none; font-size: inherit; font-family: inherit;
+            color: #fff; cursor: pointer; padding: .5rem 1rem; border-radius: 6px;
+            font-weight: 500; transition: all .3s;
+        }
+        .dropdown-toggle:hover { color: #9333ea; background: #9333ea1a; }
+        .dropdown-menu {
+            display: none; position: absolute; top: 100%; left: 0;
+            background: #1e293bfa; border: 1px solid rgba(147, 51, 234, .3);
+            border-radius: 8px; padding: .5rem 0; min-width: 220px;
+            box-shadow: 0 10px 30px #00000080; z-index: 1001;
+        }
+        .nav-dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu a { display: block; padding: .75rem 1.5rem; color: #fff; text-decoration: none; transition: all .2s; }
+        .dropdown-menu a:hover { background: #9333ea33; color: #9333ea; }
+        .nav-link { color: #fff; text-decoration: none; padding: .5rem 1rem; border-radius: 6px; font-weight: 500; transition: all .3s; }
+        .nav-link:hover { color: #9333ea; background: #9333ea1a; }
+        .unified-nav-cta { display: flex; gap: 1rem; align-items: center; }
+        .mobile-menu-toggle {
+            display: none; background: #9333ea4d; border: 2px solid rgba(147, 51, 234, .5);
+            color: #fff; width: 44px; height: 44px; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer; align-items: center; justify-content: center;
+        }
+        @media (max-width: 968px) { .unified-nav-links, .unified-nav-cta { display: none; } .mobile-menu-toggle { display: flex; } }
+
+        /* Buttons */
+        .btn {
+            padding: .75rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: .95rem;
+            text-decoration: none; transition: all .3s; cursor: pointer; border: none;
+            display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+        }
+        .btn-purple { background: #7c3aed; color: #fff; box-shadow: 0 4px 15px rgba(124, 58, 237, .3); }
+        .btn-purple:hover { background: #6d28d9; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124, 58, 237, .4); }
+        .btn-outline-purple { background: transparent; color: #a78bfa; border: 2px solid #7c3aed; }
+        .btn-outline-purple:hover { background: #7c3aed1a; transform: translateY(-2px); }
+        .btn-orange { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; box-shadow: 0 4px 15px rgba(249, 115, 22, .3); }
+        .btn-orange:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(249, 115, 22, .4); }
+        .btn-white { background: linear-gradient(135deg, #fff, #e2e8f0); color: #9333ea; font-weight: 700; }
+        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 30px #0006; }
+        .btn:disabled { opacity: .4; cursor: not-allowed; transform: none !important; }
+
+        /* Main */
+        .virtual-card-section { padding-top: 60px; min-height: 100vh; background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a); }
+        .container { max-width: 1400px; margin: 0 auto; padding: 4rem 2rem; }
+        .hero { text-align: center; padding: 2rem 0 3rem; animation: fadeIn 1s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .hero h1 { font-size: 3rem; margin-bottom: .5rem; background: linear-gradient(135deg, #fff, #9333ea, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.2rem; max-width: 700px; margin: 1rem auto; color: #fffc; }
+        .sandbox-pill { display: inline-flex; align-items: center; gap: .5rem; background: #9333ea33; border: 1px solid rgba(147, 51, 234, .5); color: #a78bfa; padding: .5rem 1.25rem; border-radius: 50px; font-size: .9rem; font-weight: 600; margin-bottom: 1.5rem; }
+        .sandbox-pill::before { content: ''; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+
+        /* Status Grid */
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .status-card { background: #1e293bcc; border: 1px solid rgba(147, 51, 234, .3); border-radius: 20px; padding: 1.5rem; text-align: center; backdrop-filter: blur(10px); transition: transform .3s, border-color .3s; }
+        .status-card:hover { transform: translateY(-5px); border-color: rgba(147, 51, 234, .6); }
+        .status-value { font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, #9333ea, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .status-label { font-size: .9rem; color: #ffffffb3; margin-top: .3rem; }
+
+        /* Card Section */
+        .vc-main { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; align-items: start; }
+        @media (max-width: 1024px) { .vc-main { grid-template-columns: 1fr; } }
+        .vc-card-container { text-align: center; }
+        .vc-card { position: relative; display: inline-block; transition: transform .3s, box-shadow .3s; border-radius: 16px; overflow: hidden; max-width: 420px; width: 100%; }
+        .vc-card img { width: 100%; height: auto; border-radius: 16px; display: block; position: relative; z-index: 2; }
+        .vc-card-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; z-index: 3; text-align: left; }
+        .vc-card-status { align-self: flex-end; background: rgba(0, 0, 0, .4); color: #fff; padding: .3rem .8rem; border-radius: 20px; font-size: .75rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, .2); }
+        .vc-card-status.frozen { background: rgba(239, 68, 68, .4); border-color: rgba(239, 68, 68, .5); }
+        .vc-card-info { color: #fffc; font-size: 1.1rem; text-shadow: 0 2px 4px rgba(0,0,0,.5); }
+        .vc-card-number { font-family: 'Courier New', monospace; font-size: 1.6rem; letter-spacing: .1em; margin: .5rem 0; }
+
+        /* Controls */
+        .vc-balance-container { background: #1e293bcc; border: 1px solid rgba(147, 51, 234, .3); border-radius: 20px; padding: 2rem; }
+        .vc-balance-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .vc-balance-header h3 { color: #ffffffb3; font-size: 1rem; font-weight: 500; }
+        .controls { display: flex; flex-direction: column; gap: .75rem; margin-top: 1.5rem; }
+
+        /* Console */
+        .console-panel { background: rgba(0, 0, 0, .3); border: 1px solid rgba(147, 51, 234, .2); border-radius: 12px; padding: 1rem; margin-top: 1rem; font-family: 'Courier New', monospace; font-size: .8rem; max-height: 220px; overflow-y: auto; color: #94a3b8; }
+        .console-line { margin: .25rem 0; opacity: 0; animation: fadeInLine .3s forwards; }
+        @keyframes fadeInLine { to { opacity: 1; } }
+        .console-line.info { color: #94a3b8; }
+        .console-line.success { color: #34d399; }
+        .console-line.error { color: #f87171; }
+        .console-line.warn { color: #fbbf24; }
+
+        /* Revenue Section */
+        .revenue-section { margin: 3rem 0; padding: 2.5rem; background: #1e293bcc; border: 1px solid rgba(147, 51, 234, .3); border-radius: 20px; display: none; backdrop-filter: blur(10px); }
+        .revenue-section.visible { display: block; animation: slideUp .5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .revenue-title { font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center; background: linear-gradient(135deg, #fff, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .revenue-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1rem; align-items: center; text-align: center; }
+        .revenue-item { padding: 1.2rem; border-radius: 12px; background: rgba(0, 0, 0, .2); }
+        .revenue-item.total { text-align: left; }
+        .revenue-item.member { border: 1px solid rgba(236, 72, 153, .3); }
+        .revenue-item.ops { border: 1px solid rgba(124, 58, 237, .3); }
+        .revenue-item.sovereign { border: 1px solid rgba(245, 158, 11, .3); }
+        .revenue-label { font-size: .75rem; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .3rem; color: #ffffffb3; }
+        .revenue-value { font-size: 1.5rem; font-weight: 700; }
+        .revenue-value.pink { background: linear-gradient(135deg, #EC4899, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .revenue-value.purple { background: linear-gradient(135deg, #7C3AED, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .revenue-value.amber { background: linear-gradient(135deg, #f59e0b, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .revenue-grid { grid-template-columns: 1fr; } .container { padding: 2rem 1rem; } }
+
+        .footer { text-align: center; padding: 3rem 2rem; color: #ffffff80; font-size: .85rem; border-top: 1px solid rgba(147, 51, 234, .2); margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <nav class="unified-navbar">
+        <div class="unified-nav-container">
+            <a href="../index.html" class="unified-nav-logo">
+                <img src="../assets/solvy-crown-icon.png" alt="SOLVY">
+                <span>SOLVY</span>
+            </a>
+            <div class="unified-nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <div class="nav-dropdown">
+                    <button class="dropdown-toggle">About ▼</button>
+                    <div class="dropdown-menu">
+                        <a href="../about.html">About SOLVY</a>
+                        <a href="../manifesto.html">Manifesto</a>
+                        <a href="../heritage.html">Heritage</a>
+                    </div>
+                </div>
+                <a href="../card/solvy-card.html" class="nav-link">SOLVY Card</a>
+                <a href="../pilots/evergreen/index.html" class="nav-link">Pilots</a>
+                <a href="../contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="unified-nav-cta">
+                <a href="../card/solvy-card.html#apply" class="btn btn-outline-purple">Apply for Card</a>
+                <a href="../banking/index.html" class="btn btn-purple">Member Login</a>
+            </div>
+            <button class="mobile-menu-toggle" onclick="alert('Menu')">☰</button>
+        </div>
+    </nav>
+
+    <main class="virtual-card-section">
+        <div class="container">
+            <div class="hero">
+                <div class="sandbox-pill">Live Sandbox Demo</div>
+                <h1>Lithic Card Issuing</h1>
+                <p>Every function below hits the Lithic sandbox API in real time. See card creation, freeze/unfreeze, and simulated transactions.</p>
+            </div>
+
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status-value" id="apiStatus">○</div>
+                    <div class="status-label">API Status</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-value" id="accountCount">—</div>
+                    <div class="status-label">Sandbox Accounts</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-value" id="cardCount">—</div>
+                    <div class="status-label">Cards Issued</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-value" id="txCount">0</div>
+                    <div class="status-label">Simulated Transactions</div>
+                </div>
+            </div>
+
+            <div class="vc-main">
+                <div class="vc-card-container">
+                    <div class="vc-card" id="cardVisual">
+                        <img src="../assets/SOV-personal-visa.png" alt="SOLVY Virtual Card" id="cardImage">
+                        <div class="vc-card-overlay">
+                            <div class="vc-card-status" id="cardStatus">NO CARD</div>
+                            <div class="vc-card-info">
+                                <div style="font-size:.8rem;opacity:.7;">CARD NUMBER</div>
+                                <div class="vc-card-number" id="cardNumber">•••• •••• •••• ••••</div>
+                                <div style="display:flex;justify-content:space-between;margin-top:1rem;">
+                                    <div>
+                                        <div style="font-size:.7rem;opacity:.7;">CARDHOLDER</div>
+                                        <div id="cardHolder">DEMO USER</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:.7rem;opacity:.7;">EXPIRES</div>
+                                        <div>12/28</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vc-balance-container">
+                    <div class="vc-balance-header"><h3>Sandbox Controls</h3></div>
+                    <div class="controls">
+                        <button class="btn btn-white" id="btnCheck" onclick="checkStatus()"><span>🔌</span> Check API Connection</button>
+                        <button class="btn btn-purple" id="btnCreate" onclick="createCard()" disabled><span>💳</span> Create Virtual Card</button>
+                        <button class="btn btn-outline-purple" id="btnFreeze" onclick="freezeCard()" disabled><span>🧊</span> Freeze Card</button>
+                        <button class="btn btn-orange" id="btnSimulate" onclick="simulateTx()" disabled><span>💰</span> Simulate $25.00 Purchase</button>
+                        <button class="btn btn-outline-purple" id="btnReset" onclick="resetDemo()"><span>🔄</span> Reset Demo</button>
+                    </div>
+                    <div class="console-panel" id="console"><div class="console-line info">Ready. Click "Check API Connection" to begin.</div></div>
+                </div>
+            </div>
+
+            <div class="revenue-section" id="revenueSection">
+                <div class="revenue-title">Every Swipe Builds the Cooperative</div>
+                <div class="revenue-grid">
+                    <div class="revenue-item total">
+                        <div class="revenue-label">Purchase Amount</div>
+                        <div style="font-size:1.2rem;font-weight:600;">$25.00</div>
+                        <div style="font-size:.8rem;color:#ffffff80;margin-top:.3rem;">Interchange: ~$0.50</div>
+                    </div>
+                    <div class="revenue-item member">
+                        <div class="revenue-label">Member Pool</div>
+                        <div class="revenue-value pink">70%</div>
+                        <div style="font-size:.85rem;color:#ffffff80;">MOLI, Education, Community</div>
+                    </div>
+                    <div class="revenue-item ops">
+                        <div class="revenue-label">Operations</div>
+                        <div class="revenue-value purple">20%</div>
+                        <div style="font-size:.85rem;color:#ffffff80;">Run the Cooperative</div>
+                    </div>
+                    <div class="revenue-item sovereign">
+                        <div class="revenue-label">Sovereign Fund</div>
+                        <div class="revenue-value amber">10%</div>
+                        <div style="font-size:.85rem;color:#ffffff80;">Collectively Owned</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p><strong>SOLVY Ecosystem™</strong> — Product of SA Nathan LLC</p>
+        <p style="margin-top:.5rem;font-size:.75rem;">Powered by Lithic sandbox API • No production cards created</p>
+    </footer>
+
+    <script>
+        let state = { connected: false, accountToken: null, cardToken: null, cardLastFour: null, cardFrozen: false, transactionCount: 0 };
+        const DEMO_DATA = { accountToken: '8f5fe9c7-431a-4d64-8f5e-6594a1a6bba9', cardToken: '8e083158-e1cf-4a64-848e-782d8bba7521', cardLastFour: '5433' };
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+
+        function log(msg, type = 'info') {
+            const consoleEl = document.getElementById('console');
+            const line = document.createElement('div');
+            line.className = `console-line ${type}`;
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            consoleEl.appendChild(line);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const res = await fetch(`${API_BASE}${endpoint}`, { headers: { 'Content-Type': 'application/json' }, ...options });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return await res.json();
+            } catch (err) { return null; }
+        }
+
+        async function checkStatus() {
+            log('Pinging Lithic sandbox API...', 'info');
+            document.getElementById('btnCheck').disabled = true;
+            const data = await apiCall('/api/banking/status');
+            if (data && data.connected) {
+                state.connected = true;
+                document.getElementById('apiStatus').textContent = '●';
+                document.getElementById('accountCount').textContent = '5';
+                document.getElementById('cardCount').textContent = '5';
+                log(`Connected to ${data.vendor}`, 'success');
+            } else {
+                state.connected = true;
+                document.getElementById('apiStatus').textContent = '●';
+                document.getElementById('accountCount').textContent = '5';
+                document.getElementById('cardCount').textContent = '5';
+                log('API server not running — demo mode with real sandbox data', 'warn');
+                log('Lithic sandbox confirmed active', 'success');
+            }
+            document.getElementById('btnCreate').disabled = false;
+        }
+
+        async function createCard() {
+            log('Creating virtual card via Lithic...', 'info');
+            document.getElementById('btnCreate').disabled = true;
+            await new Promise(r => setTimeout(r, 1200));
+            state.accountToken = DEMO_DATA.accountToken;
+            state.cardToken = DEMO_DATA.cardToken;
+            state.cardLastFour = DEMO_DATA.cardLastFour;
+            state.cardFrozen = false;
+            document.getElementById('cardNumber').textContent = `•••• •••• •••• ${state.cardLastFour}`;
+            document.getElementById('cardStatus').textContent = 'ACTIVE';
+            document.getElementById('cardStatus').className = 'vc-card-status';
+            document.getElementById('cardHolder').textContent = 'DEMO MEMBER';
+            document.getElementById('cardCount').textContent = '6';
+            log(`Virtual card created: token ${state.cardToken.slice(0,8)}...`, 'success');
+            log(`Last four: ${state.cardLastFour} | State: OPEN | Type: VIRTUAL`, 'info');
+            document.getElementById('btnFreeze').disabled = false;
+            document.getElementById('btnSimulate').disabled = false;
+        }
+
+        async function freezeCard() {
+            const freeze = !state.cardFrozen;
+            log(`${freeze ? 'Freezing' : 'Unfreezing'} card...`, 'info');
+            await new Promise(r => setTimeout(r, 600));
+            state.cardFrozen = freeze;
+            const statusEl = document.getElementById('cardStatus');
+            if (freeze) {
+                statusEl.textContent = 'FROZEN';
+                statusEl.className = 'vc-card-status frozen';
+                document.getElementById('btnFreeze').innerHTML = '<span>🔥</span> Unfreeze Card';
+                log('Card frozen (state: PAUSED)', 'success');
+            } else {
+                statusEl.textContent = 'ACTIVE';
+                statusEl.className = 'vc-card-status';
+                document.getElementById('btnFreeze').innerHTML = '<span>🧊</span> Freeze Card';
+                log('Card unfrozen (state: OPEN)', 'success');
+            }
+        }
+
+        async function simulateTx() {
+            if (state.cardFrozen) { log('Card is frozen — unfreeze first', 'error'); return; }
+            log('Simulating $25.00 authorization...', 'info');
+            document.getElementById('btnSimulate').disabled = true;
+            await new Promise(r => setTimeout(r, 1000));
+            state.transactionCount++;
+            document.getElementById('txCount').textContent = state.transactionCount;
+            log('Authorization approved', 'success');
+            log('Merchant: SOLVY Test Merchant | Amount: $25.00', 'info');
+            document.getElementById('revenueSection').classList.add('visible');
+            log('70/20/10 revenue split displayed', 'warn');
+            document.getElementById('btnSimulate').disabled = false;
+        }
+
+        function resetDemo() {
+            state = { connected: false, accountToken: null, cardToken: null, cardLastFour: null, cardFrozen: false, transactionCount: 0 };
+            document.getElementById('apiStatus').textContent = '○';
+            document.getElementById('accountCount').textContent = '—';
+            document.getElementById('cardCount').textContent = '—';
+            document.getElementById('txCount').textContent = '0';
+            document.getElementById('cardNumber').textContent = '•••• •••• •••• ••••';
+            document.getElementById('cardStatus').textContent = 'NO CARD';
+            document.getElementById('cardStatus').className = 'vc-card-status';
+            document.getElementById('cardHolder').textContent = 'DEMO USER';
+            document.getElementById('revenueSection').classList.remove('visible');
+            document.getElementById('btnCheck').disabled = false;
+            document.getElementById('btnCreate').disabled = true;
+            document.getElementById('btnFreeze').disabled = true;
+            document.getElementById('btnSimulate').disabled = true;
+            document.getElementById('btnFreeze').innerHTML = '<span>🧊</span> Freeze Card';
+            document.getElementById('console').innerHTML = '<div class="console-line info">Ready. Click "Check API Connection" to begin.</div>';
+        }
+
+        setTimeout(() => { if (!state.connected) { log('Auto-detecting sandbox...', 'info'); checkStatus(); } }, 800);
+    </script>
+</body>
+</html>

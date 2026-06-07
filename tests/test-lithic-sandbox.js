@@ -96,7 +96,8 @@ async function runTests() {
           const auth = await lithic.simulateAuthorization({
             descriptor: 'SOLVY Test Merchant',
             amount: 2500, // $25.00 in cents
-            pan: card.pan
+            pan: card.pan,
+            status: 'AUTHORIZATION'
           });
           console.log('✅ Authorization simulated');
           console.log('   Auth token:', auth.token);

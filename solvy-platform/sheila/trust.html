@@ -451,9 +451,13 @@
     });
 
     // Check session on load
-    if (sessionStorage.getItem('smmTrustAccess') === 'granted') {
-        document.getElementById('loginOverlay').style.display = 'none';
-        document.getElementById('appContent').style.display = 'flex';
+    try {
+        if (sessionStorage.getItem('smmTrustAccess') === 'granted') {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('appContent').style.display = 'flex';
+        }
+    } catch (e) {
+        console.warn('[SMM Trust] sessionStorage unavailable:', e);
     }
 </script>
 

@@ -269,7 +269,7 @@ async function simulateAuthorization(params) {
     pan: params.pan,
     cvv: params.cvv,
     expiration: params.expiration,
-    status: params.status || 'APPROVAL'
+    status: params.status || 'AUTHORIZATION'
   };
   return await lithicRequest('POST', '/v1/simulate/authorize', body);
 }

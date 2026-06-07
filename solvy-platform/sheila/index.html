@@ -199,9 +199,13 @@
         if (e.key === 'Enter') checkAccess();
     });
 
-    if (sessionStorage.getItem('sheilaAccess') === 'granted') {
-        document.getElementById('loginBox').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
+    try {
+        if (sessionStorage.getItem('sheilaAccess') === 'granted') {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        }
+    } catch (e) {
+        console.warn('[Sheila Trust] sessionStorage unavailable:', e);
     }
 </script>
 

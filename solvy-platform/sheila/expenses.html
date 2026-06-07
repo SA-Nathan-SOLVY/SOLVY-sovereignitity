@@ -610,9 +610,14 @@ let currentUser = 'Sean Maurice Mayo';
 let activeRequestId = null;
 
 // Load from localStorage or seed with demo data
-let requests = JSON.parse(localStorage.getItem('smm_requests') || '[]');
-let loans = JSON.parse(localStorage.getItem('smm_loans') || '[]');
-let auditLog = JSON.parse(localStorage.getItem('smm_audit') || '[]');
+let requests = [], loans = [], auditLog = [];
+try {
+    requests = JSON.parse(localStorage.getItem('smm_requests') || '[]');
+    loans = JSON.parse(localStorage.getItem('smm_loans') || '[]');
+    auditLog = JSON.parse(localStorage.getItem('smm_audit') || '[]');
+} catch (e) {
+    console.warn('[SMM Expenses] localStorage unavailable, using in-memory data:', e);
+}
 
 const TRUST_BALANCE = 250000;
 
@@ -1107,9 +1112,13 @@ function logAudit(action, requestId, details) {
 }
 
 function saveData() {
-    localStorage.setItem('smm_requests', JSON.stringify(requests));
-    localStorage.setItem('smm_loans', JSON.stringify(loans));
-    localStorage.setItem('smm_audit', JSON.stringify(auditLog));
+    try {
+        localStorage.setItem('smm_requests', JSON.stringify(requests));
+        localStorage.setItem('smm_loans', JSON.stringify(loans));
+        localStorage.setItem('smm_audit', JSON.stringify(auditLog));
+    } catch (e) {
+        console.warn('[SMM Expenses] localStorage write failed:', e);
+    }
 }
 
 function seedDemoData() {
