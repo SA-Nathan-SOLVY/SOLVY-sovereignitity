@@ -75,13 +75,13 @@ const handleApplicationApproved = async (application) => {
     }
   );
   
-  // Send welcome email via AgentMail
+  // Send welcome email via Mailcow
   try {
-    const { sendWelcomeEmail } = require('../email/agentmail-service');
+    const { sendWelcomeEmail } = require('../email/mailcow-service');
     const member = await db.members.findByUnitId(application.relationships?.customer?.data?.id);
     if (member?.email) {
       await sendWelcomeEmail(member.email, { firstName: member.firstName });
-      console.log('📧 Welcome email sent via AgentMail to:', member.email);
+      console.log('📧 Welcome email sent via Mailcow to:', member.email);
     }
   } catch (emailError) {
     console.error('📧 Welcome email failed:', emailError.message);

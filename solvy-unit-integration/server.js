@@ -19,7 +19,6 @@ const { createCheckoutSession, getSessionStatus } = require('./api/stripe/checko
 const { handleStripeWebhook, listDeposits } = require('./api/stripe/webhook');
 const marketplace = require('./api/marketplace/data-pool');
 const emailRoutes = require('./api/email');
-const { handleAgentMailWebhook } = require('./api/email');
 const moliRoutes = require('./api/moli');
 
 // Middleware
@@ -184,7 +183,7 @@ app.get('/api/marketplace/member/:memberHash/earnings', marketplace.getMemberEar
  */
 app.get('/api/marketplace/pools/:poolId/status/:memberHash', marketplace.getContributionStatus);
 
-// ==================== EMAIL ROUTES (AgentMail) ====================
+// ==================== EMAIL ROUTES (Mailcow SMTP) ====================
 
 /**
  * POST /api/email/send-welcome
@@ -197,12 +196,6 @@ app.use('/api/email', emailRoutes);
 
 // MOLI Policy Service Request routes (PDF generation + Mailcow SMTP)
 app.use('/api/moli', moliRoutes);
-
-/**
- * POST /webhooks/agentmail
- * AgentMail inbound email webhook
- */
-app.post('/webhooks/agentmail', handleAgentMailWebhook);
 
 // ==================== SERVER START ====================
 
@@ -231,9 +224,9 @@ app.listen(PORT, () => {
   console.log('  GET  /api/marketplace/pools     - Data marketplace pools');
   console.log('  POST /api/marketplace/contribute - Submit anonymized data');
   console.log('  GET  /api/marketplace/revenue   - Data pool revenue summary');
-  console.log('  POST /api/email/send-welcome    - Send welcome email (AgentMail)');
-  console.log('  POST /api/email/support-reply   - Send support reply (AgentMail)');
-  console.log('  POST /webhooks/agentmail        - Inbound email webhook');
+  console.log('  POST /api/email/send-welcome    - Send welcome email (Mailcow)');
+  console.log('  POST /api/email/support-reply   - Send support reply (Mailcow)');
+  console.log('  GET  /api/email/status          - Mailcow SMTP health check');
   console.log('');
   console.log('  POST /api/moli/submit           - MOLI policy service request');
   console.log('  GET  /api/moli/status           - MOLI service status');
