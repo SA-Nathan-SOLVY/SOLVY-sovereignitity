@@ -40,7 +40,7 @@
         .nav-logo-text {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #22c55e;
+            color: #9333ea;
             letter-spacing: -0.02em;
         }
         .nav-links {
@@ -59,7 +59,7 @@
             transition: all 0.2s;
         }
         .nav-links a:hover, .nav-links a.active {
-            color: #22c55e;
+            color: #9333ea;
             background: rgba(34, 197, 94, 0.1);
         }
         .nav-cta {
@@ -77,7 +77,7 @@
             border: 1px solid rgba(0, 155, 167, 0.3);
         }
         .btn-primary {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
             color: white;
             padding: 0.6rem 1.25rem;
             border-radius: 8px;
@@ -132,7 +132,7 @@
         }
         .sidebar-link:hover, .sidebar-link.active {
             background: rgba(34, 197, 94, 0.1);
-            color: #22c55e;
+            color: #9333ea;
         }
         .sidebar-link .icon {
             font-size: 1.2rem;
@@ -142,7 +142,7 @@
         .balance-display {
             font-size: 2rem;
             font-weight: 700;
-            color: #22c55e;
+            color: #9333ea;
             margin: 0.5rem 0;
         }
         .balance-label {
@@ -223,7 +223,7 @@
             top: 1rem;
             right: 1rem;
             background: rgba(34, 197, 94, 0.3);
-            color: #22c55e;
+            color: #9333ea;
             padding: 0.25rem 0.5rem;
             border-radius: 6px;
             font-size: 0.7rem;
@@ -281,7 +281,7 @@
             color: #ef4444;
         }
         .tx-amount.debit {
-            color: #22c55e;
+            color: #9333ea;
         }
 
         /* Dividend Tracker */
@@ -300,7 +300,7 @@
         .dividend-box .percent {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #22c55e;
+            color: #9333ea;
         }
         .dividend-box .label {
             font-size: 0.8rem;
@@ -376,7 +376,7 @@
             font-size: 0.75rem;
             font-weight: 600;
             background: rgba(34, 197, 94, 0.15);
-            color: #22c55e;
+            color: #9333ea;
             border: 1px solid rgba(34, 197, 94, 0.2);
             cursor: pointer;
             transition: all 0.2s;
@@ -400,7 +400,7 @@
             color: #e2e8f0;
         }
         .category-select:focus {
-            border-color: #22c55e;
+            border-color: #9333ea;
             box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
         }
 
@@ -430,7 +430,7 @@
             font-weight: 700;
             color: #f1f5f9;
         }
-        .tx-summary-card .value.green { color: #22c55e; }
+        .tx-summary-card .value.green { color: #9333ea; }
         .tx-summary-card .value.purple { color: #a855f7; }
         .tx-summary-card .value.blue { color: #3b82f6; }
         .tx-summary-card .note {
@@ -489,7 +489,7 @@
             padding: 1.5rem;
         }
         .sovereignty-card h2 {
-            color: #22c55e;
+            color: #9333ea;
             font-size: 1.1rem;
             margin-bottom: 0.75rem;
             display: flex;
@@ -516,11 +516,11 @@
             content: '✓';
             position: absolute;
             left: 0;
-            color: #22c55e;
+            color: #9333ea;
             font-weight: 700;
         }
         .sovereignty-card a {
-            color: #22c55e;
+            color: #9333ea;
             text-decoration: none;
             font-weight: 600;
             font-size: 0.85rem;
@@ -539,7 +539,7 @@
             margin-top: 2rem;
         }
         .banking-footer strong {
-            color: #22c55e;
+            color: #9333ea;
         }
     </style>
 </head>
@@ -683,7 +683,7 @@
                     <h2>📊 My Expenses</h2>
                     <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1rem;">
                         SOLVY Card transactions — stored locally on this device. 
-                        <span style="color: #22c55e;">No central server stores individual transactions.</span>
+                        <span style="color: #9333ea;">No central server stores individual transactions.</span>
                     </p>
 
                     <!-- Summary Cards -->
@@ -762,7 +762,7 @@
     <script>
         // ============================================
         // VENDOR-AGNOSTIC BANKING PORTAL
-        // Works with Unit.co OR Treasury Prime
+        // Works with Lithic (active) — Treasury Prime / Unit.co paused
         // ============================================
 
         const API_BASE = '/api/banking';
@@ -997,13 +997,13 @@
                                 ${escapeHtml(category)}
                             </span>
                         </td>
-                        <td style="font-weight:600; color:${amount < 0 ? '#ef4444' : '#22c55e'};">
+                        <td style="font-weight:600; color:${amount < 0 ? '#ef4444' : '#9333ea'};">
                             ${amount < 0 ? '-' : ''}$${Math.abs(amount).toFixed(2)}
                         </td>
                         <td>
                             ${isPending
                                 ? '<span style="color:#f59e0b;">⏳ Pending</span>'
-                                : '<span style="color:#22c55e;">✅ Settled</span>'
+                                : '<span style="color:#9333ea;">✅ Settled</span>'
                             }
                         </td>
                     </tr>

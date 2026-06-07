@@ -1,8 +1,12 @@
 /**
  * SOLVY Cooperative - Vendor-Agnostic Banking API Router
  * 
- * Provides unified banking endpoints that work with EITHER Unit.co or Treasury Prime.
+ * Provides unified banking endpoints that work with Lithic (active),
+ * Treasury Prime, or Unit.co (both paused).
  * Switch vendors by setting BANKING_VENDOR environment variable.
+ * 
+ * CURRENT: Lithic (card issuing)
+ * PAUSED: Treasury Prime, Unit.co (awaiting production access)
  * 
  * Endpoints:
  *   GET  /api/banking/status          → Check vendor status
@@ -20,13 +24,16 @@
 const { getVendor, isVendor } = require('./vendor-config');
 const treasuryPrime = require('./adapters/treasuryprime');
 const unit = require('./adapters/unit');
+const lithic = require('./adapters/lithic');
 
 // ============================================
 // VENDOR ROUTER HELPER
 // ============================================
 
 function getAdapter() {
-  return isVendor('unit') ? unit : treasuryPrime;
+  if (isVendor('lithic')) return lithic;
+  if (isVendor('unit')) return unit;
+  return treasuryPrime;
 }
 
 // ============================================
@@ -44,7 +51,11 @@ async function statusHandler(req, res) {
     let connected = false;
     let message = '';
     
-    if (isVendor('treasuryprime')) {
+    if (isVendor('lithic')) {
+      const accounts = await lithic.listAccounts();
+      connected = Array.isArray(accounts);
+      message = connected ? 'Lithic API connected' : 'Lithic API error';
+    } else if (isVendor('treasuryprime')) {
       const ping = await treasuryPrime.ping();
       connected = !!ping;
       message = 'Treasury Prime API connected';
@@ -139,12 +150,12 @@ async function cardsHandler(req, res) {
     // Normalize card data regardless of vendor
     const normalized = cards.map(card => ({
       id: card.id,
-      last4: card.last4 || '••••',
-      status: card.status,
+      last4: card.last4 || card.last_four || '••••',
+      status: card.status || card.state,
       type: card.type || 'virtual',
-      network: card.card_product_id ? 'visa' : 'mastercard', // Simplified
+      network: card.card_product_id || card.card_program_token ? 'visa' : 'mastercard',
       expiry: card.expiration || card.expiry,
-      createdAt: card.created_at
+      createdAt: card.created_at || card.createdAt
     }));
     
     res.json({
@@ -201,19 +212,35 @@ async function onboardHandler(req, res) {
       });
     }
     
+    // For Lithic: create account holder → create card
+    if (isVendor('lithic')) {
+      const accountHolder = await lithic.createAccountHolder(personData);
+      const card = await lithic.createCard({
+        accountToken: accountHolder.token || accountHolder.account_token,
+        type: 'virtual',
+        memo: `SOLVY Card - ${memberId}`
+      });
+      
+      return res.json({
+        success: true,
+        memberId,
+        accountHolderToken: accountHolder.token || accountHolder.account_token,
+        cardToken: card.token,
+        cardLastFour: card.last_four,
+        status: card.state,
+        vendor: 'Lithic'
+      });
+    }
+    
     // For Treasury Prime: create person → create account → create card
     if (isVendor('treasuryprime')) {
-      // Step 1: Create person application (KYC)
       const person = await treasuryPrime.createPersonApplication(personData);
-      
-      // Step 2: Create account application
       const accountApp = await treasuryPrime.createAccountApplication({
         productId: productId || 'default_checking',
         personApplications: [{ id: person.id, roles: ['owner', 'signer'] }],
         primaryPersonId: person.id
       });
       
-      // Step 3: Create virtual card (if account approved)
       let card = null;
       if (accountApp.account_id) {
         card = await treasuryPrime.createCard({
@@ -264,6 +291,19 @@ async function webhookHandler(req, res) {
   try {
     const vendor = getVendor();
     
+    if (isVendor('lithic')) {
+      const signature = req.headers['x-lithic-hmac'];
+      const payload = JSON.stringify(req.body);
+      
+      if (!lithic.verifyWebhook(payload, signature)) {
+        return res.status(401).json({ error: 'Invalid webhook signature' });
+      }
+      
+      const event = lithic.processWebhook(req.body);
+      console.log('[Webhook] Lithic event:', event.type, event.data);
+      return res.json({ received: true, type: event.type });
+    }
+    
     if (isVendor('treasuryprime')) {
       const signature = req.headers['x-treasuryprime-signature'];
       const payload = JSON.stringify(req.body);
@@ -274,14 +314,11 @@ async function webhookHandler(req, res) {
       
       const event = treasuryPrime.processWebhook(req.body);
       
-      // Handle event based on type
       switch (event.type) {
         case 'card_transaction':
-          // Update member balance, trigger dividend calc
           console.log('[Webhook] Card transaction:', event.data);
           break;
         case 'account_approved':
-          // Notify member their account is ready
           console.log('[Webhook] Account approved:', event.data);
           break;
         default:
@@ -292,7 +329,6 @@ async function webhookHandler(req, res) {
     }
     
     if (isVendor('unit')) {
-      // Unit.co webhook handling
       console.log('[Webhook] Unit.co event:', req.body);
       return res.json({ received: true });
     }

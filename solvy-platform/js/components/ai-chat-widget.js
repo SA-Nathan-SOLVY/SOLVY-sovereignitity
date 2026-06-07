@@ -60,7 +60,7 @@
       },
       {
         keywords: ['card', 'solvy card', 'how does the card work', 'debit card', 'visa'],
-        response: "Your SOLVY Card is a Visa debit card issued through our banking partner, Unit.co (Thread Bank).\n\n• Use it anywhere Visa is accepted\n• Interchange fees (about 1.5% per transaction) fund the 70/20/10 member pool\n• Freeze/unfreeze instantly from your dashboard\n• Add to Apple Pay or Google Pay\n\nThe card is more than a payment tool — it's a ownership stake in the cooperative."
+        response: "Your SOLVY Card is a Visa debit card issued through our partner, Lithic, Inc.\n\n• Use it anywhere Visa is accepted\n• Interchange fees (about 1.5% per transaction) fund the 70/20/10 member pool\n• Freeze/unfreeze instantly from your dashboard\n• Add to Apple Pay or Google Pay\n\nThe card is more than a payment tool — it's an ownership stake in the cooperative."
       },
       {
         keywords: ['lost card', 'stolen card', 'freeze', 'lock card', 'card missing'],
@@ -95,8 +95,8 @@
         response: "SOLVY is member-governed through the MAN (Mandatory Audit Network) portal.\n\n• Members can propose initiatives (community projects, fund allocations)\n• Proposals require a spending/volume threshold to activate voting\n• Each member gets one vote (one member, one vote)\n• Votes are recorded locally on your device for transparency\n\nVisit the MAN portal to see active proposals and cast your vote."
       },
       {
-        keywords: ['unit', 'unit.co', 'thread bank', 'banking partner', 'who is your bank'],
-        response: "SOLVY partners with **Unit.co**, a Banking-as-a-Service platform backed by **Thread Bank**.\n\n• Your deposits are FDIC-insured up to $250,000 through Thread Bank\n• Unit.co provides the white-label banking infrastructure\n• SOLVY adds the cooperative layer, member governance, and data sovereignty\n\nThis partnership gives you the security of a real bank with the ownership of a cooperative."
+        keywords: ['lithic', 'card issuer', 'banking partner', 'who is your bank'],
+        response: "SOLVY partners with **Lithic, Inc.**, a modern card issuing platform.\n\n• Lithic provides the card issuing infrastructure\n• SOLVY adds the cooperative layer, member governance, and data sovereignty\n• Deposit accounts will be provided by a partner bank, Member FDIC, when available\n\nThis partnership gives you modern card tools with the ownership of a cooperative."
       },
       {
         keywords: ['thank', 'thanks', 'appreciate', 'goodbye', 'bye', 'see you'],

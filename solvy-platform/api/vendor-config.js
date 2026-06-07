@@ -2,40 +2,44 @@
  * SOLVY Cooperative - Vendor Configuration Manager
  * 
  * Single source of truth for which banking vendor is active.
- * Change ONE environment variable to switch between Unit.co and Treasury Prime.
+ * 
+ * CURRENT: Lithic (card issuing)
+ * PAUSED: Treasury Prime, Unit.co (awaiting production access)
  * 
  * Usage:
- *   BANKING_VENDOR=unit          → Use Unit.co
- *   BANKING_VENDOR=treasuryprime → Use Treasury Prime
+ *   BANKING_VENDOR=lithic          → Use Lithic (default)
+ *   BANKING_VENDOR=treasuryprime   → Use Treasury Prime (paused)
+ *   BANKING_VENDOR=unit            → Use Unit.co (paused)
  * 
  * @module vendor-config
  */
 
-const ACTIVE_VENDOR = (process.env.BANKING_VENDOR || 'treasuryprime').toLowerCase();
+const ACTIVE_VENDOR = (process.env.BANKING_VENDOR || 'lithic').toLowerCase();
 
 const VENDORS = {
-  unit: {
-    name: 'Unit.co',
-    type: 'white-label',
-    hasIframeApp: true,
+  lithic: {
+    name: 'Lithic',
+    type: 'api-first',
+    hasIframeApp: false,
     features: {
-      depositAccounts: true,
+      depositAccounts: false,
       virtualCards: true,
       physicalCards: true,
-      ach: true,
+      ach: false,
       wires: false,
       fedNow: false,
       checkDeposit: false,
       greenDot: false,
-      applePay: false,
-      googlePay: false,
-      cardAuthLoop: false
+      applePay: true,
+      googlePay: true,
+      cardAuthLoop: true
     }
   },
   treasuryprime: {
     name: 'Treasury Prime',
     type: 'api-first',
     hasIframeApp: false,
+    status: 'paused',
     features: {
       depositAccounts: true,
       virtualCards: true,
@@ -49,13 +53,32 @@ const VENDORS = {
       googlePay: true,
       cardAuthLoop: true
     }
+  },
+  unit: {
+    name: 'Unit.co',
+    type: 'white-label',
+    hasIframeApp: true,
+    status: 'paused',
+    features: {
+      depositAccounts: true,
+      virtualCards: true,
+      physicalCards: true,
+      ach: true,
+      wires: false,
+      fedNow: false,
+      checkDeposit: false,
+      greenDot: false,
+      applePay: false,
+      googlePay: false,
+      cardAuthLoop: false
+    }
   }
 };
 
 function getVendor() {
   const vendor = VENDORS[ACTIVE_VENDOR];
   if (!vendor) {
-    throw new Error(`Unknown banking vendor: ${ACTIVE_VENDOR}. Use 'unit' or 'treasuryprime'.`);
+    throw new Error(`Unknown banking vendor: ${ACTIVE_VENDOR}. Use 'lithic', 'treasuryprime', or 'unit'.`);
   }
   return { key: ACTIVE_VENDOR, ...vendor };
 }
