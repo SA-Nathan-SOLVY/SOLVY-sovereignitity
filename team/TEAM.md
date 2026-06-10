@@ -1,6 +1,6 @@
 # SOLVY Development Team
 
-**Last Updated:** March 25, 2025
+**Last Updated:** June 9, 2026
 
 ---
 
@@ -11,17 +11,19 @@
 | Role | Name | Git Username | Email | Timezone | Focus |
 |------|------|--------------|-------|----------|-------|
 | **SCRUM Master** | Sean | @sean | sean@ebl.beauty | EST | Process, Planning |
-| **Tech Lead** | SA Nathan | @sa-nathan | nathan@solvy.coop | EST | Architecture, Review |
-| **Senior Frontend** | TBD | @frontend-dev | frontend@solvy.coop | TBD | UI/UX, Components |
-| **Senior Backend** | TBD | @backend-dev | backend@solvy.coop | TBD | API, Database |
-| **DevOps Engineer** | TBD | @devops | devops@solvy.coop | TBD | CI/CD, Infrastructure |
-| **QA Engineer** | TBD | @qa-tester | qa@solvy.coop | TBD | Testing, QA |
+| **Tech Lead** | SA Nathan | @sa-nathan | nathan@solvy.cards | EST | Architecture, Review |
+| **CEO / EBL Pilot** | Eva | @eva | eva@ebl.beauty | EST | First Partner, Product |
+| **PMP / Project Lead** | Wilson | @wilson | wilson@solvy.cards | EST | Project Management |
+| **Senior Frontend** | TBD | @frontend-dev | frontend@solvy.cards | TBD | UI/UX, Components |
+| **Senior Backend** | TBD | @backend-dev | backend@solvy.cards | TBD | API, Database |
+| **DevOps Engineer** | TBD | @devops | devops@solvy.cards | TBD | CI/CD, Infrastructure |
+| **QA Engineer** | TBD | @qa-tester | qa@solvy.cards | TBD | Testing, QA |
 
 ### Extended Team
 
 | Role | Name | Git Username | Focus |
 |------|------|--------------|-------|
-| **Product Owner** | TBD | @product | Roadmap, Priorities |
+| **Product Owner** | Eva | @eva | EBL Partnership, Roadmap |
 | **UX Designer** | TBD | @designer | Design System, Mockups |
 | **Security Advisor** | TBD | @security | Security Review |
 
@@ -39,13 +41,15 @@
 | Team Member | Capacity | Vacation | Notes |
 |-------------|----------|----------|-------|
 | @sean | 100% | - | SCRUM Master |
-| @sa-nathan | 80% | - | Also handling architecture |
+| @sa-nathan | 100% | - | Tech Lead + Architecture |
+| @eva | 100% | - | CEO / EBL Pilot Partner |
+| @wilson | 100% | - | PMP / Project Lead |
 | @frontend-dev | 100% | - | New hire, onboarding |
 | @backend-dev | 100% | - | - |
 | @devops | 50% | - | Part-time, shared resource |
 | @qa-tester | 100% | - | - |
 
-**Total Sprint Capacity:** 530% ≈ 5.3 FTE
+**Total Sprint Capacity:** 730% ≈ 7.3 FTE
 
 ---
 
@@ -149,8 +153,11 @@
 - **Retrospective:** Friday 3:00 PM EST (1 hour)
 
 ### Email
-- **Team:** team@solvy.coop
-- **Support:** support@solvy.coop
+- **Team:** team@solvy.cards
+- **Support:** support@solvy.cards
+- **Eva (EBL):** eva@ebl.beauty
+- **Sean (SCRUM):** sean@ebl.beauty
+- **Wilson (PMP):** wilson@solvy.cards
 
 ---
 
@@ -204,13 +211,15 @@
 | Team Member | Happiness (1-10) | Notes |
 |-------------|------------------|-------|
 | @sean | 8 | Good progress |
-| @sa-nathan | 7 | Heavy workload |
+| @sa-nathan | 8 | Full focus on launch |
+| @eva | 10 | Excited for Juneteenth launch |
+| @wilson | 9 | PMP tracking on schedule |
 | @frontend-dev | 9 | Excited about new features |
 | @backend-dev | 8 | Good challenges |
 | @devops | 8 | Part-time working well |
 | @qa-tester | 9 | Clear requirements |
 
-**Team Average:** 8.2/10
+**Team Average:** 8.6/10
 
 ---
 
@@ -228,11 +237,12 @@
 
 ## 🎯 Team Goals (Quarterly)
 
-### Q2 2025 Goals
-1. **Launch SOLVY 2.0** - Privacy-first architecture
-2. **100% Test Coverage** - Critical paths
-3. **Zero Security Vulnerabilities** - Penetration testing
-4. **Team Velocity >40** - Consistent delivery
+### Q2 2026 Goals (Pre-Launch)
+1. **Launch SOLVY Ecosystem™** - Juneteenth 2026
+2. **EBL Pilot** - First partner (Eva) live
+3. **Lithic Production** - Live card issuing
+4. **Stripe Live** - Production payment processing
+5. **Sovereign Email** - Full Mailcow infrastructure
 
 ### Professional Development
 - Each team member: 2 conference talks or blog posts
@@ -241,4 +251,4 @@
 
 ---
 
-**Next Team Review:** Sprint 3 Retrospective (April 5, 2025)
+**Next Team Review:** Pre-Launch Retrospective (June 19, 2026)
