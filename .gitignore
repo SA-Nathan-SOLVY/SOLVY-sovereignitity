@@ -96,3 +96,14 @@ ops/**/ssl/
 *.numbers
 SOLVY-Card/
 android/keystore.jks
+
+# Other domain web roots (not part of SOLVY main site)
+admin.ebl.beauty/
+card.ebl.beauty/
+decidey.ebl.beauty/
+ebl.beauty/
+html/
+nitty.ebl.beauty.backup.*/
+plane.ebl.beauty/
+temp-repo/
+solvy-platform/
