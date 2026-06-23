@@ -1,64 +1,99 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Camera, CameraResultType } from '@capacitor/camera'
+import { processReceipt, terminateOcr } from '../services/receipt-processor.js'
+import { loadReceipts, addReceipt, updateReceipt } from '../services/receipt-storage.js'
 
 function Receipts() {
   const [receipts, setReceipts] = useState([])
   const [scanning, setScanning] = useState(false)
+  const [processingId, setProcessingId] = useState(null)
+  const [error, setError] = useState(null)
+
+  // Load receipts from local-first storage on mount
+  useEffect(() => {
+    setReceipts(loadReceipts())
+    return () => {
+      // Clean up OCR worker when unmounting
+      terminateOcr().catch(console.error)
+    }
+  }, [])
+
+  const handleImage = async (imageUri, source) => {
+    setError(null)
+    setScanning(true)
+
+    const newReceipt = {
+      id: Date.now(),
+      imageUri, // shown only as thumbnail; raw image is not persisted
+      date: new Date().toLocaleDateString(),
+      merchant: 'Scanning...',
+      amount: '$0.00',
+      status: 'processing',
+      source
+    }
+
+    setProcessingId(newReceipt.id)
+    const updated = addReceipt(newReceipt)
+    setReceipts(updated)
+
+    try {
+      const result = await processReceipt(imageUri, { mode: 'yolo-onnx' })
+
+      const processedReceipt = {
+        ...newReceipt,
+        merchant: result.merchant,
+        amount: result.amount,
+        numericAmount: result.numericAmount,
+        category: result.category,
+        confidence: result.confidence,
+        rawText: result.rawText,
+        date: result.date,
+        status: 'processed'
+      }
+
+      const finalReceipts = updateReceipt(newReceipt.id, processedReceipt)
+      setReceipts(finalReceipts)
+    } catch (err) {
+      console.error('[Receipts] Processing error:', err)
+      setError('Could not read receipt. Try again with better lighting.')
+      const failedReceipts = updateReceipt(newReceipt.id, {
+        ...newReceipt,
+        merchant: 'Unreadable',
+        status: 'failed'
+      })
+      setReceipts(failedReceipts)
+    } finally {
+      setScanning(false)
+      setProcessingId(null)
+    }
+  }
 
   const scanReceipt = async () => {
-    setScanning(true)
     try {
       const image = await Camera.getPhoto({
         quality: 90,
-        allowEditing: true,
+        allowEditing: false, // keep full image for perspective correction
         resultType: CameraResultType.Uri,
         source: 'camera'
       })
 
-      const newReceipt = {
-        id: Date.now(),
-        imageUri: image.webPath,
-        date: new Date().toLocaleDateString(),
-        merchant: 'Scanning...',
-        amount: '$0.00',
-        status: 'processing'
-      }
-
-      setReceipts(prev => [newReceipt, ...prev])
-
-      // Simulate OCR/processing
-      setTimeout(() => {
-        setReceipts(prev => prev.map(r =>
-          r.id === newReceipt.id
-            ? { ...r, merchant: 'Merchant Detected', amount: '$' + (Math.random() * 100 + 10).toFixed(2), status: 'processed' }
-            : r
-        ))
-      }, 2000)
+      await handleImage(image.webPath, 'camera')
     } catch (err) {
       console.error('Camera error:', err)
+      setScanning(false)
     }
-    setScanning(false)
   }
 
   const uploadGallery = async () => {
     try {
       const image = await Camera.getPhoto({
         quality: 90,
-        allowEditing: true,
+        allowEditing: false,
         resultType: CameraResultType.Uri,
         source: 'photos'
       })
 
-      const newReceipt = {
-        id: Date.now(),
-        imageUri: image.webPath,
-        date: new Date().toLocaleDateString(),
-        merchant: 'Uploaded Receipt',
-        amount: '$0.00',
-        status: 'processing'
-      }
-
-      setReceipts(prev => [newReceipt, ...prev])
+      await handleImage(image.webPath, 'gallery')
     } catch (err) {
       console.error('Gallery error:', err)
     }
@@ -76,7 +111,24 @@ function Receipts() {
       </h1>
       <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
         Scan or upload receipts to track expenses and earn SPS rewards.
+        <br />
+        <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>
+          Raw images and the YOLO detection model are processed on your device. Nothing is uploaded.
+        </span>
       </p>
+
+      {error && (
+        <div style={{
+          background: 'rgba(239,68,68,0.15)',
+          color: '#fca5a5',
+          padding: '0.75rem 1rem',
+          borderRadius: '8px',
+          marginBottom: '1rem',
+          fontSize: '0.85rem'
+        }}>
+          {error}
+        </div>
+      )}
 
       {/* Action Buttons */}
       <div style={{
@@ -99,7 +151,7 @@ function Receipts() {
           <span style={{ fontSize: '1.5rem', display: 'block', marginBottom: '0.25rem' }}>📷</span>
           {scanning ? 'Scanning...' : 'Scan Receipt'}
         </button>
-        <button onClick={uploadGallery} style={{
+        <button onClick={uploadGallery} disabled={scanning} style={{
           background: 'rgba(255,255,255,0.05)',
           color: '#fff',
           border: '1px solid rgba(255,255,255,0.2)',
@@ -107,7 +159,8 @@ function Receipts() {
           padding: '1rem',
           fontSize: '0.9rem',
           fontWeight: 600,
-          cursor: 'pointer'
+          cursor: scanning ? 'not-allowed' : 'pointer',
+          opacity: scanning ? 0.7 : 1
         }}>
           <span style={{ fontSize: '1.5rem', display: 'block', marginBottom: '0.25rem' }}>🖼️</span>
           Upload Photo
@@ -146,7 +199,7 @@ function Receipts() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {receipts.map(receipt => (
-              <ReceiptItem key={receipt.id} {...receipt} />
+              <ReceiptItem key={receipt.id} {...receipt} isProcessing={receipt.id === processingId} />
             ))}
           </div>
         )}
@@ -169,7 +222,14 @@ function StatBox({ label, value }) {
   )
 }
 
-function ReceiptItem({ imageUri, date, merchant, amount, status }) {
+function ReceiptItem({ imageUri, date, merchant, amount, category, confidence, status, isProcessing }) {
+  const statusColors = {
+    processed: { bg: 'rgba(34,197,94,0.2)', text: '#22c55e' },
+    processing: { bg: 'rgba(245,158,11,0.2)', text: '#f59e0b' },
+    failed: { bg: 'rgba(239,68,68,0.2)', text: '#ef4444' }
+  }
+  const statusStyle = statusColors[status] || statusColors.processing
+
   return (
     <div style={{
       display: 'flex',
@@ -194,6 +254,12 @@ function ReceiptItem({ imageUri, date, merchant, amount, status }) {
       <div style={{ flex: 1 }}>
         <p style={{ fontWeight: 600, fontSize: '0.9rem', color: '#fff' }}>{merchant}</p>
         <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{date}</p>
+        {category && status === 'processed' && (
+          <p style={{ fontSize: '0.7rem', color: '#22c55e', marginTop: '0.15rem' }}>
+            {category}
+            {confidence !== undefined && ` · OCR confidence ${Math.round(confidence)}%`}
+          </p>
+        )}
       </div>
       <div style={{ textAlign: 'right' }}>
         <p style={{ fontWeight: 700, color: '#fff' }}>{amount}</p>
@@ -201,10 +267,10 @@ function ReceiptItem({ imageUri, date, merchant, amount, status }) {
           fontSize: '0.65rem',
           padding: '0.15rem 0.5rem',
           borderRadius: '4px',
-          background: status === 'processed' ? 'rgba(34,197,94,0.2)' : 'rgba(245,158,11,0.2)',
-          color: status === 'processed' ? '#22c55e' : '#f59e0b'
+          background: statusStyle.bg,
+          color: statusStyle.text
         }}>
-          {status}
+          {isProcessing ? 'processing' : status}
         </span>
       </div>
     </div>

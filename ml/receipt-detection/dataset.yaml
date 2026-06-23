@@ -1,0 +1,10 @@
+path: /Users/smayone/Sovereignitity-Stack/ml/receipt-detection/dataset
+train: images/train
+val: images/val
+
+# Number of classes
+nc: 1
+
+# Class names
+names:
+  0: receipt

@@ -23,9 +23,10 @@ const { handleAgentMailWebhook } = require('./api/email');
 const moliRoutes = require('./api/moli');
 const budgetAIRoutes = require('../solvy-platform/api/budget-ai');
 const prelaunchRoutes = require('./api/prelaunch');
+const kycRoutes = require('./api/kyc');
 
-// Middleware
-app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
+// Middleware (generous limit for base64 ID/selfie images)
+app.use(express.json({ limit: '10mb', verify: (req, res, buf) => { req.rawBody = buf; } }));
 
 // Vendor-agnostic banking routes (Unit.co OR Treasury Prime)
 setupBankingRoutes(app);
@@ -97,6 +98,12 @@ app.get('/api/accounts/:accountId/balance', async (req, res) => {
  * Generate JWT for Unit Ready To Launch
  */
 app.post('/api/auth/unit-token', getUnitToken);
+
+/**
+ * POST /api/kyc/submit
+ * Lithic KYC document submission
+ */
+app.post('/api/kyc/submit', kycRoutes.submitKyc);
 
 /**
  * POST /webhooks/unit

@@ -3,7 +3,7 @@
 **Current Sprint:** Pre-Launch Sprint — Foundation First 🚀  
 **Sprint Dates:** June 3 - June 18, 2026  
 **Launch Target:** June 19, 2026 (Juneteenth)  
-**Last Updated:** June 9, 2026  
+**Last Updated:** June 22, 2026  
 
 ---
 
@@ -46,8 +46,11 @@ Points: 55 Committed | 13 In Progress | 16 To Do | 26 Done
 | TASK-098 | Gitea Projects/Kanban integration with SCRUM board | @sean | 3 | Day 2/3 | EPIC-001 DevOps & Coordination |
 | TASK-099 | Final brand consistency audit (purple theme, SolvyLogo-1024) | @frontend-dev | 5 | Day 1/2 | EPIC-006 Brand & UX |
 | TASK-100 | Mailcow mailbox proper provisioning (move from SQL workaround) | @devops | 5 | Day 2/3 | EPIC-007 Sovereign Email |
+| TASK-105 | Del — launch-week infrastructure (MailCow, DNS, PM2, Lithic send) | @del | 8 | Day 1/2 | EPIC-007 Sovereign Email |
+| TASK-107 | Lithic KYC document capture with on-device vision | @sa-nathan | 8 | Starting | EPIC-002 Card Issuing |
 
 **Details:**
+- 🔄 TASK-107: Starts now that TASK-106 on-device YOLO pipeline is validated
 - ✅ TASK-098: Gitea repo sync completed (main branch pushed via SSH)
 - 🔄 TASK-099: Most pages updated, checking for residual green/crown assets
 - ⏳ TASK-100: `team@`, `support@`, `noreply@` aliases functional; needs UI-based creation
@@ -79,8 +82,9 @@ Points: 55 Committed | 13 In Progress | 16 To Do | 26 Done
 | TASK-093 | Brand update green → purple across public pages | @frontend-dev | 5 | Jun 8 | EPIC-006 Brand & UX |
 | TASK-094 | Logo fix: crown → SolvyLogo-1024.png | @frontend-dev | 2 | Jun 8 | EPIC-006 Brand & UX |
 | TASK-095 | Repo consolidation + Gitea sync | @sa-nathan | 3 | Jun 9 | EPIC-001 DevOps & Coordination |
+| TASK-106 | Receipt scanning POC with on-device YOLO | @sa-nathan | 5 | Jun 22 | EPIC-001 Local-First Architecture |
 
-**Subtotal:** 6 tasks | 26 points
+**Subtotal:** 7 tasks | 31 points
 
 ---
 
@@ -88,7 +92,7 @@ Points: 55 Committed | 13 In Progress | 16 To Do | 26 Done
 
 | ID | Task | Blocked By | Blocker Owner | Escalation |
 |----|------|------------|---------------|------------|
-| TASK-102 | Lithic production key | API key pending from Lithic dashboard | @sa-nathan | Contact Lithic support if not received by Jun 12 |
+| TASK-102 | Lithic production key | API key pending from Lithic dashboard | @sa-nathan | Production key request email drafted; send today (Jun 12) |
 | TASK-101 | Stripe production key | `sk_live_...` required from Stripe dashboard | @sa-nathan | Stripe account admin access needed |
 
 ---
@@ -141,6 +145,7 @@ Thu Jun 19 ████████████████████ JUNETEEN
 | @sean | ✅ | 100% | SCRUM Master — Gitea Kanban sync |
 | @devops | 50% | 50% | Mailcow + infrastructure |
 | @qa-tester | ✅ | 80% | Pre-launch testing prep |
+| @del (Abdelazziz) | ✅ | 100% | Launch-week infrastructure contractor — MailCow/DNS/PM2 |
 
 ---
 
@@ -185,7 +190,9 @@ Thu Jun 19 ████████████████████ JUNETEEN
 | Action | Owner | Due | Status |
 |--------|-------|-----|--------|
 | Get Stripe `sk_live_...` from dashboard | @sa-nathan | Jun 10 | 🔴 To Do |
-| Get Lithic production API key | @sa-nathan | Jun 10 | 🔴 To Do |
+| Deploy Huginn + Lithic outreach scenario | @sa-nathan | Jun 12 | 🟡 In Progress |
+| Provision partnerships@solvy.cards mailbox | @devops | Jun 12 | 🟡 In Progress |
+| Get Lithic production API key | @sa-nathan | Jun 12 | 🟡 In Progress |
 | Schedule EBL pilot test with Eva | @sa-nathan | Jun 11 | 🔴 To Do |
 | Update Gitea Projects/Kanban from this board | @sean | Jun 10 | 🟡 In Progress |
 | Verify PWA on iOS Safari + Android Chrome | @qa-tester | Jun 12 | 🔴 To Do |
@@ -204,7 +211,7 @@ Thu Jun 19 ████████████████████ JUNETEEN
 
 ---
 
-**Next Update:** June 10, 2026 (Daily Standup)  
+**Next Update:** June 13, 2026 (Daily Standup)  
 **Board Owner:** @sean (SCRUM Master)  
 
 ---

@@ -95,6 +95,15 @@ ops/**/ssl/
 *.pages
 *.numbers
 SOLVY-Card/
+
+# ML training outputs (can be regenerated)
+runs/
+ml/*/dataset/images/
+ml/*/dataset/labels/
+
+# Vendored runtime binaries (download during setup)
+solvy-cards/public/onnx-wasm/
+solvy-cards/public/tessdata/
 android/keystore.jks
 
 # Other domain web roots (not part of SOLVY main site)

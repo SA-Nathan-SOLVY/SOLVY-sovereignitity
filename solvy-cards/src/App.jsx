@@ -5,6 +5,9 @@ import Card from './pages/Card'
 import Services from './pages/Services'
 import Receipts from './pages/Receipts'
 import More from './pages/More'
+import TestReceiptScan from './pages/TestReceiptScan'
+import KycCapture from './pages/KycCapture'
+import TestKycCapture from './pages/TestKycCapture'
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/receipts" element={<Receipts />} />
           <Route path="/more" element={<More />} />
+          <Route path="/test-receipt" element={<TestReceiptScan />} />
+          <Route path="/kyc" element={<KycCapture />} />
+          <Route path="/test-kyc" element={<TestKycCapture />} />
         </Routes>
       </Layout>
     </Router>
