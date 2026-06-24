@@ -56,6 +56,8 @@ async function submitKyc(req, res) {
     idBackImage,
     selfieImage,
     extractedId,
+    livenessProof,
+    faceMatch,
     workflow = 'KYC_BASIC'
   } = req.body;
 
@@ -71,7 +73,10 @@ async function submitKyc(req, res) {
       action: 'kyc_submit_received',
       memberHash,
       workflow,
-      documentType: extractedId?.documentType || 'drivers_license'
+      documentType: extractedId?.documentType || 'drivers_license',
+      livenessPassed: livenessProof?.blinkDetected && livenessProof?.headMoved,
+      faceMatchScore: faceMatch?.score,
+      faceMatchPassed: faceMatch?.match
     });
 
     // 1. Create Lithic account holder
@@ -133,13 +138,19 @@ async function submitKyc(req, res) {
       action: 'kyc_submit_complete',
       memberHash,
       accountHolderToken,
-      status
+      status,
+      livenessPassed: livenessProof?.blinkDetected && livenessProof?.headMoved,
+      faceMatchScore: faceMatch?.score,
+      faceMatchPassed: faceMatch?.match
     });
 
     return res.json({
       success: true,
       accountHolderToken,
       status,
+      livenessPassed: livenessProof?.blinkDetected && livenessProof?.headMoved,
+      faceMatchScore: faceMatch?.score,
+      faceMatchPassed: faceMatch?.match,
       message: 'KYC submitted to Lithic'
     });
   } catch (error) {

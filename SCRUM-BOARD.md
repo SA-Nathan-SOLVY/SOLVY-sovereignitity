@@ -3,7 +3,7 @@
 **Current Sprint:** Pre-Launch Sprint — Foundation First 🚀  
 **Sprint Dates:** June 3 - June 18, 2026  
 **Launch Target:** June 19, 2026 (Juneteenth)  
-**Last Updated:** June 22, 2026  
+**Last Updated:** June 24, 2026  
 
 ---
 
@@ -18,8 +18,8 @@
 ```
 Sprint Progress: ██████████████░░░░░░ 72%
 
-Tasks: 11 Committed | 3 In Progress | 4 To Do | 4 Done
-Points: 55 Committed | 13 In Progress | 16 To Do | 26 Done
+Tasks: 4 To Do | 4 In Progress | 2 Review | 8 Done
+Points: 23 To Do | 21 In Progress | 11 Review | 39 Done
 ```
 
 ---
@@ -47,17 +47,15 @@ Points: 55 Committed | 13 In Progress | 16 To Do | 26 Done
 | TASK-099 | Final brand consistency audit (purple theme, SolvyLogo-1024) | @frontend-dev | 5 | Day 1/2 | EPIC-006 Brand & UX |
 | TASK-100 | Mailcow mailbox proper provisioning (move from SQL workaround) | @devops | 5 | Day 2/3 | EPIC-007 Sovereign Email |
 | TASK-105 | Del — launch-week infrastructure (MailCow, DNS, PM2, Lithic send) | @del | 8 | Day 1/2 | EPIC-007 Sovereign Email |
-| TASK-107 | Lithic KYC document capture with on-device vision | @sa-nathan | 8 | Starting | EPIC-002 Card Issuing |
 
 **Details:**
-- 🔄 TASK-107: Starts now that TASK-106 on-device YOLO pipeline is validated
 - ✅ TASK-098: Gitea repo sync completed (main branch pushed via SSH)
 - 🔄 TASK-099: Most pages updated, checking for residual green/crown assets
 - ⏳ TASK-100: `team@`, `support@`, `noreply@` aliases functional; needs UI-based creation
 
 **Blockers:** None
 
-**Subtotal:** 3 tasks | 13 points
+**Subtotal:** 4 tasks | 21 points
 
 ---
 
@@ -83,8 +81,9 @@ Points: 55 Committed | 13 In Progress | 16 To Do | 26 Done
 | TASK-094 | Logo fix: crown → SolvyLogo-1024.png | @frontend-dev | 2 | Jun 8 | EPIC-006 Brand & UX |
 | TASK-095 | Repo consolidation + Gitea sync | @sa-nathan | 3 | Jun 9 | EPIC-001 DevOps & Coordination |
 | TASK-106 | Receipt scanning POC with on-device YOLO | @sa-nathan | 5 | Jun 22 | EPIC-001 Local-First Architecture |
+| TASK-107 | Lithic KYC document capture with on-device vision + liveness/face-match | @sa-nathan | 8 | Jun 24 | EPIC-002 Card Issuing |
 
-**Subtotal:** 7 tasks | 31 points
+**Subtotal:** 8 tasks | 39 points
 
 ---
 

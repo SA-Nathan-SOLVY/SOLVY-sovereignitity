@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Camera, CameraResultType } from '@capacitor/camera'
 import { processIdDocument, terminateOcr } from '../services/id-document-processor.js'
+import { runLivenessChallenge, captureSelfieFrame, terminateLiveness } from '../services/vision/liveness-check.js'
+import { compareFaces, terminateFaceMatch } from '../services/vision/face-match.js'
 
 const STEPS = {
   INTRO: 'intro',
   FRONT: 'front',
   BACK: 'back',
-  SELFIE: 'selfie',
+  LIVENESS: 'liveness',
   REVIEW: 'review',
   SUBMITTING: 'submitting',
   DONE: 'done'
@@ -17,6 +19,8 @@ function KycCapture() {
   const [front, setFront] = useState(null)
   const [back, setBack] = useState(null)
   const [selfie, setSelfie] = useState(null)
+  const [livenessResult, setLivenessResult] = useState(null)
+  const [faceMatchResult, setFaceMatchResult] = useState(null)
   const [memberInfo, setMemberInfo] = useState({
     firstName: '',
     lastName: '',
@@ -27,12 +31,25 @@ function KycCapture() {
   })
   const [error, setError] = useState(null)
   const [submitResult, setSubmitResult] = useState(null)
+  const [livenessMessage, setLivenessMessage] = useState('')
+  const videoRef = useRef(null)
+  const streamRef = useRef(null)
 
   useEffect(() => {
     return () => {
       terminateOcr().catch(console.error)
+      terminateLiveness().catch(console.error)
+      terminateFaceMatch().catch(console.error)
+      stopCameraStream()
     }
   }, [])
+
+  const stopCameraStream = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop())
+      streamRef.current = null
+    }
+  }
 
   const captureDocument = async (side) => {
     setError(null)
@@ -55,7 +72,6 @@ function KycCapture() {
 
       if (side === 'front') {
         setFront(payload)
-        // Pre-fill member info from extracted ID data
         setMemberInfo(prev => ({
           ...prev,
           firstName: result.firstName || prev.firstName,
@@ -65,7 +81,7 @@ function KycCapture() {
         setStep(STEPS.BACK)
       } else {
         setBack(payload)
-        setStep(STEPS.SELFIE)
+        setStep(STEPS.LIVENESS)
       }
     } catch (err) {
       console.error(`[KycCapture] ${side} capture error:`, err)
@@ -73,20 +89,63 @@ function KycCapture() {
     }
   }
 
-  const captureSelfie = async () => {
+  const startLivenessCamera = async () => {
     setError(null)
+    setLivenessMessage('Starting camera...')
     try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Uri,
-        source: 'camera'
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: 640, height: 480 },
+        audio: false
       })
-      setSelfie(image.webPath)
-      setStep(STEPS.REVIEW)
+      streamRef.current = stream
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream
+        await videoRef.current.play()
+      }
+      setLivenessMessage('Please blink and slowly move your head...')
+      runLiveness()
     } catch (err) {
-      console.error('[KycCapture] Selfie error:', err)
-      setError('Could not capture selfie. Please try again.')
+      console.error('[KycCapture] Camera access error:', err)
+      setError('Could not access camera for liveness check. Please allow camera access and try again.')
+      setLivenessMessage('')
+    }
+  }
+
+  const runLiveness = async () => {
+    try {
+      const result = await runLivenessChallenge(videoRef.current)
+      setLivenessResult(result)
+
+      if (!result.pass) {
+        setLivenessMessage('Liveness check unclear. Please try again with better lighting and movement.')
+        stopCameraStream()
+        return
+      }
+
+      setLivenessMessage('Liveness confirmed. Capturing selfie...')
+      const selfieDataUrl = captureSelfieFrame(videoRef.current)
+      setSelfie(selfieDataUrl)
+      stopCameraStream()
+
+      // Run face-match against ID front
+      if (front?.correctedImage) {
+        setLivenessMessage('Comparing selfie to ID...')
+        try {
+          const match = await compareFaces(front.correctedImage, selfieDataUrl)
+          setFaceMatchResult(match)
+        } catch (matchErr) {
+          console.warn('[KycCapture] Face match error:', matchErr)
+          setFaceMatchResult({ match: false, score: 0, threshold: 0.6, error: matchErr.message })
+        }
+      }
+
+      setStep(STEPS.REVIEW)
+      setLivenessMessage('')
+    } catch (err) {
+      console.error('[KycCapture] Liveness error:', err)
+      setError('Liveness check failed. Please try again.')
+      setLivenessMessage('')
+      stopCameraStream()
     }
   }
 
@@ -107,7 +166,15 @@ function KycCapture() {
           idFrontImage: front?.correctedImage,
           idBackImage: back?.correctedImage,
           selfieImage: selfie,
-          extractedId: front?.extracted
+          extractedId: front?.extracted,
+          livenessProof: livenessResult?.proof,
+          faceMatch: faceMatchResult
+            ? {
+                score: faceMatchResult.score,
+                match: faceMatchResult.match,
+                threshold: faceMatchResult.threshold
+              }
+            : null
         })
       })
 
@@ -130,7 +197,8 @@ function KycCapture() {
     setMemberInfo(prev => ({ ...prev, [field]: value }))
   }
 
-  const canSubmit = front && back && selfie && memberInfo.firstName && memberInfo.lastName &&
+  const canSubmit = front && back && selfie && livenessResult?.pass &&
+    memberInfo.firstName && memberInfo.lastName &&
     memberInfo.email && memberInfo.phone && memberInfo.dob && memberInfo.ssnLast4
 
   return (
@@ -161,7 +229,7 @@ function KycCapture() {
           <ul style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.5rem', paddingLeft: '1.2rem' }}>
             <li>Government-issued ID (driver's license or state ID)</li>
             <li>A well-lit area</li>
-            <li>A selfie for identity confirmation</li>
+            <li>A quick liveness selfie (blink + small head movement)</li>
           </ul>
           <p style={{ color: '#94a3b8', fontSize: '0.8rem', marginBottom: '1.5rem' }}>
             Your ID images are processed on your phone, corrected, and sent directly to Lithic for KYC review.
@@ -187,16 +255,32 @@ function KycCapture() {
           title="Back of ID"
           subtitle="Position the back of your ID in the frame and tap capture."
           onCapture={() => captureDocument('back')}
-          onSkip={() => setStep(STEPS.SELFIE)}
+          onSkip={() => setStep(STEPS.LIVENESS)}
         />
       )}
 
-      {step === STEPS.SELFIE && (
-        <CaptureStep
-          title="Selfie"
-          subtitle="Take a clear photo of your face."
-          onCapture={captureSelfie}
-        />
+      {step === STEPS.LIVENESS && (
+        <div style={{ textAlign: 'center' }}>
+          <h2 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Liveness Selfie</h2>
+          <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '1rem' }}>
+            Look at the camera, blink naturally, and move your head slightly.
+          </p>
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            style={{ width: '100%', maxWidth: 400, borderRadius: 12, background: '#000' }}
+          />
+          {livenessMessage && (
+            <p style={{ color: '#22c55e', fontSize: '0.9rem', marginTop: '1rem' }}>{livenessMessage}</p>
+          )}
+          {!streamRef.current && (
+            <button onClick={startLivenessCamera} style={{ ...primaryButtonStyle, marginTop: '1rem' }}>
+              Start Liveness Check
+            </button>
+          )}
+        </div>
       )}
 
       {step === STEPS.REVIEW && (
@@ -207,6 +291,22 @@ function KycCapture() {
             {front?.correctedImage && <PreviewBox label="ID Front" src={front.correctedImage} />}
             {back?.correctedImage && <PreviewBox label="ID Back" src={back.correctedImage} />}
             {selfie && <PreviewBox label="Selfie" src={selfie} />}
+          </div>
+
+          <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '1rem', marginBottom: '1rem' }}>
+            <h3 style={{ fontSize: '0.95rem', marginBottom: '0.75rem' }}>Verification Checks</h3>
+            <p style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
+              Liveness: <span style={{ color: livenessResult?.pass ? '#22c55e' : '#ef4444' }}>
+                {livenessResult?.pass ? 'Passed' : 'Failed'}
+              </span>
+            </p>
+            {faceMatchResult && (
+              <p style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
+                Face match: <span style={{ color: faceMatchResult.match ? '#22c55e' : '#f59e0b' }}>
+                  {faceMatchResult.match ? 'Match' : 'No match'} ({faceMatchResult.score})
+                </span>
+              </p>
+            )}
           </div>
 
           <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '12px', padding: '1rem', marginBottom: '1rem' }}>

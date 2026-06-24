@@ -61,6 +61,9 @@ async function main() {
 
     const front = result.result?.front
     const back = result.result?.back
+    const faceMatch = result.result?.faceMatch
+    const livenessProof = result.result?.livenessProof
+
     if (!front || !back) {
       console.error('\n❌ Missing front or back result')
       process.exitCode = 1
@@ -68,8 +71,12 @@ async function main() {
       console.warn('\n⚠️ Front ID quality did not pass:', front.quality.issues)
     } else if (!back.quality?.pass) {
       console.warn('\n⚠️ Back ID quality did not pass:', back.quality.issues)
+    } else if (!faceMatch?.match) {
+      console.warn('\n⚠️ Face match did not pass:', faceMatch)
+    } else if (!livenessProof?.blinkDetected || !livenessProof?.headMoved) {
+      console.warn('\n⚠️ Liveness proof incomplete:', livenessProof)
     } else {
-      console.log('\n🎉 KYC ID pipeline validated!')
+      console.log('\n🎉 KYC ID pipeline + face-match + liveness validated!')
     }
   }
 
