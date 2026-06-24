@@ -5,40 +5,44 @@
 # Current stack:
 #   - Frontend: solvy-cards/ (Vite + React + Capacitor)
 #   - Backend:  solvy-unit-integration/ (Node.js + Express)
+#   - Shared:   solvy-platform/ (adapters, routers used by backend)
 #   - VPS:      46.62.235.95 (Ubuntu + Nginx + PM2)
 #   - Web root: /var/www/ebl.beauty (also serves solvy.cards via Nginx)
+#   - Backend:  /opt/solvy/solvy-unit-integration (PM2 solvy-api)
 
 set -e
 
 VPS="root@46.62.235.95"
-SOURCE="solvy-cards/dist"
-DEST="/var/www/ebl.beauty"
+FRONTEND_SOURCE="solvy-cards/dist"
+DEST_EBL="/var/www/ebl.beauty"
 DEST_SOLVY="/var/www/solvy.cards"
 BACKEND_SOURCE="solvy-unit-integration"
-BACKEND_DEST="/opt/solvy"
+BACKEND_DEST="/opt/solvy/solvy-unit-integration"
+PLATFORM_SOURCE="solvy-platform"
+PLATFORM_DEST="/opt/solvy/solvy-platform"
 
 echo "▶ Building solvy-cards for production..."
 cd solvy-cards
 npm run build
 cd ..
 
-if [ ! -d "$SOURCE" ]; then
-  echo "❌ Build failed: $SOURCE not found"
+if [ ! -d "$FRONTEND_SOURCE" ]; then
+  echo "❌ Build failed: $FRONTEND_SOURCE not found"
   exit 1
 fi
 
-echo "▶ Syncing $SOURCE → $VPS:$DEST"
+echo "▶ Syncing $FRONTEND_SOURCE → $VPS:$DEST_EBL"
 rsync -avz --delete \
   --exclude='.git' \
   --exclude='node_modules' \
-  "$SOURCE/" "$VPS:$DEST/"
+  "$FRONTEND_SOURCE/" "$VPS:$DEST_EBL/"
 
 if [ -d "$DEST_SOLVY" ]; then
-  echo "▶ Syncing $SOURCE → $VPS:$DEST_SOLVY"
+  echo "▶ Syncing $FRONTEND_SOURCE → $VPS:$DEST_SOLVY"
   rsync -avz --delete \
     --exclude='.git' \
     --exclude='node_modules' \
-    "$SOURCE/" "$VPS:$DEST_SOLVY/"
+    "$FRONTEND_SOURCE/" "$VPS:$DEST_SOLVY/"
 fi
 
 echo "▶ Syncing backend $BACKEND_SOURCE → $VPS:$BACKEND_DEST"
@@ -48,26 +52,32 @@ rsync -avz --delete \
   --exclude='.env' \
   "$BACKEND_SOURCE/" "$VPS:$BACKEND_DEST/"
 
+echo "▶ Syncing platform $PLATFORM_SOURCE → $VPS:$PLATFORM_DEST"
+rsync -avz --delete \
+  --exclude='.git' \
+  --exclude='node_modules' \
+  "$PLATFORM_SOURCE/" "$VPS:$PLATFORM_DEST/"
+
 # Install backend dependencies and restart PM2 process
-ssh "$VPS" << 'REMOTE'
-  cd /opt/solvy
+ssh "$VPS" << REMOTE
+  set -e
+  cd "$BACKEND_DEST"
   npm install
+
   if pm2 list | grep -q "solvy-api"; then
     echo "▶ Restarting solvy-api via PM2..."
-    pm2 restart solvy-api
-  else
-    echo "▶ Starting solvy-api via PM2..."
-    pm2 start server.js --name solvy-api -- --port 3000
-    pm2 save
+    pm2 delete solvy-api 2>/dev/null || true
   fi
-  pm2 startup systemd -u root --hp /root 2>/dev/null || true
+  echo "▶ Starting solvy-api via PM2..."
+  pm2 start "$BACKEND_DEST/server.js" --name solvy-api -- --port 3000
+  pm2 save
 
   echo "▶ Setting web root permissions..."
-  chown -R www-data:www-data /var/www/ebl.beauty
-  chmod -R 755 /var/www/ebl.beauty
-  if [ -d "/var/www/solvy.cards" ]; then
-    chown -R www-data:www-data /var/www/solvy.cards
-    chmod -R 755 /var/www/solvy.cards
+  chown -R www-data:www-data "$DEST_EBL"
+  chmod -R 755 "$DEST_EBL"
+  if [ -d "$DEST_SOLVY" ]; then
+    chown -R www-data:www-data "$DEST_SOLVY"
+    chmod -R 755 "$DEST_SOLVY"
   fi
 
   echo "▶ Reloading nginx..."
@@ -78,4 +88,4 @@ echo "✅ Sync complete."
 echo "   Frontend: https://solvy.cards"
 echo "   Backend health: https://solvy.cards/health"
 echo ""
-echo "⚠️  Reminder: ensure /opt/solvy/.env has LITHIC_API_KEY and other secrets."
+echo "⚠️  Reminder: ensure $BACKEND_DEST/.env has LITHIC_API_KEY and other secrets."
