@@ -7,7 +7,7 @@
 #   - Backend:  solvy-unit-integration/ (Node.js + Express)
 #   - Shared:   solvy-platform/ (adapters, routers used by backend)
 #   - VPS:      46.62.235.95 (Ubuntu + Nginx + PM2)
-#   - Web root: /var/www/ebl.beauty (also serves solvy.cards via Nginx)
+#   - Web root: /var/www/ebl.beauty and /var/www/solvy.cards
 #   - Backend:  /opt/solvy/solvy-unit-integration (PM2 solvy-api)
 
 set -e
@@ -37,13 +37,11 @@ rsync -avz --delete \
   --exclude='node_modules' \
   "$FRONTEND_SOURCE/" "$VPS:$DEST_EBL/"
 
-if [ -d "$DEST_SOLVY" ]; then
-  echo "▶ Syncing $FRONTEND_SOURCE → $VPS:$DEST_SOLVY"
-  rsync -avz --delete \
-    --exclude='.git' \
-    --exclude='node_modules' \
-    "$FRONTEND_SOURCE/" "$VPS:$DEST_SOLVY/"
-fi
+echo "▶ Syncing $FRONTEND_SOURCE → $VPS:$DEST_SOLVY"
+rsync -avz --delete \
+  --exclude='.git' \
+  --exclude='node_modules' \
+  "$FRONTEND_SOURCE/" "$VPS:$DEST_SOLVY/"
 
 echo "▶ Syncing backend $BACKEND_SOURCE → $VPS:$BACKEND_DEST"
 rsync -avz --delete \
@@ -65,27 +63,25 @@ ssh "$VPS" << REMOTE
   npm install
 
   if pm2 list | grep -q "solvy-api"; then
-    echo "▶ Restarting solvy-api via PM2..."
+    echo "▶ Stopping existing solvy-api..."
     pm2 delete solvy-api 2>/dev/null || true
   fi
   echo "▶ Starting solvy-api via PM2..."
-  pm2 start "$BACKEND_DEST/server.js" --name solvy-api -- --port 3000
+  pm2 start "$BACKEND_DEST/server.js" --name solvy-api
   pm2 save
 
   echo "▶ Setting web root permissions..."
   chown -R www-data:www-data "$DEST_EBL"
   chmod -R 755 "$DEST_EBL"
-  if [ -d "$DEST_SOLVY" ]; then
-    chown -R www-data:www-data "$DEST_SOLVY"
-    chmod -R 755 "$DEST_SOLVY"
-  fi
+  chown -R www-data:www-data "$DEST_SOLVY"
+  chmod -R 755 "$DEST_SOLVY"
 
   echo "▶ Reloading nginx..."
   nginx -t && systemctl reload nginx
 REMOTE
 
 echo "✅ Sync complete."
-echo "   Frontend: https://solvy.cards"
+echo "   Frontend: https://solvy.cards | https://ebl.beauty"
 echo "   Backend health: https://solvy.cards/health"
 echo ""
 echo "⚠️  Reminder: ensure $BACKEND_DEST/.env has LITHIC_API_KEY and other secrets."
