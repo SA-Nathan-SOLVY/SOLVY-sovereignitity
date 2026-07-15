@@ -1,0 +1,41 @@
+{
+  "name": "SOLVY Lithic Production Key Outreach",
+  "description": "Send the Lithic production API key request from partnerships@solvy.cards or partnerships@ebl.beauty. Trigger manually after MailCow domain and mailbox are ready.",
+  "source_url": null,
+  "guid": "solvy-lithic-outreach-2026",
+  "tag_fg_color": "#ffffff",
+  "tag_bg_color": "#7c3aed",
+  "exported_at": "2026-06-12T18:00:00Z",
+  "agents": [
+    {
+      "type": "Agents::ManualEventAgent",
+      "name": "Trigger Lithic Email",
+      "schedule": "never",
+      "keep_events_for": 86400,
+      "propagate_immediately": true,
+      "options": {
+        "merge": "{ \"to\": \"support@lithic.com, partnerships@lithic.com\", \"cc\": \"hello@ebl.beauty\", \"from\": \"partnerships@solvy.cards\" }"
+      }
+    },
+    {
+      "type": "Agents::EmailAgent",
+      "name": "Send Lithic Production Key Request",
+      "schedule": "never",
+      "keep_events_for": 86400,
+      "propagate_immediately": false,
+      "options": {
+        "subject": "Production API Access Request — SA Nathan LLC / SOLVY Ecosystem™",
+        "headline": "SOLVY Cooperative Card Program",
+        "body": "Dear Lithic Partnership Team,\n\nI hope this message finds you well. I am reaching out on behalf of SA Nathan LLC, the operator of SOLVY Ecosystem™, a cooperative financial platform. We have completed our Lithic sandbox integration and are now ready to move into production immediately.\n\nSandbox Integration Summary:\nOur engineering team has verified the following in the Lithic sandbox environment:\n- API connectivity and account listing\n- Virtual card creation and retrieval\n- Card state management (freeze / unfreeze)\n- Transaction simulation workflows\n- Webhook handling structure\n- KYC document capture with on-device ID verification, liveness detection, and face-match\n\nProgram Details:\n- Entity: SA Nathan LLC (Texas LLC)\n- Program: SOLVY Card™\n- Model: Cooperative debit card program — members participate in interchange revenue through patronage dividends\n- Members: 45 confirmed founding members; 100 target at launch\n- Active trust account with EIN and ~$200,000 available for program launch\n- Banking: Navy Federal Credit Union accounts being opened as operational/funding accounts\n- Product website: https://solvy.cards\n- Pilot partner: Evergreen Beauty Lounge — https://ebl.beauty\n\nRequest:\nWe require production API access as soon as possible to serve our founding members. We would appreciate:\n1. Production API credentials and card program configuration\n2. Production webhook endpoint requirements\n3. Any additional underwriting materials or compliance documentation needed\n4. A technical or partnership contact for launch coordination\n\nWe are happy to provide our business plan, financial projections, compliance policies, and trust account verification upon request. We are ready to complete production integration as quickly as Lithic's process allows.\n\nThank you for your time and consideration. We would be honored to partner with Lithic for our cooperative card program.\n\n—\nSean Mayo\nManaging Member, SA Nathan LLC\nhello@ebl.beauty\nhttps://solvy.cards",
+        "expected_receive_period_in_days": "1"
+      }
+    }
+  ],
+  "links": [
+    {
+      "source": "Trigger Lithic Email",
+      "receiver": "Send Lithic Production Key Request"
+    }
+  ],
+  "control_links": []
+}

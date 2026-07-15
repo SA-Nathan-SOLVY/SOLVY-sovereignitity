@@ -1,6 +1,5 @@
 # SOLVY Vendor Outreach — Live Status Tracker
-**Last Updated:** May 29, 2026  
-**Launch Target:** June 19, 2026 (21 days)  
+**Last Updated:** July 15, 2026  
 **Owner:** SA Nathan LLC / Sean Mayo  
 
 ---
@@ -9,55 +8,65 @@
 
 | Issue | Impact | Action Required |
 |-------|--------|-----------------|
-| **Treasury Prime sandbox invite EXPIRED** (May 13) | 🔴 HIGH | Request new invite immediately |
-| **Unit.co production access still pending** (since April 13) | 🔴 HIGH | Escalation email needed NOW |
-| **No vendor API keys in .env** | 🔴 HIGH | Need actual credentials, not placeholders |
-| **No evidence emails were sent** | 🟡 MEDIUM | Send tracked outreach today |
+| **Lithic production API key still pending** | 🔴 HIGH | Production key request email refreshed and ready to send today |
+| **Juneteenth launch window passed** | 🔴 HIGH | Reset launch milestone; resume with trust account funding now in place |
+| **Unit.co production access still pending** | 🟡 MEDIUM | No response since April; keep as backup only |
+| **Treasury Prime sandbox invite expired** | 🟡 MEDIUM | Can re-request if Lithic falls through |
 
-**Bottom line:** We have documentation but no live card-issuing sandbox. 21 days to launch.
+**Bottom line:** Lithic sandbox integration is verified and working. Production API key is the only blocker for card issuing. Trust account with EIN and ~$200k is now active.
 
 ---
 
 ## 📊 Vendor Pipeline
 
-### 1. Unit.co (Primary)
+### 1. Unit.co (Paused — Backup)
 | Field | Status |
 |-------|--------|
 | Sandbox access | ✅ Had access — API token is placeholder in .env |
 | Production access | ⏳ Pending since April 13, 2026 |
-| Last contact | ❌ Unknown — no response logged |
+| Last contact | ❌ No response logged |
 | Cards issued | ❌ None |
-| Next action | **Send escalation email today** |
+| Next action | **Keep as fallback; do not actively escalate unless Lithic fails** |
 
-### 2. Treasury Prime (Backup — Sandbox ACTIVE ✅)
+### 2. Treasury Prime (Paused — Backup)
 | Field | Status |
 |-------|--------|
-| Sandbox access | ✅ **ACTIVE** — https://app.sandbox.treasuryprime.com/accounts/accounts |
-| API keys | ⚠️ Need to confirm if generated |
+| Sandbox access | ⚠️ Invite expired (~May 13) |
+| API keys | ❌ Not generated |
 | Integration code | ✅ Built (vendor-config.js, adapters, router) |
 | Cards issued | ❌ None yet |
-| Next action | **Generate API keys and test connection** |
+| Next action | **Re-request sandbox only if Lithic does not deliver** |
 
 ### 3. Mercury (Business Account — Not Card Issuer)
 | Field | Status |
 |-------|--------|
 | Account opened | ❌ Unknown — not confirmed in docs |
-| Purpose | Hold $225K VCF funds + underwriting proof |
+| Purpose | Hold operational funds + underwriting proof |
 | Cards for members | ❌ N/A — Mercury doesn't issue cards to third parties |
-| Next action | **Open if not done** |
+| Next action | **Defer; Navy Federal being used for operational banking** |
 
-### 4. Lithic (Card Issuing — INTEGRATION COMPLETE ✅)
+### 4. Lithic (Card Issuing — PRIMARY ✅)
 | Field | Status |
 |-------|--------|
-| Sandbox access | ✅ **ACTIVE** — https://app.lithic.com/programs/a246dd6b-efe2-49dc-82f1-b1a71c27c97d/sandbox/dashboard |
+| Sandbox access | ✅ **ACTIVE** — re-tested July 15, 2026 |
 | API keys | ✅ **CONFIGURED** — Key ending in `...7ad5` active |
 | Integration code | ✅ **BUILT** — `api/adapters/lithic.js` + `vendor-config.js` + `banking-router.js` |
-| Cards issued | ✅ **TESTED** — Virtual card created successfully (token: `138be3af...`) |
+| Cards issued | ✅ **TESTED** — Virtual card created successfully |
 | Freeze/unfreeze | ✅ **TESTED** — Working via PATCH |
-| Transaction sim | ⚠️ Partial — Authorization simulation needs parameter tweak |
-| Next action | **Ready for member onboarding flow integration** |
+| Transaction sim | ✅ **TESTED** — Authorization simulated |
+| KYC document capture | ✅ **DONE** — On-device ID + liveness + face-match (TASK-107) |
+| Production key | ⏳ **PENDING** — refreshed request ready to send July 15 |
+| Next action | **Send production key request; escalate if no response by July 22** |
 
-### 5. Baanx (Crypto Backup — Phase 2)
+### 5. Navy Federal Credit Union (Operational Banking)
+| Field | Status |
+|-------|--------|
+| Account status | ⏳ Being opened now |
+| Purpose | Operational/funding accounts while card vendor is finalized |
+| Cards for members | ❌ N/A — not a BaaS card issuer |
+| Next action | **Confirm account opening and fund with trust account** |
+
+### 6. Baanx (Crypto Backup — Phase 2)
 | Field | Status |
 |-------|--------|
 | Contacted | ❌ No |
@@ -66,36 +75,49 @@
 
 ---
 
-## 📧 Emails to Send TODAY
+## 💰 Funding / Entity Update
 
-### Email 1: Treasury Prime — New Sandbox Request
-**To:** support@treasuryprime.com, partnerships@treasuryprime.com  
-**Subject:** RE: Sandbox Invitation Expired — SA Nathan LLC (SOLVY Ecosystem™)
-
-> Our sandbox invitation (org: SA Nathan-EBL Logo, sent ~May 5) expired before we could activate API keys. We are 21 days from launch and need immediate re-instatement. Can you extend or re-send the invitation? Our integration code is complete and ready to test.
-
-**Status:** 🔴 NOT SENT
+| Item | Status |
+|------|--------|
+| Trust account with EIN | ✅ Active |
+| Available capital | ~$200,000 |
+| Operational bank | Navy Federal Credit Union — accounts being opened |
+| Card issuing | Pending Lithic production key |
 
 ---
 
-### Email 2: Unit.co — Production Escalation
-**To:** partners@unit.co, support@unit.co  
-**Subject:** PRODUCTION ACCESS ESCALATION — 45 Days No Response | Juneteenth Launch Imminent
+## 📧 Emails to Send TODAY
 
-> We submitted our underwriting package on April 13 with $225K capital committed and 45 members confirmed. We have received no response in 45 days. Our cooperative launch is June 19. Please advise on status or we will be forced to proceed with an alternative provider.
+### Email 1: Lithic — Production API Key Request
+**To:** support@lithic.com, partnerships@lithic.com, sales@lithic.com  
+**Subject:** Production API Access Request — SA Nathan LLC / SOLVY Ecosystem™
 
-**Status:** 🔴 NOT SENT
+> Sandbox integration is complete and re-tested July 15. We have an active trust account with EIN and ~$200k available. We require production API access immediately to serve our founding members. Our cooperative program has 45 confirmed founding members.
+
+**Send from:** `partnerships@ebl.beauty` (ready now via MailCow)  
+**Status:** 🟢 DRAFT READY — `drafts/lithic-production-key-request-ebl-fallback.md`  
+**Send options:**
+- Fastest: `node ops/mailcow/send-from-ebl.beauty.js` (requires `PARTNERSHIPS_EBL_PASS`)
+- Manual: MailCow SOGo webmail → copy fallback draft
+
+**Follow-ups drafted:**
+- Day 3: `drafts/lithic-follow-up-day3.md`
+- Day 7: `drafts/lithic-follow-up-day7.md`
 
 ---
 
 ## ✅ Action Checklist
 
-- [ ] Send Treasury Prime sandbox re-request email
-- [ ] Send Unit.co escalation email
-- [ ] Confirm Mercury business account status (open if needed)
-- [ ] Update .env with actual API keys when received
-- [ ] Test card issuance in first available sandbox
-- [ ] Update this tracker after each vendor response
+- [x] Re-test Lithic sandbox integration (July 15)
+- [x] Refresh Lithic production key request email with trust account / NFCU info
+- [ ] Send Lithic production key request email
+- [ ] Open Navy Federal Credit Union accounts
+- [ ] Confirm trust account wire/transfer capability to NFCU
+- [ ] Update SCRUM board and task files for post-Juneteenth sprint
+- [ ] Set new launch milestone once Lithic production key received
+- [ ] Update .env with actual production API keys when received
+- [ ] Test production card issuance in Lithic production environment
+- [ ] Update this tracker after Lithic response
 
 ---
 
@@ -103,11 +125,12 @@
 
 | Scenario | Path |
 |----------|------|
-| Treasury Prime re-activates sandbox quickly | **Use TP as primary** (already default in vendor-config.js) |
-| Unit.co responds with production keys | Parallel-test both; pick best interchange terms |
-| Neither TP nor Unit responds by June 5 | **Proceed with Lithic** — we have a working sandbox |
+| Lithic delivers production key by July 22 | **Proceed with Lithic as primary card vendor** |
+| Lithic declines or no response by July 22 | **Escalate to sales/partnerships + prepare Treasury Prime re-request** |
+| Unit.co responds with production keys | Parallel-test; pick best interchange terms |
+| Navy Federal accounts open before card vendor | Use NFCU for operational banking and member funding rails |
 
 ---
 
 *Tracker maintained by: AI Development Partners*  
-*Next review: After vendor responses*
+*Next review: After Lithic response or July 22, whichever comes first*
