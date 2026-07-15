@@ -16,6 +16,7 @@ import {
   sendContactNotification,
 } from './emailService';
 import bankingRouter from './bankingRouter';
+import cardRouter from './cardRouter';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1338,6 +1339,10 @@ app.get('/api/data-pools/export/:poolId', async (req, res) => {
   // ─── Banking Routes ──────────────────────────────────────────────────────────
 
   app.use('/api/banking', bankingRouter);
+
+  // ─── Card Issuing Routes (Lithic) ────────────────────────────────────────────
+
+  app.use('/api/card', cardRouter);
 
   // ─── Tax Export (Staff-only) ─────────────────────────────────────────────────
 

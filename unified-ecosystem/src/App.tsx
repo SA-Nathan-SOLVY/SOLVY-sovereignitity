@@ -25,6 +25,7 @@ import Presentations from './pages/Presentations'
 import Comms from './pages/Comms'
 import Mailbox from './pages/Mailbox'
 import MOLI from './pages/MOLI'
+import CardApplication from './pages/CardApplication'
 
 function App() {
   const hostname = window.location.hostname
@@ -63,6 +64,7 @@ function App() {
         <Route path="/comms" element={<Comms />} />
         <Route path="/mailbox" element={<Mailbox />} />
         <Route path="/moli" element={<MOLI />} />
+        <Route path="/apply-card" element={<CardApplication />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

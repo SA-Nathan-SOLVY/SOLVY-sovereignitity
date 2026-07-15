@@ -59,6 +59,7 @@ function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
           {/* LEFT — Pilots & Revenue */}
           <div className="nav-group-left">
             <Link to="/" className={currentPage === 'solvy' ? 'active' : ''}>SOLVY Card</Link>
+            <Link to="/apply-card" className={currentPage === 'apply' ? 'active' : ''}>Apply for Card</Link>
             <Link to="/ebl" className={currentPage === 'ebl' ? 'active' : ''}>Evergreen Beauty Lounge</Link>
             <Link to="/sps" className={currentPage === 'sps' ? 'active' : ''}>SPS Joint Venture</Link>
           </div>
@@ -163,6 +164,7 @@ function UnifiedNav({ currentPage = 'solvy' }: UnifiedNavProps) {
         {/* LEFT — Pilots & Revenue */}
         <span className="mobile-menu-label">Pilots &amp; Revenue</span>
         <Link to="/" className={currentPage === 'solvy' ? 'active' : ''} onClick={closeMobileMenu}>💳 SOLVY Card</Link>
+        <Link to="/apply-card" className={currentPage === 'apply' ? 'active' : ''} onClick={closeMobileMenu}>📝 Apply for Card</Link>
         <Link to="/ebl" className={currentPage === 'ebl' ? 'active' : ''} onClick={closeMobileMenu}>Evergreen Beauty Lounge</Link>
         <Link to="/sps" className={currentPage === 'sps' ? 'active' : ''} onClick={closeMobileMenu}>SPS Joint Venture</Link>
         <div className="mobile-menu-divider"></div>
