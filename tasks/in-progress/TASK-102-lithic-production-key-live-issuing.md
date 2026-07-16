@@ -26,7 +26,7 @@ Secure Lithic production API credentials and complete end-to-end live card issui
 
 - [x] Lithic sandbox integration re-tested and confirmed working (July 15, 2026)
 - [x] Production key request email refreshed with trust account / NFCU updates
-- [ ] Production key request email sent to Lithic
+- [x] Production key request email sent to Lithic
 - [ ] Production API key received and stored securely in `.env`
 - [ ] Production environment configured (`LITHIC_API_URL=https://api.lithic.com`)
 - [ ] Production ping / account connectivity verified
@@ -85,6 +85,9 @@ After receiving the production key, run a minimal production smoke test:
 
 ### 2026-07-15 - @sa-nathan
 Resumed after relocation. Sandbox re-tested successfully. Production key request email refreshed to reflect active trust account with EIN and ~$200k available, plus Navy Federal Credit Union accounts being opened.
+
+### 2026-07-15 - @kimi
+Reset MailCow password for `partnerships@ebl.beauty` via VPS MySQL/doveadm and sent production key request to Lithic (support@lithic.com, partnerships@lithic.com). Password stored in root `.env` as `PARTNERSHIPS_EBL_PASS`.
 
 ---
 
