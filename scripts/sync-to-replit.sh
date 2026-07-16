@@ -9,8 +9,13 @@
 #
 # Prerequisites:
 #   - Git remote 'replit' configured:
-#       git remote add replit https://replit.com/@smayone/solvy-sovereignitity.git
+#       git remote add replit https://replit.com/@smayone/solvy-sovereignitity/.git
 #   - Replit authentication configured (personal access token or browser login)
+#
+# Authentication:
+#   - Browser login: just run the script; git will prompt for Replit credentials.
+#   - Personal access token:
+#       REPLIT_PAT=your_token ./scripts/sync-to-replit.sh
 #
 
 set -euo pipefail
@@ -30,7 +35,7 @@ echo ""
 # Verify remote exists
 if ! git remote | grep -q "^${REMOTE}$"; then
   echo "❌ Git remote '$REMOTE' not found."
-  echo "   Add it with: git remote add $REMOTE https://replit.com/@smayone/solvy-sovereignitity.git"
+  echo "   Add it with: git remote add $REMOTE https://replit.com/@smayone/solvy-sovereignitity/.git"
   exit 1
 fi
 
@@ -54,10 +59,16 @@ echo ""
 echo "📋 Repository status:"
 git status --short
 
+# Determine push URL
+PUSH_REMOTE="$REMOTE"
+if [ -n "${REPLIT_PAT:-}" ]; then
+  PUSH_REMOTE="https://smayone:${REPLIT_PAT}@replit.com/@smayone/solvy-sovereignitity/.git"
+fi
+
 # Push
 echo ""
 echo "⬆️  Pushing to Replit..."
-git push "$REMOTE" "$BRANCH"
+git push "$PUSH_REMOTE" "$BRANCH"
 
 echo ""
 echo "✅ Push complete. Replit will auto-deploy."
