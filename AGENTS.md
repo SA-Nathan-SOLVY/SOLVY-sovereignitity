@@ -19,9 +19,9 @@
 ### The 70/20/10 Economic Model
 
 All interchange revenue follows this distribution:
-- **70%** — Member patronage dividends
-- **20%** — Community development pool
-- **10%** — Operations reserve
+- **70%** — Membership pool (held for members; distribution decided later, at maturity, with DECIDEY financial education)
+- **20%** — Operations (pays for services: BaaS, self-sovereign software stack, key employees, etc.)
+- **10%** — Sovereign Wealth Fund
 
 ---
 
@@ -104,6 +104,8 @@ SOVEREIGNITITY-Stack/
 │   ├── scripts/                 # Utility scripts
 │   │   ├── migrate-to-local-first.js
 │   │   └── cleanup-data-pool.js
+│   ├── mafo-aabo/               # 🏦 Family Bank / Mafo Aabo Trust™ role-based demo
+│   │   └── index.html           # Trustee, Grantor, and Beneficiary demo views
 │   ├── phase2-moli/             # ⏸️ PAUSED: MOLI features
 │   └── docker-compose.yml       # Local Docker setup
 │
@@ -147,6 +149,7 @@ SOVEREIGNITITY-Stack/
 │
 ├── manus-deploy/                # Deployed website versions
 ├── replit-deploy/               # Replit deployment packages
+├── solvy-cards-fullsite/        # LIVE at solvy.cards — static mirror of the Replit React site (51 routes) + read-only trust-portal-demo/; see its README
 │
 ├── SCRUM-BOARD.md               # Daily SCRUM board
 ├── SCRUM-README.md              # SCRUM Master guide
@@ -382,6 +385,8 @@ ngrok http 3000
 
 ## Deployment Architecture
 
+> **As of Aug 10, 2026:** `solvy.cards` serves the mirrored Replit React site from `/var/www/solvy.cards` (source: `solvy-cards-fullsite/`). Routes calling `/api/*` are proxied to the Node API on :3333, but Replit-only backend features (auth, mailbox, gated `/trust-portal`) show "unavailable" states. `/trust-portal-demo` is a fully static, read-only presentation page — no backend, no editable controls. The card-app PWA is staged at `/var/www/app.solvy.cards` for `app.solvy.cards` (pending Cloudflare DNS record). DNS for solvy.cards is live on **Cloudflare** (proxied); origin certs via Let's Encrypt.
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                         CLIENT BROWSER                       │
@@ -544,6 +549,15 @@ Clear description of the work.
 3. Update `SOVEREIGNITITY_DATA_ARCHITECTURE.md`
 4. Test migration with `scripts/migrate-to-local-first.js`
 
+### Working with Mafo Aabo Trust™ App
+
+1. **Entry point:** `solvy-platform/mafo-aabo/index.html` — served by the backend in production
+2. **Backend:** `mafo-aabo-server/` (Express + Postgres, port 3002, PM2 app `mafo-api`). Phase 0 spec: `solvy-platform/mafo-aabo/BACKEND-SPEC.md`. Tracked as TASK-112.
+3. **Access codes:** personal codes are bcrypt-hashed and seeded via env vars (`SEED_CODE_TRUSTEE` / `SEED_CODE_GRANTOR` / `SEED_CODE_BENEFICIARY` → `node mafo-aabo-server/scripts/seed.js`). The old demo codes (`TRUSTEE-2026` etc.) are retired — never hardcode codes.
+4. **Data storage:** server-side Postgres database `mafo_aabo`; money in integer cents. The old `localStorage` keys (`mafo_requests`, `mafo_loans`, `mafo_audit`) were removed in Phase 0 — all data flows through `/api/mafo/*`.
+5. **Adding features:** the role matrix lives server-side in `mafo-aabo-server/lib/roles.js`; the UI reflects `permissions` from `/api/mafo/auth/me` via `applyRoleUI()`.
+6. **Legal accuracy:** Do not invent trust provisions. Update the Trust Document view only when provided with actual trust instrument amendments (e.g., `MA-SNT-A.pdf`)
+
 ### Working with Unit.co API
 
 1. Always check sandbox vs production environment
@@ -627,7 +641,7 @@ pm2 restart solvy-api
 
 ---
 
-*Last Updated: May 27, 2026*  
-*Document Version: 1.1*
+*Last Updated: July 7, 2026*  
+*Document Version: 1.2*
 
 **Foundation first. The iron fist, digital.** 🛡️

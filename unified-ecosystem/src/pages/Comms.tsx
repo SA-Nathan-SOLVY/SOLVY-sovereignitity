@@ -4,11 +4,12 @@ import SolvyFooter from '../components/SolvyFooter'
 import './Comms.css'
 
 const TEAM = [
-  { name: 'Sean Mayo', email: 'sean@solvy.cards', role: 'Founder · CEO' },
-  { name: 'Eva (EBL)', email: 'eva@solvy.cards', role: 'Pilot Partner #1' },
-  { name: 'Smayone', email: 'smayone@solvy.cards', role: 'Operations' },
-  { name: 'Sydney', email: 'sydney@solvy.cards', role: 'Community' },
-  { name: 'Full Team', email: 'team@solvy.cards', role: 'All Staff' },
+  { name: 'Sean Mayo', email: 'sean@ebl.beauty', role: 'Founder · Passive Member' },
+  { name: 'Evergreen Mayo', email: 'eva@solvy.cards', role: 'CEO · Managing Owner' },
+  { name: 'Eva (EBL)', email: 'eva@ebl.beauty', role: 'Pilot Partner #1' },
+  { name: 'Smayone', email: 'smayone@ebl.beauty', role: 'Operations' },
+  { name: 'Sydney', email: 'sydney@ebl.beauty', role: 'Community' },
+  { name: 'Full Team', email: 'team@ebl.beauty', role: 'All Staff' },
 ]
 
 const SEGMENTS = [

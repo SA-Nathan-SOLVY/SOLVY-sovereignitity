@@ -16,7 +16,7 @@ Every premium dollar follows the 70/20/10 iron fist protocol:
 
 | Allocation | Purpose | Lineage Meaning |
 |------------|---------|-----------------|
-| 70% | Cash value growth / patronage dividends | Direct descendant protection |
+| 70% | Cash value growth / membership pool | Direct descendant protection |
 | 20% | Death benefit reserves | The grandmother's blanket (collective care) |
 | 10% | Operations & administration | The fist, maintained |
 
@@ -39,7 +39,7 @@ Members can request policy loans and deposit funds directly to their SOLVY Card 
 1. **Member logs into** `solvy-platform/moli/ibc-loan-to-card.html`
 2. **System displays** available cash value from OneAmerica (or other carrier)
 3. **Member selects** loan amount via slider (min $1,000, max 95% of CV)
-4. **0.5% processing fee** deducted (funds the 10% operations reserve)
+4. **0.5% processing fee** deducted (funds the 10% sovereign wealth fund)
 5. **Funds deposited instantly** to SOLVY Card via Unit API
 6. **Tax-free access** to capital—no 1099, no income recognition
 

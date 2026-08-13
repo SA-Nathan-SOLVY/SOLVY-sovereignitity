@@ -36,7 +36,7 @@ This report identifies **10 high-priority grant opportunities** for the SOLVY Ec
 - African immigrants and Black communities are primary target populations for CDFI lending
 
 **Application Strategy:**
-- Pursue certification as a Community Development Financial Institution
+- Pursue certification as a Operations Financial Institution
 - Emphasize refugee/immigrant lending track record (IRC-CEO model shows 96% repayment rates for refugee borrowers)
 - Highlight Islamic-compliant financing (Murabaha) capabilities for African Muslim communities
 - Partner with existing CDFIs (e.g., Accompany Capital, IRC-CEO) as a technical assistance provider or referral network
@@ -86,7 +86,7 @@ This report identifies **10 high-priority grant opportunities** for the SOLVY Ec
 
 **Mission Alignment:**
 - **EXCELLENT ALIGNMENT** - Only fund specifically closing the capital capacity gap for Black-led CDFIs
-- Network of 75+ certified CDFIs led by CEOs with 20+ years community development experience
+- Network of 75+ certified CDFIs led by CEOs with 20+ years operations experience
 - Goal: $75M debt + $25M capacity building grants + $25M operations
 
 **Application Strategy:**

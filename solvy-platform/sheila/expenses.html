@@ -516,7 +516,7 @@
             </div>
             <div class="form-group" style="grid-column: 1 / -1;">
                 <label>Repayment Source</label>
-                <textarea id="loanRepaymentSource" placeholder="e.g. Repaid from SOLVY Ecosystem interchange revenue, 70/20/10 operations reserve"></textarea>
+                <textarea id="loanRepaymentSource" placeholder="e.g. Repaid from SOLVY Ecosystem interchange revenue, 70/20/10 sovereign wealth fund"></textarea>
             </div>
         </div>
         <div class="modal-actions">
@@ -606,7 +606,7 @@
 // STATE
 // ========================
 let currentRole = 'beneficiary'; // 'beneficiary' or 'trustee'
-let currentUser = 'Sean Maurice Mayo';
+let currentUser = 'Sean Maurice Mayo (MAFO AABO)';
 let activeRequestId = null;
 
 // Load from localStorage or seed with demo data
@@ -619,7 +619,7 @@ try {
     console.warn('[SMM Expenses] localStorage unavailable, using in-memory data:', e);
 }
 
-const TRUST_BALANCE = 250000;
+const TRUST_BALANCE = 225000;
 
 // Seed demo data if empty
 if (requests.length === 0) {
@@ -635,7 +635,7 @@ function toggleRole() {
         currentUser = 'Sean Marlon II McDaniel';
     } else {
         currentRole = 'beneficiary';
-        currentUser = 'Sean Maurice Mayo';
+        currentUser = 'Sean Maurice Mayo (MAFO AABO)';
     }
     document.getElementById('userRoleDisplay').textContent = currentUser;
     updateRoleUI();
@@ -1131,10 +1131,10 @@ function seedDemoData() {
         term: 24,
         frequency: 'quarterly',
         purpose: 'SOLVY Ecosystem launch capital — card program setup, legal fees, Hetzner VPS infrastructure, and Unit.co sandbox integration for First Circle pilot',
-        repaymentSource: 'Repaid from SOLVY Ecosystem operations reserve (10% of interchange revenue) upon profitability',
+        repaymentSource: 'Repaid from SOLVY Ecosystem sovereign wealth fund (10% of interchange revenue) upon profitability',
         status: 'active',
-        requestedBy: 'Sean Maurice Mayo',
-        trusteeNote: 'Approved — mission-aligned investment in cooperative infrastructure. Zero interest to maximize member dividends.',
+        requestedBy: 'Sean Maurice Mayo (MAFO AABO)',
+        trusteeNote: 'Approved — mission-aligned investment in cooperative infrastructure. Zero interest to maximize membership pool.',
         balance: 22500.00,
         repayments: [
             { date: '2026-05-15', amount: 2500.00, method: 'ach', ref: 'ACH-SOLVY-20260515-001', recordedBy: 'Sean Marlon II McDaniel' }
@@ -1155,7 +1155,7 @@ function seedDemoData() {
             method: 'ach',
             description: 'Specialist consultation not covered by VA benefits',
             status: 'paid',
-            requestedBy: 'Sean Maurice Mayo',
+            requestedBy: 'Sean Maurice Mayo (MAFO AABO)',
             trusteeNote: 'Approved — medical necessity, not covered by existing benefits',
             paymentRef: 'ACH-2026-0515-001',
             paymentDate: '2026-05-16',
@@ -1170,7 +1170,7 @@ function seedDemoData() {
             method: 'card',
             description: 'Vehicle repair — brake pads and oil change for transport to medical appointments',
             status: 'approved',
-            requestedBy: 'Sean Maurice Mayo',
+            requestedBy: 'Sean Maurice Mayo (MAFO AABO)',
             trusteeNote: 'Approved — transportation is essential for medical access',
             paymentRef: '',
             paymentDate: '',
@@ -1185,7 +1185,7 @@ function seedDemoData() {
             method: 'card',
             description: 'Laptop for vocational training program and telehealth appointments',
             status: 'pending',
-            requestedBy: 'Sean Maurice Mayo',
+            requestedBy: 'Sean Maurice Mayo (MAFO AABO)',
             trusteeNote: '',
             paymentRef: '',
             paymentDate: '',

@@ -24,12 +24,12 @@
 2. **Democratic Member Control**: One member, one vote (regardless of equity contribution)
 3. **Member Economic Participation**: 
    - $100 equity buy-in per member
-   - Interchange revenue distribution (70/20/10 model)
-   - Patronage dividends based on participation
+   - Interchange revenue allocation (70/20/10 model)
+   - Membership pool participation based on cooperative use
 4. **Autonomy and Independence**: Self-funded, member-owned, no external VC control
 5. **Education, Training, and Information**: DECIDEY NGO partnership for financial literacy
 6. **Cooperation Among Cooperatives**: Network effects across member businesses
-7. **Concern for Community**: 20% community pool for collective benefit
+7. **Concern for Community**: Collective benefit through cooperative ownership and DECIDEY financial education
 
 ### 1.3 Jurisdiction & Regulatory Framework
 - **Primary State**: Wyoming (LLC formation)
@@ -46,7 +46,7 @@
 The "First Circle" represents the founding cohort of 100 members who establish the cooperative's baseline capital, governance precedents, and economic model. These members receive:
 
 - **Founding Member Status**: Permanent recognition in cooperative governance
-- **Priority Dividend Rights**: First priority in 70% member dividend pool
+- **Priority Allocation Rights**: First priority in any future distribution of the 70% membership pool
 - **Constitutional Convention Rights**: Voting rights on amendments for first 24 months
 - **Legacy Rate Lock**: $100 equity buy-in (future members may pay higher rates)
 
@@ -117,8 +117,8 @@ The "First Circle" represents the founding cohort of 100 members who establish t
 ### 3.1 Member Rights
 
 #### Economic Rights
-- **Dividend Participation**: Pro-rata share of 70% member dividend pool
-- **Patronage Refunds**: Distribution of surplus based on transaction volume
+- **Membership Pool Participation**: Pro-rata interest in the 70% membership pool; distribution decided later, at maturity, guided by DECIDEY financial education
+- **Surplus Allocation**: Future distribution of the membership pool based on transaction volume, once decided by the membership
 - **Equity Redemption**: Right to redeem equity upon exit (12-month lockup)
 - **Asset Claim**: Proportional claim on cooperative assets upon dissolution
 
@@ -208,35 +208,33 @@ Primary revenue from SOLVY Card interchange fees (estimated 1.2-1.5% of transact
 
 ### 4.2 Distribution Mechanism
 
-#### 70% - Member Dividend Pool
+#### 70% - Membership Pool
 - **Eligibility**: Active members with >$100/month in card transactions
-- **Calculation**: Pro-rata based on transaction volume (not equity)
-- **Distribution**: Quarterly, via ACH to member SOLVY accounts
-- **Example**: $100,000 monthly interchange = $70,000 pool ÷ eligible members
+- **Calculation**: Pro-rata interest based on transaction volume (not equity)
+- **Distribution**: Held for members; the distribution decision is made later, at scale/maturity, guided by member education through DECIDEY
+- **Example**: $100,000 monthly interchange = $70,000 added to the membership pool
 
-#### 20% - Community Development Pool
-- **Purpose**: Collective benefit projects voted by membership
-- **Examples**: Group insurance purchasing, shared marketing, bulk supply discounts
-- **Governance**: Proposed by any member; approved by simple majority
-- **Transparency**: Public ledger of all pool expenditures
+#### 20% - Operations
+- **Purpose**: Pays for the services that run the cooperative — BaaS (banking-as-a-service), the self-sovereign software stack, key employees
+- **Examples**: Unit.co fees, compliance, technology infrastructure, core team compensation
+- **Transparency**: Public ledger of operating expenditures
 
-#### 10% - Operations & Reserves
-- **Administrative Costs**: Unit.co fees, compliance, technology
+#### 10% - Sovereign Wealth Fund
+- **Purpose**: Long-term sovereign wealth building for the cooperative
 - **Regulatory Reserve**: Minimum 6 months operating expenses
-- **Growth Capital**: Product development, marketing, expansion
+- **Growth Capital**: Product development, expansion
 
-### 4.3 Patronage vs. Equity Returns
+### 4.3 Membership Pool vs. Equity Returns
 
-#### Patronage Dividends (Primary)
+#### Membership Pool Allocation (Primary)
 - Based on **use** of cooperative services (transaction volume)
-- Distributed annually (Form 1099-PATR)
-- Taxed as ordinary income to members
-- Aligns incentives: more transactions = more dividends
+- Held in the membership pool; distribution timing and tax treatment determined when the membership decides distribution at maturity, guided by DECIDEY financial education
+- Aligns incentives: more transactions = larger pro-rata interest in the pool
 
 #### Equity Returns (Secondary)
 - 4% annual dividend on $100 equity contribution (if surplus allows)
-- Cumulative but subordinate to patronage
-- Paid only after patronage distributions and reserve requirements
+- Cumulative but subordinate to membership pool obligations
+- Paid only after membership pool obligations and reserve requirements are met
 
 ### 4.4 Capitalization & Reserves
 
@@ -374,7 +372,7 @@ Primary revenue from SOLVY Card interchange fees (estimated 1.2-1.5% of transact
 - **First Circle**: Founding cohort of 100 members (June 2026)
 - **Interchange Revenue**: Fees paid by merchants to card network (estimated 1.2-1.5%)
 - **Member**: Individual or business with equity stake and voting rights
-- **Patronage**: Use of cooperative services, measured by transaction volume
+- **Membership**: Use of cooperative services, measured by transaction volume
 
 ### Appendix B: Unit.co Integration Points
 - **Account Opening**: Unit Deposit Account API

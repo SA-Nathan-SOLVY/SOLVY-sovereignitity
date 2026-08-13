@@ -1,6 +1,6 @@
 # SOLVY Development Team
 
-**Last Updated:** June 9, 2026
+**Last Updated:** June 12, 2026
 
 ---
 
@@ -17,6 +17,7 @@
 | **Senior Frontend** | TBD | @frontend-dev | frontend@solvy.cards | TBD | UI/UX, Components |
 | **Senior Backend** | TBD | @backend-dev | backend@solvy.cards | TBD | API, Database |
 | **DevOps Engineer** | TBD | @devops | devops@solvy.cards | TBD | CI/CD, Infrastructure |
+| **Infrastructure Contractor** | Abdelazziz (Del) | @del | del@ebl.beauty | TBD | Launch-week infra, MailCow, DNS |
 | **QA Engineer** | TBD | @qa-tester | qa@solvy.cards | TBD | Testing, QA |
 
 ### Extended Team
@@ -26,6 +27,7 @@
 | **Product Owner** | Eva | @eva | EBL Partnership, Roadmap |
 | **UX Designer** | TBD | @designer | Design System, Mockups |
 | **Security Advisor** | TBD | @security | Security Review |
+| **Infrastructure Contractor** | Abdelazziz (Del) | @del | MailCow, DNS, VPS, PM2 |
 
 ---
 
@@ -47,6 +49,7 @@
 | @frontend-dev | 100% | - | New hire, onboarding |
 | @backend-dev | 100% | - | - |
 | @devops | 50% | - | Part-time, shared resource |
+| @del | 100% | - | Launch-week contractor (Jun 12–19) |
 | @qa-tester | 100% | - | - |
 
 **Total Sprint Capacity:** 730% ≈ 7.3 FTE

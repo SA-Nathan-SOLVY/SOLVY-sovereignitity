@@ -72,7 +72,7 @@ export async function sendMemberWelcome(opts: {
       <tr>
         <td style="background:#14532d;border-radius:8px;padding:16px;text-align:center;width:30%;">
           <div style="font-size:24px;font-weight:800;color:#4ade80;">70%</div>
-          <div style="font-size:11px;color:#86efac;margin-top:4px;">Patronage Dividends<br/>Community Pool</div>
+          <div style="font-size:11px;color:#86efac;margin-top:4px;">Membership Pool<br/>Operations</div>
         </td>
         <td width="12"></td>
         <td style="background:#1e3a5f;border-radius:8px;padding:16px;text-align:center;width:30%;">
@@ -134,7 +134,7 @@ export async function sendFirstCircleConfirmation(opts: {
     </div>
 
     <p style="color:#cbd5e1;font-size:15px;line-height:1.7;margin-bottom:24px;">
-      Your $100 equity deposit is your ownership stake in the SOLVY Cooperative. As volume grows, you earn quarterly Patronage Dividends from the 70% community pool. Your stake is permanent — it grows with the cooperative.
+      Your $100 equity deposit is your ownership stake in the SOLVY Cooperative. As volume grows, you earn quarterly Membership Pool from the 70% operations. Your stake is permanent — it grows with the cooperative.
     </p>
 
     <p style="color:#94a3b8;font-size:13px;margin-bottom:24px;">
@@ -245,3 +245,4 @@ export async function sendContactNotification(opts: {
 
   console.log(`[Email] ✅ Contact notification + ack sent for ${opts.fromEmail}`);
 }
+

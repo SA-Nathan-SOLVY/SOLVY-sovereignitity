@@ -14,6 +14,7 @@
  */
 
 import https from 'https';
+import nodeCrypto from 'crypto';
 
 const LITHIC_CONFIG = {
   BASE_URL: process.env.LITHIC_API_URL || 'https://sandbox.lithic.com',
@@ -140,8 +141,6 @@ export async function createAccountHolder(params: CreateAccountHolderParams): Pr
   const body: any = {
     workflow: params.workflow || 'KYC_BASIC',
     tos_timestamp: params.tosTimestamp || new Date().toISOString(),
-    idempotency_token:
-      params.idempotencyToken || `solvy_${Date.now()}_${Math.random().toString(36).slice(2)}`,
     individual: {
       first_name: params.firstName,
       last_name: params.lastName,
@@ -340,18 +339,16 @@ export async function simulateClearing(params: { token: string; amount: number }
 // WEBHOOK HANDLING
 // ============================================
 
-import crypto from 'crypto';
-
 export function verifyWebhook(payload: string, signature: string): boolean {
   if (!LITHIC_CONFIG.WEBHOOK_SECRET) {
     console.warn('[Lithic] No webhook secret configured, skipping verification');
     return true;
   }
 
-  const expected = crypto.createHmac('sha256', LITHIC_CONFIG.WEBHOOK_SECRET).update(payload).digest('hex');
+  const expected = nodeCrypto.createHmac('sha256', LITHIC_CONFIG.WEBHOOK_SECRET).update(payload).digest('hex');
 
   try {
-    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+    return nodeCrypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
   } catch {
     return false;
   }

@@ -37,7 +37,7 @@ function Services() {
     },
     {
       title: 'DECIDEY NGO',
-      description: 'Community development projects and cooperative initiatives.',
+      description: 'Operations projects and cooperative initiatives.',
       url: 'https://ebl.beauty/decidey',
       icon: '🌍',
       color: '#ec4899'

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import UnifiedNav from '../components/UnifiedNav'
 import SolvyFooter from '../components/SolvyFooter'
 import './Mailbox.css'
@@ -123,32 +123,66 @@ The SOLVY Team`,
 ]
 
 const TEAM_ADDRESSES = [
-  { name: 'Sean Mayo', email: 'sean@solvy.cards', role: 'Founder · CEO', initial: 'S' },
-  { name: 'Eva (EBL)', email: 'eva@solvy.cards', role: 'Pilot Partner #1', initial: 'E' },
-  { name: 'Smayone', email: 'smayone@solvy.cards', role: 'Operations', initial: 'S' },
-  { name: 'Sydney', email: 'sydney@solvy.cards', role: 'Community', initial: 'S' },
-  { name: 'Full Team', email: 'team@solvy.cards', role: 'All Staff', initial: 'T' },
+  { name: 'Sean Mayo', email: 'sean@ebl.beauty', role: 'Founder · Passive Member', initial: 'S' },
+  { name: 'Evergreen Mayo', email: 'eva@solvy.cards', role: 'CEO · Managing Owner', initial: 'E' },
+  { name: 'Eva (EBL)', email: 'eva@ebl.beauty', role: 'Pilot Partner #1', initial: 'E' },
+  { name: 'Smayone', email: 'smayone@ebl.beauty', role: 'Operations', initial: 'S' },
+  { name: 'Sydney', email: 'sydney@ebl.beauty', role: 'Community', initial: 'S' },
+  { name: 'Full Team', email: 'team@ebl.beauty', role: 'All Staff', initial: 'T' },
 ]
 
-const INBOX = [
-  { id: 1, from: 'Eva Martinez', subject: 'EBL — appointment question', preview: 'Hey team, had a client ask about…', time: '2 min ago', unread: true, cat: 'ebl' },
-  { id: 2, from: 'SOLVY System', subject: 'New prelaunch commitment received', preview: 'A new member committed via the prelaunch form…', time: '1 hr ago', unread: true, cat: 'system' },
-  { id: 3, from: 'Smayone', subject: 'Operations check-in', preview: 'Weekly check-in notes attached…', time: '3 hrs ago', unread: false, cat: 'ops' },
-  { id: 4, from: 'SOLVY Treasury', subject: 'Q4 Profit Sharing Statement', preview: 'Quarterly distribution ready for review…', time: 'Yesterday', unread: false, cat: 'financial' },
-  { id: 5, from: 'SPS Contact', subject: 'JV proposal follow-up', preview: 'Following up on the joint venture proposal…', time: 'Dec 20', unread: false, cat: 'partners' },
-  { id: 6, from: 'Sydney', subject: 'Facebook community update', preview: 'DECIDEY page growing — here are this week\'s numbers…', time: 'Dec 18', unread: false, cat: 'ops' },
-]
+interface InboxMeta {
+  key: string
+  label: string
+  configured: boolean
+}
 
-const CATS = ['all', 'system', 'ops', 'financial', 'ebl', 'partners']
-const CAT_LABELS: Record<string, string> = {
-  all: '📥 All', system: '🔔 System', ops: '⚙️ Ops',
-  financial: '💰 Financial', ebl: '💅 EBL', partners: '🤝 Partners',
+interface InboxMessage {
+  id: string
+  thread_id: string
+  inbox_id: string
+  from: { email: string; name?: string }[]
+  to: { email: string; name?: string }[]
+  subject: string
+  preview: string
+  created_at: string
+  labels: string[]
+}
+
+interface FullMessage extends InboxMessage {
+  body?: { text?: string; html?: string }
+  attachments?: { filename: string; content_type: string; size: number }[]
+}
+
+function formatTime(iso: string): string {
+  const d = new Date(iso)
+  const now = new Date()
+  const diffMs = now.getTime() - d.getTime()
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMs / 3600000)
+  const diffDays = Math.floor(diffMs / 86400000)
+  if (diffMins < 1) return 'just now'
+  if (diffMins < 60) return `${diffMins}m ago`
+  if (diffHours < 24) return `${diffHours}h ago`
+  if (diffDays < 7) return `${diffDays}d ago`
+  return d.toLocaleDateString()
+}
+
+function senderName(from: { email: string; name?: string }[]): string {
+  if (!from || from.length === 0) return 'Unknown'
+  const f = from[0]
+  return f.name && f.name !== f.email ? `${f.name} <${f.email}>` : f.email
+}
+
+function senderInitial(from: { email: string; name?: string }[]): string {
+  if (!from || from.length === 0) return '?'
+  const name = from[0].name || from[0].email
+  return name.trim()[0].toUpperCase()
 }
 
 function Mailbox() {
   const [view, setView] = useState<'inbox' | 'compose' | 'read' | 'templates'>('inbox')
-  const [filter, setFilter] = useState('all')
-  const [selected, setSelected] = useState<number | null>(null)
+  const [selected, setSelected] = useState<string | null>(null)
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null)
   const [copiedTemplate, setCopiedTemplate] = useState(false)
   const [toField, setToField] = useState('')
@@ -158,8 +192,73 @@ function Mailbox() {
   const [fromEmail, setFromEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
-  const filtered = filter === 'all' ? INBOX : INBOX.filter(e => e.cat === filter)
-  const unread = INBOX.filter(e => e.unread).length
+  // Live inbox state
+  const [inboxes, setInboxes] = useState<InboxMeta[]>([])
+  const [activeInbox, setActiveInbox] = useState<string>('eva')
+  const [messages, setMessages] = useState<InboxMessage[]>([])
+  const [fullMessage, setFullMessage] = useState<FullMessage | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    fetch('/api/email/inboxes')
+      .then(r => r.json())
+      .then(data => {
+        const list = (data.inboxes || []) as InboxMeta[]
+        setInboxes(list)
+        // Prefer eva inbox if configured, otherwise first configured
+        const eva = list.find(i => i.key === 'eva' && i.configured)
+        if (eva) setActiveInbox('eva')
+        else {
+          const first = list.find(i => i.configured)
+          if (first) setActiveInbox(first.key)
+        }
+      })
+      .catch(err => {
+        console.error('[Mailbox] Failed to load inboxes:', err)
+        setError('Email backend not configured')
+      })
+  }, [])
+
+  useEffect(() => {
+    if (!activeInbox) return
+    setLoading(true)
+    setError('')
+    fetch(`/api/email/inbox/${activeInbox}?limit=50`)
+      .then(async r => {
+        if (!r.ok) throw new Error(await r.text())
+        return r.json()
+      })
+      .then(data => {
+        setMessages(data.messages || [])
+      })
+      .catch(err => {
+        console.error('[Mailbox] Failed to load messages:', err)
+        setError(err.message || 'Failed to load messages')
+      })
+      .finally(() => setLoading(false))
+  }, [activeInbox])
+
+  const openEmail = (id: string) => {
+    setSelected(id)
+    setFullMessage(null)
+    setView('read')
+    const msg = messages.find(m => m.id === id)
+    if (!msg) return
+    fetch(`/api/email/message/${activeInbox}/${id}`)
+      .then(async r => {
+        if (!r.ok) throw new Error(await r.text())
+        return r.json()
+      })
+      .then(data => setFullMessage(data.message))
+      .catch(err => {
+        console.error('[Mailbox] Failed to load message:', err)
+        setError(err.message || 'Failed to load message')
+      })
+  }
+
+  const currentEmail = messages.find(e => e.id === selected)
+  const unread = messages.filter(e => !e.labels.includes('read')).length
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -194,9 +293,6 @@ function Mailbox() {
     setView('compose')
   }
 
-  const openEmail = (id: number) => { setSelected(id); setView('read') }
-  const currentEmail = INBOX.find(e => e.id === selected)
-
   return (
     <div className="mailbox-app">
       <UnifiedNav currentPage="man" />
@@ -205,7 +301,7 @@ function Mailbox() {
         <div className="mailbox-hero-inner">
           <p className="mailbox-eyebrow">MAN · Internal</p>
           <h1>Team Mailbox</h1>
-          <p className="mailbox-sub">@solvy.cards — internal team communications</p>
+          <p className="mailbox-sub">@solvy.cards — view replies from partners and members</p>
         </div>
       </section>
 
@@ -217,18 +313,27 @@ function Mailbox() {
             ✏️ Compose
           </button>
 
-          <nav className="folder-nav">
-            {CATS.map(c => (
+          <div className="folder-nav">
+            <div style={{ padding: '0 12px 8px', fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Received Mail
+            </div>
+            {inboxes.length === 0 && (
+              <div style={{ padding: '12px', fontSize: '0.85rem', color: '#94a3b8' }}>
+                No inboxes configured.
+              </div>
+            )}
+            {inboxes.map(box => (
               <button
-                key={c}
-                className={`folder-btn ${filter === c && view === 'inbox' ? 'active' : ''}`}
-                onClick={() => { setFilter(c); setView('inbox') }}
+                key={box.key}
+                className={`folder-btn ${activeInbox === box.key && view === 'inbox' ? 'active' : ''}`}
+                onClick={() => { setActiveInbox(box.key); setView('inbox') }}
+                title={box.configured ? box.label : `${box.label} — not configured`}
               >
-                {CAT_LABELS[c]}
-                {c === 'all' && <span className="badge">{unread}</span>}
+                {box.configured ? '📧' : '⚠️'} {box.label}
+                {box.key === activeInbox && <span className="badge">{unread}</span>}
               </button>
             ))}
-          </nav>
+          </div>
 
           <button
             className={`folder-btn ${view === 'templates' ? 'active' : ''}`}
@@ -268,11 +373,11 @@ function Mailbox() {
               <form onSubmit={handleSend}>
                 <div className="mb-field">
                   <label>From Name</label>
-                  <input type="text" placeholder="e.g. Sean Mayo" value={fromName} onChange={e => setFromName(e.target.value)} required />
+                  <input type="text" placeholder="e.g. Evergreen Mayo" value={fromName} onChange={e => setFromName(e.target.value)} required />
                 </div>
                 <div className="mb-field">
                   <label>From Email</label>
-                  <input type="email" placeholder="sean@solvy.cards" value={fromEmail} onChange={e => setFromEmail(e.target.value)} required />
+                  <input type="email" placeholder="eva@solvy.cards" value={fromEmail} onChange={e => setFromEmail(e.target.value)} required />
                 </div>
                 <div className="mb-field">
                   <label>To</label>
@@ -304,17 +409,38 @@ function Mailbox() {
               <div className="read-header">
                 <h2>{currentEmail.subject}</h2>
                 <div className="read-meta">
-                  <span>From: <strong>{currentEmail.from}</strong></span>
-                  <span>{currentEmail.time}</span>
+                  <span>From: <strong>{senderName(currentEmail.from)}</strong></span>
+                  <span>{formatTime(currentEmail.created_at)}</span>
+                </div>
+                <div className="read-meta">
+                  <span>To: {currentEmail.to.map(t => t.email).join(', ')}</span>
                 </div>
               </div>
               <div className="read-body">
-                <p>{currentEmail.preview}</p>
-                <p>Full message content would appear here once connected to a live mail backend.</p>
+                {fullMessage?.body?.html ? (
+                  <div dangerouslySetInnerHTML={{ __html: fullMessage.body.html }} />
+                ) : fullMessage?.body?.text ? (
+                  <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>{fullMessage.body.text}</pre>
+                ) : (
+                  <>
+                    <p>{currentEmail.preview}</p>
+                    <p>Loading full message…</p>
+                  </>
+                )}
               </div>
+              {fullMessage?.attachments && fullMessage.attachments.length > 0 && (
+                <div className="read-attachments">
+                  <strong>Attachments:</strong>
+                  <ul>
+                    {fullMessage.attachments.map(a => (
+                      <li key={a.filename}>{a.filename} ({a.content_type}, {a.size} bytes)</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <div className="read-actions">
-                <button className="action-btn" onClick={() => { setToField(currentEmail.from); setSubject('Re: ' + currentEmail.subject); setView('compose') }}>↩️ Reply</button>
-                <button className="action-btn">↪️ Forward</button>
+                <button className="action-btn" onClick={() => { setToField(senderName(currentEmail.from)); setSubject('Re: ' + currentEmail.subject); setView('compose') }}>↩️ Reply</button>
+                <button className="action-btn" onClick={() => setView('inbox')}>↪️ Forward</button>
                 <button className="action-btn del" onClick={() => setView('inbox')}>🗑️ Delete</button>
               </div>
             </div>
@@ -362,29 +488,35 @@ function Mailbox() {
           {view === 'inbox' && (
             <div className="inbox-panel">
               <div className="panel-header">
-                <h2>{CAT_LABELS[filter] || 'Inbox'}</h2>
-                <span className="panel-count">{filtered.length} messages</span>
+                <h2>{inboxes.find(i => i.key === activeInbox)?.label || 'Inbox'}</h2>
+                <span className="panel-count">{loading ? 'Loading…' : `${messages.length} messages`}</span>
               </div>
-              {filtered.length === 0 ? (
-                <p className="inbox-empty">No messages in this folder.</p>
-              ) : (
+              {error && <p className="inbox-error" style={{ color: '#ef4444', padding: '12px' }}>⚠ {error}</p>}
+              {!loading && messages.length === 0 && (
+                <p className="inbox-empty">
+                  {inboxes.find(i => i.key === activeInbox)?.configured
+                    ? 'No messages in this inbox.'
+                    : 'Inbox not configured. Add the Mailcow IMAP password to .env and restart the server.'}
+                </p>
+              )}
+              {!loading && messages.length > 0 && (
                 <ul className="email-list">
-                  {filtered.map(email => (
+                  {messages.map(email => (
                     <li
                       key={email.id}
-                      className={`email-row ${email.unread ? 'unread' : ''}`}
+                      className={`email-row ${!email.labels.includes('read') ? 'unread' : ''}`}
                       onClick={() => openEmail(email.id)}
                     >
-                      <div className="er-avatar">{email.from[0]}</div>
+                      <div className="er-avatar">{senderInitial(email.from)}</div>
                       <div className="er-content">
                         <div className="er-top">
-                          <span className="er-from">{email.from}</span>
-                          <span className="er-time">{email.time}</span>
+                          <span className="er-from">{senderName(email.from)}</span>
+                          <span className="er-time">{formatTime(email.created_at)}</span>
                         </div>
                         <div className="er-subject">{email.subject}</div>
                         <div className="er-preview">{email.preview}</div>
                       </div>
-                      {email.unread && <span className="unread-dot" />}
+                      {!email.labels.includes('read') && <span className="unread-dot" />}
                     </li>
                   ))}
                 </ul>

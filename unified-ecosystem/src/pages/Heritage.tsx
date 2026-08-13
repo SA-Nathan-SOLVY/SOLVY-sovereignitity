@@ -53,7 +53,7 @@ export default function Heritage() {
               </thead>
               <tbody>
                 {[
-                  ['White trustees controlled Black deposits', 'Member-owned: 70% of revenue returns to members'],
+                  ['White trustees controlled Black deposits', 'Member-owned: 70% of revenue returns to the membership pool'],
                   ['No voting rights for depositors', 'One member = One vote: Cooperative governance'],
                   ['No transparency in investments', 'MAN Portal: Every dollar visible, every decision auditable'],
                   ['Wealth extracted from community', '70/20/10 model: Wealth distributed to those who create it'],
@@ -80,7 +80,7 @@ export default function Heritage() {
           <ul style={s.checklist}>
             {[
               'Every swipe of a SOLVY Card™ generates interchange revenue',
-              '70% of that revenue flows directly to Black and Brown members',
+              '70% of that revenue flows directly to the membership pool',
               'Not charity — ongoing ownership',
               'Not one-time payment — continuous wealth building',
             ].map((item) => (
@@ -202,7 +202,7 @@ export default function Heritage() {
               { icon: '🔄', label: 'Revenue', old: 'Natural resource extraction', solvy: 'Interchange fees — real economic activity' },
               { icon: '🏛️', label: 'Ownership', old: 'Corporate shareholders', solvy: 'Cooperative members' },
               { icon: '🔐', label: 'Data', old: 'Surveilled by corporations', solvy: 'Sovereign to members' },
-              { icon: '💰', label: 'Profits', old: 'To shareholders', solvy: '70% Patronage Dividends to members' },
+              { icon: '💰', label: 'Profits', old: 'To shareholders', solvy: '70% Membership Pool to the membership pool' },
               { icon: '⚖️', label: 'Disputes', old: 'Private arbitration (ISDS/ICSID)', solvy: 'Transparent member governance (MAN)' },
             ].map((r) => (
               <div key={r.label} style={s.parallelItem}>
@@ -316,7 +316,7 @@ export default function Heritage() {
                 ['Your role', 'Conscious cooperative owner'],
                 ['Asset backing', 'Interchange revenue — real economic activity'],
                 ['Control', 'Member cooperative — one member, one vote'],
-                ['Profit flow', 'To members (70% Patronage Dividends)'],
+                ['Profit flow', 'To members (70% Membership Pool)'],
                 ['Transparency', 'MAN Portal — full public audit'],
                 ['Data ownership', 'Yours — sold only with your explicit consent'],
               ].map(([label, val]) => (
@@ -333,7 +333,7 @@ export default function Heritage() {
             by turning every smartphone user into an unknowing creditor.{' '}
             <strong style={{ color: '#fff' }}>SOLVY is the remedy.</strong> We do not hold Treasuries. We do not
             force members to finance government debt. We earn revenue from interchange fees — real economic activity,
-            not debt monetization. That revenue flows 70% to members. Members own their data. Members control their
+            not debt monetization. That revenue flows 70% to the membership pool. Members own their data. Members control their
             funds. Members see every dollar through MAN. We do not wait for permission. We build the alternative."
           </div>
 

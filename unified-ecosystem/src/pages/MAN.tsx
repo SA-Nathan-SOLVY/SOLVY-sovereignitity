@@ -139,7 +139,7 @@ function MAN() {
               <div className="metric-label">Member Profit Share Pool</div>
               <div className="metric-value">$693</div>
               <div className="metric-change positive">Next distribution: Q1 2026</div>
-              <div className="metric-description">20% of all revenue, waiting to be distributed to members based on patronage.</div>
+              <div className="metric-description">20% of all revenue, waiting to be distributed to members based on membership.</div>
               <div className="metric-icon">🏦</div>
             </div>
           </div>
@@ -219,7 +219,7 @@ function MAN() {
             <tbody>
               {[
                 ['Revenue source', 'Natural resource extraction', 'Interchange fees from real member transactions', 'Revenue ledger below'],
-                ['Profit distribution', 'Shareholders (0% to workers)', '70% Patronage Dividends to Member Pool', '70/20/10 allocation tracker'],
+                ['Profit distribution', 'Shareholders (0% to workers)', '70% Membership Pool to Member Pool', '70/20/10 allocation tracker'],
                 ['Dispute resolution', 'ISDS/ICSID private arbitration', 'Member vote — recorded on MAN', 'Proposal history'],
                 ['Data ownership', 'Corporate — sold without consent', 'Member sovereign — consented & compensated', 'Data wallet opt-in'],
                 ['Participation', 'Large investors only', 'Any member with a SOLVY Card', 'Live member count'],
@@ -325,7 +325,7 @@ function MAN() {
                 <th>Spending Volume</th>
                 <th>Interchange Rate</th>
                 <th>Revenue Generated</th>
-                <th>Patronage Dividends (70%)</th>
+                <th>Membership Pool (70%)</th>
               </tr>
             </thead>
             <tbody>
@@ -362,17 +362,17 @@ function MAN() {
 
           <h2 className="section-heading">Transparent Allocation: The 70/20/10 Model</h2>
           <div className="allocation-bar">
-            <div className="allocation-segment ops-segment" style={{ width: '70%' }}>70% Patronage Dividends</div>
+            <div className="allocation-segment ops-segment" style={{ width: '70%' }}>70% Membership Pool</div>
             <div className="allocation-segment pool-segment" style={{ width: '20%' }}>20% Operations Funding</div>
             <div className="allocation-segment fund-segment" style={{ width: '10%' }}>10% Sovereign Wealth Fund</div>
           </div>
 
           <div className="allocation-grid">
             <div className="allocation-card operational">
-              <h2>Patronage Dividends — Community Pool</h2>
+              <h2>Membership Pool — Operations</h2>
               <div className="stat-label">70% of Revenue</div>
               <div className="stat-large">${patronageAmount.toFixed(2)}</div>
-              <p>Returns directly to members based on patronage. Direct descendant protection — revenue that flows back to those who generate it.</p>
+              <p>Returns directly to members based on membership. Direct descendant protection — revenue that flows back to those who generate it.</p>
               <div className="calculation">${totalRevenue.toFixed(2)} × 0.70 = ${patronageAmount.toFixed(2)}</div>
             </div>
             <div className="allocation-card member-pool">
@@ -383,7 +383,7 @@ function MAN() {
               <div className="calculation">${totalRevenue.toFixed(2)} × 0.20 = ${opsAmount.toFixed(2)}</div>
 
               <div className="sub-section">
-                <div className="stat-label">Sample Member Patronage Share</div>
+                <div className="stat-label">Sample Membership Pool Share</div>
                 <div className="stat-large">${memberShare.toFixed(2)}</div>
                 <p>If a member contributed <strong>8%</strong> of total spending volume:</p>
                 <div className="calculation">8% of ${patronageAmount.toFixed(2)} = ${memberShare.toFixed(2)}</div>
@@ -439,7 +439,7 @@ function MAN() {
                   <p>Total from data pool sales</p>
                 </div>
                 <div className="activity-card metrics">
-                  <div className="stat-label">Member Patronage Pool (70%)</div>
+                  <div className="stat-label">Membership Pool Pool (70%)</div>
                   <div className="stat-large">{formatCurrency(dpRevenue?.totals?.member_pool ?? 0)}</div>
                   <p>Returned to contributing members</p>
                 </div>

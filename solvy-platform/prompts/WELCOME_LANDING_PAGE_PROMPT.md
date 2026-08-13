@@ -29,7 +29,7 @@ Explain the cooperative in three simple cards:
 
 **Card 2: Wealth Building**
 - Icon: 📈
-- "Every swipe of your SOLVY Card generates interchange revenue. 70% goes back to members as patronage dividends. Your spending builds collective wealth."
+- "Every swipe of your SOLVY Card generates interchange revenue. 70% goes back to the membership pool as membership pool. Your spending builds collective wealth."
 
 **Card 3: Data Sovereignty**
 - Icon: 🔒
@@ -40,8 +40,8 @@ Explain the cooperative in three simple cards:
 Show how interchange revenue is distributed:
 
 ```
-70% → Member Pool (patronage dividends)
-20% → Community Development (cooperative projects)
+70% → Member Pool (membership pool)
+20% → Operations (cooperative projects)
 10% → Sovereign Fund (emergency reserve & generational wealth)
 ```
 
@@ -52,7 +52,7 @@ Use a simple visual (progress bars, pie chart, or three colored blocks) to make 
 1. **Join** — Complete member onboarding and identity verification
 2. **Spend** — Use your SOLVY Card anywhere Visa is accepted
 3. **Earn** — Interchange revenue funds the member pool
-4. **Profit** — Receive quarterly patronage dividends based on your usage
+4. **Profit** — Receive quarterly membership pool based on your usage
 
 ## 5. Data Sovereignty Promise (Trust Section)
 

@@ -66,7 +66,7 @@ First introduced by Rep. John Conyers (D-MI) in **1989** — every year for 30+ 
 >
 > While Congress studies the legacy of slavery, SOLVY Ecosystem™ builds the infrastructure to close the wealth gap.
 >
-> Every swipe of a SOLVY Card™ generates interchange revenue. 70% of that revenue flows directly to Black and Brown members — not as charity, not as one-time payment, but as **ongoing ownership**.
+> Every swipe of a SOLVY Card™ generates interchange revenue. 70% of that revenue flows directly to the membership pool — not as charity, not as one-time payment, but as **ongoing ownership**.
 >
 > H.R. 40 asks: "What do we owe?"
 >
@@ -89,7 +89,7 @@ First introduced by Rep. John Conyers (D-MI) in **1989** — every year for 30+ 
 >
 > SOLVY Ecosystem™ doesn't wait for Washington. We build cooperative economic infrastructure now.
 >
-> 70% of every transaction's revenue returns to members. Not charity. Ownership.
+> 70% of every transaction's revenue returns to the membership pool. Not charity. Ownership.
 >
 > Support H.R. 40. Then join SOLVY. #EconomicReparations #CooperativeWealth #SOLVY
 
@@ -107,7 +107,7 @@ First introduced by Rep. John Conyers (D-MI) in **1989** — every year for 30+ 
 >
 > This gap will not close through study. It closes through ownership.
 >
-> SOLVY Ecosystem™ is not a reparations program. It is reparations infrastructure. Every member owns a share of the interchange revenue their transactions generate. The 70/20/10 model (70% to members, 20% to community pool, 10% to operations) ensures wealth flows to those who create it.
+> SOLVY Ecosystem™ is not a reparations program. It is reparations infrastructure. Every member's transactions build wealth the cooperative holds for its members. The 70/20/10 model (70% membership pool, 20% operations, 10% sovereign wealth fund) ensures wealth flows to those who create it.
 >
 > We can wait for Congress to pass H.R. 40, wait for the commission to study, wait for proposals to be developed, wait for implementation debates...
 >
@@ -161,7 +161,7 @@ First introduced by Rep. John Conyers (D-MI) in **1989** — every year for 30+ 
 ### Cooperative Economics
 - Credit unions: Member-owned, lower fees, better rates
 - SOLVY extends this to card interchange — revenue typically kept by banks
-- Average household generates $400-800/year in interchange; SOLVY returns 70% to members
+- Average household generates $400-800/year in interchange; SOLVY returns 70% to the membership pool
 
 ---
 

@@ -50,12 +50,12 @@
 1. Members join with $100 equity contribution
 2. Receive SOLVY Card™ (virtual + physical)
 3. Spend normally — every swipe generates revenue
-4. 70% of interchange fees returned as patronage dividends
+4. 70% of interchange fees flow to the membership pool — held for members
 
 **The 70/20/10 Model:**
-- **70%** → Member dividends (direct cash back)
-- **20%** → Community pool (group benefits)
-- **10%** → Operations (sustainable growth)
+- **70%** → Membership pool (held for members; distribution decided later, at maturity, with DECIDEY financial education)
+- **20%** → Operations (BaaS, self-sovereign software stack, key employees)
+- **10%** → Sovereign wealth fund
 
 **Member ROI:** 500-5,000% annually on $100 equity
 
@@ -76,7 +76,7 @@
 - Instant virtual cards
 - Contactless tap-to-pay
 - Member dashboard
-- Real-time dividends tracking
+- Real-time membership pool tracking
 - Data sovereignty controls
 
 **Kimi Claw Deployment:** One-click production updates
@@ -252,9 +252,9 @@
 **What You Get:**
 - SOLVY Card™ (virtual + physical)
 - Ownership stake in cooperative
-- Patronage dividends (70% of revenue)
+- Membership pool stake (70% of revenue, held for members)
 - Founding member status
-- Lifetime dividend preference
+- Founding-member preference on future pool distributions
 
 **What You Contribute:**
 - $100 equity contribution
@@ -295,7 +295,7 @@ Own your spend. Own your future.
 **Year 1 (1,000 members):**
 - Revenue: $292,500
 - Operating costs: $165,240
-- **Member dividends: $128,520**
+- **Membership pool: $128,520**
 
 **Break-even:** Month 4 (150 members)
 

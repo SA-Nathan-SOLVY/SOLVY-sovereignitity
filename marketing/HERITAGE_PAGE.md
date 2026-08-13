@@ -60,10 +60,10 @@ Three cards that expand/link to full sections:
 **SOLVY Contrast:**
 | Freedman Bank (1865) | SOLVY (2026) |
 |----------------------|--------------|
-| White trustees controlled deposits | **Member-owned: 70% revenue to you** |
+| White trustees controlled deposits | **Member-owned: 70% revenue held for members** |
 | No voting rights | **One member = One vote** |
 | No transparency | **MAN Portal: Every dollar visible** |
-| Wealth extracted | **Wealth distributed: 70/20/10** |
+| Wealth extracted | **Wealth pooled for members: 70/20/10** |
 
 **Quote:**
 > "The Freedman Bank failed because it separated promise from power. SOLVY keeps them inseparable."
@@ -98,7 +98,7 @@ White Median Wealth:    $188,200
 Gap:                    7.8x (and growing)
 
 SOLVY Solution:         70% of interchange revenue
-to members — ongoing    wealth building, not
+pooled for members —    ongoing wealth building, not
 one-time payment
 ```
 

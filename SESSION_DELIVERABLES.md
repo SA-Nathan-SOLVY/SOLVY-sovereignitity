@@ -290,7 +290,7 @@ Managing Member, SA Nathan LLC
 Every deliverable serves the mandate:
 > *"Leave them better than I received."*
 
-- ✅ 70% to members
+- ✅ 70% to the membership pool
 - ✅ Cooperative ownership
 - ✅ Data sovereignty
 - ✅ Descendant class protection (51%)

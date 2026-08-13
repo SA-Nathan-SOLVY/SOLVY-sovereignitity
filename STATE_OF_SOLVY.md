@@ -190,7 +190,7 @@ NOW ─────────────────────────�
 
 *"Are we leaving them better than we received?"*
 
-- ✅ 70% returns to members (not shareholders)
+- ✅ 70% returns to the membership pool (not shareholders)
 - ✅ Data sovereignty (local-first)
 - ✅ Descendant class protection (51% minimum)
 - ✅ Transparent economics (70/20/10 published)

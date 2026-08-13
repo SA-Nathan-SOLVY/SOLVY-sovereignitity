@@ -10,11 +10,11 @@
 
 ## EXECUTIVE SUMMARY
 
-SOLVY Ecosystem™ is a cooperative financial technology platform that issues debit cards to members and returns 70% of interchange revenue as patronage dividends. Unlike traditional banks that extract wealth from communities, SOLVY is owned by the people who use it.
+SOLVY Ecosystem™ is a cooperative financial technology platform that issues debit cards to members and returns 70% of interchange revenue as membership pool. Unlike traditional banks that extract wealth from communities, SOLVY is owned by the people who use it.
 
 **The 70/20/10 Model:**
-- **70%** → Member dividends (direct cash back)
-- **20%** → Community pool (group benefits)
+- **70%** → Membership Pool (direct cash back)
+- **20%** → Operations (group benefits)
 - **10%** → Operations (sustainable growth)
 
 **Mission:** Build generational wealth infrastructure for marginalized communities through cooperative economics.
@@ -30,7 +30,7 @@ SOLVY Ecosystem™ is a cooperative financial technology platform that issues de
 | **SOLVY Card™** | Visa/Mastercard debit card (virtual + physical) |
 | **Account Type** | FDIC-insured deposit accounts via Thread Bank |
 | **Membership** | $100 equity contribution = ownership + voting rights |
-| **Revenue Share** | 70% of interchange fees returned to members |
+| **Revenue Share** | 70% of interchange fees returned to the membership pool |
 | **Target Market** | Independent Beauty Contractors (IBCs) and underserved communities |
 
 ### 1.2 Revenue Model
@@ -104,7 +104,7 @@ SOLVY Ecosystem™ is a cooperative financial technology platform that issues de
 | **Interchange Revenue** | $15,300 | $53,550 | $153,000 |
 | **Operating Costs** | $14,888 | $18,500 | $25,000 |
 | **Net Revenue** | $412 | $35,050 | $128,000 |
-| **Member Dividends** | $288 | $24,535 | $89,600 |
+| **Membership Pool** | $288 | $24,535 | $89,600 |
 
 ### 3.2 Capital Requirements
 
@@ -125,8 +125,8 @@ SOLVY Ecosystem™ is a cooperative financial technology platform that issues de
 ### 3.3 Revenue Distribution (70/20/10)
 
 **Example: Month 12 ($153,000 interchange)**
-- Member dividends (70%): $107,100
-- Community pool (20%): $30,600
+- Membership Pool (70%): $107,100
+- Operations (20%): $30,600
 - Operations (10%): $15,300
 
 **Per-member dividend:** $107 average (varies by usage)

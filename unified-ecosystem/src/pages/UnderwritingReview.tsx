@@ -171,9 +171,9 @@ export default function UnderwritingReview() {
           <div style={s.identityRight}>
             {[
               { label: 'Program Type', value: 'Cooperative BaaS Card Issuance' },
-              { label: 'Card Network', value: 'Visa + Mastercard Debit' },
+              { label: 'Card Network', value: 'Debit (Network TBD with issuing partner)' },
               { label: 'Revenue Model', value: '70/20/10 Cooperative Split' },
-              { label: 'Target Launch', value: 'Juneteenth 2025 — June 19' },
+              { label: 'Target Launch', value: 'Juneteenth 2026 — June 19' },
             ].map((m) => (
               <div key={m.label} style={s.identityMeta}>
                 <span style={s.metaLabel}>{m.label}</span>
@@ -188,7 +188,7 @@ export default function UnderwritingReview() {
           <h2 style={s.sectionTitle}>Cooperative Revenue Distribution</h2>
           <div style={s.coopGrid}>
             {[
-              { pct: '70%', label: 'Member Pool', desc: 'Patronage dividends returned to members proportional to card usage. Your spending builds your equity.', color: '#7c3aed', bg: 'linear-gradient(135deg,#1e3a5f,#0f1e2c)' },
+              { pct: '70%', label: 'Member Pool', desc: 'Membership Pool returned to the membership pool proportional to card usage. Your spending builds your equity.', color: '#7c3aed', bg: 'linear-gradient(135deg,#1e3a5f,#0f1e2c)' },
               { pct: '20%', label: 'Operations', desc: 'Platform infrastructure, compliance, technology, and cooperative administration.', color: '#14b8a6', bg: 'linear-gradient(135deg,#064e3b,#022c22)' },
               { pct: '10%', label: 'Sovereign Fund', desc: 'Long-term reserve, community reinvestment, and SOVEREIGNITITY™ protocol sustainability.', color: '#f59e0b', bg: 'linear-gradient(135deg,#4c1d95,#2d1b6e)' },
             ].map((c) => (
@@ -298,7 +298,7 @@ export default function UnderwritingReview() {
           </div>
         </section>
 
-        {/* Unit.co Account Structure */}
+        {/* Card Issuance Infrastructure */}
         <section style={s.section}>
           <h2 style={s.sectionTitle}>🏦 Card Issuance Infrastructure — Account Structure</h2>
           <div style={{ background: '#fff8e7', border: '1px solid #ffb347', borderRadius: '14px', padding: '18px 22px', marginBottom: '22px', display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
@@ -327,7 +327,7 @@ export default function UnderwritingReview() {
                     <span style={{ background: '#ede9fe', color: '#5b21b6', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>Organization</span>
                   </td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8', fontWeight: 700, color: '#0f1e2c' }}>SA Nathan LLC</td>
-                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><code style={{ background: '#f1f5f9', color: '#374151', padding: '2px 6px', borderRadius: '4px', fontSize: '0.72rem' }}>org_6RqPO7KiSQ7pMRB8fle7Pay</code></td>
+                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><code style={{ background: '#f1f5f9', color: '#374151', padding: '2px 6px', borderRadius: '4px', fontSize: '0.72rem' }}>TBD — assigned by issuing partner</code></td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><span style={{ background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>Active</span></td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8', color: '#475569' }}>United States</td>
                 </tr>
@@ -336,8 +336,8 @@ export default function UnderwritingReview() {
                     <span style={{ background: '#fff8e7', color: '#92400e', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>↳ Account</span>
                   </td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8', fontWeight: 600, color: '#0f1e2c' }}>Evergreen Beauty Lounge</td>
-                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><code style={{ background: '#f1f5f9', color: '#374151', padding: '2px 6px', borderRadius: '4px', fontSize: '0.72rem' }}>acct_1QgtpwC60GJFsMJK</code></td>
-                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><span style={{ background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>Enabled</span></td>
+                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><code style={{ background: '#f1f5f9', color: '#374151', padding: '2px 6px', borderRadius: '4px', fontSize: '0.72rem' }}>TBD — assigned by issuing partner</code></td>
+                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><span style={{ background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>Pilot Enabled</span></td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8', color: '#475569' }}>United States</td>
                 </tr>
               </tbody>
@@ -347,7 +347,7 @@ export default function UnderwritingReview() {
             {[
               { icon: '🏢', label: 'Organization', value: 'SA Nathan LLC', sub: 'Cooperative operator entity' },
               { icon: '💳', label: 'Pilot Account', value: 'Evergreen Beauty Lounge', sub: 'Status: Enabled — live' },
-              { icon: '📍', label: 'Jurisdiction', value: 'United States', sub: 'FDIC-eligible infrastructure' },
+              { icon: '📍', label: 'Jurisdiction', value: 'United States', sub: 'Settlement via Navy Federal Credit Union' },
               { icon: '🔮', label: 'Next Accounts', value: 'SOLVY Members', sub: 'Individual member debit accounts' },
             ].map((c) => (
               <div key={c.label} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px' }}>
@@ -526,7 +526,6 @@ export default function UnderwritingReview() {
                   {[
                     ['ebl.beauty', 'Domain Registrar', '~$15–20', 'Web2 Domain', 'Active (annual renewal)'],
                     ['solvy.cards', 'Replit', '$32.00', 'Web2 Domain', '✅ Paid / Active'],
-                    ['solvy.chain', 'Freename.io', '$5–$4,099+', 'Web3 TLD', 'Blockchain domain; no renewal fees'],
                     ['SOLVY™ Brand', 'SOLVY Ecosystem', 'N/A', 'Trademark / IP', 'Brand identity, logo, ecosystem name'],
                     ['SOVEREIGNITITY™', 'SOLVY Ecosystem', 'N/A', 'Trademark / IP', 'Protocol brand — sovereignty-as-infrastructure'],
                     ['DECIDEY™', 'SOLVY NGO', 'N/A', 'NGO / Education Brand', 'Financial literacy program entity'],

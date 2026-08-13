@@ -508,7 +508,7 @@ function NittyHome() {
           {/* Tap counter / call to action */}
           <div style={{ textAlign: 'center' }}>
             <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '20px' }}>
-              Every tap builds the cooperative. Every swipe funds the community pool.
+              Every tap builds the cooperative. Every swipe funds the operations.
             </p>
             <a href="/apply" style={{ display: 'inline-block', background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', padding: '14px 36px', borderRadius: '40px', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', boxShadow: '0 8px 24px rgba(16,185,129,0.3)' }}>
               Apply for Your NFC Card →

@@ -57,7 +57,7 @@ Introduced by Sen. Bill Hagerty (R-TN) — **passed Senate Banking Committee Mar
 | **KYC/AML** | Unit.co integration — bank-grade identity verification | ✅ Compliant |
 | **Asset Backing** | FDIC-insured deposits (via Unit/Thread Bank) | ✅ 1:1 equivalent |
 | **Monthly Audits** | Real-time MAN dashboard + quarterly member reports | ✅ Exceeds requirement |
-| **Consumer Protection** | 70/20/10 revenue return, no hidden fees | ✅ Beyond regulation |
+| **Consumer Protection** | 70/20/10 model — membership pool, operations, sovereign wealth fund; no hidden fees | ✅ Beyond regulation |
 
 ### The Narrative: "Ahead of the Curve"
 
@@ -102,9 +102,9 @@ Introduced by Sen. Bill Hagerty (R-TN) — **passed Senate Banking Committee Mar
 >
 > These are not burdens for SOLVY — they are our foundation.
 >
-> **The MAN Portal (Mandatory Audit Network)** provides real-time transparency into SOLVY's financial operations. Every member can see the 70/20/10 revenue distribution. Every transaction is traceable. Every decision is auditable.
+> **The MAN Portal (Mandatory Audit Network)** provides real-time transparency into SOLVY's financial operations. Every member can see the 70/20/10 revenue allocation. Every transaction is traceable. Every decision is auditable.
 >
-> **The Cooperative Structure** prevents the extraction that regulation tries to stop. Members own 70% of revenue by legal structure — not policy that can change.
+> **The Cooperative Structure** prevents the extraction that regulation tries to stop. 70% of revenue is pooled for members by legal structure — not policy that can change.
 >
 > **Unit.co Integration** provides bank-grade KYC, AML, and compliance infrastructure. We don't DIY compliance; we partner with experts.
 >

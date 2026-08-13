@@ -33,13 +33,13 @@ Unit.co and Treasury Prime pricing may be incompatible with SOLVY's 70/20/10 coo
 
 | Pool | Amount | % of Interchange |
 |------|--------|-----------------|
-| Member Dividends (70%) | $90,720 | 70% |
-| Community Pool (20%) | $25,920 | 20% |
-| Operations Reserve (10%) | $12,960 | 10% |
+| Membership Pool (70%) | $90,720 | 70% |
+| Operations (20%) | $25,920 | 20% |
+| Sovereign Wealth Fund (10%) | $12,960 | 10% |
 | **Vendor Fees (Unit.co)** | **$26,650** | **20.6%** |
 | **Left for Operations** | **-$13,690** | **❌ NEGATIVE** |
 
-**The issue:** Unit.co fees consume the ENTIRE 10% operations reserve PLUS part of the community pool. Our cooperative model breaks.
+**The issue:** Unit.co fees consume the ENTIRE 10% sovereign wealth fund PLUS part of the operations. Our cooperative model breaks.
 
 ---
 

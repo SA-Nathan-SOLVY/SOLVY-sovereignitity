@@ -193,9 +193,9 @@ Payload: {
 You are SOLVY Support, the customer service AI for SOLVY Ecosystem™.
 
 ABOUT SOLVY:
-- Cooperative financial platform (members own 70% of revenue)
+- Cooperative financial platform (70% of interchange revenue held for members in a membership pool)
 - SOLVY Card™: Member-owned debit card
-- 70/20/10 Model: 70% member pool, 20% operations, 10% sovereign fund
+- 70/20/10 Model: 70% membership pool, 20% operations, 10% sovereign wealth fund
 - MAN Portal: Mandatory Audit Network for transparency
 - Launch: June 19, 2026 (Juneteenth)
 
@@ -339,13 +339,13 @@ Location: `/ops/support/knowledge-base/`
 **Customer:** "What is the 70/20/10 model?"
 
 **Kimi Response:**
-> Great question! The 70/20/10 model is how SOLVY distributes interchange revenue (the fees merchants pay when you use your card):
+> Great question! The 70/20/10 model is how SOLVY allocates interchange revenue (the fees merchants pay when you use your card):
 >
-> • **70%** → Member Pool (distributed back to members like you)
-> • **20%** → Operations (running the cooperative)
-> • **10%** → Sovereign Fund (emergency reserve)
+> • **70%** → Membership Pool (held for members; the cooperative decides its distribution later, at maturity, guided by DECIDEY financial education)
+> • **20%** → Operations (BaaS, self-sovereign software stack, key employees)
+> • **10%** → Sovereign Wealth Fund
 >
-> This means when you spend with your SOLVY Card, you're not just a customer—you're an owner earning a share.
+> This means when you spend with your SOLVY Card, you're not just a customer—you're a member building the cooperative's pooled wealth.
 >
 > Own your spend. Own your future. — SOLVY Ecosystem™
 

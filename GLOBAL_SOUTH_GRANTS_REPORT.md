@@ -287,7 +287,7 @@ INPEACE received $6,000 grant to support 14 Native Hawaiian companies at Made in
 - **Focus:** Filipino cultural + economic development
 - **Recent Grants:** $288,000 from Tides Center; $150,500 from SF Foundation
 - **Programs:** Cultural district development, mental health, youth programs
-- **Connection:** Model for SOLVY's community development approach
+- **Connection:** Model for SOLVY's operations approach
 
 #### 2. Philippine Government Diaspora Programs
 - **Overseas Filipinos Remittance Program:** Ongoing government initiatives

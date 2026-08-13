@@ -15,8 +15,15 @@ import {
   sendPrelaunchAck,
   sendContactNotification,
 } from './emailService';
+import {
+  getMailcowInboxes,
+  listMailcowMessages,
+  getMailcowMessage,
+} from './mailcowService';
 import bankingRouter from './bankingRouter';
 import cardRouter from './cardRouter';
+import * as lithic from './lithicAdapter';
+import { handleLithicWebhookEvent } from './lithicWebhookHandler';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -175,6 +182,40 @@ async function initDatabase() {
     )
   `);
 
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS lithic_cards (
+      token TEXT PRIMARY KEY,
+      account_token TEXT,
+      card_program_token TEXT,
+      member_email TEXT,
+      type TEXT,
+      state TEXT,
+      last_four TEXT,
+      memo TEXT,
+      spend_limit INTEGER,
+      spend_limit_duration TEXT,
+      created_at TIMESTAMPTZ,
+      updated_at TIMESTAMPTZ DEFAULT NOW(),
+      raw_event JSONB
+    )
+  `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS lithic_transactions (
+      token TEXT PRIMARY KEY,
+      card_token TEXT,
+      account_token TEXT,
+      amount INTEGER,
+      merchant_name TEXT,
+      merchant_mcc TEXT,
+      status TEXT,
+      settlement_date TEXT,
+      created_at TIMESTAMPTZ,
+      received_at TIMESTAMPTZ DEFAULT NOW(),
+      raw_event JSONB
+    )
+  `);
+
   const checkCount = await pool.query('SELECT COUNT(*) FROM uw_checklist_items');
   if (parseInt(checkCount.rows[0].count) === 0) {
     const seed = [
@@ -252,6 +293,33 @@ async function initStripe() {
     .then(() => console.log('Stripe data synced'))
     .catch((err: any) => console.error('Error syncing Stripe data:', err));
 }
+
+app.post(
+  '/webhooks/lithic',
+  express.raw({ type: 'application/json' }),
+  async (req, res) => {
+    const signature = req.headers['x-lithic-signature'];
+    if (!signature || Array.isArray(signature)) {
+      return res.status(400).json({ error: 'Missing x-lithic-signature' });
+    }
+
+    const payload = (req.body as Buffer).toString('utf8');
+    if (!lithic.verifyWebhook(payload, signature)) {
+      return res.status(401).json({ error: 'Invalid Lithic webhook signature' });
+    }
+
+    const event = lithic.processWebhook(JSON.parse(payload));
+    console.log('[Lithic Webhook]', event.type, event.data?.token || event.data?.card_token || event.data?.account_holder_token || '');
+
+    try {
+      await handleLithicWebhookEvent(pool, event);
+    } catch (err: any) {
+      console.error('[Lithic Webhook] Persistence error:', err.message);
+    }
+
+    res.status(200).json({ received: true, type: event.type });
+  }
+);
 
 app.post(
   '/api/stripe/webhook',
@@ -1342,7 +1410,7 @@ app.get('/api/data-pools/export/:poolId', async (req, res) => {
 
   // ─── Card Issuing Routes (Lithic) ────────────────────────────────────────────
 
-  app.use('/api/card', cardRouter);
+  app.use('/api/card', cardRouter(pool));
 
   // ─── Tax Export (Staff-only) ─────────────────────────────────────────────────
 
@@ -1568,6 +1636,42 @@ app.post('/api/contact', strictLimiter, async (req, res) => {
   } catch (error: any) {
     console.error('Contact form error:', error.message);
     res.status(500).json({ error: 'Failed to send message' });
+  }
+});
+
+// ─── Received Email Inbox ─────────────────────────────────────────────────────
+// Provides a read-only view of Mailcow inboxes so the team can see replies
+// from partners (e.g., Lithic) without leaving the SOLVY interface.
+
+app.get('/api/email/inboxes', (_req, res) => {
+  try {
+    res.json({ inboxes: getMailcowInboxes() });
+  } catch (error: any) {
+    console.error('[Email] Inbox list error:', error.message);
+    res.status(500).json({ error: 'Failed to list inboxes' });
+  }
+});
+
+app.get('/api/email/inbox/:inboxKey', async (req, res) => {
+  try {
+    const { inboxKey } = req.params;
+    const limit = Math.min(parseInt(req.query.limit as string) || 50, 100);
+    const messages = await listMailcowMessages(inboxKey, limit);
+    res.json({ inbox: inboxKey, messages });
+  } catch (error: any) {
+    console.error('[Email] Inbox fetch error:', error.message);
+    res.status(500).json({ error: error.message || 'Failed to fetch inbox' });
+  }
+});
+
+app.get('/api/email/message/:inboxKey/:messageId', async (req, res) => {
+  try {
+    const { inboxKey, messageId } = req.params;
+    const message = await getMailcowMessage(inboxKey, messageId);
+    res.json({ inbox: inboxKey, message });
+  } catch (error: any) {
+    console.error('[Email] Message fetch error:', error.message);
+    res.status(500).json({ error: error.message || 'Failed to fetch message' });
   }
 });
 

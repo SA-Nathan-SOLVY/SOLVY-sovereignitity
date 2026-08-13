@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="robots" content="noindex, nofollow">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOLVY Back Office — Cooperative Dashboard</title>
@@ -666,7 +667,7 @@
             const cards = [
                 { label: 'Total Volume', value: fmtCurrency(data.totalVolumeAllMembers), color: 'green', note: 'All members combined' },
                 { label: 'Total Interchange', value: fmtCurrency(data.totalInterchangeAllMembers), color: 'gold', note: '~1.5% of volume' },
-                { label: 'Member Pool (70%)', value: fmtCurrency(data.totalMemberPoolAllMembers), color: 'green', note: 'Patronage dividends' },
+                { label: 'Member Pool (70%)', value: fmtCurrency(data.totalMemberPoolAllMembers), color: 'green', note: 'Membership Pool' },
                 { label: 'Operations (20%)', value: fmtCurrency(data.totalOperationsFund), color: 'blue', note: 'Running the cooperative' },
                 { label: 'Sovereign Fund (10%)', value: fmtCurrency(data.totalSovereignFund), color: 'purple', note: 'Emergency reserve' },
                 { label: 'Active Members', value: data.totalMembers || 0, color: 'gold', note: 'Members with submitted aggregates' }

@@ -160,12 +160,12 @@ cat > /opt/solvy/support/knowledge-base/faq-general.md << 'EOF'
 # SOLVY General FAQ
 
 ## What is SOLVY?
-SOLVY Ecosystem™ is a cooperative financial platform where members own 70% of interchange revenue through the SOLVY Card™.
+SOLVY Ecosystem™ is a cooperative financial platform where 70% of interchange revenue from the SOLVY Card™ flows into a membership pool held for members.
 
 ## What is the 70/20/10 model?
-- 70% → Member Pool (distributed to members)
-- 20% → Operations (running the platform)
-- 10% → Sovereign Fund (emergency reserve)
+- 70% → Membership Pool (held for members; distribution decided later, at maturity, with DECIDEY financial education)
+- 20% → Operations (BaaS, self-sovereign software stack, key employees)
+- 10% → Sovereign Wealth Fund
 
 ## When does SOLVY launch?
 June 19, 2026 (Juneteenth).

@@ -5,8 +5,8 @@
 ### Matrilineal Consensus Mechanism
 SOLVY's 70/20/10 distribution model is not arbitrary economics—it is the digital encoding of the iron fist:
 
-- **70% Patronage Dividends** = Direct descendant protection (Sheila's mandate fulfilled)
-- **20% Community Pool** = The grandmother's blanket (collective care)
+- **70% Membership Pool** = Direct descendant protection (Sheila's mandate fulfilled)
+- **20% Operations** = The grandmother's blanket (collective care)
 - **10% Operations** = The fist, maintained (protocol sustainability)
 
 ### Zero-Knowledge Ancestry (Future Implementation)
@@ -22,7 +22,7 @@ Your previous docs (VCF letters, SNT drafts) are legally sound but soulless. The
 |---------------------|------------------|
 | The MAN (Mandatory Audit Network) | Digital continuation of grandmother "witness"—the community watching the money |
 | DECIDEY Education Platform | Transmission of IBC knowledge (what Sheila learned from Sean, now scaled) |
-| 70/20/10 Split | Mathematical expression of "leave them better"—70% direct, 20% community blanket, 10% fist maintenance |
+| 70/20/10 Split | Mathematical expression of "leave them better"—70% membership pool, 20% operations, 10% sovereign wealth fund |
 | SOLVY Card | The iron fist in plastic—spending as protection, not consumption |
 | MOLI (Membership Owned Life Insurance) | The eventual vehicle for Sheila's award to become perpetual protection |
 

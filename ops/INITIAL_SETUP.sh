@@ -381,7 +381,7 @@ cat > $WEB_DIR/index.html << 'INDEXEOF'
   <section class="features">
     <div class="feature">
       <h3>70/20/10 Model</h3>
-      <p>70% of profits to members, 20% to operations, 10% to sovereign fund. Transparent and fair.</p>
+      <p>70% to a membership pool held for members, 20% to operations, 10% to a sovereign wealth fund. Transparent and fair.</p>
     </div>
     <div class="feature">
       <h3>Member Owned</h3>

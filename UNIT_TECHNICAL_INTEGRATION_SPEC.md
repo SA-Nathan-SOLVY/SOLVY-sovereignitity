@@ -429,7 +429,7 @@ const requiresEnhancedDueDiligence = (member) => {
 ### Phase 6: Full Launch (Week 13 - June 19, 2026)
 - [ ] All 100 First Circle members onboarded
 - [ ] Marketing launch (Juneteenth)
-- [ ] Community pool activation
+- [ ] Operations activation
 - [ ] First dividend calculation
 
 ---

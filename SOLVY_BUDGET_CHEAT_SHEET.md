@@ -185,8 +185,8 @@ Result:
 
 | Bucket | Amount | Use |
 |--------|--------|-----|
-| **70% Member Dividends** | $181,440 | Direct patronage |
-| **20% Community Pool** | $51,840 | Group benefits |
+| **70% Membership Pool** | $181,440 | Membership pool |
+| **20% Operations** | $51,840 | Group benefits |
 | **10% Operations** | $25,920 | Reserve/growth |
 | **Total Interchange** | $259,200 | |
 

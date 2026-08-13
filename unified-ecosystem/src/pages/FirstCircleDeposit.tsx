@@ -133,7 +133,7 @@ export default function FirstCircleDeposit() {
             {[
               'Member-owner status with voting rights',
               'Priority access to SOLVY Card™ issuance',
-              '70% patronage dividend eligibility',
+              '70% membership pool eligibility',
               'Founding member recognition in First Circle',
             ].map((b) => (
               <li key={b} style={s.benefitItem}>

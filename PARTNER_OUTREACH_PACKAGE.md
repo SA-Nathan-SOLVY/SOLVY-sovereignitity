@@ -12,7 +12,7 @@
 | | |
 |---|---|
 | **Product** | SOLVY Card™ — Member-owned debit card + cooperative financial platform |
-| **Model** | 70/20/10 — 70% patronage dividends, 20% community pool, 10% operations |
+| **Model** | 70/20/10 — 70% membership pool, 20% operations, 10% operations |
 | **Target Launch** | June 19, 2026 (Juneteenth) |
 | **First Circle** | 45 confirmed members, 100 target by launch |
 | **Capital** | $225K committed seed capital |

@@ -12,7 +12,7 @@ I am writing on behalf of **SA Nathan LLC** to formally submit our application f
 
 ## Program Overview
 
-SOLVY Card™ is a cooperative debit card program designed to build generational wealth infrastructure for Black, Brown, immigrant, and diaspora communities through cooperative economic ownership. Our 70/20/10 distribution model returns 70% of interchange revenue to member-owners as patronage dividends.
+SOLVY Card™ is a cooperative debit card program designed to build generational wealth infrastructure for Black, Brown, immigrant, and diaspora communities through cooperative economic ownership. Our 70/20/10 model allocates 70% of interchange revenue to a membership pool held for member-owners, 20% to operations, and 10% to a sovereign wealth fund.
 
 ## Business Details
 

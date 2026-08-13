@@ -293,7 +293,7 @@
 
 *"Leave them better than I received."*
 
-✅ **70% to members** (not shareholders)  
+✅ **70% to the membership pool** (not shareholders)  
 ✅ **Cooperative ownership** (member-controlled)  
 ✅ **Data sovereignty** (local-first, member-owned)  
 ✅ **Descendant class protection** (51% minimum)  

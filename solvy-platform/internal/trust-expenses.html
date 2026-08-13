@@ -470,14 +470,14 @@
 // STATE
 // ========================
 let currentRole = 'beneficiary'; // 'beneficiary' or 'trustee'
-let currentUser = 'Sean Maurice Mayo';
+let currentUser = 'Sean Maurice Mayo (MAFO AABO)';
 let activeRequestId = null;
 
 // Load from localStorage or seed with demo data
 let requests = JSON.parse(localStorage.getItem('smm_requests') || '[]');
 let auditLog = JSON.parse(localStorage.getItem('smm_audit') || '[]');
 
-const TRUST_BALANCE = 250000;
+const TRUST_BALANCE = 225000;
 
 // Seed demo data if empty
 if (requests.length === 0) {
@@ -493,7 +493,7 @@ function toggleRole() {
         currentUser = 'Sean Marlon II McDaniel';
     } else {
         currentRole = 'beneficiary';
-        currentUser = 'Sean Maurice Mayo';
+        currentUser = 'Sean Maurice Mayo (MAFO AABO)';
     }
     document.getElementById('userRoleDisplay').textContent = currentUser;
     updateRoleUI();
@@ -815,7 +815,7 @@ function seedDemoData() {
             method: 'ach',
             description: 'Specialist consultation not covered by VA benefits',
             status: 'paid',
-            requestedBy: 'Sean Maurice Mayo',
+            requestedBy: 'Sean Maurice Mayo (MAFO AABO)',
             trusteeNote: 'Approved — medical necessity, not covered by existing benefits',
             paymentRef: 'ACH-2026-0515-001',
             paymentDate: '2026-05-16',
@@ -830,7 +830,7 @@ function seedDemoData() {
             method: 'card',
             description: 'Vehicle repair — brake pads and oil change for transport to medical appointments',
             status: 'approved',
-            requestedBy: 'Sean Maurice Mayo',
+            requestedBy: 'Sean Maurice Mayo (MAFO AABO)',
             trusteeNote: 'Approved — transportation is essential for medical access',
             paymentRef: '',
             paymentDate: '',
@@ -845,7 +845,7 @@ function seedDemoData() {
             method: 'card',
             description: 'Laptop for vocational training program and telehealth appointments',
             status: 'pending',
-            requestedBy: 'Sean Maurice Mayo',
+            requestedBy: 'Sean Maurice Mayo (MAFO AABO)',
             trusteeNote: '',
             paymentRef: '',
             paymentDate: '',

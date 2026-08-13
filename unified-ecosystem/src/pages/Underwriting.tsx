@@ -356,9 +356,9 @@ export default function Underwriting() {
           </div>
           <div style={s.applicantRight}>
             <div style={s.applicantMeta}><span style={s.metaLabel}>Program Type</span><span style={s.metaValue}>Cooperative BaaS Card Issuance</span></div>
-            <div style={s.applicantMeta}><span style={s.metaLabel}>Card Network</span><span style={s.metaValue}>Visa + Mastercard Debit</span></div>
+            <div style={s.applicantMeta}><span style={s.metaLabel}>Card Network</span><span style={s.metaValue}>Debit (Network TBD with issuing partner)</span></div>
             <div style={s.applicantMeta}><span style={s.metaLabel}>Revenue Model</span><span style={s.metaValue}>70/20/10 Cooperative Split</span></div>
-            <div style={s.applicantMeta}><span style={s.metaLabel}>Target Launch</span><span style={s.metaValue}>Juneteenth 2025 — June 19</span></div>
+            <div style={s.applicantMeta}><span style={s.metaLabel}>Target Launch</span><span style={s.metaValue}>Juneteenth 2026 — June 19</span></div>
           </div>
         </div>
 
@@ -410,7 +410,7 @@ export default function Underwriting() {
             <div style={{ ...s.coopCard, background: 'linear-gradient(135deg, #1e3a5f, #0f1e2c)' }}>
               <div style={s.coopPct}>{summary.cooperative.memberShare}</div>
               <div style={s.coopLabel}>Member Pool</div>
-              <div style={s.coopDesc}>MOLI benefits, member dividends, cooperative ownership returns</div>
+              <div style={s.coopDesc}>MOLI benefits, membership pool, cooperative ownership returns</div>
             </div>
             <div style={{ ...s.coopCard, background: 'linear-gradient(135deg, #4c1d95, #2d1b6e)' }}>
               <div style={s.coopPct}>{summary.cooperative.operationsShare}</div>
@@ -452,8 +452,8 @@ export default function Underwriting() {
           <h2 style={s.sectionTitle}>Technology & Funding Ecosystem</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '20px' }}>
             {[
-              { icon: '🏦', role: 'Card Issuance & Banking', detail: 'FDIC-insured deposit accounts, debit card issuance, KYC/AML compliance infrastructure', status: 'Funding in progress', color: '#fff8e7', border: '#ffb347', text: '#92400e' },
-              { icon: '⛓️', role: 'Web3 Card Infrastructure', detail: 'Crypto-linked card program enabling SOLVY members to spend digital assets at any Visa/Mastercard terminal', status: 'Partnership incoming', color: '#f0fdf4', border: '#86efac', text: '#166534' },
+              { icon: '🏦', role: 'Card Issuance & Settlement', detail: 'Debit card issuance via Lithic or comparable issuing partner; settlement account at Navy Federal Credit Union; KYC/AML compliance infrastructure', status: 'Funding in progress', color: '#fff8e7', border: '#ffb347', text: '#92400e' },
+              { icon: '⛓️', role: 'Web3 Card Infrastructure', detail: 'Crypto-linked card program enabling SOLVY members to spend digital assets at any debit-enabled terminal', status: 'Partnership incoming', color: '#f0fdf4', border: '#86efac', text: '#166534' },
               { icon: '💱', role: 'Fiat ↔ Digital Asset Bridge', detail: 'On/off-ramp payment gateway across 173 countries; members earn fiat interchange on digital-asset-funded card spend', status: 'Integration confirmed', color: '#eff6ff', border: '#93c5fd', text: '#1e40af' },
               { icon: '💳', role: 'Merchant Processing', detail: 'Live at Evergreen Beauty Lounge (Pilot #1) — proving the merchant-side of the closed-loop ecosystem', status: 'Live & processing', color: '#f0fdf4', border: '#86efac', text: '#166534' },
             ].map((p, i) => (
@@ -467,7 +467,7 @@ export default function Underwriting() {
           </div>
         </section>
 
-        {/* Unit.co Account Structure */}
+        {/* Card Issuance Infrastructure */}
         <section style={s.section}>
           <h2 style={s.sectionTitle}>🏦 Card Issuance Infrastructure — Account Structure</h2>
           <div style={{ background: '#fff8e7', border: '1px solid #ffb347', borderRadius: '14px', padding: '18px 22px', marginBottom: '22px', display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
@@ -496,7 +496,7 @@ export default function Underwriting() {
                     <span style={{ background: '#ede9fe', color: '#5b21b6', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>Organization</span>
                   </td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8', fontWeight: 700, color: '#0f1e2c' }}>SA Nathan LLC</td>
-                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><code style={{ background: '#f1f5f9', color: '#374151', padding: '2px 6px', borderRadius: '4px', fontSize: '0.72rem' }}>org_6RqPO7KiSQ7pMRB8fle7Pay</code></td>
+                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><code style={{ background: '#f1f5f9', color: '#374151', padding: '2px 6px', borderRadius: '4px', fontSize: '0.72rem' }}>TBD — assigned by issuing partner</code></td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><span style={{ background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>Active</span></td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8', color: '#475569' }}>United States</td>
                 </tr>
@@ -505,8 +505,8 @@ export default function Underwriting() {
                     <span style={{ background: '#fff8e7', color: '#92400e', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>Account</span>
                   </td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8', fontWeight: 600, color: '#0f1e2c' }}>Evergreen Beauty Lounge</td>
-                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><code style={{ background: '#f1f5f9', color: '#374151', padding: '2px 6px', borderRadius: '4px', fontSize: '0.72rem' }}>acct_1QgtpwC60GJFsMJK</code></td>
-                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><span style={{ background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>Enabled</span></td>
+                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><code style={{ background: '#f1f5f9', color: '#374151', padding: '2px 6px', borderRadius: '4px', fontSize: '0.72rem' }}>TBD — assigned by issuing partner</code></td>
+                  <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8' }}><span style={{ background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700 }}>Pilot Enabled</span></td>
                   <td style={{ padding: '10px 14px', borderBottom: '1px solid #f0f4f8', color: '#475569' }}>United States</td>
                 </tr>
               </tbody>
@@ -516,7 +516,7 @@ export default function Underwriting() {
             {[
               { icon: '🏢', label: 'Organization', value: 'SA Nathan LLC', sub: 'Cooperative operator entity' },
               { icon: '💳', label: 'Pilot Account', value: 'Evergreen Beauty Lounge', sub: 'Status: Enabled — live' },
-              { icon: '📍', label: 'Jurisdiction', value: 'United States', sub: 'FDIC-eligible infrastructure' },
+              { icon: '📍', label: 'Jurisdiction', value: 'United States', sub: 'Settlement via Navy Federal Credit Union' },
               { icon: '🔮', label: 'Next Accounts', value: 'SOLVY Members', sub: 'Individual member debit accounts' },
             ].map((c) => (
               <div key={c.label} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px' }}>
@@ -534,7 +534,7 @@ export default function Underwriting() {
           <h2 style={s.sectionTitle}>🧠 Beyond Infrastructure: The SOLVY Intelligence Layer</h2>
           <div style={{ background: 'linear-gradient(135deg, #0f1e2c 0%, #1e3a5f 100%)', borderRadius: '16px', padding: '28px 32px', color: 'white', marginBottom: '24px' }}>
             <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#ffb347', marginBottom: '12px' }}>
-              "Unit.co provides the engine. We provide the intelligence."
+              "The issuing partner provides the rails. We provide the cooperative intelligence."
             </div>
             <div style={{ fontSize: '0.88rem', color: '#cbd5e1', lineHeight: 1.75 }}>
               Our partnership with our card issuance infrastructure gives us a complete embedded banking platform —
@@ -700,7 +700,6 @@ export default function Underwriting() {
                   {[
                     ['ebl.beauty', 'Domain Registrar', '~$15–20', 'Web2 Domain', 'Active (annual renewal)'],
                     ['solvy.cards', 'Replit', '$32.00', 'Web2 Domain', '✅ Paid / Active'],
-                    ['solvy.chain', 'Freename.io', '$5–$4,099+', 'Web3 TLD', 'Blockchain domain; no renewal fees'],
                     ['SOLVY™ Brand', 'SOLVY Ecosystem', 'N/A', 'Trademark / IP', 'Brand identity, logo, ecosystem name'],
                     ['SOVEREIGNITITY™', 'SOLVY Ecosystem', 'N/A', 'Trademark / IP', 'Protocol brand — sovereignty-as-infrastructure'],
                     ['DECIDEY™', 'SOLVY NGO', 'N/A', 'NGO / Education Brand', 'Financial literacy program entity'],

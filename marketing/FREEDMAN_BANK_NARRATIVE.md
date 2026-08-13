@@ -39,11 +39,11 @@ The bank's white trustees — including Henry Cooke (brother of Treasury Secreta
 ### What Went Wrong Then | What SOLVY Does Now
 | The Freedman Bank (1865) | SOLVY Ecosystem (2026) |
 |--------------------------|------------------------|
-| White trustees controlled Black deposits | **Member-owned**: 70% of revenue returns to members |
+| White trustees controlled Black deposits | **Member-owned**: 70% of revenue pooled for members |
 | No voting rights for depositors | **One member = One vote**: Cooperative governance |
 | No transparency in investments | **MAN Portal**: Mandatory Audit Network — every transaction visible |
 | External corruption destroyed savings | **Data sovereignty**: You control your keys, your access |
-| Wealth extracted from the community | **Wealth distributed to the community**: 70/20/10 model |
+| Wealth extracted from the community | **Wealth held for the community**: 70/20/10 model |
 
 ### The Sheila Mandate
 > "Leave them better than I received."
@@ -73,7 +73,7 @@ SOLVY is built on this principle. No external controllers. No hidden decisions. 
 >
 > The architecture of betrayal was simple: separate ownership from control. Promise community benefit while extracting community wealth.
 >
-> SOLVY inverts this architecture. Every member is an owner. Every owner has a vote. Every dollar of revenue is transparent through the Mandatory Audit Network (MAN). The 70/20/10 model means 70% of interchange revenue goes directly back to members — not to shareholders, not to executives, not to external controllers.
+> SOLVY inverts this architecture. Every member is an owner. Every owner has a vote. Every dollar of revenue is transparent through the Mandatory Audit Network (MAN). The 70/20/10 model means 70% of interchange revenue flows to the membership pool — held for members until the cooperative, at maturity and with DECIDEY financial education, decides its distribution. Not to shareholders, not to executives, not to external controllers.
 >
 > We don't ask you to trust us. We give you the infrastructure to trust the math.
 >

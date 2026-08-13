@@ -3,9 +3,9 @@
  * Member-owned data pooling and monetization
  * 
  * Revenue follows 70/20/10:
- * - 70% Member Pool (distributed to contributors)
+ * - 70% Membership Pool (held for members; distribution decided later, at maturity, with DECIDEY financial education)
  * - 20% Operations
- * - 10% Sovereign Fund
+ * - 10% Sovereign Wealth Fund
  */
 
 const fs = require('fs');

@@ -26,7 +26,7 @@ export default function Manifesto() {
           </p>
           <div style={s.splitDiagram}>
             {[
-              { pct: '70%', label: 'Patronage Dividends — Community Pool', meaning: 'Direct descendant protection — revenue that returns to those who generate it. Pooled funds seed larger community projects, including MOLI (Member-Owned Life Insurance) — conceived in the spirit of BOLI (Bank-Owned Life Insurance), with established relationships for IBC policy underwriting.' },
+              { pct: '70%', label: 'Membership Pool — Operations', meaning: 'Direct descendant protection — revenue that returns to those who generate it. Pooled funds seed larger community projects, including MOLI (Member-Owned Life Insurance) — conceived in the spirit of BOLI (Bank-Owned Life Insurance), with established relationships for IBC policy underwriting.' },
               { pct: '20%', label: 'Operations Funding', meaning: 'Sustains the cooperative\'s infrastructure, technology, compliance, and administrative operations — keeping the platform running and growing.' },
               { pct: '10%', label: 'Sovereign Wealth Fund — SOVEREIGNITITY™', meaning: 'The fist, maintained — protocol sustainability and growth. All activity is transparent on the MAN (Mandatory Audit Network).' },
             ].map((row) => (
@@ -64,7 +64,7 @@ export default function Manifesto() {
                 {[
                   ['The MAN (Mandatory Audit Network)', 'Digital continuation of grandmother "witness" — the community watching the money. Every transaction visible, every allocation auditable.'],
                   ['DECIDEY Platform', 'Transmission of IBC knowledge — scaling what was learned through struggle into collective education.'],
-                  ['70/20/10 Split', 'Mathematical expression of "leave them better" — 70% Patronage Dividends (Community Pool), 20% Operations Funding, 10% Sovereign Wealth Fund (SOVEREIGNITITY™).'],
+                  ['70/20/10 Split', 'Mathematical expression of "leave them better" — 70% Membership Pool (Operations), 20% Operations Funding, 10% Sovereign Wealth Fund (SOVEREIGNITITY™).'],
                   ['SOLVY Card', 'The iron fist in plastic — spending as protection, not consumption. Every swipe builds equity.'],
                   ['MOLI (Member-Owned Life Insurance)', 'Conceived in the spirit of BOLI (Bank-Owned Life Insurance) — transaction revenue becoming generational security through established IBC policy underwriting relationships.'],
                 ].map(([tech, encoding]) => (
@@ -130,7 +130,7 @@ export default function Manifesto() {
               { icon: '🔄', label: 'Revenue Source', old: 'Resource extraction & financial engineering', solvy: 'Interchange fees from real member transactions' },
               { icon: '🏛️', label: 'Ownership Structure', old: 'Corporate shareholders (distant, anonymous)', solvy: 'Cooperative members — one person, one vote' },
               { icon: '🔐', label: 'Data Rights', old: 'Corporate — surveilled and sold without consent', solvy: 'Member sovereign — consented and compensated' },
-              { icon: '💰', label: 'Profit Flow', old: 'To shareholders (0% to workers)', solvy: '70% Patronage Dividends to members' },
+              { icon: '💰', label: 'Profit Flow', old: 'To shareholders (0% to workers)', solvy: '70% Membership Pool to the membership pool' },
               { icon: '⚖️', label: 'Dispute Resolution', old: 'ISDS/ICSID private arbitration (opaque)', solvy: 'Member vote through MAN (full public audit)' },
             ].map((row) => (
               <div key={row.label} style={s.parallelRow}>

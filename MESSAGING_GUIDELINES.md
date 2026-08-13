@@ -47,7 +47,7 @@
 ### What We Do (External)
 SOLVY Ecosystem™ is a cooperative financial platform that:
 1. Issues member-owned debit cards (SOLVY Card™)
-2. Returns 70% of interchange revenue to members
+2. Returns 70% of interchange revenue to the membership pool
 3. Builds economic infrastructure for marginalized communities
 4. Provides data sovereignty through local-first architecture
 

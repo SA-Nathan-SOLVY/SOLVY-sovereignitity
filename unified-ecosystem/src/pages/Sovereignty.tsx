@@ -34,7 +34,7 @@ export default function Sovereignty() {
             Every time you swipe the SOLVY Card™, you are not just making a purchase.
             You are building a verifiable, owned record of your economic identity.
             That record belongs to your cooperative. It can be licensed, aggregated with
-            consent, and turned into patronage dividends — <em>money that flows back to you</em>.
+            consent, and turned into membership pool — <em>money that flows back to you</em>.
           </p>
 
           <div style={s.threeGrid}>
@@ -52,7 +52,7 @@ export default function Sovereignty() {
               {
                 icon: '💎',
                 title: 'Build a Revenue Stream',
-                body: '70% of interchange fees + data licensing revenue flows into the Member Pool as patronage dividends. Your identity earns you income while you sleep.',
+                body: '70% of interchange fees + data licensing revenue flows into the Member Pool as membership pool. Your identity earns you income while you sleep.',
               },
             ].map((item) => (
               <div key={item.title} style={s.pillarCard}>
@@ -108,7 +108,7 @@ export default function Sovereignty() {
               'Builds cash value that belongs to the member, not the institution',
               'Provides cooperative-backed protection that travels with your membership',
               'Integrates with IBC strategy — use your MOLI policy as collateral inside the cooperative',
-              'Passes generational wealth: the 20% Community Pool reinforces MOLI beneficiaries in need',
+              'Passes generational wealth: the 20% Operations reinforces MOLI beneficiaries in need',
             ].map((item) => (
               <li key={item} style={s.moliItem}>
                 <span style={s.moliCheck}>✓</span> {item}
@@ -127,8 +127,8 @@ export default function Sovereignty() {
           </p>
           <div style={s.splitGrid}>
             {[
-              { pct: '70%', label: 'Patronage Dividends', color: '#9333ea', desc: 'Direct member benefit — returned to you proportional to your card usage. Your spending is your equity.' },
-              { pct: '20%', label: 'Community Pool', color: '#14b8a6', desc: "The grandmother's blanket — collective care, MOLI support, and member protection. Nobody falls alone." },
+              { pct: '70%', label: 'Membership Pool', color: '#9333ea', desc: 'Direct member benefit — returned to you proportional to your card usage. Your spending is your equity.' },
+              { pct: '20%', label: 'Operations', color: '#14b8a6', desc: "The grandmother's blanket — collective care, MOLI support, and member protection. Nobody falls alone." },
               { pct: '10%', label: 'SOVEREIGNITITY™ Fund', color: '#f59e0b', desc: 'Protocol maintenance and the Sovereign Wealth Fund — the cooperative fist that keeps the infrastructure free.' },
             ].map((item) => (
               <div key={item.pct} style={{ ...s.splitCard, borderTop: `4px solid ${item.color}` }}>
@@ -150,7 +150,7 @@ export default function Sovereignty() {
               { num: '01', title: 'Data Sovereignty', body: 'Your transaction data stays in your control. Not sold to advertisers. Not harvested by platforms. You own your financial history.' },
               { num: '02', title: 'Revenue Ownership', body: '70% of interchange fees flow to the Member Pool. When the cooperative succeeds, you succeed.' },
               { num: '03', title: 'Transparent Governance', body: 'The MAN (Mandatory Audit Network) makes every dollar visible. No hidden fees. No extraction possible.' },
-              { num: '04', title: 'Collective Protection', body: "The 20% Community Pool — collective care for members in need. The 10% Sovereign Fund keeps the infrastructure free." },
+              { num: '04', title: 'Collective Protection', body: "The 20% Operations — collective care for members in need. The 10% Sovereign Fund keeps the infrastructure free." },
               { num: '05', title: 'Democratic Control', body: "One member = One vote. Major decisions require member approval. You govern what you own." },
               { num: '06', title: 'Lineage Protection', body: 'MOLI + the 70/20/10 model encodes generational wealth: your family inherits cooperative equity, not debt.' },
             ].map((p) => (

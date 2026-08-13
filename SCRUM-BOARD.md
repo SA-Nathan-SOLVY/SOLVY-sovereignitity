@@ -3,7 +3,7 @@
 **Current Sprint:** Resumption Sprint — July 2026 🚀  
 **Sprint Dates:** July 15 - July 29, 2026  
 **Launch Target:** TBD — pending Lithic production API key  
-**Last Updated:** July 15, 2026  
+**Last Updated:** August 10, 2026 (full Replit site mirror deployed to solvy.cards root — replaces card-PWA-only build; read-only /trust-portal-demo added)  
 
 ---
 
@@ -43,15 +43,23 @@ Points: 16 To Do | 8 In Progress | 0 Review | 0 Done
 | ID | Task | Assignee | Points | Status | Epic |
 |----|------|----------|--------|--------|------|
 | TASK-105 | Del — launch-week infrastructure (Lithic send, MailCow, DNS) | @del | 8 | Resumed July 15 | EPIC-007 Sovereign Email |
+| TASK-110 | MailCow inbound for solvy.cards — receive Lithic replies | @del | 5 | Inbound ✅ verified Aug 8; **outbound blocked: Hetzner port-25 filter — ticket pending** | EPIC-007 Sovereign Email |
 
 **Details:**
 - ✅ Lithic sandbox re-tested successfully July 15
-- 🔄 Lithic production key request email refreshed and ready to send
-- ⏳ `partnerships@ebl.beauty` mailbox verification before send
+- ✅ solvy.cards DNS complete at name.com Aug 7; **NS flip to Cloudflare completed** (live on `ernest/naomi.ns.cloudflare.com`, verified Aug 10)
+- ✅ solvy.cards website live on Hetzner VPS Aug 8 — **was card-app PWA only, not the full Replit site (board claim corrected)**
+- ✅ **Full Replit site mirror deployed to solvy.cards root Aug 10** — all 51 React routes live (`/mafo-aabo`, `/sps-portal-demo`, `/card-app`, …), mirror staged in `solvy-cards-fullsite/`. Backend-dependent routes (`/api/*`) render but show "unavailable" states — Replit backend not mirrored
+- ✅ **Read-only `/trust-portal-demo` live Aug 10** — presentation-safe Trust Portal replica (nav dropdowns, Trust Snapshot, disbursements, card-app showcase); no code gate, no editable controls, no network calls
+- ✅ Card PWA live at `https://app.solvy.cards` (Aug 10) — `app` A record added in Cloudflare, certbot SSL issued, models/ML assets verified serving
+- ✅ Inbound mail verified: Gmail → `partnerships@solvy.cards` delivered Aug 7–8
+- 🔴 **Outbound port 25 blocked by Hetzner** — no external mail has ever left the server; unblock ticket drafted (`drafts/hetzner-port25-unblock-request.md`), submission pending @sa-nathan
+- ✅ **Lithic production key request SENT Aug 9** from `partnerships@solvy.cards` → `support@lithic.com` (250 OK); SPF/DKIM/iprev all verified pass. Awaiting Lithic reply in monitored inbox.
+- ⏳ Hetzner PTR → `mail.ebl.beauty` pending @sa-nathan
 
-**Blockers:** None
+**Blockers:** Hetzner outbound port-25 filter (ticket pending)
 
-**Subtotal:** 1 task | 8 points
+**Subtotal:** 2 tasks | 13 points
 
 ---
 
@@ -168,6 +176,7 @@ Tue Jul 29 ████████████████████ Sprint R
 | Action | Owner | Due | Status |
 |--------|-------|-----|--------|
 | Send Lithic production key request email | @del / @sa-nathan | Jul 16 | 🟡 In Progress |
+| TASK-110: MailCow inbound MX for solvy.cards — Lithic reply path live | @del | Jul 25 | 🟡 MailCow side done Jul 27 — DNS records ready for Replit DNS UI (`ops/mailcow/SOLVY.CARDS-DNS-RECORDS.md`) |
 | Open Navy Federal Credit Union accounts | @sa-nathan | Jul 18 | 🔴 To Do |
 | Confirm trust account → NFCU funding capability | @sa-nathan | Jul 18 | 🔴 To Do |
 | Create TASK-108 and TASK-109 files | @sean | Jul 16 | 🔴 To Do |
@@ -205,6 +214,8 @@ To update this board:
 ---
 
 ## 📝 Notes for Sean / SCRUM Master
+
+- **Market sequencing (Aug 10, @sa-nathan):** Trust family banking is the active market — target families interested in trust-based family banking (`/trust-portal-demo` is the presentation asset). SPS portal work is **deferred** — SPS is EBL's main supplier; marketing to cosmetologists/barbers resumes only after the debit card scales. `/trust-portal` (gated, Replit-backend) redirects to `/trust-portal-demo` until its backend is mirrored.
 
 - Gitea Projects/Kanban is the source of truth for epics; this file is the daily standup snapshot.
 - Cloudflare challenge blocks API access to Gitea from automated tools. Use SSH (`git@46.62.235.95:...`) for git operations.

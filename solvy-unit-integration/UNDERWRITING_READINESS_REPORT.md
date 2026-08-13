@@ -418,7 +418,7 @@ const getTransactionHistory = async (accountId, options = {}) => {
 ### 5.2 Revenue Distribution Automation
 
 **Priority**: 🟡 MEDIUM  
-**Impact**: Manual calculation of quarterly dividends  
+**Impact**: Manual calculation of membership-pool allocations  
 **Effort**: 1-2 days  
 **File**: New `api/unit/distribution.js`
 
@@ -428,7 +428,7 @@ const calculateQuarterlyDividends = async (quarter, year) => {
   // Aggregate interchange from quarter
   // Calculate 70/20/10 split
   // Generate distribution records
-  // Return per-member dividend amounts
+  // Return per-member membership-pool share amounts (distribution decided at maturity)
 };
 ```
 

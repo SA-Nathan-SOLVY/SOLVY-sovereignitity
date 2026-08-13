@@ -2,8 +2,8 @@
  * SOLVY Cooperative - Dividend Distribution API
  * 
  * Implements the 70/20/10 Economic Model:
- * - 70% Member dividends (distributed to members)
- * - 20% Community pool (reinvested in cooperative growth)
+ * - 70% Membership Pool (distributed to the membership pool)
+ * - 20% Operations (reinvested in cooperative growth)
  * - 10% Operations (platform maintenance)
  * 
  * @route GET /api/dividends
@@ -17,9 +17,9 @@ const FINANCIAL_PROJECTIONS = {
   
   // Distribution ratios
   DISTRIBUTION: {
-    MEMBER_SHARE: 0.70,      // 70% to members
-    COMMUNITY_SHARE: 0.20,   // 20% to community pool
-    OPERATIONS_SHARE: 0.10   // 10% to operations
+    MEMBER_SHARE: 0.70,      // 70% to the membership pool
+    COMMUNITY_SHARE: 0.20,   // 20% to operations
+    OPERATIONS_SHARE: 0.10   // 10% to the sovereign wealth fund
   },
   
   // First Circle founding members

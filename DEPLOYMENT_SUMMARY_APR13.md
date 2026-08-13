@@ -76,7 +76,7 @@ All pages now share:
 | Sovereignty page | "70/20/10 as protection, not charity" |
 | Manifesto page | "Digital encoding of protection" |
 | Both | "The iron fist in plastic" |
-| Both | "Grandmother's blanket" (community pool) |
+| Both | "Grandmother's blanket" (operations) |
 
 **Themes from Shahid Bolsen discussion:**
 - ✅ Critique of "free agent" as exploitation mask

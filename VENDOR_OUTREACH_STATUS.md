@@ -1,6 +1,6 @@
 # SOLVY Vendor Outreach — Live Status Tracker
 **Last Updated:** July 15, 2026  
-**Owner:** SA Nathan LLC / Sean Mayo  
+**Owner:** SA Nathan LLC / Evergreen Mayo, CEO · Managing Owner  
 
 ---
 

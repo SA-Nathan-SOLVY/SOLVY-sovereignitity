@@ -221,7 +221,7 @@
 
 Every deliverable serves the mandate:
 
-✅ **70% to members** (cooperative economics)  
+✅ **70% to the membership pool** (cooperative economics)  
 ✅ **Member ownership** (NOT equity investors)  
 ✅ **Data sovereignty** (local-first architecture)  
 ✅ **Descendant class protection** (51% minimum)  

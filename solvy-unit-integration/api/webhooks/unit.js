@@ -148,7 +148,7 @@ const handleTransactionCreated = async (transaction) => {
   console.log('💳 Transaction:', transaction.id, `$${amount}`, `Interchange: $${interchange}`);
   
   if (interchange > 0) {
-    // Calculate 70/20/10 distribution
+    // Calculate 70/20/10 allocation (membership pool / operations / sovereign wealth fund)
     const distribution = {
       transactionId: transaction.id,
       accountId: transaction.relationships?.account?.data?.id,

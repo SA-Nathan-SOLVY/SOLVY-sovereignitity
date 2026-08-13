@@ -47,9 +47,9 @@ WHAT'S NEXT:
 • Explore the Data Marketplace — your spending data earns you revenue
 
 OUR 70/20/10 MODEL:
-• 70% of interchange revenue → Member Pool (yours)
-• 20% → Community Development
-• 10% → Sovereign Fund (emergency reserve)
+• 70% of interchange revenue → Membership Pool (held for members; distribution decided later, at maturity, with DECIDEY financial education)
+• 20% → Operations (BaaS, self-sovereign software stack, key employees)
+• 10% → Sovereign Wealth Fund
 
 When you spend with your SOLVY Card™, you're not just a customer — you're an owner.
 
@@ -76,9 +76,9 @@ Product of SA Nathan LLC
   </ul>
   <h3 style="color:#22c55e;">The 70/20/10 Model</h3>
   <ul>
-    <li><strong>70%</strong> of interchange revenue → Member Pool (yours)</li>
-    <li><strong>20%</strong> → Community Development</li>
-    <li><strong>10%</strong> → Sovereign Fund (emergency reserve)</li>
+    <li><strong>70%</strong> of interchange revenue → Membership Pool (held for members; distribution decided later, at maturity, with DECIDEY financial education)</li>
+    <li><strong>20%</strong> → Operations (BaaS, self-sovereign software stack, key employees)</li>
+    <li><strong>10%</strong> → Sovereign Wealth Fund</li>
   </ul>
   <p style="background:#f0fdf4;padding:16px;border-radius:8px;margin-top:24px;">
     <strong>When you spend with your SOLVY Card™, you're not just a customer — you're an owner.</strong>
@@ -132,7 +132,7 @@ async function sendDataPoolReceipt(to, contribution = {}) {
   const subject = 'SOLVY — Data Pool Contribution Received';
   const text = `Thank you for contributing to the "${contribution.poolName || 'Data Pool'}".
 
-Your anonymized data helps researchers and partners understand cooperative economic patterns — and generates revenue shared back to members under our 70/20/10 model.
+Your anonymized data helps researchers and partners understand cooperative economic patterns — and generates revenue that flows into the membership pool under our 70/20/10 model, held for members until the cooperative decides its distribution at maturity.
 
 Pool: ${contribution.poolName || 'N/A'}
 Contribution ID: ${contribution.id || 'N/A'}

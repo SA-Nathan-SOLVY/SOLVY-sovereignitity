@@ -48,11 +48,11 @@
       },
       {
         keywords: ['70/20/10', '70 20 10', 'split', 'dividend', 'profit share', 'interchange', 'revenue split'],
-        response: "The SOLVY 70/20/10 model works like this:\n\n• **70%** — Member patronage dividends (goes back to you and other members)\n• **20%** — Community development pool (invested in cooperative projects)\n• **10%** — Operations reserve (keeps SOLVY running smoothly)\n\nThis means every time you swipe your SOLVY Card, you're building wealth for the entire cooperative."
+        response: "The SOLVY 70/20/10 model works like this:\n\n• **70%** — Membership Pool dividends (goes back to you and other members)\n• **20%** — Operations (invested in cooperative projects)\n• **10%** — Sovereign Wealth Fund (keeps SOLVY running smoothly)\n\nThis means every time you swipe your SOLVY Card, you're building wealth for the entire cooperative."
       },
       {
         keywords: ['cooperative', 'co-op', 'coop', 'what is a cooperative', 'member owned'],
-        response: "A cooperative is a business owned and governed by its members — that's you!\n\nUnlike traditional banks that answer to shareholders, SOLVY answers to its members. You have a vote in how the cooperative operates, and you share in the profits through patronage dividends.\n\nSA Nathan LLC operates as a Wyoming cooperative, which means our legal structure requires member benefit to come first."
+        response: "A cooperative is a business owned and governed by its members — that's you!\n\nUnlike traditional banks that answer to shareholders, SOLVY answers to its members. You have a vote in how the cooperative operates, and you share in the profits through membership pool.\n\nSA Nathan LLC operates as a Wyoming cooperative, which means our legal structure requires member benefit to come first."
       },
       {
         keywords: ['data sovereignty', 'privacy', 'my data', 'who sees my data', 'local storage', 'indexeddb'],
@@ -76,15 +76,15 @@
       },
       {
         keywords: ['onboarding', 'sign up', 'join', 'how do i join', 'become a member', 'member application'],
-        response: "To become a SOLVY member:\n\n1. Visit the onboarding page and complete the member application\n2. Provide required identity verification (KYC) for banking compliance\n3. Fund your account via ACH, wire, or direct deposit\n4. Your SOLVY Card will be mailed to you\n\nAs a cooperative member, you'll receive patronage dividends based on your card usage."
+        response: "To become a SOLVY member:\n\n1. Visit the onboarding page and complete the member application\n2. Provide required identity verification (KYC) for banking compliance\n3. Fund your account via ACH, wire, or direct deposit\n4. Your SOLVY Card will be mailed to you\n\nAs a cooperative member, you'll receive membership pool based on your card usage."
       },
       {
         keywords: ['contact', 'support', 'email', 'phone', 'help desk', 'reach someone'],
         response: "You can reach SOLVY support:\n\n• 📧 Email: support@ebl.beauty\n• 🤖 AI Assistant: Right here, 24/7\n• 👤 Human: Email support@ebl.beauty — we reply within 24 hours\n\nFor urgent issues (lost card, fraud), email immediately and include 'URGENT' in the subject."
       },
       {
-        keywords: ['member pool', 'patronage', 'dividend', 'when do i get paid', 'profit sharing'],
-        response: "The Member Pool (70% of interchange revenue) is distributed as patronage dividends.\n\n• Dividends are calculated based on your card usage volume\n• The more you use your SOLVY Card, the larger your share\n• Distributions happen quarterly after launch\n• You can view your estimated contribution in the MAN portal\n\nThis is real cooperative economics — your spending builds collective wealth."
+        keywords: ['member pool', 'membership', 'dividend', 'when do i get paid', 'profit sharing'],
+        response: "The Member Pool (70% of interchange revenue) is distributed as membership pool.\n\n• Dividends are calculated based on your card usage volume\n• The more you use your SOLVY Card, the larger your share\n• Distributions happen quarterly after launch\n• You can view your estimated contribution in the MAN portal\n\nThis is real cooperative economics — your spending builds collective wealth."
       },
       {
         keywords: ['sovereign fund', 'emergency fund', '10%', 'reserve', 'sovereignitity'],

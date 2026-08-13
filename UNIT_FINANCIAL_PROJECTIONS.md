@@ -17,7 +17,7 @@ SOLVY Cooperative projects generating **$1.84M in interchange revenue** in its f
 - **Revenue**: $183,600 (interchange + fees)
 - **Operating Costs**: $165,240
 - **Net Income**: $18,360 (10% margin)
-- **Member Dividends**: $128,520 (70% of interchange)
+- **Membership Pool**: $128,520 (70% of interchange)
 - **Members Served**: 1,000
 
 ---
@@ -131,8 +131,8 @@ Less: Unit Fees:          ($33,000)
 Net Available:            $129,000
 
 Distribution:
-├─ 70% Member Dividends:  $90,300
-├─ 20% Community Pool:    $25,800
+├─ 70% Membership Pool:  $90,300
+├─ 20% Operations:    $25,800
 └─ 10% Operations:        $12,900
 ```
 
@@ -155,7 +155,7 @@ Distribution:
 | Median | $1,200 | $1,512 | 1,512% |
 | High (90th percentile) | $4,000 | $5,040 | 5,040% |
 
-### 4.3 Community Development Pool (20%)
+### 4.3 Operations (20%)
 
 **Purpose**: Collective benefit projects voted by membership
 
@@ -176,7 +176,7 @@ Distribution:
 
 4. **Reserve**: $2,800
 
-### 4.4 Operations Reserve (10%)
+### 4.4 Sovereign Wealth Fund (10%)
 
 **Purpose**: Administrative costs, regulatory reserve, growth capital
 
@@ -217,7 +217,7 @@ Distribution:
 |---------|---------|-----------------|---------------------------|
 | **Operating Account** | Daily operations, Unit fees | $25,000 | $75,000 |
 | **Member Dividend Reserve** | Quarterly distributions | $50,000 | $120,000 |
-| **Community Pool** | Collective projects | $10,000 | $35,000 |
+| **Operations** | Collective projects | $10,000 | $35,000 |
 | **Regulatory Reserve** | Compliance, emergencies | $50,000 | $104,206 |
 | **Total** | | $135,000 | $334,206 |
 
@@ -366,7 +366,7 @@ LTV = ($150 × 0.85) / 0.028 = $4,554
 
 **Annual** (Members):
 - Audited financial statements
-- Patronage dividend distribution
+- Membership Pool distribution
 - Strategic plan review
 
 ### 10.3 Audit Requirements

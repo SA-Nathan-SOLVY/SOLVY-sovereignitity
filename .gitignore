@@ -1,117 +1,93 @@
-# Dependencies
+<<<<<<< HEAD
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+=======
+# Environment variables and secrets
+.env
+.env.local
+.env.production
+*.env
+
+# Node modules
 node_modules/
 npm-debug.log*
 yarn-debug.log*
-pnpm-debug.log*
+yarn-error.log*
+package-lock.json
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
 
 # Build outputs
 dist/
 build/
-.next/
-out/
-
-# Cache
-.cache/
 *.log
-.DS_Store
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Archives and backups
-*.zip
-*.tar.gz
-*.old
-*.backup
-tools/archives/
-
-# Native build artifacts
-*.ipa
-*.apk
-*.xcarchive/
-DistributionSummary.plist
-solvy-cards/builds/*.ipa
-solvy-cards/builds/*.apk
-solvy-cards/builds/*.xcarchive/
-solvy-cards/builds/dSYMs/
-
-# Git internals
-*.pack
-*.idx
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-venv/
-ENV/
-
-# IDE
-.vscode/settings.json
-.idea/
-*.swp
-*.swo
-
-# OS
-Thumbs.db
-.DS_Store
 
 # SSH keys
 *.pem
 *.key
 id_rsa*
-y
-y.pub
-
-# Sensitive
-*.pdf
-
-# Gitea specific
-gitea-tunnel-setup/.env
-gitea-tunnel-setup/data/
-gitea-tunnel-setup/gitea-data/
-gitea-tunnel-setup/postgres-data/
-gitea-tunnel-setup/backups/
-
-# Ops runtime data
-ops/**/data/
-ops/**/.env
-ops/**/ssl/
+hetzner_key*
 
 # Temporary files
+tmp/
+temp/
 *.tmp
-*.temp
-*.pid
-*.sock
 
-# Large media
-*.mp4
-*.mov
-*.avi
-*.pages
-*.numbers
-SOLVY-Card/
+# OS files
+Thumbs.db
+.DS_Store
 
-# ML training outputs (can be regenerated)
-runs/
-ml/*/dataset/images/
-ml/*/dataset/labels/
+# Backup files
+*.bak
+*.backup
 
-# Vendored runtime binaries (download during setup)
-solvy-cards/public/onnx-wasm/
-solvy-cards/public/tessdata/
-android/keystore.jks
+# Database files (if any)
+*.db
+*.sqlite
+*.sqlite3
 
-# Other domain web roots (not part of SOLVY main site)
-admin.ebl.beauty/
-card.ebl.beauty/
-decidey.ebl.beauty/
-ebl.beauty/
-html/
-nitty.ebl.beauty.backup.*/
-plane.ebl.beauty/
-temp-repo/
+# Logs
+logs/
+*.log
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Deployment artifacts
+.vercel/
+.netlify/
+
+# Personal notes
+notes.md
+TODO.md
+PRIVATE.md
+>>>>>>> 298985252196b1a4adafaec989824d5827f34063

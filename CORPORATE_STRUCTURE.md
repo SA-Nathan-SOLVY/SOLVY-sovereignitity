@@ -96,16 +96,16 @@ Member Purchase → Merchant → Card Network → Thread Bank
                               ┌───────────┼───────────┐
                               ↓           ↓           ↓
                            70%         20%         10%
-                        Members    Community   Operations
-                        Dividends     Pool      Reserve
+                       Membership              Sovereign
+                          Pool   Operations  Wealth Fund
 ```
 
 **Member Economics (Example):**
 - Member monthly spending: $1,200
 - Interchange generated: $18.00
 - SOLVY share: $14.40
-- Member dividend (70%): $10.08/month = $120.96/year
-- **ROI on $100 equity:** 121%
+- Membership pool allocation (70%): $10.08/month = $120.96/year credited to the pool
+- Pool is held for members; distribution decided later, at maturity, with DECIDEY financial education
 
 ### Data Autonomy Features
 
@@ -129,18 +129,18 @@ Member Purchase → Merchant → Card Network → Thread Bank
 #### Class A: Founding Members (First Circle)
 - First 100 members
 - $100 equity contribution
-- Lifetime dividend preference
+- Lifetime membership pool preference
 - Governance voting rights
 
 #### Class B: General Members
 - Post-launch members
 - $100 equity contribution
-- Standard dividend rights
+- Standard membership pool rights
 - Governance voting rights
 
 #### Class C: Descendant Class (Protected)
 - Lineal descendants of Sheila McDaniel
-- Guaranteed 51% of Member Pool distributions
+- Guaranteed 51% of any membership pool distributions
 - Priority access to MOLI benefits (Phase 2)
 
 ### Management Structure
@@ -198,7 +198,7 @@ Member Purchase → Merchant → Card Network → Thread Bank
 - Total initial: $25,000
 
 **Revenue Streams:**
-1. **Primary:** Interchange fee sharing (70% to members)
+1. **Primary:** Interchange fee allocation (70% to the membership pool)
 2. **Secondary:** ACH transfer fees ($0.25/transfer)
 3. **Tertiary:** Premium card upgrades (metal cards)
 4. **Future:** Interest on deposits, MOLI premiums (Phase 2)
@@ -207,9 +207,9 @@ Member Purchase → Merchant → Card Network → Thread Bank
 
 **Bank:** [To be established - requires EIN]
 **Structure:**
-- Operating Account: Daily operations
-- Member Dividend Reserve: Quarterly distributions
-- Community Pool: Collective projects
+- Operating Account: Daily operations (20% — BaaS, software stack, key employees)
+- Membership Pool Account: 70% held for members; distribution decided at maturity
+- Sovereign Wealth Fund: 10% long-term reserve
 - Regulatory Reserve: Compliance capital
 
 ---
@@ -259,7 +259,7 @@ All intellectual property related to SOLVY Ecosystem, DECIDEY, and SOVEREIGNITIT
 | May 2026 | Banking partnership | Unit underwriting complete |
 | June 19, 2026 | Juneteenth Launch | First Circle onboarding |
 | July 2026 | First operations | Revenue tracking begins |
-| September 2026 | First dividend | Q3 distribution |
+| September 2026 | First membership pool allocation | Q3 pool accounting |
 | December 2026 | Annual meeting | Member report |
 
 ---

@@ -143,3 +143,4 @@ Sprint: pre-launch
 |------|--------|-----|
 | 2026-06-12 | Created | @sa-nathan |
 | 2026-07-15 | Resumed after relocation; draft refreshed; sandbox re-tested | @sa-nathan |
+| 2026-08-10 | Full Replit site mirrored to solvy.cards root (51 routes, staged in `solvy-cards-fullsite/`); read-only `/trust-portal-demo` built + live for prospect presentations; nginx `/ebl` alias + `/app` prefix-match bugs fixed; card PWA staged at `/var/www/app.solvy.cards` pending Cloudflare `app` A record | @kimi (agent) |

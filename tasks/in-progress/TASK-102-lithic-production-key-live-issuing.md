@@ -89,6 +89,12 @@ Resumed after relocation. Sandbox re-tested successfully. Production key request
 ### 2026-07-15 - @kimi
 Reset MailCow password for `partnerships@ebl.beauty` via VPS MySQL/doveadm and sent production key request to Lithic (support@lithic.com, partnerships@lithic.com). Password stored in root `.env` as `PARTNERSHIPS_EBL_PASS`.
 
+### 2026-07-19 - @kimi
+Trust account at Navy Federal Credit Union confirmed active. Updated underwriting pages (`Underwriting.tsx`, `UnderwritingReview.tsx`) to be vendor-agnostic / Lithic-ready — removed Unit.co-specific IDs and FDIC language, added NFCU settlement note, updated launch date to 2026. Drafted trust-active follow-up email at `drafts/lithic-trust-active-follow-up.md`.
+
+### 2026-07-19 - @kimi
+Updated Evergreen Mayo's contact email to `eva@solvy.cards` across Lithic drafts and team listings. Built received-email viewer in `Mailbox.tsx`. Initially wired to AgentMail SDK, then switched to **Mailcow IMAP** (`server/mailcowService.ts`) because Mailcow is the operational mail server on the VPS. Added backend routes `/api/email/inboxes`, `/api/email/inbox/:inboxKey`, and `/api/email/message/:inboxKey/:messageId`. Added required IMAP credentials to `.env.example`.
+
 ---
 
 ## 🏷️ Labels

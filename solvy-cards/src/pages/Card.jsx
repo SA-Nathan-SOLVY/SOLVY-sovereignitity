@@ -74,9 +74,9 @@ function Card() {
           70/20/10 Economic Model
         </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          <ModelBar label="Member Dividends" percent={70} color="#22c55e" />
-          <ModelBar label="Community Development" percent={20} color="#3b82f6" />
-          <ModelBar label="Operations Reserve" percent={10} color="#a855f7" />
+          <ModelBar label="Membership Pool" percent={70} color="#22c55e" />
+          <ModelBar label="Operations" percent={20} color="#3b82f6" />
+          <ModelBar label="Sovereign Wealth Fund" percent={10} color="#a855f7" />
         </div>
       </div>
 

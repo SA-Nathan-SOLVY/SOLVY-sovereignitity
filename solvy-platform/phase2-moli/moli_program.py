@@ -8,7 +8,7 @@ perpetual generational protection through cooperative-owned whole life insurance
 Architecture:
 - Cooperative (SA Nathan LLC) owns the policy
 - Member is the insured
-- Cash value growth flows back as patronage dividends (70/20/10)
+- Cash value growth flows back as membership pool (70/20/10)
 - Tax-free policy loans collateralized by cooperative-owned cash value
 """
 
@@ -66,20 +66,20 @@ class MOLIProgram:
         """
         Route member premium through the Sheila Mandate split.
         
-        70% -> Member patronage / cash value allocation
-        20% -> Community death benefit reserves
+        70% -> Membership Pool / cash value allocation
+        20% -> Operations (BaaS, self-sovereign software stack, key employees)
         10% -> MOLI administration & operations
         """
         if member_premium <= 0:
             raise ValueError("Premium must be positive")
         
-        patronage = (member_premium * MOLIPolicy.PATRONAGE_RATIO).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+        membership = (member_premium * MOLIPolicy.PATRONAGE_RATIO).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
         community = (member_premium * MOLIPolicy.COMMUNITY_RATIO).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
         operations = (member_premium * MOLIPolicy.OPERATIONS_RATIO).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
         
         # Adjust for rounding remainder
-        remainder = member_premium - (patronage + community + operations)
-        patronage += remainder
+        remainder = member_premium - (membership + community + operations)
+        membership += remainder
         
         # Update cooperative reserves
         self.community_pool += community
@@ -87,10 +87,10 @@ class MOLIProgram:
         
         # Allocate to member's policy cash value if exists
         if member_id in self.policies:
-            self.policies[member_id].cash_value += patronage
+            self.policies[member_id].cash_value += membership
         
         return {
-            "cash_value_growth": patronage,
+            "cash_value_growth": membership,
             "community_pool": community,
             "operations": operations,
             "total_premium": member_premium
@@ -146,5 +146,5 @@ class MOLIProgram:
             "total_cash_value": str(total_cv),
             "community_pool": str(self.community_pool),
             "operations_reserve": str(self.operations_reserve),
-            "mandate": "70% patronage / 20% community blanket / 10% fist maintenance"
+            "mandate": "70% membership pool / 20% operations / 10% sovereign wealth fund"
         }

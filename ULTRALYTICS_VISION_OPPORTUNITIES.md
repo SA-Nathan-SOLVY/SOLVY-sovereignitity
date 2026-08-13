@@ -1,7 +1,7 @@
 # Ultralytics Computer Vision Opportunities for SOLVY Ecosystem™
 
-> **Status:** Strategic research for later features — post Foundation First / post-launch.  
-> **Constraint:** Must align with SOLVY's local-first, consent-based data sovereignty architecture.  
+> **Status:** Strategic research for later features — post Foundation First / post-launch.
+> **Constraint:** Must align with SOLVY's local-first, consent-based data sovereignty architecture.
 > **Vendor context:** SOLVY is using **Lithic** as the debit card vendor and is building a vendor-agnostic banking layer.
 
 ---
@@ -28,7 +28,7 @@ For SOLVY, the deeper fit is **Sovereign AI**: deploying and controlling the ent
 | **Sovereign Infrastructure** | Self-host YOLO models on Hetzner VPS, edge nodes, or member devices. Full control over compute, inference, and data flow. |
 | **Edge AI / Local Processing** | Run YOLO on smartphones, browsers, Raspberry Pi, or Coral TPU. Raw images never leave the device. |
 | **Automated Anonymization** | Detect and blur faces, license plates, full card PANs, and sensitive document regions in real time before any storage or sharing. |
-| **Consent & Audit** | Every vision-derived output flows through existing `voting-widget.js` and `data-pool-optin.js` governance. Immutable audit log for all access. |
+| **Consent & Audit** | Every vision-derived output flows through existing `voting-widget.js` and `data-pool-option.js` governance. Immutable audit log for all access. |
 | **Machine Unlearning** | For model retraining use cases, track which member data influenced model updates; on member withdrawal, remove or retrain to eliminate that influence. |
 
 ## Priority 1: Near-Term / Post-Launch Fits
@@ -166,7 +166,7 @@ For SOLVY, the deeper fit is **Sovereign AI**: deploying and controlling the ent
 **Data sovereignty alignment:**
 - On-device / edge inference; raw video never stored centrally.
 - Only anonymized counts and time-bucketed aggregates are shared.
-- Requires member vote and per-location opt-in, mirroring `data-pool-optin.js` flow.
+- Requires member vote and per-location opt-in, mirroring `data-pool-option.js` flow.
 
 **Recommended model:** YOLOv8n-pose or YOLOv8n for person detection; on-device Edge TPU / Raspberry Pi deployment.
 
@@ -360,5 +360,5 @@ The most strategically resonant framing, however, is **Sovereign AI Infrastructu
 
 ---
 
-*Document created: June 21, 2026*  
+*Document created: June 21, 2026*
 *For later features — Foundation First launch remains the priority.*

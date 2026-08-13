@@ -1,7 +1,7 @@
 ---
 **To:** support@lithic.com, partnerships@lithic.com
 **Cc:** hello@ebl.beauty
-**From:** Sean Mayo <hello@ebl.beauty>
+**From:** Evergreen Mayo <eva@solvy.cards>
 **Subject:** Production API Access Request — SA Nathan LLC / SOLVY Ecosystem™
 ---
 
@@ -40,7 +40,7 @@ We are happy to provide our business plan, financial projections, compliance pol
 Thank you for your time and consideration. We would be honored to partner with Lithic for our cooperative card program.
 
 —
-Sean Mayo
-Managing Member, SA Nathan LLC
-hello@ebl.beauty
+Evergreen Mayo
+CEO / Managing Owner, SA Nathan LLC
+eva@solvy.cards
 https://solvy.cards

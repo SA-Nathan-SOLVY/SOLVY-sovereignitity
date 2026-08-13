@@ -211,7 +211,7 @@ If Treasury Prime approves first → use Treasury Prime
 
 4. **Cooperative model:** Be upfront that SOLVY is member-owned. Ask about:
    - Revenue share for cooperatives
-   - Patronage dividend reporting
+   - Membership Pool reporting
    - 1099-INT filing (they support this!)
 
 ---

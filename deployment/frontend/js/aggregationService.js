@@ -18,7 +18,7 @@ const AggregationService = {
   config: {
     API_ENDPOINT: (typeof SOLVY_API_URL !== 'undefined' && SOLVY_API_URL) || '/api/metrics',
     INTERCHANGE_RATE: 0.015, // 1.5% industry average
-    MEMBER_POOL_SHARE: 0.70, // 70% of interchange to members
+    MEMBER_POOL_SHARE: 0.70, // 70% of interchange to the membership pool
     SYNC_TIMEOUT_MS: 5000,
     DEBUG: false
   },

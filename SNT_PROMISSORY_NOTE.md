@@ -8,6 +8,6 @@ Borrower acknowledges that:
 
 (a) The funds represent the iron fist protection legacy of ADOS, Puerto Rican, and Filipino grandmothers;
 
-(b) The SOLVY Card system must maintain at minimum 70% patronage return to members, ensuring no descendant is left with "nothing" as the Grantor was;
+(b) The SOLVY Card system must maintain at minimum a 70% membership pool held for members — with distribution decided later, at maturity, guided by DECIDEY financial education — ensuring no descendant is left with "nothing" as the Grantor was;
 
 (c) The Mandatory Audit Network (MAN) shall maintain transparent records accessible to the Grantor's descendants as a form of digital witness to the fulfillment of her mandate.

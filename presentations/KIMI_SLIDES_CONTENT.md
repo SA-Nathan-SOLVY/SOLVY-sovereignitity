@@ -42,16 +42,16 @@ Body: At its center is the SOLVY Card™ — a debit card that earns revenue fro
 Visual: Card mockup, flowing arrows
 
 Slide 5 - THE 70/20/10 MODEL
-Headline: "Every dollar is tracked. Every member profits."
+Headline: "Every dollar is tracked. Every member benefits."
 Body: 
-• 70% → Member Pool (future benefits)
-• 20% → Operations & Growth
-• 10% → Sovereign Fund (emergency reserves)
+• 70% → Membership pool (held for members; distribution decided at maturity)
+• 20% → Operations (BaaS, software stack, key employees)
+• 10% → Sovereign wealth fund
 Visual: Pie chart or three-column layout
 
 Slide 6 - MEMBER POOL & MOLI
 Headline: "Building toward member-owned life insurance."
-Body: The 70% Member Pool is reserved for future benefits, starting with MOLI — putting bank-style benefits in members' hands.
+Body: The 70% membership pool is reserved for members' future benefits, starting with MOLI — putting bank-style benefits in members' hands.
 Visual: Growth chart, future-focused imagery
 
 Slide 7 - TRANSPARENCY (MAN)
@@ -108,7 +108,7 @@ Contact: Sean Mayo, Managing Member
 
 Slide 2 - EXECUTIVE SUMMARY
 Headline: "Generational Wealth Through Cooperative Banking"
-Body: SOLVY Ecosystem™ is a cooperative neobank serving ADOS, Indigenous, and Global South communities. Our 70/20/10 model returns 70% of revenue directly to members. We request [AMOUNT] to serve 1,000 members in Year 1.
+Body: SOLVY Ecosystem™ is a cooperative neobank serving ADOS, Indigenous, and Global South communities. Our 70/20/10 model allocates 70% of revenue to a membership pool held for members. We request [AMOUNT] to serve 1,000 members in Year 1.
 
 Slide 3 - THE PROBLEM
 Headline: "Economic Exclusion is Systemic"
@@ -128,7 +128,7 @@ Geography: Texas Year 1, CA/FL/NY Year 2
 
 Slide 5 - OUR SOLUTION
 Headline: "SOLVY Ecosystem™: Member-Owned Banking"
-Body: Cooperative neobank where members own the platform. SOLVY Card™ generates interchange revenue. 70% flows to Member Pool for patronage dividends and future benefits (MOLI).
+Body: Cooperative neobank where members own the platform. SOLVY Card™ generates interchange revenue. 70% flows to the membership pool — held for members, with distribution decided at maturity and future benefits like MOLI on the roadmap.
 
 Slide 6 - BUSINESS MODEL
 Headline: "Sustainable Cooperative Economics"
@@ -142,9 +142,9 @@ Break-even: Month 4 (150 members)
 Slide 7 - 70/20/10 MODEL
 Headline: "Profits Flow to Members"
 Visual: Pie chart
-• 70% Member Pool (dividends + MOLI)
+• 70% Membership pool (held for members; MOLI roadmap)
 • 20% Operations
-• 10% Sovereign Fund
+• 10% Sovereign wealth fund
 Unlike traditional banks, shareholders don't extract value.
 
 Slide 8 - TRACTION TO DATE
@@ -166,9 +166,9 @@ Marketing: $12K (10%)
 
 Slide 10 - IMPACT PROJECTIONS
 Headline: "Measurable Generational Impact"
-Year 1: 1,000 members, $292K revenue, $128K member dividends
-Year 2: 5,000 members, $1.2M revenue, $588K member dividends
-Year 3: 10,000 members, $2.8M revenue, $1.4M member dividends
+Year 1: 1,000 members, $292K revenue, $128K membership pool
+Year 2: 5,000 members, $1.2M revenue, $588K membership pool
+Year 3: 10,000 members, $2.8M revenue, $1.4M membership pool
 
 Slide 11 - TEAM & GOVERNANCE
 Headline: "Experienced Leadership, Cooperative Structure"
@@ -261,21 +261,21 @@ Visual: OneAmerica logo (if permissible), comparison graphic
 
 Slide 7 - BUT WAIT, THERE'S MORE
 Headline: "Your Bank, Member-Owned"
-Body: This isn't just about convenience. SOLVY is a cooperative. You own it. 70% of all interchange revenue flows back to members — not Wells Fargo shareholders.
+Body: This isn't just about convenience. SOLVY is a cooperative. You own it. 70% of all interchange revenue flows to the membership pool — held for members, not Wells Fargo shareholders.
 Visual: Cooperative ownership graphic, 70/20/10 breakdown
 
 Slide 8 - THE 70/20/10 MODEL
 Headline: "Profits Flow to Members, Not Wall Street"
 Body:
-• 70% → Member Pool (your dividends + future MOLI)
+• 70% → Membership pool (held for members; distribution decided at maturity, with DECIDEY financial education)
 • 20% → Operations (sustainable growth)
-• 10% → Sovereign Fund (emergency reserves)
-Every swipe = revenue to you and fellow members.
+• 10% → Sovereign wealth fund
+Every swipe = revenue pooled for you and fellow members.
 Visual: Flow diagram, member community
 
 Slide 9 - MOLI: THE FUTURE
 Headline: "Building Toward Member-Owned Life Insurance"
-Body: The 70% Member Pool will fund MOLI — putting BOLI-style benefits in members' hands. Banks use BOLI to fund executive benefits. We put that power in your hands.
+Body: The 70% membership pool will fund MOLI — putting BOLI-style benefits in members' hands. Banks use BOLI to fund executive benefits. We put that power in your hands.
 Visual: MOLI concept graphic, comparison to BOLI
 
 Slide 10 - TRANSPARENCY
