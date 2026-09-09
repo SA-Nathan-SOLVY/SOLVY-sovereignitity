@@ -1,0 +1,2545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAFO AABO Special Needs Trust™ | Family Trust Portal</title>
+    <meta name="description" content="MAFO AABO Special Needs Trust record-keeping portal for Trustee, Grantor, and Beneficiary access. EIN 42-6978754.">
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --mafo-gold: #f59e0b;
+            --mafo-gold-soft: rgba(245, 158, 11, 0.12);
+            --mafo-green: #22c55e;
+            --mafo-green-soft: rgba(34, 197, 94, 0.12);
+            --mafo-navy: #0f1e2c;
+            --mafo-slate: #1e293b;
+            --mafo-text: #1d1d1f;
+            --mafo-muted: #86868b;
+            --mafo-bg: #f5f5f7;
+            --mafo-card: #ffffff;
+            --mafo-border: #e8e8ed;
+            --mafo-purple: #9333ea;
+            --mafo-red: #dc2626;
+            --shadow-card: 0 4px 24px rgba(0,0,0,0.06);
+            --shadow-lift: 0 12px 32px rgba(0,0,0,0.10);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, 'Segoe UI', Roboto, sans-serif;
+            background: var(--mafo-bg);
+            color: var(--mafo-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .amount, .stat-amount, .tc-balance, .tc-mini, .detail-amount, .feed-amount, .lg-amt {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Preview banner */
+        .preview-banner {
+            background: linear-gradient(90deg, var(--mafo-navy), #1e3a4d);
+            color: #fff;
+            text-align: center;
+            padding: 5px 14px;
+            font-size: 0.72rem;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+        .preview-banner strong { color: var(--mafo-gold); }
+
+        /* Login overlay */
+        #loginOverlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(1000px 500px at 75% -10%, #1e3a4d 0%, var(--mafo-navy) 60%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .login-box {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+        .login-box h1 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .login-box h1 span { color: var(--mafo-gold); }
+        .login-box .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .role-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid #334155;
+            border-radius: 22px;
+            padding: 28px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #e2e8f0;
+        }
+        .role-card:hover {
+            border-color: var(--mafo-gold);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.35);
+        }
+        .role-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 14px;
+        }
+        .role-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+            color: white;
+        }
+        .role-card .role-person {
+            color: var(--mafo-gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        .role-card p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+        .role-card .code {
+            display: inline-block;
+            background: rgba(255,255,255,0.08);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: 'SF Mono', ui-monospace, monospace;
+            font-size: 0.8rem;
+            color: var(--mafo-gold);
+        }
+        .login-footer {
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+        #loginError {
+            color: #f87171;
+            margin-top: 16px;
+            display: none;
+        }
+
+        /* App layout */
+        .app-container { display: flex; min-height: calc(100vh - 28px); }
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 30, 44, 0.94);
+            backdrop-filter: blur(18px) saturate(1.3);
+            color: #e0e7ef;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 28px;
+            height: calc(100vh - 28px);
+            flex-shrink: 0;
+        }
+        .logo-area {
+            padding: 22px 20px;
+            border-bottom: 1px solid #1e3a4d;
+            margin-bottom: 16px;
+        }
+        .logo { font-size: 1.45rem; font-weight: 700; }
+        .logo span { color: var(--mafo-gold); }
+        .logo-sub { font-size: 0.7rem; opacity: 0.7; margin-top: 4px; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 18px;
+            margin: 3px 12px;
+            border-radius: 999px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: calc(100% - 24px);
+            font-size: 0.9rem;
+            text-align: left;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.06); color: white; }
+        .nav-item.active { background: var(--mafo-gold-soft); color: var(--mafo-gold); font-weight: 600; }
+        .nav-item .lock { margin-left: auto; font-size: 0.65rem; opacity: 0.5; }
+        .role-badge {
+            margin: auto 16px 16px;
+            padding: 14px;
+            background: #1e3a4d;
+            border-radius: 18px;
+            font-size: 0.82rem;
+        }
+        .role-badge .role-label { opacity: 0.6; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; }
+        .role-badge .role-name { font-weight: 700; color: var(--mafo-gold); }
+        .role-badge .role-title { font-size: 0.75rem; color: #94a3b8; }
+
+        /* Main */
+        .main-content { flex: 1; padding: 24px 30px; overflow-x: auto; }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        .page-title h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+        .page-title p { color: var(--mafo-muted); font-size: 0.85rem; margin-top: 4px; }
+        .page-title .tagline { color: #b45309; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .access-pill {
+            background: var(--mafo-gold-soft);
+            color: #92400e;
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+        .stat-card {
+            background: var(--mafo-card);
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: var(--shadow-card);
+        }
+        .stat-title { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; color: var(--mafo-muted); margin-bottom: 6px; }
+        .stat-amount { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; }
+        .stat-amount.gold { color: #b45309; }
+        .stat-amount.green { color: #15803d; }
+        .stat-amount.navy { color: var(--mafo-navy); }
+        .stat-amount.purple { color: #7c3aed; }
+        .stat-amount.red { color: var(--mafo-red); }
+        .stat-amount.pending { color: #b45309; }
+        .stat-amount.approved { color: #15803d; }
+        .stat-amount.spent { color: var(--mafo-navy); }
+        .stat-note { font-size: 0.72rem; color: var(--mafo-muted); margin-top: 6px; }
+
+        /* Cards */
+        .card {
+            background: var(--mafo-card);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 18px;
+        }
+        .card h3 { font-size: 1rem; margin-bottom: 14px; color: var(--mafo-navy); display: flex; align-items: center; gap: 8px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 12px; }
+        .card-header h3 { margin: 0; }
+
+        /* Trust card hero */
+        .trust-card {
+            background: linear-gradient(135deg, #0f1e2c 0%, #1e3a4d 58%, #2b5066 100%);
+            border-radius: 24px;
+            padding: 28px;
+            color: #fff;
+            box-shadow: 0 18px 44px rgba(15,30,44,0.35);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+        .trust-card::after {
+            content: '';
+            position: absolute;
+            right: -70px;
+            top: -70px;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(245,158,11,0.28) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .tc-brand { font-size: 0.72rem; letter-spacing: 1.6px; text-transform: uppercase; color: var(--mafo-gold); font-weight: 700; }
+        .tc-label { color: #9fb3c8; font-size: 0.8rem; margin-top: 14px; }
+        .tc-balance { font-size: 2.6rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+        .tc-split { display: flex; gap: 34px; margin-top: 10px; flex-wrap: wrap; }
+        .tc-split .tc-label { margin-top: 0; }
+        .tc-mini { font-size: 1.15rem; font-weight: 700; }
+        .tc-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; font-size: 0.8rem; color: #9fb3c8; flex-wrap: wrap; gap: 8px; }
+        .tc-ein { font-family: 'SF Mono', ui-monospace, monospace; letter-spacing: 2px; color: #e2e8f0; }
+
+        /* Activity feed */
+        .feed-item { display: flex; gap: 12px; padding: 11px 6px; border-bottom: 1px solid #f0f0f3; align-items: center; border-radius: 12px; }
+        .feed-item:last-child { border-bottom: none; }
+        .feed-item.clickable { cursor: pointer; }
+        .feed-item.clickable:hover { background: var(--mafo-bg); }
+        .feed-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; background: var(--mafo-gold-soft); flex-shrink: 0; }
+        .feed-text { flex: 1; font-size: 0.85rem; min-width: 0; }
+        .feed-text .feed-sub { font-size: 0.72rem; color: var(--mafo-muted); }
+        .feed-time { font-size: 0.7rem; color: var(--mafo-muted); white-space: nowrap; }
+        .feed-amount { font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
+
+        /* Charts (hand-rolled inline SVG — CSP allows no external libs) */
+        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .chart-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--mafo-muted); margin-bottom: 12px; font-weight: 700; }
+        .donut-wrap { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+        .donut-legend { flex: 1; min-width: 150px; }
+        .legend-row { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; padding: 4px 0; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .legend-row .lg-amt { margin-left: auto; font-weight: 600; }
+
+        /* Status stepper */
+        .stepper { display: flex; align-items: flex-start; margin: 20px 0 6px; }
+        .step { flex: 1; text-align: center; position: relative; }
+        .step::after { content: ''; position: absolute; top: 13px; left: calc(-50% + 15px); right: calc(50% + 15px); height: 2px; background: #e8e8ed; }
+        .step:first-child::after { display: none; }
+        .step.done::after { background: var(--mafo-green); }
+        .step .dot {
+            width: 28px; height: 28px; border-radius: 50%;
+            margin: 0 auto 6px; display: flex; align-items: center; justify-content: center;
+            background: #f0f0f3; color: var(--mafo-muted);
+            font-size: 0.72rem; font-weight: 700; border: 2px solid #e8e8ed;
+            position: relative; z-index: 1;
+        }
+        .step.done .dot { background: var(--mafo-green); border-color: var(--mafo-green); color: #fff; }
+        .step.current .dot { background: #fff; border-color: var(--mafo-gold); color: #b45309; box-shadow: 0 0 0 5px var(--mafo-gold-soft); }
+        .step.rejected .dot { background: var(--mafo-red); border-color: var(--mafo-red); color: #fff; }
+        .step.rejected::after { background: var(--mafo-red); }
+        .step .step-label { font-size: 0.68rem; color: var(--mafo-muted); font-weight: 600; }
+        .step.current .step-label, .step.rejected .step-label { color: var(--mafo-text); }
+        .step .step-date { font-size: 0.62rem; color: var(--mafo-muted); margin-top: 2px; }
+
+        /* Request detail sheet */
+        .detail-amount { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+        .detail-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; font-size: 0.85rem; margin-bottom: 12px; }
+        .detail-meta span { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--mafo-muted); font-weight: 700; }
+        .detail-desc { font-size: 0.85rem; color: var(--mafo-muted); background: var(--mafo-bg); border-radius: 14px; padding: 12px 14px; }
+        .detail-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+
+        /* Table */
+        .table-wrapper { overflow-x: auto; background: var(--mafo-card); border-radius: 20px; box-shadow: var(--shadow-card); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #f0f0f3; }
+        th { background: #fafafc; font-weight: 700; color: var(--mafo-muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        tr:hover { background: #fafafc; }
+        tr.clickable { cursor: pointer; }
+        tr:last-child td { border-bottom: none; }
+        .amount { font-family: 'SF Mono', ui-monospace, monospace; font-weight: 600; }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-active { background: #dcfce7; color: #166534; }
+        .status-paid { background: #e0e7ff; color: #3730a3; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-approved { background: #dcfce7; color: #166534; }
+        .status-rejected { background: #fee2e2; color: #991b1b; }
+        .status-tax { background: #dbeafe; color: #1e40af; }
+
+        /* Buttons — Apple Pay style pills */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s;
+        }
+        .btn:active { transform: scale(0.96); }
+        .btn-primary { background: var(--mafo-navy); color: white; box-shadow: 0 4px 14px rgba(15,30,44,0.25); }
+        .btn-primary:hover { background: #1a3049; }
+        .btn-secondary { background: white; color: var(--mafo-navy); border: 1px solid var(--mafo-border); }
+        .btn-secondary:hover { background: #f5f5f7; }
+        .btn-success { background: #16a34a; color: white; }
+        .btn-danger { background: #dc2626; color: white; }
+        .btn-sm { padding: 7px 14px; font-size: 0.75rem; }
+
+        /* Document styling */
+        .document-card {
+            background: white;
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: var(--shadow-card);
+            max-width: 900px;
+        }
+        .doc-header {
+            text-align: center;
+            border-bottom: 2px solid var(--mafo-navy);
+            padding-bottom: 20px;
+            margin-bottom: 28px;
+        }
+        .doc-header h2 { font-size: 1.4rem; color: var(--mafo-navy); margin-bottom: 6px; }
+        .doc-header .doc-subtitle { color: var(--mafo-muted); font-size: 0.9rem; }
+        .doc-header .doc-date { color: var(--mafo-muted); font-size: 0.8rem; margin-top: 6px; }
+        article { margin-bottom: 26px; }
+        article h3 { font-size: 1.05rem; color: var(--mafo-navy); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--mafo-border); }
+        article h4 { font-size: 0.95rem; color: #1e3a4d; margin: 14px 0 6px; }
+        article p { margin-bottom: 10px; text-align: justify; font-size: 0.88rem; }
+        article ul { margin: 6px 0 10px 22px; font-size: 0.88rem; }
+        article li { margin-bottom: 5px; }
+        .parties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin: 14px 0;
+        }
+        .party-card {
+            background: var(--mafo-bg);
+            padding: 14px;
+            border-radius: 16px;
+            border-left: 4px solid var(--mafo-gold);
+        }
+        .party-role { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--mafo-muted); margin-bottom: 4px; }
+        .party-name { font-weight: 700; color: var(--mafo-navy); font-size: 0.92rem; }
+        .party-detail { font-size: 0.8rem; color: var(--mafo-muted); }
+        .warning-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 16px;
+            padding: 14px;
+            margin: 14px 0;
+            color: #7f1d1d;
+            font-size: 0.85rem;
+        }
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 16px;
+            padding: 14px;
+            margin: 14px 0;
+            color: #1e40af;
+            font-size: 0.85rem;
+        }
+        .success-box {
+            background: var(--mafo-green-soft);
+            border: 1px solid rgba(34,197,94,0.2);
+            border-radius: 16px;
+            padding: 14px;
+            margin: 14px 0;
+            color: #166534;
+            font-size: 0.85rem;
+        }
+
+        /* Feature list */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+        .feature-tile {
+            background: var(--mafo-card);
+            border-radius: 20px;
+            padding: 18px;
+            position: relative;
+            box-shadow: var(--shadow-card);
+        }
+        .feature-tile .icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .feature-tile h4 { font-size: 0.92rem; margin-bottom: 5px; color: var(--mafo-navy); }
+        .feature-tile p { font-size: 0.78rem; color: var(--mafo-muted); }
+
+        /* Tabs */
+        .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+        .tab {
+            padding: 8px 16px;
+            border: none;
+            background: #ececf0;
+            border-radius: 999px;
+            font-weight: 600;
+            color: var(--mafo-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.15s;
+        }
+        .tab.active { background: var(--mafo-navy); color: #fff; }
+
+        /* Forms */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-size: 0.72rem; font-weight: 700; color: var(--mafo-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 11px 14px;
+            border: 1px solid #d2d2d7;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            outline: none;
+            font-family: inherit;
+            background: #fff;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--mafo-navy);
+            box-shadow: 0 0 0 4px rgba(15,30,44,0.08);
+        }
+        .form-group textarea { min-height: 70px; resize: vertical; }
+
+        /* Modal — centered card with backdrop blur on desktop, bottom sheet on mobile */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15,30,44,0.45);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 28px;
+            box-shadow: 0 24px 70px rgba(0,0,0,0.25);
+        }
+        .modal h2 { margin-bottom: 18px; font-size: 1.2rem; letter-spacing: -0.01em; }
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; flex-wrap: wrap; }
+
+        /* More sheet (mobile nav) */
+        .more-list { display: flex; flex-direction: column; gap: 4px; }
+        .more-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 13px 14px; border-radius: 14px;
+            background: none; border: none; cursor: pointer;
+            font-size: 0.92rem; font-weight: 600; color: var(--mafo-text);
+            text-align: left; text-decoration: none; width: 100%;
+            font-family: inherit;
+        }
+        .more-item:hover { background: var(--mafo-bg); }
+
+        /* Toasts */
+        #toastContainer {
+            position: fixed; top: 46px; left: 50%; transform: translateX(-50%);
+            z-index: 12000; display: flex; flex-direction: column; gap: 8px; align-items: center;
+            pointer-events: none; width: max-content; max-width: 92vw;
+        }
+        .toast {
+            background: var(--mafo-navy); color: #fff;
+            padding: 11px 20px; border-radius: 999px;
+            font-size: 0.85rem; font-weight: 600;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+            animation: toastIn 0.25s ease;
+            max-width: 92vw; text-align: center;
+        }
+        .toast.success { background: #14532d; }
+        .toast.error { background: #7f1d1d; }
+        .toast.hide { animation: toastOut 0.3s ease forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+        @keyframes toastOut { to { opacity: 0; transform: translateY(-12px); } }
+
+        /* Skeleton shimmer */
+        .skeleton { position: relative; overflow: hidden; background: #ececf0; border-radius: 10px; }
+        .skeleton::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.75), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 1.2s infinite;
+        }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+        .skeleton-line { height: 16px; margin: 13px 0; }
+        .skeleton-card { height: 96px; border-radius: 20px; }
+        .skeleton-hero { height: 190px; border-radius: 24px; margin-bottom: 22px; }
+
+        /* Empty states */
+        .empty-state { text-align: center; padding: 34px 16px; color: var(--mafo-muted); }
+        .empty-state .es-icon { font-size: 1.9rem; margin-bottom: 8px; }
+        .empty-state .es-msg { font-size: 0.88rem; font-weight: 600; color: var(--mafo-text); }
+        .empty-state .es-sub { font-size: 0.75rem; margin-top: 2px; }
+
+        /* Sheila care */
+        .care-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+        .care-card {
+            background: white;
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: var(--shadow-card);
+        }
+        .care-card h4 { font-size: 0.95rem; margin-bottom: 8px; color: var(--mafo-navy); }
+        .care-card p { font-size: 0.82rem; color: var(--mafo-muted); }
+        .care-card .check { color: var(--mafo-green); font-weight: 700; margin-right: 6px; }
+
+        .hidden { display: none !important; }
+
+        /* Bottom tab bar (mobile) */
+        .bottom-tabbar { display: none; }
+
+        @media (max-width: 900px) {
+            .app-container { flex-direction: column; min-height: 100vh; }
+            .sidebar { display: none; }
+            .role-badge { display: none; }
+            .main-content { padding: 18px 18px 100px; }
+            .charts-grid { grid-template-columns: 1fr; }
+            .bottom-tabbar {
+                display: flex;
+                position: fixed;
+                bottom: 0; left: 0; right: 0;
+                background: rgba(255,255,255,0.92);
+                backdrop-filter: blur(18px);
+                border-top: 1px solid var(--mafo-border);
+                z-index: 900;
+                padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+            }
+            .tab-item {
+                flex: 1;
+                display: flex; flex-direction: column; align-items: center; gap: 2px;
+                background: none; border: none; padding: 6px 2px;
+                font-size: 0.62rem; font-weight: 600; color: var(--mafo-muted);
+                cursor: pointer; border-radius: 12px; font-family: inherit;
+            }
+            .tab-item .tab-ico { font-size: 1.15rem; }
+            .tab-item.active { color: var(--mafo-navy); }
+        }
+        @media (max-width: 600px) {
+            .top-bar { flex-direction: column; }
+            .document-card { padding: 22px; }
+            .role-cards { grid-template-columns: 1fr; }
+            .detail-meta { grid-template-columns: 1fr; }
+            .tc-balance { font-size: 2.1rem; }
+            .modal-overlay { padding: 0; align-items: flex-end; }
+            .modal {
+                border-radius: 24px 24px 0 0;
+                max-width: 100%;
+                max-height: 88vh;
+                padding: 14px 20px calc(24px + env(safe-area-inset-bottom));
+                animation: sheetUp 0.28s ease;
+            }
+            .modal::before {
+                content: '';
+                display: block;
+                width: 40px; height: 4px;
+                border-radius: 2px;
+                background: #d8d8de;
+                margin: 0 auto 16px;
+            }
+        }
+        @keyframes sheetUp { from { transform: translateY(60px); opacity: 0; } to { transform: none; opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="preview-banner">
+    🔒 <strong>Confidential</strong> — MAFO AABO Trust™ live record-keeping. Authorized family members only. Record-keeping tool only — the executed trust instrument governs.
+</div>
+
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay">
+    <div class="login-box">
+        <h1>MAFO <span>AABO</span> Special Needs Trust™</h1>
+        <p class="subtitle">First-Party Self-Settled Special Needs Trust under 42 U.S.C. § 1396p(d)(4)(A)<br>EIN 42-6978754<br>Choose your role and enter your personal access code.</p>
+
+        <div class="role-cards">
+            <div class="role-card" onclick="selectRole('trustee')">
+                <div class="icon">🛡️</div>
+                <h3>Trustee & SCRUM Master</h3>
+                <div class="role-person">Sean Marlon II McDaniel</div>
+                <p>Full trust administration: approve expenses, execute payments, manage loans, view audit trail.</p>
+            </div>
+
+            <div class="role-card" onclick="selectRole('grantor')">
+                <div class="icon">👑</div>
+                <h3>Grantor</h3>
+                <div class="role-person">Sheila Ann McDaniel</div>
+                <p>Read-only view of the trust she created. See how her gift is protected and used for Sean Maurice.</p>
+            </div>
+
+            <div class="role-card" onclick="selectRole('beneficiary')">
+                <div class="icon">🤝</div>
+                <h3>Beneficiary</h3>
+                <div class="role-person">Sean Maurice Mayo (MAFO AABO)</div>
+                <p>Request supplemental needs, view approved distributions, see trust protections that apply to him.</p>
+            </div>
+        </div>
+
+        <div id="codePrompt" style="display:none;max-width:380px;margin:0 auto 20px;">
+            <p style="color:#94a3b8;font-size:0.85rem;margin-bottom:10px;">Access code for <strong id="codeRoleName" style="color:var(--mafo-gold);"></strong></p>
+            <div style="display:flex;gap:10px;">
+                <input type="password" id="accessCodeInput" placeholder="Personal access code" autocomplete="off"
+                       style="flex:1;padding:12px 14px;border-radius:10px;border:1px solid #334155;background:var(--mafo-slate);color:#e2e8f0;font-size:0.95rem;outline:none;"
+                       onkeydown="if(event.key==='Enter')submitLogin()">
+                <button class="btn btn-primary" onclick="submitLogin()">Sign In</button>
+            </div>
+        </div>
+
+        <div class="login-footer">
+            <p>MAFO AABO means "Iron Fist" — family protection established July 1, 2026, under Texas law. Trust EIN 42-6978754.</p>
+            <p style="margin-top:6px;">SA Nathan LLC · SOLVY Ecosystem™ · Confidential</p>
+        </div>
+        <div id="loginError">Invalid access code. This incident has been logged.</div>
+    </div>
+</div>
+
+<!-- APP CONTAINER -->
+<div class="app-container" id="appContent" style="display:none;">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <a href="../welcome.html" style="text-decoration:none;color:inherit;">
+                <div class="logo">MAFO <span>AABO</span></div>
+            </a>
+            <div class="logo-sub">Family Trust · SOLVY Ecosystem™</div>
+        </div>
+        <nav>
+            <button class="nav-item active" onclick="showView('dashboard')">
+                <span>🏠</span> Dashboard
+            </button>
+            <button class="nav-item" onclick="showView('expenses')">
+                <span>📊</span> Expenses
+            </button>
+            <button class="nav-item" onclick="showView('loans')">
+                <span>🏦</span> Family Loans
+            </button>
+            <button class="nav-item" onclick="showView('documents')">
+                <span>📁</span> Documents
+            </button>
+            <button class="nav-item bank-only hidden" onclick="showView('bank')">
+                <span>💳</span> NFCU / Reconcile
+            </button>
+            <button class="nav-item" onclick="showView('document')">
+                <span>📜</span> Trust Document
+            </button>
+            <button class="nav-item" onclick="showView('sheila')">
+                <span>💚</span> Sheila Care
+            </button>
+            <button class="nav-item trustee-only hidden" onclick="showView('audit')">
+                <span>📜</span> Audit Trail
+            </button>
+            <a href="../welcome.html" class="nav-item" style="border-top:1px solid #1e3a4d;margin-top:12px;">
+                <span>🌐</span> Back to SOLVY
+            </a>
+        </nav>
+        <div class="role-badge">
+            <div class="role-label">Logged in as</div>
+            <div class="role-name" id="userNameDisplay">—</div>
+            <div class="role-title" id="userRoleTitle">—</div>
+            <button class="nav-item" style="margin-top:8px;font-size:0.7rem;opacity:0.7;justify-content:center;" onclick="logout()">🔄 Switch Family Member</button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="page-title">
+                <div class="tagline" id="pageTagline">Family Trust Dashboard</div>
+                <h1 id="pageTitle">Mafo Aabo Trust™</h1>
+                <p id="pageSubtitle">Role-based view of the MAFO AABO Special Needs Trust (EIN 42-6978754).</p>
+            </div>
+            <div class="access-pill" id="accessPill">🔒 Sign In</div>
+        </div>
+
+        <!-- DASHBOARD VIEW -->
+        <div id="view-dashboard">
+            <!-- Role-specific dashboard content injected by JS -->
+            <div id="dashboardContent"></div>
+
+            <div class="card">
+                <h3>🛡️ Trust at a Glance</h3>
+                <div class="parties-grid" style="margin:0;">
+                    <div class="party-card">
+                        <div class="party-role">Settlor / Grantor</div>
+                        <div class="party-name">Sheila Ann McDaniel</div>
+                        <div class="party-detail">26 Machson St #2D, New York, NY 10038</div>
+                    </div>
+                    <div class="party-card">
+                        <div class="party-role">Initial Trustee</div>
+                        <div class="party-name">Sean Marlon II McDaniel</div>
+                        <div class="party-detail">Queen Creek, AZ 85140 · SCRUM Master</div>
+                    </div>
+                    <div class="party-card">
+                        <div class="party-role">Sole Lifetime Beneficiary</div>
+                        <div class="party-name">Sean Maurice Mayo (MAFO AABO)</div>
+                        <div class="party-detail">Godley, TX 76044 · DOB March 8, 1966</div>
+                    </div>
+                    <div class="party-card">
+                        <div class="party-role">Trust Registration</div>
+                        <div class="party-name">EIN 42-6978754</div>
+                        <div class="party-detail">Texas · Effective July 1, 2026</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXPENSES VIEW -->
+        <div id="view-expenses" class="hidden">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Trust Balance</div>
+                    <div class="stat-amount navy" id="statBalance">$250,000.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Pending Requests</div>
+                    <div class="stat-amount pending" id="statPending">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Approved (Unpaid)</div>
+                    <div class="stat-amount approved" id="statApproved">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Total Spent YTD</div>
+                    <div class="stat-amount spent" id="statSpent">$0.00</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>📋 Distribution Requests</h3>
+                    <div>
+                        <button class="btn btn-secondary btn-sm" onclick="exportExpenses()">📥 Export</button>
+                        <button class="btn btn-primary btn-sm beneficiary-only hidden" onclick="openModal('requestModal')">+ New Request</button>
+                    </div>
+                </div>
+                <div class="tabs">
+                    <button class="tab active" onclick="showExpenseTab('all')">All</button>
+                    <button class="tab" onclick="showExpenseTab('pending')">Pending</button>
+                    <button class="tab" onclick="showExpenseTab('approved')">Approved</button>
+                    <button class="tab" onclick="showExpenseTab('paid')">Paid</button>
+                    <button class="tab" onclick="showExpenseTab('rejected')">Rejected</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Date</th><th>Vendor</th><th>Category</th><th>Amount</th><th>Status</th><th>Requested By</th><th class="trustee-only hidden">Actions</th></tr>
+                        </thead>
+                        <tbody id="expensesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOANS VIEW -->
+        <div id="view-loans" class="hidden">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Active Family Loans</div>
+                    <div class="stat-amount gold" id="statActiveLoans">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Total Loaned</div>
+                    <div class="stat-amount navy" id="statTotalLoaned">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Outstanding Balance</div>
+                    <div class="stat-amount pending" id="statLoanBalance">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Repaid YTD</div>
+                    <div class="stat-amount green" id="statRepaid">$0.00</div>
+                </div>
+            </div>
+
+            <div class="card trustee-only hidden" id="loanUtilCard">
+                <h3>📈 Loan Utilization</h3>
+                <div id="loanUtil"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>💰 Family Loan Agreements</h3>
+                    <button class="btn btn-primary btn-sm trustee-only hidden" onclick="openModal('loanModal')">+ New Loan</button>
+                </div>
+                <div class="info-box">
+                    <strong>Mafo Aabo Principle:</strong> The trust lends to family ventures. Repayments — with interest — return to the trust corpus, growing the family bank for the next generation.
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Date</th><th>Borrower</th><th>Purpose</th><th>Amount</th><th>Rate</th><th>Term</th><th>Balance</th><th>Status</th><th class="trustee-only hidden">Actions</th></tr>
+                        </thead>
+                        <tbody id="loansTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCUMENTS VIEW -->
+        <div id="view-documents" class="hidden">
+            <div class="card hidden" id="docUploadCard">
+                <h3>📤 Upload Document</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="docCategory" onchange="docCategoryChanged()"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Label</label>
+                        <input type="text" id="docLabel" placeholder="e.g. MA-SNT-A executed instrument">
+                    </div>
+                    <div class="form-group hidden" id="docRequestGroup">
+                        <label>Linked Request (receipts)</label>
+                        <select id="docRequest"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>File (PDF / PNG / JPG / WebP, max 15MB)</label>
+                        <input type="file" id="docFile" accept=".pdf,.png,.jpg,.jpeg,.webp">
+                    </div>
+                </div>
+                <div style="margin-top:14px;">
+                    <button class="btn btn-primary" onclick="uploadDocument()">Upload (encrypted)</button>
+                </div>
+                <p style="font-size:0.75rem;color:var(--mafo-muted);margin-top:8px;">Files are encrypted with AES-256-GCM and stored outside the web root. Downloads are logged in the audit trail.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>📁 Document Vault</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>Date</th><th>Label</th><th>Category</th><th>File</th><th>Size</th><th>Request</th><th>Uploaded By</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="documentsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- NFCU BANK / RECONCILE VIEW -->
+        <div id="view-bank" class="hidden">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">NFCU Bank Balance</div>
+                    <div class="stat-amount navy" id="statBankBalance">$0.00</div>
+                    <div class="stat-note">From manual entries below</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Books (Trust Balance)</div>
+                    <div class="stat-amount navy" id="statBooksBalance">$0.00</div>
+                    <div class="stat-note">From requests &amp; loans</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Drift</div>
+                    <div class="stat-amount green" id="statDrift">$0.00</div>
+                    <div class="stat-note">bank − books · $0.00 = in agreement</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Unreconciled Withdrawals</div>
+                    <div class="stat-amount pending" id="statUnreconciled">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Paid Requests Unmatched</div>
+                    <div class="stat-amount pending" id="statUnmatched">0</div>
+                </div>
+            </div>
+
+            <div class="card trustee-only hidden" id="bankEntryCard">
+                <h3>✏️ Manual NFCU Entry</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="bankDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" id="bankDesc" placeholder="e.g. ACH to Houston Neurology Associates">
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="bankType">
+                            <option value="withdrawal">Withdrawal / Debit (−)</option>
+                            <option value="deposit">Deposit / Credit (+)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount ($)</label>
+                        <input type="number" id="bankAmount" placeholder="0.00" step="0.01">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Note (optional)</label>
+                        <input type="text" id="bankNote" placeholder="Check no., confirmation, correction reason...">
+                    </div>
+                </div>
+                <div style="margin-top:14px;">
+                    <button class="btn btn-primary" onclick="submitBankEntry()">Record Entry</button>
+                </div>
+                <p style="font-size:0.75rem;color:var(--mafo-muted);margin-top:8px;">Ledger-like: entries are never edited or deleted. Corrections are new offsetting entries with a note.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>💳 NFCU Ledger</h3>
+                    <button class="btn btn-secondary btn-sm" onclick="exportBank()">📥 Export CSV</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>Date</th><th>Description</th><th>Amount</th><th>Running Balance</th><th>Status</th><th>Request</th><th>Note</th><th class="trustee-only hidden">Actions</th></tr>
+                        </thead>
+                        <tbody id="bankTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRUST DOCUMENT VIEW -->
+        <div id="view-document" class="hidden">
+            <div class="document-card">
+                <div class="doc-header">
+                    <h2>MAFO AABO SPECIAL NEEDS TRUST</h2>
+                    <div class="doc-subtitle">A First-Party Self-Settled Special Needs Trust Under 42 U.S.C. § 1396p(d)(4)(A)</div>
+                    <div class="doc-date">Effective Date: July 1, 2026 · Governing Law: Texas · EIN: 42-6978754</div>
+                </div>
+
+                <div class="parties-grid">
+                    <div class="party-card">
+                        <div class="party-role">Settlor / Grantor</div>
+                        <div class="party-name">Sheila Ann McDaniel</div>
+                        <div class="party-detail">26 Machson Street, #2D, New York, NY 10038</div>
+                    </div>
+                    <div class="party-card">
+                        <div class="party-role">Initial Trustee</div>
+                        <div class="party-name">Sean Marlon II McDaniel</div>
+                        <div class="party-detail">1497 W. Smoke Tree Ave., Queen Creek, AZ 85140</div>
+                    </div>
+                    <div class="party-card">
+                        <div class="party-role">Sole Lifetime Beneficiary</div>
+                        <div class="party-name">Sean Maurice Mayo (MAFO AABO)</div>
+                        <div class="party-detail">1948 Revolutionary Way #2313, Godley, TX 76044 · DOB March 8, 1966</div>
+                    </div>
+                    <div class="party-card">
+                        <div class="party-role">Trust Registration</div>
+                        <div class="party-name">EIN 42-6978754</div>
+                        <div class="party-detail">Mailing: 11817 Serval St, Godley, TX 76044 · Phone: 775-636-3656</div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Restricted Legal Instrument</strong>
+                    This trust instrument contains sensitive legal, financial, and tax information. Access is limited to the Settlor, Trustee, Beneficiary, and authorized legal counsel. Unauthorized access or distribution is prohibited.
+                </div>
+
+                <article>
+                    <h3>Recitals</h3>
+                    <p><strong>A.</strong> Beneficiary is an individual with a disability as defined in 42 U.S.C. § 1382c(a)(3), under age 65, and has been determined disabled by the Social Security Administration (effective March 20, 2020) and the U.S. Department of Veterans Affairs (effective December 22, 2021). VA pays disability compensation at the 100% rate based on TDIU. Beneficiary also receives SSDI benefits.</p>
+                    <p><strong>B.</strong> Settlor is Beneficiary's mother. Settlor received a <strong>$250,000.00 award</strong> from the September 11th Victim Compensation Fund, <strong>Claim No. VCF0110104</strong>, and made an irrevocable gift of <strong>$225,000.00</strong> of that award directly to Beneficiary pursuant to a Gift Letter dated <strong>June 19, 2026</strong>, relying on the disabled-child exception to transfer-penalty rules at 42 U.S.C. § 1396p(c)(2)(B)(iii) and SSA POMS SI 01150.121A.2.</p>
+                    <p><strong>C.</strong> Because the gifted funds, if retained outright by Beneficiary, would exceed SSI and Medicaid resource limits, the funds are placed into this Trust under 42 U.S.C. § 1396p(d)(4)(A) so they will not be considered an available resource.</p>
+                    <p><strong>D.</strong> It is Settlor's intent that this Trust qualify in all respects as an exception trust under 42 U.S.C. § 1396p(d)(4)(A).</p>
+                </article>
+
+                <article>
+                    <h3>Article 1: Creation and Funding of Trust</h3>
+                    <h4>1.1 Trust Property</h4>
+                    <p>Settlor, on behalf of and using the sole and separate assets of Beneficiary, establishes this irrevocable trust. The property described in Schedule A (the "Trust Property"), consisting of assets belonging to Beneficiary, is assigned, conveyed, transferred, and delivered to the Trustee.</p>
+                    <h4>1.2 Source of Funds</h4>
+                    <p>The initial Trust Property consists of <strong>$225,000.00</strong> gifted to Beneficiary by Settlor from Settlor's September 11th Victim Compensation Fund award (Claim No. VCF0110104), which are Beneficiary's own assets for purposes of 42 U.S.C. § 1396p(d)(4)(A).</p>
+                    <h4>1.3 Additions to Trust</h4>
+                    <p>Beneficiary, Settlor, any court, or any other person or entity may transfer additional property belonging to Beneficiary to the Trustee, provided that no property may be added other than property belonging to Beneficiary, so that this Trust remains a trust solely of Beneficiary's own assets.</p>
+                    <h4>1.4 Establishment Authority</h4>
+                    <p>This Trust is established by Settlor, the parent of Beneficiary, for the sole benefit of Beneficiary, in accordance with 42 U.S.C. § 1396p(d)(4)(A).</p>
+                </article>
+
+                <article>
+                    <h3>Article 2: Administration and Distribution</h3>
+                    <h4>2.1 Statement of Intent</h4>
+                    <p>The Trust is designed to supplement, and not supplant, replace, or duplicate, any public assistance benefits to which Beneficiary is or may become entitled, including SSI, Medicaid, Medicare, SSDI, VA disability compensation, and any other federal, state, or local benefit program.</p>
+                    <h4>2.2 Discretionary Distribution Standard</h4>
+                    <p>The Trustee may pay to or apply for the benefit of Beneficiary such amounts from principal or income as the Trustee in sole and absolute discretion deems necessary or advisable for the satisfaction of Beneficiary's <strong>Special Needs</strong> — items and services that enhance quality of life, health, safety, and welfare, not otherwise provided by any public agency, and which will not render Beneficiary ineligible for or reduce public benefits. No distribution shall be made if it would disqualify Beneficiary from SSI, Medicaid, or other public benefits, except where the Trustee determines the value of the distribution outweighs the loss of benefits.</p>
+                    <h4>2.3 Trustee Duty Regarding Public Benefits</h4>
+                    <p>The Trustee shall seek to preserve Beneficiary's eligibility for all available public benefits and shall take such benefits into consideration before making any distribution.</p>
+                    <h4>2.4 No Supplanting of Public Assistance</h4>
+                    <p>No part of the corpus or income shall be used to supplant or replace public assistance benefits. No part of the principal or undistributed income shall be considered an available resource to Beneficiary. The Trustee may deny any request that would jeopardize public benefits eligibility.</p>
+                    <h4>2.5 Spendthrift Provision</h4>
+                    <p>No interest in principal or income shall be anticipated, assigned, alienated, or encumbered, nor subject to any creditor's claim or legal process, prior to actual receipt by Beneficiary. No part of the corpus shall be considered part of Beneficiary's estate for claims by creditors or public entities, except as required by the Medicaid payback provision of Article 6.</p>
+                    <h4>2.6 Sole Benefit of Beneficiary</h4>
+                    <p>During Beneficiary's lifetime, the Trust shall be administered for the sole benefit of Beneficiary, and no other person or entity shall benefit from the Trust Property, except for reasonable trustee and administrative expenses.</p>
+                    <h4>2.7 No Right of Withdrawal</h4>
+                    <p>Beneficiary shall have no right to withdraw principal or income, to direct distributions, or to terminate the Trust. This Trust is irrevocable and may not be revoked or terminated by Beneficiary.</p>
+                </article>
+
+                <article>
+                    <h3>Article 3: Trustee Powers</h3>
+                    <p>In administering this Trust, the Trustee shall have the following express powers, to be exercised consistently with the overriding duty to preserve Beneficiary's eligibility for public benefits:</p>
+                    <ul>
+                        <li>Retain, invest, and reinvest Trust assets in any kind of property or investment</li>
+                        <li>Make distributions in cash or in kind</li>
+                        <li>Delegate ministerial and discretionary functions to agents and employ accountants, custodians, care managers, and legal and investment counsel</li>
+                        <li>Sell, exchange, lease, and contract with respect to real or personal property</li>
+                        <li>Compromise, settle, or arbitrate any claim by or against the Trust</li>
+                        <li>Pay directly, or reimburse Beneficiary or a third party for, goods and services constituting permissible Special Needs distributions</li>
+                        <li>Apportion receipts and disbursements between principal and income</li>
+                    </ul>
+                    <h4>3.2 Standard of Care</h4>
+                    <p>The Trustee shall discharge all duties in good faith and with the degree of care, skill, and caution that a prudent trustee administering a special needs trust would exercise, including remaining informed as to changes in SSI, Medicaid, and other means-tested benefits law.</p>
+                </article>
+
+                <article>
+                    <h3>Article 4: Trustee</h3>
+                    <h4>4.1 Initial Trustee</h4>
+                    <p><strong>Sean Marlon II McDaniel</strong> hereby agrees to serve as the initial Trustee.</p>
+                    <h4>4.2 Successor Trustee</h4>
+                    <p>In the event of the death, resignation, incapacity, or removal of the Trustee, <strong>Evergreen P. Mayo</strong> shall act as successor Trustee. If no successor is able or willing to serve, a successor Trustee may be appointed by a court of competent jurisdiction.</p>
+                    <h4>4.3 Beneficiary Not Eligible to Serve as Trustee</h4>
+                    <p>Beneficiary shall not serve, and shall have no right to serve, as Trustee of this Trust, whether alone or jointly with another, nor shall Beneficiary have any power to remove the Trustee and appoint himself or any person not independent of Beneficiary as a replacement Trustee.</p>
+                    <h4>4.4 Powers of Successor Trustees</h4>
+                    <p>Every successor Trustee shall have all the title, rights, powers, privileges, and duties conferred upon the original Trustee.</p>
+                    <h4>4.5 Bond Waived</h4>
+                    <p>No Trustee acting hereunder shall be required to post bond or other security.</p>
+                    <h4>4.6 Compensation</h4>
+                    <p>The Trustee shall be entitled to reasonable compensation for services rendered and reimbursement of reasonable expenses, payable from the Trust estate.</p>
+                    <h4>4.7 Accounting</h4>
+                    <p>The Trustee shall provide an annual accounting of Trust receipts, disbursements, and assets to Beneficiary's legal representative or guardian, if any, and to such other persons or agencies as may be required by law.</p>
+                </article>
+
+                <article>
+                    <h3>Article 5: Amendment and Irrevocability</h3>
+                    <h4>5.1 Irrevocability</h4>
+                    <p>The Trust hereby established is irrevocable. Neither Settlor nor Beneficiary reserves any right to revoke this Trust, in whole or in part.</p>
+                    <h4>5.2 Limited Power to Amend for Compliance</h4>
+                    <p>Notwithstanding Section 5.1, the Trustee shall have the power, without the consent of any beneficiary, to amend this Trust Agreement solely to the extent necessary to ensure that the Trust continues to qualify as an exception trust under 42 U.S.C. § 1396p(d)(4)(A) and continues to be excluded as a resource for SSI and Medicaid eligibility, or to conform the Trust to changes in applicable federal or state law. No such amendment shall reduce Beneficiary's interest as sole lifetime beneficiary or eliminate the Medicaid payback provision of Article 6.</p>
+                </article>
+
+                <article>
+                    <h3>Article 6: Mandatory Medicaid Reimbursement (Payback)</h3>
+                    <h4>6.1 Termination Upon Death of Beneficiary</h4>
+                    <p>This Trust shall terminate upon the death of Beneficiary. Upon termination, the Trustee shall first reimburse each state that provided medical assistance to Beneficiary under any state Medicaid plan, up to an amount equal to the total medical assistance paid on Beneficiary's behalf, before any other payment or distribution is made, in accordance with 42 U.S.C. § 1396p(d)(4)(A).</p>
+                    <h4>6.2 Priority of Payments</h4>
+                    <p>Following Beneficiary's death, the Trustee shall apply the remaining Trust estate in the following order of priority: (a) Medicaid reimbursement; (b) reasonable administration expenses, taxes, and expenses of Beneficiary's last illness and burial; and (c) distribution of any remaining balance as provided in Section 6.3.</p>
+                    <h4>6.3 Remainder Distribution</h4>
+                    <p>After satisfaction of Sections 6.1 and 6.2, any remaining balance shall be distributed to <strong>Children — Sean Maurice Mayo, Ronald Aki McDaniel; Grandchildren — Sean Marlon II McDaniel, Sydney Marcos McDaniel, Chandale Monet Pinkney, Zaire Akie Porter McDaniel</strong>, or, if none survive Beneficiary, to Beneficiary's heirs-at-law determined under the laws of intestacy of the State of Texas as if Beneficiary had died intestate domiciled in Texas.</p>
+                    <h4>6.4 Early Termination</h4>
+                    <p>If a court or the Trustee, as permitted by applicable law, determines that this Trust should terminate prior to Beneficiary's death, the Trustee shall first reimburse each state Medicaid agency before distributing any remaining balance to or for the benefit of Beneficiary.</p>
+                    <h4>6.5 No Effect on Sole-Benefit Requirement</h4>
+                    <p>Nothing in this Article 6 shall be construed to permit any distribution during Beneficiary's lifetime to any person or entity other than Beneficiary, except as required to satisfy the Medicaid reimbursement obligation upon early termination.</p>
+                </article>
+
+                <article>
+                    <h3>Article 7: Constructional Rules</h3>
+                    <p><strong>7.1 Governing Law.</strong> The laws of the State of Texas shall govern all questions as to the validity and construction of this Trust, except to the extent preempted by federal law, including 42 U.S.C. § 1396p(d)(4)(A).</p>
+                    <p><strong>7.2–7.5</strong> Gender and number; headings for reference only; severability; and conflict with law — statutory and regulatory requirements shall control, and this Trust shall be deemed amended to the minimum extent necessary to comply.</p>
+                </article>
+
+                <article>
+                    <h3>Article 8: Binding Effect</h3>
+                    <p>This instrument shall bind and inure to the benefit of the respective heirs, personal representatives, successors, and assigns of Settlor, Beneficiary, and the Trustee.</p>
+                </article>
+
+                <article>
+                    <h3>Schedule A — Initial Trust Estate</h3>
+                    <p>Cash in the amount of <strong>$225,000.00</strong>, representing the gift made to Beneficiary by Settlor from Settlor's September 11th Victim Compensation Fund award, <strong>Claim No. VCF0110104</strong>, pursuant to the Gift Letter dated June 19, 2026, and to be deposited pursuant to the Authorization to Deposit VCF Funds dated June 23, 2026.</p>
+                    <p>Any and all funds from the Social Security Administration made payable to or for the benefit of Sean Maurice Mayo (MAFO AABO).</p>
+                </article>
+
+                <div style="margin-top: 36px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center; color: var(--mafo-muted); font-size: 0.78rem;">
+                    <p><strong>Document Classification:</strong> Confidential Legal Instrument</p>
+                    <p>Executed July 2026 · Notarized in New York and Arizona</p>
+                    <p style="margin-top: 6px;">© SA Nathan LLC — SOLVY Ecosystem™ Internal Governance</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SHEILA CARE VIEW -->
+        <div id="view-sheila" class="hidden">
+            <div class="success-box">
+                <strong>The Sheila Mandate:</strong> "Leave them better than I received." The MAFO AABO Special Needs Trust is designed to take care of Sheila's son, Sean Maurice, while honoring and protecting Sheila herself — strictly according to the trust terms.
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">VCF Award to Sheila</div>
+                    <div class="stat-amount navy">$250,000.00</div>
+                    <div class="stat-note">September 11th VCF Claim No. VCF0110104</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Gift to SNT</div>
+                    <div class="stat-amount purple">$225,000.00</div>
+                    <div class="stat-note">Gift Letter dated June 19, 2026</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Transfer Penalty</div>
+                    <div class="stat-amount green">$0.00</div>
+                    <div class="stat-note">Disabled child exception applies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Trust EIN</div>
+                    <div class="stat-amount gold">42-6978754</div>
+                    <div class="stat-note">IRS registered irrevocable trust</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💚 How the Trust Takes Care of Sheila</h3>
+                <div class="care-grid">
+                    <div class="care-card">
+                        <h4><span class="check">✓</span> No Transfer Penalty</h4>
+                        <p>Because Sean Maurice is Sheila's disabled adult child, the $225,000 gift placed into the SNT is excepted from Medicaid/SSI transfer penalties under 42 U.S.C. § 1396p(c)(2)(B)(iii) and SSA POMS SI 01150.121A.2.</p>
+                    </div>
+                    <div class="care-card">
+                        <h4><span class="check">✓</span> Preserves Her Benefits</h4>
+                        <p>The transfer does not count as a resource for Sheila. She keeps her own SSI, Medicaid, and any other public benefits she receives.</p>
+                    </div>
+                    <div class="care-card">
+                        <h4><span class="check">✓</span> Irrevocable Protection</h4>
+                        <p>Once funded, the trust is irrevocable. The corpus is protected for Sean Maurice and cannot be undone by future disputes or creditors.</p>
+                    </div>
+                    <div class="care-card">
+                        <h4><span class="check">✓</span> Transparent Oversight</h4>
+                        <p>Sheila can view all distributions made for Sean Maurice's care. The MAN audit trail creates a digital witness to the fulfillment of her mandate.</p>
+                    </div>
+                    <div class="care-card">
+                        <h4><span class="check">✓</span> Supplemental Needs Only</h4>
+                        <p>Funds are used only for supplemental needs — not food/shelter that could reduce Sean Maurice's benefits — preserving the gift's value longer.</p>
+                    </div>
+                    <div class="care-card">
+                        <h4><span class="check">✓</span> Spendthrift Shield</h4>
+                        <p>The spendthrift provision protects the trust from creditors, ensuring Sheila's gift remains intact for its intended purpose.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📜 Legal Basis</h3>
+                <div class="info-box">
+                    <strong>SSA POMS SI 01150.121A.2:</strong> Transfers to a trust established solely for the benefit of an individual's disabled child are excepted from transfer penalty provisions. This is the cornerstone of Sheila's ability to fund the MAFO AABO Trust from her September 11th Victim Compensation Fund award without jeopardizing her own eligibility.
+                </div>
+                <p style="font-size:0.85rem;color:var(--mafo-muted);">
+                    <em>Note:</em> This demo summarizes the trust's protective provisions. For legal advice specific to Sheila's situation, consult the trustees and qualified elder law / special needs planning counsel.
+                </p>
+            </div>
+        </div>
+
+        <!-- AUDIT VIEW -->
+        <div id="view-audit" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h3>📜 Mandatory Audit Network (MAN) Trail</h3>
+                    <button class="btn btn-secondary btn-sm" onclick="exportAudit()">📥 Export CSV</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr><th>Timestamp</th><th>Action</th><th>ID</th><th>User</th><th>Role</th><th>Details</th></tr>
+                        </thead>
+                        <tbody id="auditTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- BOTTOM TAB BAR (mobile, ≤900px) -->
+    <nav class="bottom-tabbar">
+        <button class="tab-item active" data-view="dashboard" onclick="showView('dashboard')"><span class="tab-ico">🏠</span>Dashboard</button>
+        <button class="tab-item" data-view="expenses" onclick="showView('expenses')"><span class="tab-ico">📊</span>Expenses</button>
+        <button class="tab-item" data-view="loans" onclick="showView('loans')"><span class="tab-ico">🏦</span>Loans</button>
+        <button class="tab-item" data-view="documents" onclick="showView('documents')"><span class="tab-ico">📁</span>Documents</button>
+        <button class="tab-item" data-view="more" onclick="openModal('moreSheet')"><span class="tab-ico">⋯</span>More</button>
+    </nav>
+</div>
+
+<!-- NEW REQUEST MODAL -->
+<div class="modal-overlay" id="requestModal">
+    <div class="modal">
+        <h2>New Expense Request</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Vendor / Payee Name</label>
+                <input type="text" id="reqVendor" placeholder="e.g. Dr. Smith Medical">
+            </div>
+            <div class="form-group">
+                <label>Amount ($)</label>
+                <input type="number" id="reqAmount" placeholder="0.00" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="reqCategory">
+                    <option value="">Select category...</option>
+                    <option value="replenishment">Replenishment Request (plan of replenishment)</option>
+                    <option value="Medical/Dental">Medical / Dental (not covered by benefits)</option>
+                    <option value="Mental Health">Mental Health Services</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Home Modifications">Home Modifications</option>
+                    <option value="Furniture/Appliances">Furniture / Appliances</option>
+                    <option value="Electronics">Electronics / Computer Equipment</option>
+                    <option value="Recreation">Recreation / Vacations / Hobbies</option>
+                    <option value="Education">Education / Vocational Training</option>
+                    <option value="Personal Care">Personal Care Attendants</option>
+                    <option value="Communications">Phone / Internet</option>
+                    <option value="Other">Other (explain in notes)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="reqMethod">
+                    <option value="ach">ACH Bank Transfer</option>
+                    <option value="check">Paper Check</option>
+                    <option value="card">Debit Card</option>
+                    <option value="wire">Wire Transfer</option>
+                </select>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Description / Purpose</label>
+                <textarea id="reqDescription" placeholder="Describe what this expense is for..."></textarea>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('requestModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="submitRequest()">Submit Request</button>
+        </div>
+    </div>
+</div>
+
+<!-- ACTION MODAL -->
+<div class="modal-overlay" id="actionModal">
+    <div class="modal">
+        <h2 id="actionTitle">Review Request</h2>
+        <div id="actionDetails" style="background:#f8fafc;padding:14px;border-radius:12px;margin-bottom:18px;font-size:0.9rem;"></div>
+        <div class="form-group">
+            <label>Trustee Note (required)</label>
+            <textarea id="actionNote" placeholder="Explain your decision..."></textarea>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('actionModal')">Cancel</button>
+            <button class="btn btn-danger" onclick="executeAction('reject')">Reject</button>
+            <button class="btn btn-success" onclick="executeAction('approve')">Approve</button>
+        </div>
+    </div>
+</div>
+
+<!-- PAY MODAL -->
+<div class="modal-overlay" id="payModal">
+    <div class="modal">
+        <h2>Execute Payment</h2>
+        <div id="payDetails" style="background:#f8fafc;padding:14px;border-radius:12px;margin-bottom:18px;font-size:0.9rem;"></div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Payment Reference</label>
+                <input type="text" id="payRef" placeholder="e.g. ACH-2026-001">
+            </div>
+            <div class="form-group">
+                <label>Payment Date</label>
+                <input type="date" id="payDate">
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('payModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="executePayment()">Confirm Payment</button>
+        </div>
+    </div>
+</div>
+
+<!-- LOAN MODAL -->
+<div class="modal-overlay" id="loanModal">
+    <div class="modal">
+        <h2>New Family Loan</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Borrower</label>
+                <input type="text" id="loanBorrower" placeholder="e.g. Evergreen Beauty Lounge">
+            </div>
+            <div class="form-group">
+                <label>Amount ($)</label>
+                <input type="number" id="loanAmount" placeholder="0.00" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Interest Rate (%)</label>
+                <input type="number" id="loanRate" placeholder="e.g. 4.5" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Term (months)</label>
+                <input type="number" id="loanTerm" placeholder="e.g. 24">
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Purpose</label>
+                <textarea id="loanPurpose" placeholder="Describe how the funds will be used..."></textarea>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('loanModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="submitLoan()">Create Loan</button>
+        </div>
+    </div>
+</div>
+
+<!-- RECONCILE MODAL -->
+<div class="modal-overlay" id="reconcileModal">
+    <div class="modal">
+        <h2>Reconcile Withdrawal</h2>
+        <div id="reconcileDetails" style="background:#f8fafc;padding:14px;border-radius:12px;margin-bottom:18px;font-size:0.9rem;"></div>
+        <div class="form-group">
+            <label>Match to Paid Request</label>
+            <select id="reconcileRequest"></select>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('reconcileModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="executeReconcile()">Reconcile</button>
+        </div>
+    </div>
+</div>
+
+<!-- RECEIPT MODAL -->
+<div class="modal-overlay" id="receiptModal">
+    <div class="modal">
+        <h2>Attach Receipt</h2>
+        <div id="receiptDetails" style="background:#f8fafc;padding:14px;border-radius:12px;margin-bottom:18px;font-size:0.9rem;"></div>
+        <div class="form-group">
+            <label>Label</label>
+            <input type="text" id="receiptLabel" placeholder="e.g. Receipt from Houston Neurology">
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+            <label>File (PDF / PNG / JPG / WebP, max 15MB)</label>
+            <input type="file" id="receiptFile" accept=".pdf,.png,.jpg,.jpeg,.webp">
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('receiptModal')">Cancel</button>
+            <button class="btn btn-primary" onclick="submitReceipt()">Upload Receipt</button>
+        </div>
+    </div>
+</div>
+
+<!-- MORE SHEET (mobile nav) -->
+<div class="modal-overlay" id="moreSheet">
+    <div class="modal">
+        <h2>More</h2>
+        <div class="more-list">
+            <button class="more-item" onclick="closeModal('moreSheet');showView('document')">📜 Trust Document</button>
+            <button class="more-item" onclick="closeModal('moreSheet');showView('sheila')">💚 Sheila Care</button>
+            <button class="more-item bank-only hidden" onclick="closeModal('moreSheet');showView('bank')">💳 NFCU / Reconcile</button>
+            <button class="more-item trustee-only hidden" onclick="closeModal('moreSheet');showView('audit')">📜 Audit Trail</button>
+            <button class="more-item" onclick="logout()">🔄 Switch Family Member</button>
+            <a href="../welcome.html" class="more-item">🌐 Back to SOLVY</a>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('moreSheet')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- REQUEST DETAIL SHEET -->
+<div class="modal-overlay" id="requestDetailModal">
+    <div class="modal">
+        <div id="requestDetailContent"></div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('requestDetailModal')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- CONFIRM SHEET (styled replacement for window.confirm) -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal" style="max-width:420px;">
+        <h2 id="confirmTitle">Please Confirm</h2>
+        <p id="confirmMessage" style="font-size:0.9rem;color:var(--mafo-muted);"></p>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
+            <button class="btn btn-danger" id="confirmOk">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<div id="toastContainer"></div>
+
+<script>
+// ========================
+// CONFIG — display metadata only.
+// Permissions come from the server (/api/mafo/auth/me); codes are
+// bcrypt-hashed server-side. The demo codes are retired.
+// ========================
+const API = '/api/mafo';
+const ROLE_META = {
+    trustee: {
+        name: 'Sean Marlon II McDaniel',
+        title: 'Trustee & SCRUM Master',
+        tagline: 'Trustee Administration View',
+        subtitle: 'Full administration of the Mafo Aabo Trust.',
+        pill: '🛡️ Trustee Access'
+    },
+    grantor: {
+        name: 'Sheila Ann McDaniel',
+        title: 'Grantor',
+        tagline: "Grantor's Read-Only View",
+        subtitle: 'See how your gift is protected and used for Sean Maurice.',
+        pill: '👑 Grantor Access'
+    },
+    beneficiary: {
+        name: 'Sean Maurice Mayo (MAFO AABO)',
+        title: 'Beneficiary',
+        tagline: 'Beneficiary View',
+        subtitle: 'Request supplemental needs and view your distributions.',
+        pill: '🤝 Beneficiary Access'
+    }
+};
+
+let currentUser = null;   // { id, role, fullName, permissions } from /auth/me
+let selectedRole = null;
+let activeRequestId = null;
+let activeBankTxId = null;
+let receiptRequestId = null;
+let currentExpenseTab = 'all';
+
+// ========================
+// DATA — loaded from the API. Amounts are integer cents everywhere;
+// format with money() in the UI layer only.
+// ========================
+let requests = [], loans = [], auditLog = [], summary = null;
+let documents = [], bankTx = [];
+
+// ========================
+// API
+// ========================
+async function api(path, opts = {}) {
+    const res = await fetch(API + path, {
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        ...opts
+    });
+    if (res.status === 401) { showLogin(); throw new Error('Not authenticated'); }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+    return data;
+}
+
+async function refreshRequests() { requests = (await api('/requests')).requests; }
+async function refreshSummary()  { summary = (await api('/ledger/summary')).summary; }
+async function refreshLoans() {
+    loans = currentUser.permissions.viewLoans ? (await api('/loans')).loans : [];
+}
+async function refreshAudit() {
+    auditLog = currentUser.permissions.viewAudit ? (await api('/audit')).audit : [];
+}
+async function refreshDocuments() { documents = (await api('/documents')).documents; }
+async function refreshBank() {
+    bankTx = currentUser.permissions.viewBank ? (await api('/bank-transactions')).transactions : [];
+}
+async function loadAll() {
+    await Promise.all([refreshRequests(), refreshSummary(), refreshLoans(), refreshAudit(), refreshDocuments(), refreshBank()]);
+}
+
+// ========================
+// AUTH
+// ========================
+function selectRole(role) {
+    selectedRole = role;
+    document.getElementById('codeRoleName').textContent = ROLE_META[role].name;
+    document.getElementById('codePrompt').style.display = 'block';
+    document.getElementById('loginError').style.display = 'none';
+    const input = document.getElementById('accessCodeInput');
+    input.value = '';
+    input.focus();
+}
+
+async function submitLogin() {
+    const code = document.getElementById('accessCodeInput').value.trim();
+    if (!selectedRole || !code) return;
+    try {
+        const { user } = await api('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({ role: selectedRole, code })
+        });
+        await enterApp(user);
+    } catch (e) {
+        console.warn('[Mafo Aabo] Login failed:', e.message);
+        document.getElementById('loginError').style.display = 'block';
+    }
+}
+
+async function enterApp(user) {
+    currentUser = user;
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('appContent').style.display = 'flex';
+    await loadAll();
+    applyRoleUI();
+    showView('dashboard');
+}
+
+function showLogin() {
+    currentUser = null;
+    document.getElementById('loginOverlay').style.display = 'flex';
+    document.getElementById('appContent').style.display = 'none';
+}
+
+async function logout() {
+    try { await api('/auth/logout', { method: 'POST' }); } catch (e) { /* session already gone */ }
+    location.reload();
+}
+
+function applyRoleUI() {
+    const meta = ROLE_META[currentUser.role];
+    const cfg = currentUser.permissions; // server-enforced role matrix
+    document.getElementById('userNameDisplay').textContent = currentUser.fullName;
+    document.getElementById('userRoleTitle').textContent = meta.title;
+    document.getElementById('pageTagline').textContent = meta.tagline;
+    document.getElementById('pageSubtitle').textContent = meta.subtitle;
+    document.getElementById('accessPill').textContent = meta.pill;
+
+    document.querySelectorAll('.trustee-only').forEach(el => {
+        el.classList.toggle('hidden', !cfg.canApprove && !cfg.viewAudit && !cfg.canCreateLoan);
+    });
+    document.querySelectorAll('.beneficiary-only').forEach(el => {
+        el.classList.toggle('hidden', !cfg.canRequest);
+    });
+    document.querySelectorAll('.bank-only').forEach(el => {
+        el.classList.toggle('hidden', !cfg.viewBank);
+    });
+
+    // Hide audit nav for non-trustee
+    const auditNav = document.querySelector('button[onclick="showView(\'audit\')"]');
+    if (auditNav) auditNav.classList.toggle('hidden', !cfg.viewAudit);
+}
+
+// ========================
+// NAVIGATION
+// ========================
+async function showView(viewName) {
+    ['dashboard','expenses','loans','documents','bank','document','sheila','audit'].forEach(v => {
+        document.getElementById('view-' + v).classList.add('hidden');
+    });
+    document.getElementById('view-' + viewName).classList.remove('hidden');
+
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const activeBtn = document.querySelector(`button[onclick="showView('${viewName}')"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+    updateTabBar(viewName);
+
+    if (!currentUser) return;
+    // Skeleton shimmer while refreshing from the API,
+    // so the family always sees current records
+    showSkeletons(viewName);
+    if (viewName === 'dashboard') { await Promise.all([refreshRequests(), refreshSummary(), refreshLoans(), refreshAudit()]); renderDashboard(); }
+    if (viewName === 'expenses') { await Promise.all([refreshRequests(), refreshSummary()]); renderExpenses(); }
+    if (viewName === 'loans') { await refreshLoans(); renderLoans(); }
+    if (viewName === 'documents') { await Promise.all([refreshDocuments(), refreshRequests()]); renderDocuments(); }
+    if (viewName === 'bank') { await Promise.all([refreshBank(), refreshSummary(), refreshRequests()]); renderBank(); }
+    if (viewName === 'audit') { await refreshAudit(); renderAudit(); }
+}
+
+/** Sync the mobile bottom tab bar with the active view. */
+function updateTabBar(viewName) {
+    const moreViews = ['bank', 'document', 'sheila', 'audit'];
+    const tab = moreViews.includes(viewName) ? 'more' : viewName;
+    document.querySelectorAll('.tab-item').forEach(t => {
+        t.classList.toggle('active', t.dataset.view === tab);
+    });
+}
+
+/** Skeleton shimmer placeholders shown while a view refreshes. */
+function showSkeletons(viewName) {
+    if (viewName === 'dashboard') {
+        document.getElementById('dashboardContent').innerHTML =
+            '<div class="skeleton skeleton-hero"></div>' +
+            '<div class="stats-grid">' + '<div class="skeleton skeleton-card"></div>'.repeat(4) + '</div>';
+    }
+    const tableSkeletons = { expenses: ['expensesTable', 8], loans: ['loansTable', 10], documents: ['documentsTable', 8], bank: ['bankTable', 8], audit: ['auditTable', 6] };
+    const target = tableSkeletons[viewName];
+    if (target) document.getElementById(target[0]).innerHTML = skeletonRows(target[1]);
+}
+
+/** Shimmer rows spanning a table body. */
+function skeletonRows(cols, n = 4) {
+    return Array.from({ length: n }, () =>
+        `<tr><td colspan="${cols}"><div class="skeleton skeleton-line"></div></td></tr>`
+    ).join('');
+}
+
+function showExpenseTab(tab) {
+    currentExpenseTab = tab;
+    document.querySelectorAll('#view-expenses .tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    renderExpenses();
+}
+
+// ========================
+// TOASTS & CONFIRM SHEET
+// ========================
+/**
+ * Floating toast pill (top-center, auto-dismiss).
+ * @param {string} message
+ * @param {'info'|'success'|'error'} [type='info']
+ */
+function toast(message, type = 'info') {
+    const el = document.createElement('div');
+    el.className = 'toast ' + type;
+    el.textContent = message;
+    document.getElementById('toastContainer').appendChild(el);
+    setTimeout(() => {
+        el.classList.add('hide');
+        setTimeout(() => el.remove(), 320);
+    }, 3400);
+}
+
+let confirmResolver = null;
+/**
+ * Styled confirm sheet replacing window.confirm.
+ * @param {string} message
+ * @param {string} [title='Please Confirm']
+ * @returns {Promise<boolean>} true when confirmed
+ */
+function confirmSheet(message, title = 'Please Confirm') {
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmMessage').textContent = message;
+    openModal('confirmModal');
+    return new Promise(resolve => { confirmResolver = resolve; });
+}
+function resolveConfirm(answer) {
+    closeModal('confirmModal');
+    if (confirmResolver) { confirmResolver(answer); confirmResolver = null; }
+}
+
+/** Friendly empty state (icon + message) for tables, feeds, and charts. */
+function emptyState(icon, msg, sub) {
+    return `<div class="empty-state"><div class="es-icon">${icon}</div><div class="es-msg">${msg}</div>${sub ? `<div class="es-sub">${sub}</div>` : ''}</div>`;
+}
+
+/** Relative timestamp for the activity feed ("3d ago"). */
+function relTime(iso) {
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return mins + 'm ago';
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return hrs + 'h ago';
+    const days = Math.floor(hrs / 24);
+    if (days < 30) return days + 'd ago';
+    return formatDate(iso);
+}
+
+// ========================
+// DASHBOARD
+// ========================
+function renderDashboard() {
+    const container = document.getElementById('dashboardContent');
+    const balance = summary ? summary.trust_balance_cents : 0;
+    const initial = summary ? summary.initial_funding_cents : 0;
+    const role = currentUser.role;
+    const meta = ROLE_META[role];
+
+    const heroLabel = role === 'trustee' ? 'Trust balance · available for distributions & loans'
+        : role === 'grantor' ? 'Your gift at work'
+        : 'Your protected balance';
+    const heroSplit = role === 'grantor' ? `
+            <div class="tc-split">
+                <div><div class="tc-label" style="margin-top:0;">Original Gift</div><div class="tc-mini">$${money(initial)}</div></div>
+                <div><div class="tc-label" style="margin-top:0;">Remaining for Sean</div><div class="tc-mini">$${money(balance)}</div></div>
+            </div>` : '';
+    const hero = `
+        <div class="trust-card">
+            <div class="tc-brand">MAFO AABO Special Needs Trust™</div>
+            <div class="tc-label">${heroLabel}</div>
+            <div class="tc-balance">$${money(balance)}</div>
+            ${heroSplit}
+            <div class="tc-footer">
+                <span class="tc-ein">EIN •••• 8754</span>
+                <span>${meta.title}</span>
+            </div>
+        </div>`;
+
+    const feed = `<div class="card"><h3>🕘 Activity</h3>${buildFeed()}</div>`;
+    const charts = `
+        <div class="card">
+            <h3>📊 Spending Breakdown</h3>
+            <div class="charts-grid">
+                <div><div class="chart-title">Paid by Category</div>${donutChart()}</div>
+                <div><div class="chart-title">Paid · Last 6 Months</div>${barsChart()}</div>
+            </div>
+        </div>`;
+
+    let middle = '';
+    if (role === 'trustee') {
+        middle = `
+            <div class="card">
+                <h3>⚡ Trustee Actions</h3>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="showView('expenses')">Review Pending Requests</button>
+                    <button class="btn btn-secondary" onclick="showView('loans')">Manage Family Loans</button>
+                    <button class="btn btn-secondary" onclick="showView('audit')">View Audit Trail</button>
+                </div>
+            </div>`;
+    } else if (role === 'grantor') {
+        middle = `
+            <div class="success-box">
+                <strong>Sheila, your gift is protected.</strong> The transfer qualifies for the disabled child exception, so it does not affect your SSI or Medicaid. You can view all distributions made for Sean Maurice's care.
+            </div>`;
+    } else {
+        middle = `
+            <div class="info-box">
+                <strong>Reminder:</strong> The Trustee makes no direct cash distributions to you. All payments go directly to third-party vendors for your supplemental needs (medical, transportation, education, etc.).
+            </div>
+            <div class="card">
+                <h3>⚡ Your Actions</h3>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="openModal('requestModal')">+ Request Supplemental Need</button>
+                    <button class="btn btn-secondary" onclick="showView('expenses')">View My Requests</button>
+                    <button class="btn btn-secondary" onclick="showView('document')">Read Trust Document</button>
+                </div>
+            </div>`;
+    }
+    container.innerHTML = hero + middle + feed + charts;
+}
+
+/** Activity feed: requests for all roles, plus audit entries when permitted. */
+function buildFeed() {
+    const statusIcon = { pending: '⏳', approved: '✅', paid: '💸', rejected: '⛔' };
+    const items = requests.map(r => ({
+        kind: 'request', id: r.id, time: r.created_at,
+        icon: statusIcon[r.status] || '📄',
+        text: `<strong>REQ-${r.id}</strong> — ${r.vendor} <span class="status-badge status-${r.status}">${r.status}</span>`,
+        sub: `${r.category} · ${r.requested_by_name}`,
+        amount: '$' + money(r.amount_cents)
+    }));
+    if (currentUser.permissions.viewAudit) {
+        auditLog.forEach(a => items.push({
+            kind: 'audit', time: a.created_at, icon: '🧾',
+            text: `<strong>${a.action}</strong>${a.entity ? ' · ' + a.entity : ''}`,
+            sub: `${a.actor_name || 'System'} · ${a.actor_role || 'system'}`,
+            amount: ''
+        }));
+    }
+    items.sort((x, y) => new Date(y.time) - new Date(x.time));
+    const top = items.slice(0, 8);
+    if (!top.length) return emptyState('🕘', 'No activity yet', 'New requests and trustee actions will appear here.');
+    return top.map(i => `
+        <div class="feed-item ${i.kind === 'request' ? 'clickable' : ''}" ${i.kind === 'request' ? `onclick="openRequestDetail(${i.id})"` : ''}>
+            <div class="feed-icon">${i.icon}</div>
+            <div class="feed-text">${i.text}<div class="feed-sub">${i.sub}</div></div>
+            ${i.amount ? `<div class="feed-amount">${i.amount}</div>` : ''}
+            <div class="feed-time">${relTime(i.time)}</div>
+        </div>
+    `).join('');
+}
+
+/** Hand-rolled SVG donut of paid spending by category (inline only — no chart libs). */
+function donutChart() {
+    const paid = requests.filter(r => r.status === 'paid');
+    if (!paid.length) return emptyState('🍩', 'No spending yet', 'Paid distributions will chart here by category.');
+    const byCat = {};
+    paid.forEach(r => { byCat[r.category] = (byCat[r.category] || 0) + r.amount_cents; });
+    const colors = ['#f59e0b', '#0f1e2c', '#22c55e', '#9333ea', '#0ea5e9', '#dc2626', '#64748b', '#d97706', '#14b8a6', '#e11d48'];
+    const entries = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
+    const total = entries.reduce((s, e) => s + e[1], 0);
+    const R = 54, C = 2 * Math.PI * R;
+    let offset = 0;
+    const arcs = entries.map((entry, i) => {
+        const frac = entry[1] / total;
+        const arc = `<circle cx="70" cy="70" r="${R}" fill="none" stroke="${colors[i % colors.length]}" stroke-width="20" stroke-dasharray="${(frac * C).toFixed(2)} ${C.toFixed(2)}" stroke-dashoffset="${(-offset * C).toFixed(2)}" transform="rotate(-90 70 70)"/>`;
+        offset += frac;
+        return arc;
+    }).join('');
+    const legend = entries.map((entry, i) => `
+        <div class="legend-row"><span class="legend-dot" style="background:${colors[i % colors.length]}"></span>${entry[0]}<span class="lg-amt">$${money(entry[1])}</span></div>`).join('');
+    return `<div class="donut-wrap">
+        <svg width="140" height="140" viewBox="0 0 140 140" role="img" aria-label="Paid spending by category">
+            <circle cx="70" cy="70" r="${R}" fill="none" stroke="#f0f0f3" stroke-width="20"/>
+            ${arcs}
+            <text x="70" y="66" text-anchor="middle" font-size="15" font-weight="700" fill="#1d1d1f">$${money(total)}</text>
+            <text x="70" y="82" text-anchor="middle" font-size="8" fill="#86868b">total paid</text>
+        </svg>
+        <div class="donut-legend">${legend}</div>
+    </div>`;
+}
+
+/** Hand-rolled SVG bar chart: paid amounts grouped by paid_at month (last 6). */
+function barsChart() {
+    const paid = requests.filter(r => r.status === 'paid');
+    if (!paid.length) return emptyState('📊', 'No payments yet', 'Monthly totals will chart here once requests are paid.');
+    const now = new Date();
+    const months = [];
+    for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        months.push({ key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`, label: d.toLocaleDateString('en-US', { month: 'short' }), total: 0 });
+    }
+    paid.forEach(r => {
+        const d = new Date(r.paid_at || r.created_at);
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        const m = months.find(x => x.key === key);
+        if (m) m.total += r.amount_cents;
+    });
+    const max = Math.max(...months.map(m => m.total), 1);
+    const H = 120, W = 320, bw = 28, gap = (W - months.length * bw) / (months.length + 1);
+    const bars = months.map((m, i) => {
+        const h = Math.max((m.total / max) * (H - 24), m.total > 0 ? 4 : 2);
+        const x = gap + i * (bw + gap);
+        const y = H - h;
+        return `
+            <rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw}" height="${h.toFixed(1)}" rx="6" fill="${m.total > 0 ? '#f59e0b' : '#ececf0'}"/>
+            ${m.total > 0 ? `<text x="${(x + bw / 2).toFixed(1)}" y="${(y - 5).toFixed(1)}" text-anchor="middle" font-size="8.5" fill="#86868b">$${money(m.total)}</text>` : ''}
+            <text x="${(x + bw / 2).toFixed(1)}" y="${H + 13}" text-anchor="middle" font-size="9" fill="#86868b">${m.label}</text>`;
+    }).join('');
+    return `<svg viewBox="0 0 ${W} ${H + 20}" style="width:100%;max-width:340px;" role="img" aria-label="Paid amounts by month">${bars}</svg>`;
+}
+
+// ========================
+// REQUEST DETAIL SHEET
+// ========================
+/**
+ * Request detail sheet: full details, status stepper, and the same
+ * role-gated actions as the inline table buttons (shared handlers).
+ * @param {number} id - Request id
+ */
+function openRequestDetail(id) {
+    const r = requests.find(x => x.id === id);
+    if (!r || !currentUser) return;
+    const cfg = currentUser.permissions;
+
+    let stepper;
+    if (r.status === 'rejected') {
+        stepper = `
+            <div class="stepper">
+                <div class="step done"><div class="dot">✓</div><div class="step-label">Submitted</div><div class="step-date">${formatDate(r.created_at)}</div></div>
+                <div class="step rejected"><div class="dot">✕</div><div class="step-label">Rejected</div><div class="step-date">Terminal</div></div>
+            </div>`;
+    } else {
+        const idx = { pending: 1, approved: 2, paid: 3 }[r.status] ?? 1;
+        const steps = ['Submitted', 'Trustee Review', 'Approved', 'Paid'];
+        stepper = '<div class="stepper">' + steps.map((label, i) => {
+            const done = i < idx || r.status === 'paid';
+            const cls = done ? 'done' : (i === idx ? 'current' : '');
+            const date = i === 0 ? formatDate(r.created_at) : (i === 3 && r.paid_at ? formatDate(r.paid_at) : '');
+            return `<div class="step ${cls}"><div class="dot">${done ? '✓' : i + 1}</div><div class="step-label">${label}</div><div class="step-date">${date}</div></div>`;
+        }).join('') + '</div>';
+    }
+
+    let actions = '';
+    if (cfg.canApprove && r.status === 'pending') {
+        actions = `
+            <button class="btn btn-success" onclick="closeModal('requestDetailModal');openActionModal(${r.id}, 'approve')">Approve</button>
+            <button class="btn btn-danger" onclick="closeModal('requestDetailModal');openActionModal(${r.id}, 'reject')">Reject</button>`;
+    } else if (cfg.canPay && r.status === 'approved') {
+        actions = `<button class="btn btn-primary" onclick="closeModal('requestDetailModal');openPayModal(${r.id})">Pay</button>`;
+    }
+    if (cfg.canUploadReceipt && r.status === 'paid') {
+        actions += ` <button class="btn btn-secondary" onclick="closeModal('requestDetailModal');openReceiptModal(${r.id})">📎 Upload Receipt</button>`;
+    }
+
+    document.getElementById('requestDetailContent').innerHTML = `
+        <h2>REQ-${r.id} — ${r.vendor}</h2>
+        <div class="detail-amount">$${money(r.amount_cents)}</div>
+        <div class="detail-meta">
+            <div><span>Category</span>${r.category}</div>
+            <div><span>Method</span>${r.method || '—'}</div>
+            <div><span>Requested By</span>${r.requested_by_name}</div>
+            <div><span>Status</span><span class="status-badge status-${r.status}">${r.status}</span></div>
+        </div>
+        ${r.description ? `<p class="detail-desc">${r.description}</p>` : ''}
+        ${stepper}
+        ${actions ? `<div class="detail-actions">${actions}</div>` : ''}`;
+    openModal('requestDetailModal');
+}
+
+// ========================
+// EXPENSES
+// ========================
+function renderExpenses() {
+    const cfg = currentUser.permissions;
+    const tbody = document.getElementById('expensesTable');
+
+    // The API already scopes this list (beneficiary → own only)
+    let filtered = [...requests];
+    if (currentExpenseTab !== 'all') filtered = filtered.filter(r => r.status === currentExpenseTab);
+    filtered.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+
+    const spent = requests.filter(r => r.status === 'paid').reduce((s,r) => s + r.amount_cents, 0);
+    const approved = requests.filter(r => r.status === 'approved').reduce((s,r) => s + r.amount_cents, 0);
+    document.getElementById('statBalance').textContent = '$' + money(summary ? summary.trust_balance_cents : 0);
+    document.getElementById('statPending').textContent = requests.filter(r => r.status === 'pending').length;
+    document.getElementById('statApproved').textContent = '$' + money(approved);
+    document.getElementById('statSpent').textContent = '$' + money(spent);
+
+    tbody.innerHTML = filtered.map(r => {
+        let actions = '-';
+        if (cfg.canApprove && r.status === 'pending') {
+            actions = `
+                <button class="btn btn-success btn-sm" onclick="event.stopPropagation();openActionModal(${r.id}, 'approve')">Approve</button>
+                <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();openActionModal(${r.id}, 'reject')">Reject</button>
+            `;
+        } else if (cfg.canPay && r.status === 'approved') {
+            actions = `<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openPayModal(${r.id})">Pay</button>`;
+        }
+        const receiptBtn = (cfg.canUploadReceipt && r.status === 'paid')
+            ? ` <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();openReceiptModal(${r.id})">📎 Receipt</button>` : '';
+        return `
+            <tr class="clickable" onclick="openRequestDetail(${r.id})">
+                <td>REQ-${r.id}</td>
+                <td>${formatDate(r.created_at)}</td>
+                <td>${r.vendor}</td>
+                <td>${r.category}</td>
+                <td class="amount">$${money(r.amount_cents)}</td>
+                <td><span class="status-badge status-${r.status}">${r.status}</span>${receiptBtn}</td>
+                <td>${r.requested_by_name}</td>
+                <td class="trustee-only ${cfg.canApprove || cfg.canPay ? '' : 'hidden'}">${actions}</td>
+            </tr>
+        `;
+    }).join('') || `<tr><td colspan="8">${emptyState('🧾',
+        currentExpenseTab === 'pending' ? "No pending requests — you're all caught up" : `No ${currentExpenseTab} requests`,
+        'Requests appear here as they are submitted.')}</td></tr>`;
+}
+
+async function submitRequest() {
+    const vendor = document.getElementById('reqVendor').value.trim();
+    const amount = parseFloat(document.getElementById('reqAmount').value);
+    const category = document.getElementById('reqCategory').value;
+    const method = document.getElementById('reqMethod').value;
+    const description = document.getElementById('reqDescription').value.trim();
+
+    if (!vendor || !amount || amount <= 0 || !category) {
+        toast('Please fill in all required fields.', 'error');
+        return;
+    }
+
+    try {
+        await api('/requests', {
+            method: 'POST',
+            body: JSON.stringify({
+                vendor, category, method, description,
+                amount_cents: Math.round(amount * 100)   // dollars → integer cents at the API boundary
+            })
+        });
+        await Promise.all([refreshRequests(), refreshSummary()]);
+    } catch (e) {
+        toast('Could not submit request: ' + e.message, 'error');
+        return;
+    }
+
+    closeModal('requestModal');
+    document.getElementById('reqVendor').value = '';
+    document.getElementById('reqAmount').value = '';
+    document.getElementById('reqCategory').value = '';
+    document.getElementById('reqDescription').value = '';
+    renderExpenses();
+    toast('Request submitted for trustee review.', 'success');
+}
+
+function openActionModal(id, action) {
+    activeRequestId = id;
+    const req = requests.find(r => r.id === id);
+    document.getElementById('actionTitle').textContent = action === 'approve' ? 'Approve Request' : 'Reject Request';
+    document.getElementById('actionDetails').innerHTML = `<strong>${req.vendor}</strong><br>$${money(req.amount_cents)} — ${req.category}<br><small>${req.description || ''}</small>`;
+    document.getElementById('actionNote').value = '';
+    openModal('actionModal');
+}
+
+async function executeAction(action) {
+    const note = document.getElementById('actionNote').value.trim();
+    if (!note) { toast('Trustee note is required.', 'error'); return; }
+    try {
+        await api(`/requests/${activeRequestId}/${action}`, {
+            method: 'POST',
+            body: JSON.stringify({ note })
+        });
+        await Promise.all([refreshRequests(), refreshSummary()]);
+    } catch (e) {
+        toast('Could not update request: ' + e.message, 'error');
+        return;
+    }
+    closeModal('actionModal');
+    renderExpenses();
+    toast(action === 'approve' ? 'Request approved.' : 'Request rejected.', 'success');
+}
+
+function openPayModal(id) {
+    activeRequestId = id;
+    const req = requests.find(r => r.id === id);
+    document.getElementById('payDetails').innerHTML = `<strong>${req.vendor}</strong><br>$${money(req.amount_cents)} — ${req.category}<br><small>Requested by: ${req.requested_by_name}</small>`;
+    document.getElementById('payRef').value = '';
+    document.getElementById('payDate').valueAsDate = new Date();
+    openModal('payModal');
+}
+
+async function executePayment() {
+    const ref = document.getElementById('payRef').value.trim();
+    const date = document.getElementById('payDate').value;
+    if (!ref || !date) { toast('Payment reference and date are required.', 'error'); return; }
+    try {
+        await api(`/requests/${activeRequestId}/pay`, {
+            method: 'POST',
+            body: JSON.stringify({ payment_ref: ref, paid_at: date })
+        });
+        await Promise.all([refreshRequests(), refreshSummary()]);
+    } catch (e) {
+        toast('Could not record payment: ' + e.message, 'error');
+        return;
+    }
+    closeModal('payModal');
+    renderExpenses();
+    toast('Payment recorded.', 'success');
+}
+
+async function exportExpenses() {
+    // Server-side CSV export, scoped to the caller's role
+    const res = await fetch(`${API}/ledger/export.csv`, { credentials: 'same-origin' });
+    if (!res.ok) { toast('Export failed', 'error'); return; }
+    downloadBlob(await res.blob(), `Mafo-Aabo-Ledger-${new Date().toISOString().slice(0,10)}.csv`, 'text/csv');
+}
+
+// ========================
+// LOANS
+// ========================
+function renderLoans() {
+    const cfg = currentUser.permissions;
+    const active = loans.filter(l => l.status === 'active');
+    const totalLoaned = loans.filter(l => l.status === 'active' || l.status === 'repaid').reduce((s,l) => s + l.amount_cents, 0);
+    const outstanding = active.reduce((s,l) => s + l.outstanding_cents, 0);
+    const repaid = loans.reduce((s,l) => s + (l.repaid_cents || 0), 0);
+
+    document.getElementById('statActiveLoans').textContent = active.length;
+    document.getElementById('statTotalLoaned').textContent = '$' + money(totalLoaned);
+    document.getElementById('statLoanBalance').textContent = '$' + money(outstanding);
+    document.getElementById('statRepaid').textContent = '$' + money(repaid);
+
+    if (cfg.canCreateLoan) loanUtilRing();
+
+    const tbody = document.getElementById('loansTable');
+    const sorted = [...loans].sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+
+    tbody.innerHTML = sorted.map(l => {
+        let actions = '-';
+        if (cfg.canCreateLoan && l.status === 'active') {
+            actions = `<button class="btn btn-primary btn-sm" onclick="recordRepayment(${l.id})">Repay</button>`;
+        }
+        return `
+            <tr>
+                <td>LOAN-${l.id}</td>
+                <td>${formatDate(l.created_at)}</td>
+                <td>${l.borrower}</td>
+                <td>${l.purpose.substring(0, 35)}${l.purpose.length > 35 ? '...' : ''}</td>
+                <td class="amount">$${money(l.amount_cents)}</td>
+                <td>${(l.rate_bp / 100).toFixed(2)}%</td>
+                <td>${l.term_months} mo</td>
+                <td class="amount">$${money(l.outstanding_cents)}</td>
+                <td><span class="status-badge status-${l.status === 'active' ? 'approved' : l.status === 'repaid' ? 'paid' : l.status}">${l.status}</span></td>
+                <td class="trustee-only ${cfg.canCreateLoan ? '' : 'hidden'}">${actions}</td>
+            </tr>
+        `;
+    }).join('') || `<tr><td colspan="10">${emptyState('🏦', 'No loan agreements', 'Family loans issued by the trust will appear here.')}</td></tr>`;
+}
+
+/** SVG ring: outstanding balance vs total loaned on active loans (trustee). */
+function loanUtilRing() {
+    const el = document.getElementById('loanUtil');
+    if (!el) return;
+    const active = loans.filter(l => l.status === 'active');
+    if (!active.length) {
+        el.innerHTML = emptyState('🏦', 'No active loans', 'Utilization will appear once a family loan is issued.');
+        return;
+    }
+    const totalLoaned = active.reduce((s, l) => s + l.amount_cents, 0);
+    const outstanding = active.reduce((s, l) => s + l.outstanding_cents, 0);
+    const frac = totalLoaned > 0 ? outstanding / totalLoaned : 0;
+    const R = 54, C = 2 * Math.PI * R;
+    el.innerHTML = `<div class="donut-wrap">
+        <svg width="140" height="140" viewBox="0 0 140 140" role="img" aria-label="Loan utilization">
+            <circle cx="70" cy="70" r="${R}" fill="none" stroke="#f0f0f3" stroke-width="20"/>
+            <circle cx="70" cy="70" r="${R}" fill="none" stroke="#0f1e2c" stroke-width="20"
+                stroke-dasharray="${(frac * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 70 70)"/>
+            <text x="70" y="66" text-anchor="middle" font-size="16" font-weight="700" fill="#1d1d1f">${Math.round(frac * 100)}%</text>
+            <text x="70" y="82" text-anchor="middle" font-size="8" fill="#86868b">outstanding</text>
+        </svg>
+        <div class="donut-legend">
+            <div class="legend-row"><span class="legend-dot" style="background:#0f1e2c"></span>Outstanding<span class="lg-amt">$${money(outstanding)}</span></div>
+            <div class="legend-row"><span class="legend-dot" style="background:#ececf0"></span>Repaid<span class="lg-amt">$${money(totalLoaned - outstanding)}</span></div>
+        </div>
+    </div>`;
+}
+
+async function submitLoan() {
+    const borrower = document.getElementById('loanBorrower').value.trim();
+    const amount = parseFloat(document.getElementById('loanAmount').value);
+    const rate = parseFloat(document.getElementById('loanRate').value) || 0;
+    const term = parseInt(document.getElementById('loanTerm').value) || 12;
+    const purpose = document.getElementById('loanPurpose').value.trim();
+
+    if (!borrower || !amount || amount <= 0 || !purpose) {
+        toast('Please fill in all required fields.', 'error');
+        return;
+    }
+
+    try {
+        await api('/loans', {
+            method: 'POST',
+            body: JSON.stringify({
+                borrower, purpose,
+                amount_cents: Math.round(amount * 100),   // dollars → integer cents
+                rate_bp: Math.round(rate * 100),          // percent → basis points
+                term_months: term
+            })
+        });
+        await Promise.all([refreshLoans(), refreshSummary()]);
+    } catch (e) {
+        toast('Could not create loan: ' + e.message, 'error');
+        return;
+    }
+
+    closeModal('loanModal');
+    document.getElementById('loanBorrower').value = '';
+    document.getElementById('loanAmount').value = '';
+    document.getElementById('loanRate').value = '';
+    document.getElementById('loanTerm').value = '';
+    document.getElementById('loanPurpose').value = '';
+    renderLoans();
+    toast('Loan created.', 'success');
+}
+
+async function recordRepayment(id) {
+    const amount = parseFloat(prompt('Repayment amount:'));
+    if (!amount || amount <= 0) return;
+    try {
+        await api(`/loans/${id}/repayments`, {
+            method: 'POST',
+            body: JSON.stringify({ amount_cents: Math.round(amount * 100) })
+        });
+        await Promise.all([refreshLoans(), refreshSummary()]);
+    } catch (e) {
+        toast('Could not record repayment: ' + e.message, 'error');
+        return;
+    }
+    renderLoans();
+    toast('Repayment recorded.', 'success');
+}
+
+// ========================
+// AUDIT
+// ========================
+function renderAudit() {
+    const tbody = document.getElementById('auditTable');
+    const sorted = [...auditLog].sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+    tbody.innerHTML = sorted.map(a => `
+        <tr>
+            <td>${formatDateTime(a.created_at)}</td>
+            <td><strong>${a.action}</strong></td>
+            <td>${a.entity || ''}</td>
+            <td>${a.actor_name || 'System'}</td>
+            <td>${a.actor_role || 'system'}</td>
+            <td>${formatDetail(a.detail)}</td>
+        </tr>
+    `).join('') || `<tr><td colspan="6">${emptyState('📜', 'No audit records', 'Trustee actions are logged here automatically.')}</td></tr>`;
+}
+
+function formatDetail(detail) {
+    if (!detail) return '';
+    const obj = typeof detail === 'string' ? JSON.parse(detail) : detail;
+    return Object.entries(obj).map(([k, v]) =>
+        `${k}: ${k.endsWith('_cents') ? '$' + money(v) : v}`
+    ).join(' · ');
+}
+
+async function exportAudit() {
+    const res = await fetch(`${API}/audit/export.csv`, { credentials: 'same-origin' });
+    if (!res.ok) { toast('Export failed', 'error'); return; }
+    downloadBlob(await res.blob(), `Mafo-Aabo-Audit-${new Date().toISOString().slice(0,10)}.csv`, 'text/csv');
+}
+
+// ========================
+// MODALS
+// ========================
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); activeRequestId = null; }
+
+// ========================
+// DOCUMENTS (encrypted vault)
+// ========================
+const DOC_CATEGORY_LABELS = {
+    trust_document: 'Trust Document',
+    promissory_note: 'Promissory Note',
+    receipt: 'Receipt',
+    bank_statement: 'Bank Statement',
+    other: 'Other'
+};
+
+function renderDocuments() {
+    const cfg = currentUser.permissions;
+    const canUpload = cfg.canUploadDocuments || cfg.canUploadReceipt;
+    document.getElementById('docUploadCard').classList.toggle('hidden', !canUpload);
+
+    // Beneficiaries may upload receipts only; trustees get the full category list
+    const catSel = document.getElementById('docCategory');
+    const allowed = cfg.canUploadDocuments ? Object.keys(DOC_CATEGORY_LABELS) : ['receipt'];
+    catSel.innerHTML = allowed.map(v => `<option value="${v}">${DOC_CATEGORY_LABELS[v]}</option>`).join('');
+    docCategoryChanged();
+
+    const tbody = document.getElementById('documentsTable');
+    tbody.innerHTML = documents.map(d => `
+        <tr>
+            <td>${formatDate(d.created_at)}</td>
+            <td>${d.label || '—'}</td>
+            <td>${DOC_CATEGORY_LABELS[d.category] || d.category}</td>
+            <td>${d.original_filename}</td>
+            <td>${formatBytes(d.size_bytes)}</td>
+            <td>${d.request_id ? 'REQ-' + d.request_id : '—'}</td>
+            <td>${d.uploaded_by_name}</td>
+            <td>
+                <button class="btn btn-secondary btn-sm" onclick="downloadDocument(${d.id})">⬇ Download</button>
+                ${cfg.canDeleteDocuments ? `<button class="btn btn-danger btn-sm" onclick="deleteDocument(${d.id})">Delete</button>` : ''}
+            </td>
+        </tr>
+    `).join('') || `<tr><td colspan="8">${emptyState('📁', 'No documents', 'Uploaded documents will appear here.')}</td></tr>`;
+}
+
+function docCategoryChanged() {
+    const isReceipt = document.getElementById('docCategory').value === 'receipt';
+    document.getElementById('docRequestGroup').classList.toggle('hidden', !isReceipt);
+    if (isReceipt) {
+        // Receipts link to paid requests (beneficiary list is already own-scoped)
+        const paid = requests.filter(r => r.status === 'paid');
+        document.getElementById('docRequest').innerHTML =
+            '<option value="">Select request...</option>' +
+            paid.map(r => `<option value="${r.id}">REQ-${r.id} — ${r.vendor} — $${money(r.amount_cents)}</option>`).join('');
+    }
+}
+
+async function uploadDocument() {
+    const file = document.getElementById('docFile').files[0];
+    const category = document.getElementById('docCategory').value;
+    const label = document.getElementById('docLabel').value.trim();
+    const requestId = document.getElementById('docRequest').value;
+    if (!file) { toast('Choose a file to upload.', 'error'); return; }
+    if (category === 'receipt' && !requestId) { toast('Select the request this receipt belongs to.', 'error'); return; }
+
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('category', category);
+    fd.append('label', label);
+    if (category === 'receipt' && requestId) fd.append('request_id', requestId);
+
+    const res = await fetch(`${API}/documents`, { method: 'POST', credentials: 'same-origin', body: fd });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) { toast('Upload failed: ' + (data.error || res.status), 'error'); return; }
+
+    document.getElementById('docFile').value = '';
+    document.getElementById('docLabel').value = '';
+    await refreshDocuments();
+    renderDocuments();
+    toast('Document uploaded (encrypted).', 'success');
+}
+
+async function downloadDocument(id) {
+    const doc = documents.find(d => d.id === id);
+    const res = await fetch(`${API}/documents/${id}/file`, { credentials: 'same-origin' });
+    if (!res.ok) { toast('Download failed', 'error'); return; }
+    downloadBlob(await res.blob(), doc ? doc.original_filename : `document-${id}`, '');
+}
+
+async function deleteDocument(id) {
+    if (!(await confirmSheet('Delete this document? This cannot be undone.', 'Delete Document'))) return;
+    try {
+        await api(`/documents/${id}`, { method: 'DELETE' });
+        await refreshDocuments();
+        renderDocuments();
+        toast('Document deleted.', 'success');
+    } catch (e) {
+        toast('Delete failed: ' + e.message, 'error');
+    }
+}
+
+// ========================
+// RECEIPT ATTACH (beneficiary, from expenses view)
+// ========================
+function openReceiptModal(requestId) {
+    receiptRequestId = requestId;
+    const req = requests.find(r => r.id === requestId);
+    document.getElementById('receiptDetails').innerHTML =
+        `<strong>REQ-${req.id} — ${req.vendor}</strong><br>$${money(req.amount_cents)} — ${req.category}`;
+    document.getElementById('receiptLabel').value = '';
+    document.getElementById('receiptFile').value = '';
+    openModal('receiptModal');
+}
+
+async function submitReceipt() {
+    const file = document.getElementById('receiptFile').files[0];
+    if (!file) { toast('Choose a receipt file.', 'error'); return; }
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('category', 'receipt');
+    fd.append('label', document.getElementById('receiptLabel').value.trim());
+    fd.append('request_id', receiptRequestId);
+
+    const res = await fetch(`${API}/documents`, { method: 'POST', credentials: 'same-origin', body: fd });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) { toast('Upload failed: ' + (data.error || res.status), 'error'); return; }
+    closeModal('receiptModal');
+    toast('Receipt uploaded.', 'success');
+}
+
+// ========================
+// NFCU BANK / RECONCILE
+// ========================
+function renderBank() {
+    const cfg = currentUser.permissions;
+    if (summary) {
+        document.getElementById('statBankBalance').textContent = '$' + money(summary.bank_balance_cents ?? 0);
+        document.getElementById('statBooksBalance').textContent = '$' + money(summary.trust_balance_cents);
+        const drift = summary.drift_cents ?? 0;
+        const driftEl = document.getElementById('statDrift');
+        driftEl.textContent = (drift < 0 ? '−$' : '$') + money(Math.abs(drift));
+        driftEl.className = 'stat-amount ' + (drift === 0 ? 'green' : 'red');
+        document.getElementById('statUnreconciled').textContent = summary.unreconciled_withdrawals ?? 0;
+        document.getElementById('statUnmatched').textContent = summary.paid_requests_unmatched ?? 0;
+    }
+
+    const tbody = document.getElementById('bankTable');
+    tbody.innerHTML = bankTx.map(t => {
+        let actions = '-';
+        if (cfg.canManageBank && t.amount_cents < 0) {
+            actions = t.reconciled
+                ? `<button class="btn btn-secondary btn-sm" onclick="unreconcileBankTx(${t.id})">Unmatch</button>`
+                : `<button class="btn btn-primary btn-sm" onclick="openReconcileModal(${t.id})">Reconcile</button>`;
+        }
+        return `
+            <tr>
+                <td>${formatDate(t.posted_on)}</td>
+                <td>${t.description}</td>
+                <td class="amount" style="color:${t.amount_cents < 0 ? 'var(--mafo-red)' : '#15803d'}">${t.amount_cents < 0 ? '−' : '+'}$${money(Math.abs(t.amount_cents))}</td>
+                <td class="amount">$${money(Number(t.running_balance_cents))}</td>
+                <td>${t.reconciled
+                    ? '<span class="status-badge status-approved">reconciled</span>'
+                    : '<span class="status-badge status-pending">open</span>'}</td>
+                <td>${t.matched_request_id ? 'REQ-' + t.matched_request_id : '—'}</td>
+                <td>${t.note || ''}</td>
+                <td class="trustee-only ${cfg.canManageBank ? '' : 'hidden'}">${actions}</td>
+            </tr>
+        `;
+    }).join('') || `<tr><td colspan="8">${emptyState('💳', 'No bank entries', 'Manual NFCU ledger entries will appear here.')}</td></tr>`;
+}
+
+async function submitBankEntry() {
+    const posted_on = document.getElementById('bankDate').value;
+    const description = document.getElementById('bankDesc').value.trim();
+    const isDeposit = document.getElementById('bankType').value === 'deposit';
+    const amount = parseFloat(document.getElementById('bankAmount').value);
+    const note = document.getElementById('bankNote').value.trim();
+
+    if (!posted_on || !description || !amount || amount <= 0) {
+        toast('Date, description and a positive amount are required.', 'error');
+        return;
+    }
+
+    try {
+        await api('/bank-transactions', {
+            method: 'POST',
+            body: JSON.stringify({
+                posted_on, description, note,
+                amount_cents: Math.round(amount * 100) * (isDeposit ? 1 : -1)  // signed cents
+            })
+        });
+        await Promise.all([refreshBank(), refreshSummary()]);
+    } catch (e) {
+        toast('Could not record entry: ' + e.message, 'error');
+        return;
+    }
+
+    document.getElementById('bankDesc').value = '';
+    document.getElementById('bankAmount').value = '';
+    document.getElementById('bankNote').value = '';
+    renderBank();
+    toast('Bank entry recorded.', 'success');
+}
+
+function openReconcileModal(id) {
+    activeBankTxId = id;
+    const tx = bankTx.find(t => t.id === id);
+    document.getElementById('reconcileDetails').innerHTML =
+        `<strong>${tx.description}</strong><br>−$${money(Math.abs(tx.amount_cents))} — ${formatDate(tx.posted_on)}`;
+    // Paid requests not already matched to another bank transaction
+    const matchedIds = new Set(bankTx.map(t => t.matched_request_id).filter(Boolean));
+    const options = requests.filter(r => r.status === 'paid' && !matchedIds.has(r.id));
+    document.getElementById('reconcileRequest').innerHTML =
+        options.map(r => `<option value="${r.id}">REQ-${r.id} — ${r.vendor} — $${money(r.amount_cents)}</option>`).join('')
+        || '<option value="">No unmatched paid requests</option>';
+    openModal('reconcileModal');
+}
+
+async function executeReconcile() {
+    const requestId = Number(document.getElementById('reconcileRequest').value);
+    if (!requestId) { toast('Select a paid request to match.', 'error'); return; }
+    try {
+        const res = await api(`/bank-transactions/${activeBankTxId}/reconcile`, {
+            method: 'POST',
+            body: JSON.stringify({ request_id: requestId })
+        });
+        if (res.amount_mismatch) {
+            toast('Reconciled — but note: the bank amount does not equal the request amount (mismatch recorded in the audit trail).', 'info');
+        } else {
+            toast('Reconciled.', 'success');
+        }
+        await Promise.all([refreshBank(), refreshSummary()]);
+    } catch (e) {
+        toast('Could not reconcile: ' + e.message, 'error');
+        return;
+    }
+    closeModal('reconcileModal');
+    renderBank();
+}
+
+async function unreconcileBankTx(id) {
+    try {
+        await api(`/bank-transactions/${id}/unreconcile`, { method: 'POST', body: '{}' });
+        await Promise.all([refreshBank(), refreshSummary()]);
+    } catch (e) {
+        toast('Could not unmatch: ' + e.message, 'error');
+        return;
+    }
+    renderBank();
+    toast('Unmatched.', 'success');
+}
+
+async function exportBank() {
+    const res = await fetch(`${API}/bank-transactions/export.csv`, { credentials: 'same-origin' });
+    if (!res.ok) { toast('Export failed', 'error'); return; }
+    downloadBlob(await res.blob(), `Mafo-Aabo-Bank-${new Date().toISOString().slice(0,10)}.csv`, 'text/csv');
+}
+
+// ========================
+// HELPERS
+// ========================
+function money(cents) {
+    return (cents / 100).toFixed(2);
+}
+
+function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+function formatDate(iso) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+function formatDateTime(iso) {
+    return new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+function downloadBlob(content, filename, type) {
+    const blob = content instanceof Blob ? content : new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+}
+
+// ========================
+// INIT — restore the session from the server (cookie-backed)
+// ========================
+document.getElementById('confirmOk').addEventListener('click', () => resolveConfirm(true));
+document.getElementById('confirmCancel').addEventListener('click', () => resolveConfirm(false));
+
+(async () => {
+    try {
+        const { user } = await api('/auth/me');
+        await enterApp(user);
+    } catch (e) {
+        // Not logged in — the login overlay stays up
+    }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+# Local secrets and encrypted document blobs — never commit
+.env
+uploads/
+node_modules/
